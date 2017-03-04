@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Esperando" table="esperando">
+    <indexes>
+      <index name="IDX_F82E1F7DACB064F9" columns="especialidad"/>
+      <index name="IDX_F82E1F7D2BB32E08" columns="profesional"/>
+      <index name="IDX_F82E1F7D7310DAD4" columns="paciente_id"/>
+    </indexes>
+    <id name="id" type="bigint" column="id">
+      <generator strategy="SEQUENCE"/>
+      <sequence-generator sequence-name="esperando_id_seq" allocation-size="1" initial-value="1"/>
+    </id>
+    <field name="fechaRegistro" type="datetime" column="fecha_registro" nullable="false"/>
+    <field name="status" type="string" column="status" length="255" nullable="false">
+      <options>
+        <option name="fixed"/>
+        <option name="comment">estatus del paciente </option>
+      </options>
+    </field>
+    <many-to-one field="paciente" target-entity="Paciente" fetch="LAZY">
+      <join-columns>
+        <join-column name="paciente_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="profesional" target-entity="Profesional" fetch="LAZY">
+      <join-columns>
+        <join-column name="profesional" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="especialidad" target-entity="Especialidad" fetch="LAZY">
+      <join-columns>
+        <join-column name="especialidad" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

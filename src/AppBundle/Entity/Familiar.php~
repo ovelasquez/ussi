@@ -1,0 +1,62 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Familiar
+ *
+ * @ORM\Table(name="familiar", indexes={@ORM\Index(name="idx_cfd67cdb7cac4034", columns={"parentesco"})})
+ * @ORM\Entity
+ */
+class Familiar
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="bigint", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\SequenceGenerator(sequenceName="familiar_id_seq", allocationSize=1, initialValue=1)
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="parentesco", type="string", length=255, nullable=false)
+     */
+    private $parentesco;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nombre", type="string", length=255, nullable=false)
+     */
+    private $nombre;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ocupacion", type="string", length=255, nullable=false)
+     */
+    private $ocupacion;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Paciente", mappedBy="familiar")
+     */
+    private $paciente;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->paciente = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+}
+

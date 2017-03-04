@@ -1,0 +1,47 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * ProfesionalEspecialidad
+ *
+ * @ORM\Table(name="profesional_especialidad", indexes={@ORM\Index(name="IDX_2C3C3D7E16A490EC", columns={"especialidad_id"}), @ORM\Index(name="IDX_2C3C3D7E313D7FB9", columns={"profesional_id"})})
+ * @ORM\Entity
+ */
+class ProfesionalEspecialidad
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="bigint", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\SequenceGenerator(sequenceName="profesional_especialidad_id_seq", allocationSize=1, initialValue=1)
+     */
+    private $id;
+
+    /**
+     * @var \Especialidad
+     *
+     * @ORM\ManyToOne(targetEntity="Especialidad")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="especialidad_id", referencedColumnName="id")
+     * })
+     */
+    private $especialidad;
+
+    /**
+     * @var \Profesional
+     *
+     * @ORM\ManyToOne(targetEntity="Profesional")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="profesional_id", referencedColumnName="id")
+     * })
+     */
+    private $profesional;
+
+
+}
+

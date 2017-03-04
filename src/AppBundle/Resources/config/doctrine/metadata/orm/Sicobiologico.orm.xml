@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Sicobiologico" table="sicobiologico">
+    <indexes>
+      <index name="IDX_82DAD52E7310DAD4" columns="paciente_id"/>
+    </indexes>
+    <id name="id" type="bigint" column="id">
+      <generator strategy="SEQUENCE"/>
+      <sequence-generator sequence-name="sicobiologico_id_seq" allocation-size="1" initial-value="1"/>
+    </id>
+    <field name="alcohol" type="boolean" column="alcohol" nullable="false">
+      <options>
+        <option name="comment">Alcohol	
+</option>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="drogas" type="boolean" column="drogas" nullable="false">
+      <options>
+        <option name="comment">Drogas	
+</option>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="isecticidas" type="boolean" column="isecticidas" nullable="false">
+      <options>
+        <option name="comment">Isecticidas	
+</option>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="deportes" type="boolean" column="deportes" nullable="false">
+      <options>
+        <option name="comment">Deportes	
+</option>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="sedentarismo" type="boolean" column="sedentarismo" nullable="false">
+      <options>
+        <option name="comment">Sedentarismo	
+</option>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="suenio" type="boolean" column="suenio" nullable="false">
+      <options>
+        <option name="comment">Sueño	
+</option>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="chupaDedo" type="boolean" column="chupa_dedo" nullable="false">
+      <options>
+        <option name="comment">Chupa Dedo	
+</option>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="onicofagia" type="boolean" column="onicofagia" nullable="false">
+      <options>
+        <option name="comment">Onicofagia	
+</option>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="micciones" type="boolean" column="micciones" nullable="false">
+      <options>
+        <option name="comment">Micciones	
+</option>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="evacuaciones" type="boolean" column="evacuaciones" nullable="false">
+      <options>
+        <option name="comment">Evacuaciones	
+</option>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="stress" type="boolean" column="stress" nullable="false">
+      <options>
+        <option name="comment">Stress	
+</option>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="metalesPesados" type="boolean" column="metales_pesados" nullable="false">
+      <options>
+        <option name="comment">Metales Pesados	
+</option>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="alimentacion" type="boolean" column="alimentacion" nullable="false">
+      <options>
+        <option name="comment">Alimentacion	
+</option>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="cigarrillosDia" type="boolean" column="cigarrillos_dia" nullable="false">
+      <options>
+        <option name="comment">Cigarrillos al Dia
+</option>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="fechaRegistro" type="date" column="fecha_registro" nullable="false">
+      <options>
+        <option name="comment">Fecha del registro</option>
+      </options>
+    </field>
+    <field name="fechaActualizacion" type="date" column="fecha_actualizacion" nullable="false">
+      <options>
+        <option name="comment">Fecha Actualizacion del registro</option>
+      </options>
+    </field>
+    <many-to-one field="paciente" target-entity="Paciente" fetch="LAZY">
+      <join-columns>
+        <join-column name="paciente_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

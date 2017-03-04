@@ -1,0 +1,43 @@
+{% extends  'FOSUserBundle::layout.html.twig' %}
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block fos_user_content %}
+<div class="panel white-alpha-90" >
+    <div class="panel-heading">
+        <div class="panel-title text-center"><h2>Ingresa a tu <span class="text-primary">USSI- UBV</span></h2></div>
+    </div>     
+    
+    <div class="panel-body" >
+        {% if error %}<div id="login-alert" class="alert alert-danger col-sm-12"> {{ error.messageKey|trans(error.messageData, 'security') }}</div>{% endif %}
+    
+        <form id="loginform" class="form-horizontal" role="form" action="{{ path("fos_user_security_check") }}" method="post">
+        {% if csrf_token %}
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+        {% endif %}
+
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                <input id="_username" type="text" class="form-control" name="_username" value="{{ last_username }}" placeholder="usuario o email">                                        
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                <input id="_password" type="password" class="form-control" name="_password" placeholder="contraseña">
+            </div>
+            <div class="input-group col-xs-12 text-center login-action">
+                <div class="checkbox">
+                    <label>
+                    <a href="{{ path('fos_user_resetting_request') }}" class="olvContr">Olvidó su contraseña</a>                                                
+                        <span id="btn-login"><input type="submit" id="_submit" name="_submit" class="btn btn-success" value="{{ 'security.login.submit'|trans }}" /></span>
+                    </label>
+                </div>
+            </div>
+            <div style="margin-top:10px" class="form-group">
+                <div class="col-sm-12 controls">
+
+                </div>
+            </div>
+        </form>     
+    </div>                     
+</div> 
+        
+{% endblock fos_user_content %}

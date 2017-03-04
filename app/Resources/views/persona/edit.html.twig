@@ -1,0 +1,104 @@
+{% extends 'base.html.twig' %}
+{% block Subtitulo %} Editar Datos Personales -  <small> <a href="{{ path('persona_index') }}">Regresar a la lista</a></small> {% endblock %} 
+
+{% block body %}
+    <div class="x_content">
+        <br />
+        {{ form_start(edit_form, { 'attr': {'id':'paciente','class': 'form-horizontal form-label-left'} }) }} 
+        {{ form_errors(edit_form) }}
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nacionalidad">{{ form_label(edit_form.nacionalidad) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(edit_form.nacionalidad) }}                
+                {{form_widget(edit_form.nacionalidad,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="cedula">{{ form_label(edit_form.cedula) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(edit_form.cedula) }}                
+                {{form_widget(edit_form.cedula,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="primerApellido">{{ form_label(edit_form.primerApellido) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(edit_form.primerApellido) }}                
+                {{form_widget(edit_form.primerApellido,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="segundoApellido">{{ form_label(edit_form.segundoApellido) }}</label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(edit_form.segundoApellido) }}                
+                {{form_widget(edit_form.segundoApellido,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="primerNombre">{{ form_label(edit_form.primerNombre) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(edit_form.primerNombre) }}                
+                {{form_widget(edit_form.primerNombre,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="segundoNombre">{{ form_label(edit_form.segundoNombre) }} </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(edit_form.segundoNombre) }}                
+                {{form_widget(edit_form.segundoNombre,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>        
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="genero">{{ form_label(edit_form.genero) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(edit_form.genero) }}                
+                {{form_widget(edit_form.genero,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="genero">{{ form_label(edit_form.telefono) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(edit_form.telefono) }}                
+                {{form_widget(edit_form.telefono,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="genero">{{ form_label(edit_form.email) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(edit_form.email) }}                
+                {{form_widget(edit_form.email,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="genero">{{ form_label(edit_form.foto) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(edit_form.foto) }}                
+                {{ form_widget(edit_form.foto) }}                
+            </div>
+        </div>
+
+        <div class="ln_solid"></div>
+        <div class="form-group">
+            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">                
+                <button type="submit" class="btn btn-success">Registrar</button>
+            </div>
+        </div>
+
+        {{ form_end(edit_form) }}                           
+    </div>
+        
+        {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+            
+{% endblock %}
+

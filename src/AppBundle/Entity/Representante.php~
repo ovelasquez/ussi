@@ -1,0 +1,72 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Representante
+ *
+ * @ORM\Table(name="representante", indexes={@ORM\Index(name="idx_de2d5957310dad4", columns={"paciente_id"})})
+ * @ORM\Entity
+ */
+class Representante
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="bigint", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\SequenceGenerator(sequenceName="representante_id_seq", allocationSize=1, initialValue=1)
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nacionalidad", type="string", length=1, nullable=false)
+     */
+    private $nacionalidad;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="cedula", type="string", length=255, nullable=false)
+     */
+    private $cedula;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nombre_apellido", type="string", length=255, nullable=false)
+     */
+    private $nombreApellido;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="parentesco", type="string", length=255, nullable=false)
+     */
+    private $parentesco;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="telefono", type="string", length=255, nullable=false)
+     */
+    private $telefono;
+
+    /**
+     * @var \Paciente
+     *
+     * @ORM\ManyToOne(targetEntity="Paciente")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="paciente_id", referencedColumnName="id")
+     * })
+     */
+    private $paciente;
+
+
+}
+

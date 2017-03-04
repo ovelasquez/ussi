@@ -1,0 +1,149 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Sicobiologico
+ *
+ * @ORM\Table(name="sicobiologico", indexes={@ORM\Index(name="IDX_82DAD52E7310DAD4", columns={"paciente_id"})})
+ * @ORM\Entity
+ */
+class Sicobiologico
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="bigint", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\SequenceGenerator(sequenceName="sicobiologico_id_seq", allocationSize=1, initialValue=1)
+     */
+    private $id;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="alcohol", type="boolean", nullable=false)
+     */
+    private $alcohol = false;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="drogas", type="boolean", nullable=false)
+     */
+    private $drogas = false;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="isecticidas", type="boolean", nullable=false)
+     */
+    private $isecticidas = false;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="deportes", type="boolean", nullable=false)
+     */
+    private $deportes = false;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="sedentarismo", type="boolean", nullable=false)
+     */
+    private $sedentarismo = false;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="suenio", type="boolean", nullable=false)
+     */
+    private $suenio = false;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="chupa_dedo", type="boolean", nullable=false)
+     */
+    private $chupaDedo = false;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="onicofagia", type="boolean", nullable=false)
+     */
+    private $onicofagia = false;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="micciones", type="boolean", nullable=false)
+     */
+    private $micciones = false;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="evacuaciones", type="boolean", nullable=false)
+     */
+    private $evacuaciones = false;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="stress", type="boolean", nullable=false)
+     */
+    private $stress = false;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="metales_pesados", type="boolean", nullable=false)
+     */
+    private $metalesPesados = false;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="alimentacion", type="boolean", nullable=false)
+     */
+    private $alimentacion = false;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="cigarrillos_dia", type="boolean", nullable=false)
+     */
+    private $cigarrillosDia = false;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_registro", type="date", nullable=false)
+     */
+    private $fechaRegistro;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_actualizacion", type="date", nullable=false)
+     */
+    private $fechaActualizacion;
+
+    /**
+     * @var \Paciente
+     *
+     * @ORM\ManyToOne(targetEntity="Paciente")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="paciente_id", referencedColumnName="id")
+     * })
+     */
+    private $paciente;
+
+
+}
+

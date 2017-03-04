@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Antecendente" table="antecendente">
+    <indexes>
+      <index name="IDX_C24A09BC7310DAD4" columns="paciente_id"/>
+    </indexes>
+    <id name="id" type="bigint" column="id">
+      <generator strategy="SEQUENCE"/>
+      <sequence-generator sequence-name="antecendente_id_seq" allocation-size="1" initial-value="1"/>
+    </id>
+    <field name="alergia" type="boolean" column="alergia" nullable="false">
+      <options>
+        <option name="comment">Alergia
+</option>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="asma" type="boolean" column="asma" nullable="false">
+      <options>
+        <option name="comment">Asma</option>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="tbc" type="boolean" column="tbc" nullable="false">
+      <options>
+        <option name="comment">T.B.C
+</option>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="cardiotopia" type="boolean" column="cardiotopia" nullable="false">
+      <options>
+        <option name="comment">Cardiotopia</option>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="hipertension" type="boolean" column="hipertension" nullable="false">
+      <options>
+        <option name="comment">Hipertension</option>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="varices" type="boolean" column="varices" nullable="false">
+      <options>
+        <option name="comment">Varices</option>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="desnutricion" type="boolean" column="desnutricion" nullable="false">
+      <options>
+        <option name="comment">Desnutricion</option>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="diabetes" type="boolean" column="diabetes" nullable="false">
+      <options>
+        <option name="comment">Diabetes</option>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="obesidad" type="boolean" column="obesidad" nullable="false">
+      <options>
+        <option name="comment">Obesidad
+</option>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="gastropatia" type="boolean" column="gastropatia" nullable="false">
+      <options>
+        <option name="comment">Gastropatia
+</option>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="neurologica" type="string" column="neurologica" nullable="false">
+      <options>
+        <option name="fixed"/>
+        <option name="comment">Neurologica
+</option>
+      </options>
+    </field>
+    <field name="enfermedadRenal" type="boolean" column="enfermedad_renal" nullable="false">
+      <options>
+        <option name="comment">Enfermedad Renal
+</option>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="cancer" type="boolean" column="cancer" nullable="false">
+      <options>
+        <option name="comment">Cancer
+</option>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="alcohol" type="boolean" column="alcohol" nullable="false">
+      <options>
+        <option name="comment">Alcohol</option>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="drogas" type="boolean" column="drogas" nullable="false">
+      <options>
+        <option name="comment">Drogas</option>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="sifilis" type="boolean" column="sifilis" nullable="false">
+      <options>
+        <option name="comment">Sifilis
+</option>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="sida" type="boolean" column="sida" nullable="false">
+      <options>
+        <option name="comment">Sida
+</option>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="artritis" type="boolean" column="artritis" nullable="false">
+      <options>
+        <option name="comment">Artritis
+</option>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="otrosPadre" type="boolean" column="otros_padre" nullable="false">
+      <options>
+        <option name="comment">Otros -  Padre
+</option>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="otrosMadre" type="boolean" column="otros_madre" nullable="false">
+      <options>
+        <option name="comment">Otros -  Madre
+</option>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="otrosHermanos" type="boolean" column="otros_hermanos" nullable="false">
+      <options>
+        <option name="comment">Otros -  Hermanos(as)
+</option>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="otros" type="boolean" column="otros" nullable="false">
+      <options>
+        <option name="comment">Otros</option>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="fechaActualizacion" type="date" column="fecha_actualizacion" nullable="false">
+      <options>
+        <option name="comment">Fecha Actualizacion del registro</option>
+      </options>
+    </field>
+    <field name="fechaRegistro" type="date" column="fecha_registro" nullable="false">
+      <options>
+        <option name="comment">Fecha del registro</option>
+      </options>
+    </field>
+    <many-to-one field="paciente" target-entity="Paciente" fetch="LAZY">
+      <join-columns>
+        <join-column name="paciente_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

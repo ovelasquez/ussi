@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Cita" table="cita">
+    <indexes>
+      <index name="IDX_3E379A6216A490EC" columns="especialidad_id"/>
+      <index name="IDX_3E379A62E38D288B" columns="consulta_id"/>
+      <index name="IDX_3E379A62313D7FB9" columns="profesional_id"/>
+      <index name="IDX_3E379A627310DAD4" columns="paciente_id"/>
+    </indexes>
+    <id name="id" type="bigint" column="id">
+      <generator strategy="SEQUENCE"/>
+      <sequence-generator sequence-name="cita_id_seq" allocation-size="1" initial-value="1"/>
+    </id>
+    <field name="fecha" type="date" column="fecha" nullable="false">
+      <options>
+        <option name="comment">fecha de cita</option>
+      </options>
+    </field>
+    <field name="status" type="string" column="status" length="255" nullable="false">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <many-to-one field="paciente" target-entity="Paciente" fetch="LAZY">
+      <join-columns>
+        <join-column name="paciente_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="profesional" target-entity="Profesional" fetch="LAZY">
+      <join-columns>
+        <join-column name="profesional_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="consulta" target-entity="Consulta" fetch="LAZY">
+      <join-columns>
+        <join-column name="consulta_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="especialidad" target-entity="Especialidad" fetch="LAZY">
+      <join-columns>
+        <join-column name="especialidad_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Perinatal" table="perinatal">
+    <indexes>
+      <index name="IDX_142F08677310DAD4" columns="paciente_id"/>
+    </indexes>
+    <id name="id" type="bigint" column="id">
+      <generator strategy="SEQUENCE"/>
+      <sequence-generator sequence-name="perinatal_id_seq" allocation-size="1" initial-value="1"/>
+    </id>
+    <field name="carnetPerinatal" type="boolean" column="carnet_perinatal" nullable="false">
+      <options>
+        <option name="comment">Carnet Perinatal</option>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="patologiaEmbarazo" type="boolean" column="patologia_embarazo" nullable="false">
+      <options>
+        <option name="comment">Patología Embarazo</option>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="patologiaParto" type="boolean" column="patologia_parto" nullable="false">
+      <options>
+        <option name="comment">Patología Parto</option>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="patologiaPuerperio" type="boolean" column="patologia_puerperio" nullable="false">
+      <options>
+        <option name="comment">Patología Puerperio
+</option>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="consultasPrenatales" type="boolean" column="consultas_prenatales" nullable="false">
+      <options>
+        <option name="comment">Consultas Prenatales</option>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="edadGestacional" type="integer" column="edad_gestacional" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="comment">Edad Gestacional (Semanas)
+</option>
+      </options>
+    </field>
+    <field name="forceps" type="boolean" column="forceps" nullable="false">
+      <options>
+        <option name="comment">Forceps</option>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="cesarea" type="boolean" column="cesarea" nullable="false">
+      <options>
+        <option name="comment">Cesarea</option>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="parto" type="boolean" column="parto" nullable="false">
+      <options>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="pesoNacer" type="integer" column="peso_nacer" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="comment">Peso al nacer (Gramos)
+</option>
+      </options>
+    </field>
+    <field name="talla" type="integer" column="talla" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="comment">Talla (Centimetros)</option>
+      </options>
+    </field>
+    <field name="circunferencia" type="integer" column="circunferencia" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="comment">Circunferencia (Centimetros)
+</option>
+      </options>
+    </field>
+    <field name="apagarMin" type="boolean" column="apagar_min" nullable="false">
+      <options>
+        <option name="comment">Apagar min
+</option>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="asfixia" type="boolean" column="asfixia" nullable="false">
+      <options>
+        <option name="comment">Asfixia
+</option>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="reanimacion" type="boolean" column="reanimacion" nullable="false">
+      <options>
+        <option name="comment">Reanimacion
+</option>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="patologiasRn" type="boolean" column="patologias_rn" nullable="false">
+      <options>
+        <option name="comment">Patologías RN</option>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="egresoRnSano" type="boolean" column="egreso_rn_sano" nullable="false">
+      <options>
+        <option name="comment">Egreso RN (Sano)</option>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="egresoRnPatologico" type="boolean" column="egreso_rn_patologico" nullable="false">
+      <options>
+        <option name="comment">Egreso RN (Patologico)</option>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="lactanciaExclusiva" type="boolean" column="lactancia_exclusiva" nullable="false">
+      <options>
+        <option name="comment">Lactancia Exclusiva</option>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="lactanciaMixta" type="boolean" column="lactancia_mixta" nullable="false">
+      <options>
+        <option name="comment">Lactancia Mixta
+</option>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="lactanciaAglactacion" type="boolean" column="lactancia_aglactacion" nullable="false">
+      <options>
+        <option name="comment">Lactancia Aglactacion</option>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="madreFueraCasa" type="integer" column="madre_fuera_casa" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="comment">Madre (Horas fuera de casa)</option>
+      </options>
+    </field>
+    <field name="familiaMadre" type="boolean" column="familia_madre" nullable="false">
+      <options>
+        <option name="comment">Familia – Madre
+</option>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="familiaPadre" type="boolean" column="familia_padre" nullable="false">
+      <options>
+        <option name="comment">Familia – Padre</option>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="familiaHermanos" type="boolean" column="familia_hermanos" nullable="false">
+      <options>
+        <option name="comment">Familia – Hermanos</option>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="familiaOtros" type="boolean" column="familia_otros" nullable="false">
+      <options>
+        <option name="comment">Familia – otros</option>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="fechaRegistro" type="date" column="fecha_registro" nullable="false">
+      <options>
+        <option name="comment">Fecha del registro</option>
+      </options>
+    </field>
+    <field name="fechaActualizacion" type="date" column="fecha_actualizacion" nullable="false">
+      <options>
+        <option name="comment">Fecha Actualizacion del registro</option>
+      </options>
+    </field>
+    <many-to-one field="paciente" target-entity="Paciente" fetch="LAZY">
+      <join-columns>
+        <join-column name="paciente_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

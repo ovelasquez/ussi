@@ -1,0 +1,175 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Paciente
+ *
+ * @ORM\Table(name="paciente", indexes={@ORM\Index(name="idx_c6cba95eb7850cbd", columns={"religion_id"}), @ORM\Index(name="idx_c6cba95e9363fd17", columns={"pfg_id"}), @ORM\Index(name="IDX_C6CBA95E594872DC", columns={"etnia_id"}), @ORM\Index(name="IDX_C6CBA95EF5F88DB9", columns={"persona_id"})})
+ * @ORM\Entity
+ */
+class Paciente
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="bigint", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\SequenceGenerator(sequenceName="paciente_id_seq", allocationSize=1, initialValue=1)
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="edo_civil", type="string", length=255, nullable=false)
+     */
+    private $edoCivil;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ocupacion", type="string", length=255, nullable=false)
+     */
+    private $ocupacion;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="estudio", type="string", length=255, nullable=false)
+     */
+    private $estudio;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ano_aprobado", type="string", length=255, nullable=false)
+     */
+    private $anoAprobado;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="analfabeta", type="boolean", nullable=false)
+     */
+    private $analfabeta;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_nacimiento", type="date", nullable=false)
+     */
+    private $fechaNacimiento;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="procedencia", type="string", length=255, nullable=false)
+     */
+    private $procedencia;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="apellido_familia", type="string", length=255, nullable=false)
+     */
+    private $apellidoFamilia;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="cedula_jefe_familia", type="string", length=255, nullable=false)
+     */
+    private $cedulaJefeFamilia;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="comunidad", type="string", length=255, nullable=true)
+     */
+    private $comunidad;
+
+    /**
+     * @var \Religion
+     *
+     * @ORM\ManyToOne(targetEntity="Religion")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="religion_id", referencedColumnName="id")
+     * })
+     */
+    private $religion;
+
+    /**
+     * @var \Pfg
+     *
+     * @ORM\ManyToOne(targetEntity="Pfg")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="pfg_id", referencedColumnName="id")
+     * })
+     */
+    private $pfg;
+
+    /**
+     * @var \Etnia
+     *
+     * @ORM\ManyToOne(targetEntity="Etnia")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="etnia_id", referencedColumnName="id")
+     * })
+     */
+    private $etnia;
+
+    /**
+     * @var \Persona
+     *
+     * @ORM\ManyToOne(targetEntity="Persona")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="persona_id", referencedColumnName="id")
+     * })
+     */
+    private $persona;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Direccion", inversedBy="paciente")
+     * @ORM\JoinTable(name="paciente_direccion",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="paciente_id", referencedColumnName="id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="direccion_id", referencedColumnName="id")
+     *   }
+     * )
+     */
+    private $direccion;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Familiar", inversedBy="paciente")
+     * @ORM\JoinTable(name="paciente_familiar",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="paciente_id", referencedColumnName="id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="familiar_id", referencedColumnName="id")
+     *   }
+     * )
+     */
+    private $familiar;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->direccion = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->familiar = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+}
+

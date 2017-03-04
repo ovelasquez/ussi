@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Sexualidad" table="sexualidad">
+    <indexes>
+      <index name="IDX_894685CE7310DAD4" columns="paciente_id"/>
+    </indexes>
+    <id name="id" type="bigint" column="id">
+      <generator strategy="SEQUENCE"/>
+      <sequence-generator sequence-name="sexualidad_id_seq" allocation-size="1" initial-value="1"/>
+    </id>
+    <field name="menarquia" type="string" column="menarquia" length="255" nullable="false">
+      <options>
+        <option name="fixed"/>
+        <option name="comment">Menarquia
+</option>
+      </options>
+    </field>
+    <field name="cicloMenstrual" type="string" column="ciclo_menstrual" length="255" nullable="false">
+      <options>
+        <option name="fixed"/>
+        <option name="comment">Ciclo Menstrual
+</option>
+      </options>
+    </field>
+    <field name="prSexual" type="string" column="pr_sexual" length="255" nullable="false">
+      <options>
+        <option name="fixed"/>
+        <option name="comment">P.R. Sexual
+</option>
+        <option name="default">false</option>
+      </options>
+    </field>
+    <field name="frecuenciaSexual" type="string" column="frecuencia_sexual" length="255" nullable="false">
+      <options>
+        <option name="fixed"/>
+        <option name="comment">Frecuencia R. Sexual
+</option>
+        <option name="default">false</option>
+      </options>
+    </field>
+    <field name="numeroParejas" type="integer" column="numero_parejas" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="comment">Num. De Parejas</option>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="dispareunia" type="boolean" column="dispareunia" nullable="false">
+      <options>
+        <option name="comment">Dispareunia
+</option>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="anticonceptivos" type="boolean" column="anticonceptivos" nullable="false">
+      <options>
+        <option name="comment">Anticonceptivos
+</option>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="menopausia" type="boolean" column="menopausia" nullable="false">
+      <options>
+        <option name="comment">Menopausia</option>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="andropausia" type="boolean" column="andropausia" nullable="false">
+      <options>
+        <option name="comment">Andropausia
+</option>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="gesta" type="boolean" column="gesta" nullable="false">
+      <options>
+        <option name="comment">Gesta
+</option>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="parto" type="boolean" column="parto" nullable="false">
+      <options>
+        <option name="comment">Parto
+</option>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="cesarea" type="boolean" column="cesarea" nullable="false">
+      <options>
+        <option name="comment">Cesarea
+</option>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="aborto" type="boolean" column="aborto" nullable="false">
+      <options>
+        <option name="comment">Aborto
+</option>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="edad1erParto" type="integer" column="edad_1er_parto" nullable="true">
+      <options>
+        <option name="unsigned"/>
+        <option name="comment">Edad 1er Parto
+</option>
+      </options>
+    </field>
+    <field name="fechaUltimoParto" type="date" column="fecha_ultimo_parto" nullable="true">
+      <options>
+        <option name="comment">Fecha ultimo parto</option>
+      </options>
+    </field>
+    <field name="curetaje" type="boolean" column="curetaje" nullable="false">
+      <options>
+        <option name="comment">Curetaje
+</option>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="numeroHijosVivos" type="integer" column="numero_hijos_vivos" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="comment">Num. Hijos Vivos
+</option>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="numeroHijosMuertos" type="integer" column="numero_hijos_muertos" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="comment">Num. Hijos Muertos
+</option>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="pesoUltimoHijo" type="integer" column="peso_ultimo_hijo" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="comment">Peso Ultimo Hijo
+</option>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="fechaActualizacion" type="date" column="fecha_actualizacion" nullable="false">
+      <options>
+        <option name="comment">Fecha Actualizacion del registro</option>
+      </options>
+    </field>
+    <field name="fechaRegistro" type="date" column="fecha_registro" nullable="false">
+      <options>
+        <option name="comment">Fecha del registro</option>
+      </options>
+    </field>
+    <many-to-one field="paciente" target-entity="Paciente" fetch="LAZY">
+      <join-columns>
+        <join-column name="paciente_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

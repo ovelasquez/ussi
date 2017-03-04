@@ -1,0 +1,184 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Sexualidad
+ *
+ * @ORM\Table(name="sexualidad", indexes={@ORM\Index(name="IDX_894685CE7310DAD4", columns={"paciente_id"})})
+ * @ORM\Entity
+ */
+class Sexualidad
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="bigint", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\SequenceGenerator(sequenceName="sexualidad_id_seq", allocationSize=1, initialValue=1)
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="menarquia", type="string", length=255, nullable=false)
+     */
+    private $menarquia;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ciclo_menstrual", type="string", length=255, nullable=false)
+     */
+    private $cicloMenstrual;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="pr_sexual", type="string", length=255, nullable=false)
+     */
+    private $prSexual = 'false';
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="frecuencia_sexual", type="string", length=255, nullable=false)
+     */
+    private $frecuenciaSexual = 'false';
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="numero_parejas", type="integer", nullable=false)
+     */
+    private $numeroParejas = '0';
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="dispareunia", type="boolean", nullable=false)
+     */
+    private $dispareunia = false;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="anticonceptivos", type="boolean", nullable=false)
+     */
+    private $anticonceptivos = false;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="menopausia", type="boolean", nullable=false)
+     */
+    private $menopausia = false;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="andropausia", type="boolean", nullable=false)
+     */
+    private $andropausia = false;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="gesta", type="boolean", nullable=false)
+     */
+    private $gesta = false;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="parto", type="boolean", nullable=false)
+     */
+    private $parto = false;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="cesarea", type="boolean", nullable=false)
+     */
+    private $cesarea = false;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="aborto", type="boolean", nullable=false)
+     */
+    private $aborto = false;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="edad_1er_parto", type="integer", nullable=true)
+     */
+    private $edad1erParto;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_ultimo_parto", type="date", nullable=true)
+     */
+    private $fechaUltimoParto;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="curetaje", type="boolean", nullable=false)
+     */
+    private $curetaje = false;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="numero_hijos_vivos", type="integer", nullable=false)
+     */
+    private $numeroHijosVivos = '0';
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="numero_hijos_muertos", type="integer", nullable=false)
+     */
+    private $numeroHijosMuertos = '0';
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="peso_ultimo_hijo", type="integer", nullable=false)
+     */
+    private $pesoUltimoHijo = '0';
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_actualizacion", type="date", nullable=false)
+     */
+    private $fechaActualizacion;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_registro", type="date", nullable=false)
+     */
+    private $fechaRegistro;
+
+    /**
+     * @var \Paciente
+     *
+     * @ORM\ManyToOne(targetEntity="Paciente")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="paciente_id", referencedColumnName="id")
+     * })
+     */
+    private $paciente;
+
+
+}
+
