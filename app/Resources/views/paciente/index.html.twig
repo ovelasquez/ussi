@@ -23,7 +23,7 @@
             {% endfor %}
         </div>
     {% endfor %}
-    <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+    <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
         <thead>
             <tr>
                 <th>Id</th>
@@ -37,35 +37,45 @@
         <tbody>
             {% for paciente in pacientes %}
                 <tr>
-                    <td><a href="{{ path('paciente_show', { 'id': paciente.id }) }}">{{ paciente.id }}</a></td>
+                    <td><a href="{{ path('paciente_show', { 'id': paciente.id }) }}">{{ loop.index }}</a></td>
                     <td>{{ paciente.persona.nacionalidad }} - {{ paciente.persona.cedula |number_format(0, ',', '.')}}</td>
-                    <td>{{ paciente.persona.primerApellido }} {{ paciente.persona.segundoApellido }} {{ paciente.persona.primerNombre }} {{ paciente.persona.segundoNombre }}</td> 
-                    <td>{{ paciente.edoCivil }}</td>
-                    <td>{{ paciente.comunidad }}</td>
+                    <td>{{ paciente.persona.primerApellido |capitalize }} {{ paciente.persona.segundoApellido |capitalize  }} {{ paciente.persona.primerNombre |capitalize  }} {{ paciente.persona.segundoNombre |capitalize }}</td> 
+                    <td>{{ paciente.edoCivil |capitalize  }}</td>
+                    <td>{{ paciente.comunidad |capitalize  }}</td>
                     <td>
-                        <ul>
-                            <li>
-                                <a href="{{ path('paciente_show', { 'id': paciente.id }) }}">show</a>
-                            </li>
-                            <li>
-                                <a href="{{ path('paciente_edit', { 'id': paciente.id }) }}">edit</a>
-                            </li>
-                        </ul>
+                        <a href="{{ path('paciente_show', { 'id': paciente.id }) }}">
+                            <button type="button" class="btn btn-xs btn-warning" data-toggle="tooltip" data-placement="top" title="" data-original-title="Ver">  <i class="fa fa-eye"></i>  </button>
+                        </a>
+                        <a href="{{ path('paciente_edit', { 'id': paciente.id }) }}">
+                            <button type="button" class="btn btn-xs btn-success" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editar">  <i class="fa fa-pencil"></i>  </button>
+                        </a>
                     </td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
-
-    <ul>
-        <li>
-            <a href="{{ path('paciente_new') }}">Create a new paciente</a>
-        </li>
-    </ul>
 {% endblock %}
 
 {% block javascripts %}
     <!-- Datatables -->
+    <script src="{{ asset('bundles/app/vendors/datatables.net/js/jquery.dataTables.min.js')}}"></script>
+    <script src="{{ asset('bundles/app/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>   
+    <script src="{{ asset('bundles/app/vendors/datatables.net-buttons/js/dataTables.buttons.min.js')}}"></script>
+    <script src="{{ asset('bundles/app/vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js')}}"></script>
+
+    <script src="{{ asset('bundles/app/vendors/datatables.net-buttons/js/buttons.flash.min.js')}}"></script>    
+    <script src="{{ asset('bundles/app/vendors/datatables.net-buttons/js/buttons.html5.min.js')}}"></script>    
+    <script src="{{ asset('bundles/app/vendors/datatables.net-buttons/js/buttons.print.min.js')}}"></script>    
+    <script src="{{ asset('bundles/app/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js')}}"></script>
+
+    <script src="{{ asset('bundles/app/vendors/datatables.net-keytable/js/dataTables.keyTable.min.js')}}"></script>       
+    <script src="{{ asset('bundles/app/vendors/datatables.net-responsive/js/dataTables.responsive.min.js')}}"></script>     
+    <script src="{{ asset('bundles/app/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js')}}"></script>    
+    <script src="{{ asset('bundles/app/vendors/datatables.net-scroller/js/dataTables.scroller.min.js')}}"></script>
+
+    <script src="{{ asset('bundles/app/vendors/jszip/jszip.min.js')}}"></script>       
+    <script src="{{ asset('bundles/app/vendors/pdfmake/pdfmake.min.js')}}"></script>     
+    <script src="{{ asset('bundles/app/vendors/pdfmake/vfs_fonts.js')}}"></script>     
     <script>
         $(document).ready(function () {
             var handleDataTableButtons = function () {

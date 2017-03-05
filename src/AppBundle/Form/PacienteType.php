@@ -27,6 +27,10 @@ class PacienteType extends AbstractType {
                     'attr' => array('placeholder' => 'Estado Civil'),
                     'label' => 'Estado Civil',
                 ))
+                 ->add('analfabeta', CheckboxType::class, array(
+                    'label' => 'Es Analfabeta?',
+                    'required' => false,
+                ))
                 ->add('ocupacion', TextType::class, array(
                     'label' => 'Ocupación',
                     'required' => true,
@@ -40,14 +44,11 @@ class PacienteType extends AbstractType {
                 ))
                 ->add('anoAprobado', ChoiceType::class, array(
                     'choices' => array('0' => '0', '1' => '1', '2' => '2', '3' => '3', '4' => '4', '5' => '5', '6' => '6', '7' => '7', '8' => '8', '9' => '9', '10' => '10'),
-                    'required' => true,
+                    'required' => false,
                     'label' => 'Años Aprobados',
                     'attr' => array('placeholder' => 'Años Aprobados')
                 ))
-                ->add('analfabeta', CheckboxType::class, array(
-                    'label' => 'Es Analfabeta?',
-                    'required' => false,
-                ))
+               
                 ->add('fechaNacimiento', BirthdayType::class, array(
                     'placeholder' => array(
                         'year' => 'Año', 'month' => 'Mes', 'day' => 'Día',

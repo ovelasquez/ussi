@@ -2,9 +2,7 @@
 {% block Subtitulo %} Ver Datos Personales -  <small> <a href="{{ path('persona_index') }}">Regresar a la lista</a></small> {% endblock %} 
 {% block body %}
     {% for msg in app.session.flashBag.get('success') %}
-        <div class="alert alert-success">
-            {{ msg }}
-        </div>
+        <div class="alert alert-success"> {{ msg }} </div>       
     {% endfor %}
     
     {% for msgs in app.session.flashBag.get('error') %}

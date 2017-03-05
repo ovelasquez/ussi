@@ -103,6 +103,14 @@
                 {{form_widget(form.ocupacion,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
             </div>
         </div>
+            
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="genero">{{ form_label(form.analfabeta) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(form.analfabeta) }}                
+                {{form_widget(form.analfabeta) }}                
+            </div>
+        </div>
 
         <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="genero">{{ form_label(form.estudio) }} <span class="required">*</span></label>
@@ -120,13 +128,7 @@
             </div>
         </div>
 
-        <div class="form-group">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="genero">{{ form_label(form.analfabeta) }} <span class="required">*</span></label>
-            <div class="col-md-6 col-sm-6 col-xs-12">
-                {{ form_errors(form.analfabeta) }}                
-                {{form_widget(form.analfabeta) }}                
-            </div>
-        </div>
+        
 
         <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="genero">{{ form_label(form.fechaNacimiento) }} <span class="required">*</span></label>
@@ -235,6 +237,8 @@
             }
         });
     </script>
+    
+    
 
     <!-- /Direccion de Habitacion y de Lugar de nacimiento -->
 
@@ -242,7 +246,7 @@
     <!-- Familiar -->
     <script type="text/javascript">
         $('.my-familiar').collection();
-        $('.my-familiar').collection({max: 2});
+        $('.my-familiar').collection({max: 3});
 
         $('.my-familiar').collection({
             drag_drop: true,

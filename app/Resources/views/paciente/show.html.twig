@@ -1,69 +1,176 @@
 {% extends 'base.html.twig' %}
-{% block title %} Pacciente {% endblock %}
-
+{% block Subtitulo %} Ver Datos del Paciente -  <small> <a href="{{ path('paciente_index') }}">Regresar a la lista</a></small> {% endblock %} 
 {% block body %}
-    <h1>Paciente</h1>
+    {% for msg in app.session.flashBag.get('success') %}
+        <div class="alert alert-success">
+            {{ msg }}
+        </div>
+    {% endfor %}
 
-    <table>
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ paciente.id }}</td>
-            </tr>
-            <tr>
-                <th>Edocivil</th>
-                <td>{{ paciente.edoCivil }}</td>
-            </tr>
-            <tr>
-                <th>Ocupacion</th>
-                <td>{{ paciente.ocupacion }}</td>
-            </tr>
-            <tr>
-                <th>Estudio</th>
-                <td>{{ paciente.estudio }}</td>
-            </tr>
-            <tr>
-                <th>Anoaprobado</th>
-                <td>{{ paciente.anoAprobado }}</td>
-            </tr>
-            <tr>
-                <th>Analfabeta</th>
-                <td>{% if paciente.analfabeta %}Yes{% else %}No{% endif %}</td>
-            </tr>
-            <tr>
-                <th>Fechanacimiento</th>
-                <td>{% if paciente.fechaNacimiento %}{{ paciente.fechaNacimiento|date('Y-m-d') }}{% endif %}</td>
-            </tr>
-            <tr>
-                <th>Procedencia</th>
-                <td>{{ paciente.procedencia }}</td>
-            </tr>
-            <tr>
-                <th>Apellidofamilia</th>
-                <td>{{ paciente.apellidoFamilia }}</td>
-            </tr>
-            <tr>
-                <th>Cedulajefefamilia</th>
-                <td>{{ paciente.cedulaJefeFamilia }}</td>
-            </tr>
-            <tr>
-                <th>Comunidad</th>
-                <td>{{ paciente.comunidad }}</td>
-            </tr>
-        </tbody>
-    </table>
+    {% for msgs in app.session.flashBag.get('error') %}
+        <div class="alert alert-danger">
+            {% for msg in msgs %}
+                <p>{{ msg }}</p>
+            {% endfor %}
+        </div>
+    {% endfor %}
 
-    <ul>
-        <li>
-            <a href="{{ path('paciente_index') }}">Back to the list</a>
-        </li>
-        <li>
-            <a href="{{ path('paciente_edit', { 'id': paciente.id }) }}">Edit</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+    <!-- page content -->
+    <div class="x_content">
+        <div class="col-md-3 col-sm-3 col-xs-12 profile_left">
+            <div class="profile_img">
+                <div id="crop-avatar">
+                    <!-- Current avatar -->
+                    <img class="img-responsive avatar-view" src="{{ asset('uploads/fotos/')}}{{paciente.persona.foto}}" alt="Avatar" title="Change the avatar">                    
+                </div>
+            </div>
+
+            <p></p>
+
+            <a class="btn btn-success" href="{{ path('paciente_edit', { 'id': paciente.id }) }}"><i class="fa fa-edit m-right-xs"></i>Editar Registro</a>
+            <br />           
+        </div>
+        <div class="col-md-9 col-sm-9 col-xs-12">                    
+            <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                    <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Peronales</a></li>                     
+                    <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Otros</a></li>      
+                </ul>
+                <div id="myTabContent" class="tab-content">
+                    <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+                        <table class="table table-striped">
+                            <tbody>
+                                <tr>
+                                    <th>Identificación</th>
+                                    <td>{{ paciente.persona.nacionalidad }} - {{ paciente.persona.cedula |number_format(0, ',', '.')}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <td>{{ paciente.persona.primerApellido |capitalize }} {{ paciente.persona.segundoApellido |capitalize }} {{ paciente.persona.primerNombre |capitalize }} {{ paciente.persona.segundoNombre |capitalize }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Género</th>
+                                    <td>{{ paciente.persona.genero }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Fecha de Nacimiento</th>
+                                    <td>{{ paciente.fechaNacimiento|date("d/m/Y") }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Correo Electrónico</th>
+                                    <td>{{ paciente.persona.email }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Estado Civil</th>
+                                    <td>{{ paciente.edoCivil |capitalize  }}</td>
+                                </tr>
+
+                                <tr>
+                                    <th>Teléfono</th>
+                                    <td>{{ paciente.persona.telefono }}</td>
+                                </tr>
+                                {% for value in paciente.direccion %}
+                                    <tr>
+                                        <th>Dirección de {{ value.tipo |capitalize }}</th>
+                                        <td>                                           
+                                            <p>Lugar : {{ value.sector |capitalize  }}</p>
+                                            <p>{{ value.parroquia.municipio.estado.pais }} -{{ value.parroquia.municipio.estado }} -{{ value.parroquia.municipio }} -{{ value.parroquia }}</p>
+
+                                        </td>
+                                    </tr>
+                                {% endfor %} 
+
+                                <tr>
+                                    <th>Fecha de registro</th>
+                                    <td>{{ paciente.fechaRegistro|date("d/m/Y h:i:s") }}</td>
+                                </tr>
+
+                                <tr>
+                                    <th>Fecha de última actualización</th>
+                                    <td>{{ paciente.fechaActualizacion|date("d/m/Y h:i:s") }}</td>
+                                </tr>
+
+                            </tbody>
+                        </table>                                
+                    </div>   
+
+                    <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+                        <table class="table table-striped">
+                            <tbody>
+                                <tr>
+                                    <th>Ocupación</th>
+                                    <td>{{ paciente.ocupacion |capitalize }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Es Analfabeta?</th>
+                                        {% if paciente.analfabeta %}
+                                        <td> Si  </td>
+                                    {% else %}
+                                        <td> No  </td>
+                                    {% endif %}
+                                </tr>
+                                <tr>
+                                    <th>Nivel de Instrucción</th>
+                                    <td>{{ paciente.estudio |capitalize }} </td>
+                                </tr>
+                                <tr>
+                                    <th>Años Aprobados</th>
+                                    <td>{{ paciente.anoAprobado }} </td>
+                                </tr>
+                                <tr>
+                                    <th>Cédula del Jefe Familia </th>
+                                    <td>{{ paciente.cedulaJefeFamilia |number_format(0, ',', '.') }} </td>
+                                </tr>
+                                <tr>
+                                    <th>Procedencia</th>
+                                    <td>{{ paciente.procedencia |capitalize }} </td>
+                                </tr>
+                                <tr>
+                                    <th>Comunidad</th>
+                                    <td>{{ paciente.comunidad |capitalize }} </td>
+                                </tr>
+                                <tr>
+                                    <th>Programa de Formación de Grado</th>
+                                    <td>{{ paciente.pfg |capitalize }} </td>
+                                </tr>
+                                <tr>
+                                    <th>Religión</th>
+                                    <td>{{ paciente.religion |capitalize }} </td>
+                                </tr>
+                                <tr>
+                                    <th>Etnia</th>
+                                    <td>{{ paciente.etnia |capitalize }} </td>
+                                </tr>
+
+                                {% for value in paciente.familiar %}
+                                    <tr>
+                                        <th>Parentesco {{ value.parentesco |capitalize }}</th>
+                                        <td>                                           
+                                            <p>Nombre: {{ value.nombre |capitalize  }}</p>
+                                            <p>Ocupación:{{ value.ocupacion }}</p>
+                                        </td>
+                                    </tr>
+                                {% endfor %} 
+
+
+
+
+                            </tbody>
+                        </table>        
+
+
+
+                    </div>  
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    {{ form_start(delete_form) }}
+    <input type="submit" value="Delete">
+    {{ form_end(delete_form) }}
+
 {% endblock %}

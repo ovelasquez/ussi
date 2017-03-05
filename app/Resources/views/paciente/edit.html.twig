@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-{% block title %} Pacciente {% endblock %}
+{% block title %} Paciente {% endblock %}
 {% block Subtitulo %} Editar Datos del Paciente -  <small> <a href="{{ path('paciente_index') }}">Regresar a la lista</a></small> {% endblock %} 
 {% block body %}
     <div class="x_content">
@@ -80,7 +80,7 @@
         </div>
 
         <div class="form-group">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="genero">{{ form_label(edit_form.persona.foto) }} <span class="required">*</span></label>
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="genero">{{ form_label(edit_form.persona.foto) }} </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
                 {{ form_errors(edit_form.persona.foto) }}                
                 {{form_widget(edit_form.persona.foto) }}                
@@ -240,7 +240,7 @@
     <!-- Familiar -->
     <script type="text/javascript">
         $('.my-familiar').collection();
-        $('.my-familiar').collection({max: 2});
+        $('.my-familiar').collection({max: 3});
 
         $('.my-familiar').collection({
             drag_drop: true,

@@ -6,10 +6,10 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>USSI-UBV | {% block title %} {% endblock %} </title>
+        <title>USSI-UBV | {% block title %} INICIO {% endblock %} </title>
         <!-- jQuery 2.2.4 -->
         <script src="{{ asset('bundles/app/vendors/jquery/jquery.min.js')}}"></script>
-        
+
         <!-- Bootstrap -->
         <script src="{{ asset('bundles/app/vendors/bootstrap/bootstrap.min.js')}}"></script> 
 
@@ -29,6 +29,23 @@
 
     {% block stylesheets %}{% endblock %}
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    <link rel="apple-touch-icon" sizes="57x57" href="{{ asset('pple-icon-57x57.png') }}" />
+    <link rel="apple-touch-icon" sizes="60x60" href="{{ asset('apple-icon-60x60.png') }}" />
+    <link rel="apple-touch-icon" sizes="72x72" href="{{ asset('apple-icon-72x72.png') }}" />
+    <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('apple-icon-76x76.png') }}" />
+    <link rel="apple-touch-icon" sizes="114x114" href="{{ asset('apple-icon-114x114.png') }}" />
+    <link rel="apple-touch-icon" sizes="120x120" href="{{ asset('apple-icon-120x120.png') }}" />
+    <link rel="apple-touch-icon" sizes="144x144" href="{{ asset('apple-icon-144x144.png') }}" />
+    <link rel="apple-touch-icon" sizes="152x152" href="{{ asset('apple-icon-152x152.png') }}" />
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-icon-180x180.png') }}" />
+    <link rel="icon" type="image/png" sizes="192x192"  href="{{ asset('android-icon-192x192.png') }}" />
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32x32.png') }}" />
+    <link rel="icon" type="image/png" sizes="96x96" href="{{ asset('favicon-96x96.png') }}" />
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon-16x16.png') }}" />
+    <link rel="manifest" href="{{ asset('manifest.json') }}" />
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
 </head>
 
 <body class="nav-md">
@@ -150,7 +167,7 @@
                         <div class="col-md-12 col-sm-12 col-xs-12">
                             <div class="x_panel">
                                 <div class="x_title">
-                                    <h2>{% block Subtitulo %} Plain Page {% endblock %} </h2>
+                                    <h2>{% block Subtitulo %} USSI UBV {% endblock %} </h2>
                                     <ul class="nav navbar-right panel_toolbox submenu">
                                         {% block paneltoolbox %} 
                                             <li><a class="collapse-link" ><i class="fa fa-chevron-up"></i></a>
@@ -193,7 +210,8 @@
     <!-- FastClick -->
     <script src="{{ asset('bundles/app/vendors/fastclick/lib/fastclick.js')}}"></script>    
     <!-- NProgress -->
-    <script src="{{ asset('bundles/app/vendors/nprogress/nprogress.js')}}"></script>   
+    <script src="{{ asset('bundles/app/vendors/nprogress/nprogress.js')}}"></script> 
+
     <!-- Custom Theme Scripts -->
     <script src="{{ asset('bundles/app/vendors/custom.min.js')}}"></script>
 
