@@ -35,6 +35,7 @@ class PersonaType extends AbstractType {
                 ))
                 ->add('segundoApellido', TextType::class, array(
                     'label' => 'Segundo Apellido',
+                    'required' => false,
                     'attr' => array('placeholder' => 'Segundo Apellido'),
                 ))
                 ->add('primerNombre', TextType::class, array(
@@ -44,6 +45,7 @@ class PersonaType extends AbstractType {
                 ))
                 ->add('segundoNombre', TextType::class, array(
                     'label' => 'Segundo Nombre',
+                    'required' => false,
                     'attr' => array('placeholder' => 'Segundo Nombre'),
                 ))
                 ->add('genero', ChoiceType::class, array(
@@ -65,7 +67,7 @@ class PersonaType extends AbstractType {
                 
                 ->add('foto', FileType::class, array(
                     'data_class' => null, 
-                    'required' => true, 
+                    'required' => false,
                     'label' => 'Fotografía',
                     'attr' => array( 'placeholder' => 'File')))
 

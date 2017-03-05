@@ -112,14 +112,14 @@ class Persona
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="fecha_actualizacion", type="date", nullable=true)
+     * @ORM\Column(name="fecha_actualizacion", type="datetime", nullable=true)
      */
     private $fechaActualizacion;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="fecha_registro", type="date", nullable=true)
+     * @ORM\Column(name="fecha_registro", type="datetime", nullable=true)
      */
     private $fechaRegistro;
 
@@ -375,9 +375,7 @@ class Persona
         return $this->foto;
     }
     
-    public function __toString() {
-        return $this->getPrimerApellido()." ".$this->getPrimerNombre();
-    }
+   
 
     /**
      * Set fechaActualizacion
@@ -425,5 +423,9 @@ class Persona
     public function getFechaRegistro()
     {
         return $this->fechaRegistro;
+    }
+    
+    public function __toString() {
+        return $this->getPrimerApellido()." ".$this->getPrimerNombre();
     }
 }

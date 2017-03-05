@@ -8,7 +8,7 @@
     <link href="{{ asset('bundles/app/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css')}}" rel="stylesheet">
 {% endblock %}
 {% block title %} Paciente {% endblock %}
-{% block Subtitulo %} Lista de Pacientes -  <small> <a href="{{ path('paciente_new') }}">Crear una nuevo paciente</a></small> {% endblock %} 
+{% block Subtitulo %} Lista de Paises -  <small> <a href="{{ path('pais_new') }}">Crear un nuevo pais</a></small> {% endblock %} 
 {% block body %}
     {% for msg in app.session.flashBag.get('success') %}
         <div class="alert alert-success">
@@ -26,45 +26,54 @@
     <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Identificación</th>
-                <th>Paciente</th>
-                <th>Edocivil</th>
-                <th>Comunidad</th>     
+                <th>Id</th>                
+                <th>Nombre</th>     
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-            {% for paciente in pacientes %}
-                <tr>
-                    <td><a href="{{ path('paciente_show', { 'id': paciente.id }) }}">{{ paciente.id }}</a></td>
-                    <td>{{ paciente.persona.nacionalidad }} - {{ paciente.persona.cedula |number_format(0, ',', '.')}}</td>
-                    <td>{{ paciente.persona.primerApellido }} {{ paciente.persona.segundoApellido }} {{ paciente.persona.primerNombre }} {{ paciente.persona.segundoNombre }}</td> 
-                    <td>{{ paciente.edoCivil }}</td>
-                    <td>{{ paciente.comunidad }}</td>
-                    <td>
-                        <ul>
-                            <li>
-                                <a href="{{ path('paciente_show', { 'id': paciente.id }) }}">show</a>
-                            </li>
-                            <li>
-                                <a href="{{ path('paciente_edit', { 'id': paciente.id }) }}">edit</a>
-                            </li>
-                        </ul>
-                    </td>
-                </tr>
-            {% endfor %}
+            {% for pai in pais %}
+            <tr>
+                <td><a href="{{ path('pais_show', { 'id': pai.id }) }}">{{ pai.id }}</a></td>
+                <td>{{ pai.nombre }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('pais_show', { 'id': pai.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('pais_edit', { 'id': pai.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
         </tbody>
     </table>
-
-    <ul>
-        <li>
-            <a href="{{ path('paciente_new') }}">Create a new paciente</a>
-        </li>
-    </ul>
+    
 {% endblock %}
 
 {% block javascripts %}
+     <!-- Datatables -->
+
+    <script src="{{ asset('bundles/app/vendors/datatables.net/js/jquery.dataTables.min.js')}}"></script>
+    <script src="{{ asset('bundles/app/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>   
+    <script src="{{ asset('bundles/app/vendors/datatables.net-buttons/js/dataTables.buttons.min.js')}}"></script>
+    <script src="{{ asset('bundles/app/vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js')}}"></script>
+
+    <script src="{{ asset('bundles/app/vendors/datatables.net-buttons/js/buttons.flash.min.js')}}"></script>    
+    <script src="{{ asset('bundles/app/vendors/datatables.net-buttons/js/buttons.html5.min.js')}}"></script>    
+    <script src="{{ asset('bundles/app/vendors/datatables.net-buttons/js/buttons.print.min.js')}}"></script>    
+    <script src="{{ asset('bundles/app/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js')}}"></script>
+
+    <script src="{{ asset('bundles/app/vendors/datatables.net-keytable/js/dataTables.keyTable.min.js')}}"></script>       
+    <script src="{{ asset('bundles/app/vendors/datatables.net-responsive/js/dataTables.responsive.min.js')}}"></script>     
+    <script src="{{ asset('bundles/app/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js')}}"></script>    
+    <script src="{{ asset('bundles/app/vendors/datatables.net-scroller/js/dataTables.scroller.min.js')}}"></script>
+
+    <script src="{{ asset('bundles/app/vendors/jszip/jszip.min.js')}}"></script>       
+    <script src="{{ asset('bundles/app/vendors/pdfmake/pdfmake.min.js')}}"></script>     
+    <script src="{{ asset('bundles/app/vendors/pdfmake/vfs_fonts.js')}}"></script>     
     <!-- Datatables -->
     <script>
         $(document).ready(function () {

@@ -7,6 +7,7 @@
     <link href="{{ asset('bundles/app/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{ asset('bundles/app/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css')}}" rel="stylesheet">
 {% endblock %}
+{% block title %}Persona{% endblock %}
 {% block Subtitulo %} Lista de Datos Personales -  <small> <a href="{{ path('persona_new') }}">Crear una nueva persona</a></small> {% endblock %} 
 {% block body %}
     {% for msg in app.session.flashBag.get('success') %}

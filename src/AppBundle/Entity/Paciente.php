@@ -135,7 +135,7 @@ class Paciente
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="Direccion", inversedBy="paciente")
+     * @ORM\ManyToMany(targetEntity="Direccion", inversedBy="paciente", cascade="persist")
      * @ORM\JoinTable(name="paciente_direccion",
      *   joinColumns={
      *     @ORM\JoinColumn(name="paciente_id", referencedColumnName="id")
@@ -150,7 +150,7 @@ class Paciente
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="Familiar", inversedBy="paciente")
+     * @ORM\ManyToMany(targetEntity="Familiar", inversedBy="paciente", cascade="persist")
      * @ORM\JoinTable(name="paciente_familiar",
      *   joinColumns={
      *     @ORM\JoinColumn(name="paciente_id", referencedColumnName="id")
@@ -161,6 +161,20 @@ class Paciente
      * )
      */
     private $familiar;
+    
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_actualizacion", type="datetime", nullable=true)
+     */
+    private $fechaActualizacion;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_registro", type="datetime", nullable=true)
+     */
+    private $fechaRegistro;
 
     /**
      * Constructor
@@ -586,7 +600,56 @@ class Paciente
         return $this->familiar;
     }
     
+     /**
+     * Set fechaActualizacion
+     *
+     * @param \DateTime $fechaActualizacion
+     *
+     * @return Persona
+     */
+    public function setFechaActualizacion($fechaActualizacion)
+    {
+        $this->fechaActualizacion = $fechaActualizacion;
+
+        return $this;
+    }
+
+    /**
+     * Get fechaActualizacion
+     *
+     * @return \DateTime
+     */
+    public function getFechaActualizacion()
+    {
+        return $this->fechaActualizacion;
+    }
+
+    /**
+     * Set fechaRegistro
+     *
+     * @param \DateTime $fechaRegistro
+     *
+     * @return Persona
+     */
+    public function setFechaRegistro($fechaRegistro)
+    {
+        $this->fechaRegistro = $fechaRegistro;
+
+        return $this;
+    }
+
+    /**
+     * Get fechaRegistro
+     *
+     * @return \DateTime
+     */
+    public function getFechaRegistro()
+    {
+        return $this->fechaRegistro;
+    }
+    
     public function __toString() {
-        return $this->getPersona()->getPrimerApellido()." ".$this->getPersona->getPrimerNombre();
+        //return $this->getPersona()->getPrimerApellido()." ".$this->getPersona->getPrimerNombre();
+        return '';
     }
 }

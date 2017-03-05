@@ -98,4 +98,8 @@ class Parroquia
     {
         return $this->municipio;
     }
+    
+     public function __toString() {
+        return $this->getNombre();
+    }
 }

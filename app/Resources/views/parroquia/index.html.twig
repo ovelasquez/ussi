@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Parroquias list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for parroquium in parroquias %}
+            <tr>
+                <td><a href="{{ path('parroquia_show', { 'id': parroquium.id }) }}">{{ parroquium.id }}</a></td>
+                <td>{{ parroquium.nombre }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('parroquia_show', { 'id': parroquium.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('parroquia_edit', { 'id': parroquium.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('parroquia_new') }}">Create a new parroquium</a>
+        </li>
+    </ul>
+{% endblock %}
