@@ -107,7 +107,7 @@ class Persona
      *     allowPortrait = false
      * )
      */
-    private $foto;   
+    private $foto='user.png';   
     
     /**
      * @var \DateTime

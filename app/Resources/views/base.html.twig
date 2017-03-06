@@ -63,7 +63,7 @@
                     <div class="profile">
 
                         <div class="profile_pic">                            
-                            <img src="{{ asset('bundles/app/images/logoUBV.png')}}" alt="logo-UBV" class="img-thumbnail profile_img" >                                                                                                                      
+                            <img src="{{ asset('uploads/fotos/')}}{{app.user.getPersona.getFoto}}" alt="{{app.user.getPersona.getCedula}}" class="img-circle profile_img" >                                                                                     
                         </div>
                         <div class="profile_info">                            
                             <span>Bienvenido,</span>
@@ -134,7 +134,7 @@
                         <ul class="nav navbar-nav navbar-right">
                             <li class="">
                                 <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                    <img src="{{ asset('bundles/app/images/user.png')}}" alt="" width="30px">
+                                    <img src="{{ asset('uploads/fotos/')}}{{app.user.getPersona.getFoto}}" alt="" width="30px">
                                     {% if app.user %}{{ app.user.getPersona.getPrimerNombre }} {{ app.user.getPersona.getPrimerApellido}} {% endif %} 
                                     <span class=" fa fa-angle-down"></span>
                                 </a>

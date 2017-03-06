@@ -44,7 +44,10 @@ class PersonaController extends Controller
         $form = $this->createForm('AppBundle\Form\PersonaType', $persona);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {            
+        if ($form->isSubmitted() && $form->isValid()) { 
+            if ($persona->getFoto()===null){
+                $persona->setFoto('user.png');
+            }
             $em = $this->getDoctrine()->getManager();
             $persona->setFechaRegistro(new \DateTime("now"));
             $em->persist($persona);            
