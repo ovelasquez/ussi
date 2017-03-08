@@ -87,8 +87,9 @@ class ReligionController extends Controller
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success', 'Datos actualizados satisfactoriamente');
 
-            return $this->redirectToRoute('religion_edit', array('id' => $religion->getId()));
+            return $this->redirectToRoute('religion_show', array('id' => $religion->getId()));
         }
 
         return $this->render('religion/edit.html.twig', array(

@@ -30,5 +30,5 @@ security:
         - { path: ^/pfg/, role: ROLE_ADMIN }
         - { path: ^/etnia/, role: ROLE_ADMIN }
         - { path: ^/religion/, role: ROLE_ADMIN }
-        - { path: ^/paciente/, role: ROLE_ADMIN }
+        - { path: ^/paciente/, role: ROLE_ADMIN }        
         - { path: ^/persona/, role: ROLE_ADMIN }

@@ -87,8 +87,9 @@ class PfgController extends Controller
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success', 'Datos actualizados satisfactoriamente');
 
-            return $this->redirectToRoute('pfg_edit', array('id' => $pfg->getId()));
+            return $this->redirectToRoute('pfg_show', array('id' => $pfg->getId()));
         }
 
         return $this->render('pfg/edit.html.twig', array(

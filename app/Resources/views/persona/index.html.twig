@@ -1,4 +1,5 @@
 {% extends 'base.html.twig' %}
+{% block title %}Persona{% endblock %}
 {% block stylesheets %}
     <!-- Datatables -->
     <link href="{{ asset('bundles/app/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css')}}" rel="stylesheet">
@@ -7,9 +8,11 @@
     <link href="{{ asset('bundles/app/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{ asset('bundles/app/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css')}}" rel="stylesheet">
 {% endblock %}
-{% block title %}Persona{% endblock %}
+
 {% block Subtitulo %} Lista de Datos Personales -  <small> <a href="{{ path('persona_new') }}">Crear una nueva persona</a></small> {% endblock %} 
+
 {% block body %}
+
     {% for msg in app.session.flashBag.get('success') %}
         <div class="alert alert-success">
             {{ msg }}
@@ -20,16 +23,18 @@
         <div class="alert alert-danger">
             {% for msg in msgs %}
                 <p>{{ msg }}</p>
-            {% endfor %}
-        </div>
+            {% endfor %}                        
+        </div>        
     {% endfor %}
+
+
     <table id="datatable-buttons" class="table table-striped table-bordered dataTable no-footer dtr-inline" role="grid" aria-describedby="datatable-buttons_info">
         <thead>
             <tr>
                 <th>Id</th>               
                 <th>Cédula / Pasaporte</th>
-                <th>Apellido</th>                
-                <th>Nombre</th>                
+                <th>Apellidos</th>                
+                <th>Nombres</th>                
                 <th>Género</th>                
                 <th>Acciones</th>
             </tr>
@@ -37,20 +42,18 @@
         <tbody>
             {% for persona in personas %}
                 <tr>
-                    <td><a href="{{ path('persona_show', { 'id': persona.id }) }}">{{ persona.id }}</a></td>                    
+                    <td><a href="{{ path('persona_show', { 'id': persona.id }) }}">{{ loop.index}}</a></td>                    
                     <td>{{ persona.nacionalidad }} - {{ persona.cedula |number_format(0, ',', '.')}}</td>
-                    <td>{{ persona.primerApellido }}</td>                
-                    <td>{{ persona.primerNombre }}</td>                
-                    <td>{{ persona.genero }}</td>
-                    <td>
-                        <ul>
-                            <li>
-                                <a href="{{ path('persona_show', { 'id': persona.id }) }}">show</a>
-                            </li>
-                            <li>
-                                <a href="{{ path('persona_edit', { 'id': persona.id }) }}">edit</a>
-                            </li>
-                        </ul>
+                    <td>{{ persona.primerApellido |capitalize  }} {{ persona.segundoApellido |capitalize  }}</td>                
+                    <td>{{ persona.primerNombre |capitalize  }} {{ persona.primerNombre |capitalize  }}</td>                
+                    <td>{{ persona.genero |capitalize  }}</td>
+                    <td>                                                    
+                        <a href="{{ path('persona_show', { 'id': persona.id }) }}">
+                            <button type="button" class="btn btn-xs btn-warning" data-toggle="tooltip" data-placement="top" title="" data-original-title="Ver">  <i class="fa fa-eye"></i>  </button>
+                        </a>
+                        <a href="{{ path('persona_edit', { 'id': persona.id }) }}">
+                            <button type="button" class="btn btn-xs btn-success" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editar">  <i class="fa fa-pencil"></i>  </button>
+                        </a>
                     </td>
                 </tr>
             {% endfor %}
@@ -60,7 +63,6 @@
 
 {% block javascripts %}
     <!-- Datatables -->
-
     <script src="{{ asset('bundles/app/vendors/datatables.net/js/jquery.dataTables.min.js')}}"></script>
     <script src="{{ asset('bundles/app/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>   
     <script src="{{ asset('bundles/app/vendors/datatables.net-buttons/js/dataTables.buttons.min.js')}}"></script>

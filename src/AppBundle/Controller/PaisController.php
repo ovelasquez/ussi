@@ -88,8 +88,9 @@ class PaisController extends Controller
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success', 'Datos actualizados satisfactoriamente');
 
-            return $this->redirectToRoute('pais_edit', array('id' => $pai->getId()));
+            return $this->redirectToRoute('pais_show', array('id' => $pai->getId()));
         }
 
         return $this->render('pais/edit.html.twig', array(

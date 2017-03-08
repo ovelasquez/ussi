@@ -88,8 +88,9 @@ class EtniaController extends Controller
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success', 'Datos actualizados satisfactoriamente');
 
-            return $this->redirectToRoute('etnia_edit', array('id' => $etnium->getId()));
+            return $this->redirectToRoute('etnia_show', array('id' => $etnium->getId()));
         }
 
         return $this->render('etnia/edit.html.twig', array(
@@ -113,6 +114,7 @@ class EtniaController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->remove($etnium);
+            
             $em->flush($etnium);
         }
 

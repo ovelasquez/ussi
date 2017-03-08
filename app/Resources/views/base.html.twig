@@ -9,27 +9,22 @@
         <title>USSI-UBV | {% block title %} INICIO {% endblock %} </title>
         <!-- jQuery 2.2.4 -->
         <script src="{{ asset('bundles/app/vendors/jquery/jquery.min.js')}}"></script>
-
         <!-- Bootstrap -->
         <script src="{{ asset('bundles/app/vendors/bootstrap/bootstrap.min.js')}}"></script> 
-
         <script src="{{ asset('bundles/app/vendors/holder.js') }}"></script>
-
         <!-- Bootstrap -->
         <link href="{{ asset('bundles/app/vendors/bootstrap/bootstrap.min.css')}}"   rel="stylesheet">   
-
         <!-- Font Awesome -->        
         <link href="{{ asset('bundles/app/vendors/font-awesome/css/font-awesome.min.css')}}"   rel="stylesheet">    
-
         <!-- NProgress -->
         <link href="{{ asset('bundles/app/vendors/nprogress/nprogress.css')}}"   rel="stylesheet">
-
         <!-- Custom Theme Style -->
         <link href="{{ asset('bundles/app/vendors/bootstrap/custom.min.css')}}"   rel="stylesheet">
 
     {% block stylesheets %}{% endblock %}
+    
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-    <link rel="apple-touch-icon" sizes="57x57" href="{{ asset('pple-icon-57x57.png') }}" />
+    <link rel="apple-touch-icon" sizes="57x57" href="{{ asset('apple-icon-57x57.png') }}" />
     <link rel="apple-touch-icon" sizes="60x60" href="{{ asset('apple-icon-60x60.png') }}" />
     <link rel="apple-touch-icon" sizes="72x72" href="{{ asset('apple-icon-72x72.png') }}" />
     <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('apple-icon-76x76.png') }}" />
@@ -154,7 +149,7 @@
                 <div class="">
                     <div class="page-title">
                         <div class="title_left">
-                            <h3>{% block Titulo %} Unidad de Servicios de Salud Integral - UBV  {% endblock %}</h3>
+                            <h3>{% block Titulo %} Unidad de los Servicios de Salud Integral Dr. Jesús Saturno Canelón  {% endblock %}</h3>
                         </div>
 
                         <div class="title_right">                            
@@ -187,9 +182,9 @@
                                     </ul>
                                     <div class="clearfix"></div>
                                 </div>
-                                <div class="x_content">
-                                    {% block body %} Add content to the page ... {% endblock %}                                    
-                                </div>
+                                <!--div class="x_content"-->
+                                    {% block body %} Contenido de mi vista va aquí  :)  {% endblock %}                                    
+                                <!--/div-->
                             </div>
                         </div>
                     </div>

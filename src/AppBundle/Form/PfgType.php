@@ -7,26 +7,23 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
-class PfgType extends AbstractType
-{
+class PfgType extends AbstractType {
+
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
-       $builder->add('nombre', TextType::class, array(
+    public function buildForm(FormBuilderInterface $builder, array $options) {
+        $builder->add('nombre', TextType::class, array(
             'required' => true,
-            'label' => '* Nombre',
-            'label_attr' => array('class' => 'col-lg-2 control-label'),
-            'attr' => array('class' => 'form-control', 'placeholder' => 'Nombre del Programa de Formación de Grado')
+            'label' => 'Nombre',
+            'attr' => array('placeholder' => 'Nombre del Programa de Formación de Grado')
         ));
     }
-    
+
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
-    {
+    public function configureOptions(OptionsResolver $resolver) {
         $resolver->setDefaults(array(
             'data_class' => 'AppBundle\Entity\Pfg'
         ));
@@ -35,10 +32,8 @@ class PfgType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getBlockPrefix()
-    {
+    public function getBlockPrefix() {
         return 'appbundle_pfg';
     }
-
 
 }

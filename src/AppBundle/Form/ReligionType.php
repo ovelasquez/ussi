@@ -15,9 +15,8 @@ class ReligionType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder->add('nombre', TextType::class, array(
             'required' => true,
-            'label' => '* Nombre',
-            'label_attr' => array('class' => 'col-lg-2 control-label'),
-            'attr' => array('class' => 'form-control', 'placeholder' => 'Nombre de la Religión')
+            'label' => 'Nombre',            
+            'attr' => array('placeholder' => 'Nombre de la Religión')
         ));
     }
 

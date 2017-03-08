@@ -5,29 +5,29 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Municipio;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Municipio controller.
  *
  * @Route("municipio")
  */
-class MunicipioController extends Controller
-{
+class MunicipioController extends Controller {
+
     /**
      * Lists all municipio entities.
      *
      * @Route("/", name="municipio_index")
      * @Method("GET")
      */
-    public function indexAction()
-    {
+    public function indexAction() {
         $em = $this->getDoctrine()->getManager();
 
         $municipios = $em->getRepository('AppBundle:Municipio')->findAll();
 
         return $this->render('municipio/index.html.twig', array(
-            'municipios' => $municipios,
+                    'municipios' => $municipios,
         ));
     }
 
@@ -37,8 +37,7 @@ class MunicipioController extends Controller
      * @Route("/new", name="municipio_new")
      * @Method({"GET", "POST"})
      */
-    public function newAction(Request $request)
-    {
+    public function newAction(Request $request) {
         $municipio = new Municipio();
         $form = $this->createForm('AppBundle\Form\MunicipioType', $municipio);
         $form->handleRequest($request);
@@ -52,8 +51,8 @@ class MunicipioController extends Controller
         }
 
         return $this->render('municipio/new.html.twig', array(
-            'municipio' => $municipio,
-            'form' => $form->createView(),
+                    'municipio' => $municipio,
+                    'form' => $form->createView(),
         ));
     }
 
@@ -63,13 +62,12 @@ class MunicipioController extends Controller
      * @Route("/{id}", name="municipio_show")
      * @Method("GET")
      */
-    public function showAction(Municipio $municipio)
-    {
+    public function showAction(Municipio $municipio) {
         $deleteForm = $this->createDeleteForm($municipio);
 
         return $this->render('municipio/show.html.twig', array(
-            'municipio' => $municipio,
-            'delete_form' => $deleteForm->createView(),
+                    'municipio' => $municipio,
+                    'delete_form' => $deleteForm->createView(),
         ));
     }
 
@@ -79,22 +77,22 @@ class MunicipioController extends Controller
      * @Route("/{id}/edit", name="municipio_edit")
      * @Method({"GET", "POST"})
      */
-    public function editAction(Request $request, Municipio $municipio)
-    {
+    public function editAction(Request $request, Municipio $municipio) {
         $deleteForm = $this->createDeleteForm($municipio);
         $editForm = $this->createForm('AppBundle\Form\MunicipioType', $municipio);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success', 'Datos actualizados satisfactoriamente');
 
-            return $this->redirectToRoute('municipio_edit', array('id' => $municipio->getId()));
+            return $this->redirectToRoute('municipio_show', array('id' => $municipio->getId()));
         }
 
         return $this->render('municipio/edit.html.twig', array(
-            'municipio' => $municipio,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+                    'municipio' => $municipio,
+                    'edit_form' => $editForm->createView(),
+                    'delete_form' => $deleteForm->createView(),
         ));
     }
 
@@ -104,8 +102,7 @@ class MunicipioController extends Controller
      * @Route("/{id}", name="municipio_delete")
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, Municipio $municipio)
-    {
+    public function deleteAction(Request $request, Municipio $municipio) {
         $form = $this->createDeleteForm($municipio);
         $form->handleRequest($request);
 
@@ -125,12 +122,12 @@ class MunicipioController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm(Municipio $municipio)
-    {
+    private function createDeleteForm(Municipio $municipio) {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('municipio_delete', array('id' => $municipio->getId())))
-            ->setMethod('DELETE')
-            ->getForm()
+                        ->setAction($this->generateUrl('municipio_delete', array('id' => $municipio->getId())))
+                        ->setMethod('DELETE')
+                        ->getForm()
         ;
     }
+
 }

@@ -88,8 +88,9 @@ class ParroquiaController extends Controller
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success', 'Datos actualizados satisfactoriamente');
 
-            return $this->redirectToRoute('parroquia_edit', array('id' => $parroquium->getId()));
+            return $this->redirectToRoute('parroquia_show', array('id' => $parroquium->getId()));
         }
 
         return $this->render('parroquia/edit.html.twig', array(

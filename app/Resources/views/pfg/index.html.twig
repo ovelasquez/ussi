@@ -7,10 +7,24 @@
     <link href="{{ asset('bundles/app/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{ asset('bundles/app/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css')}}" rel="stylesheet">
 {% endblock %}
+{% block title %} PFG {% endblock %}
+{% block Subtitulo %} Lista de PFG -  <small> <a href="{{ path('pfg_new') }}">Crear un nuevo PFG</a></small> {% endblock %} 
 {% block body %}
-    <h1>Pfgs list</h1>
+    {% for msg in app.session.flashBag.get('success') %}
+        <div class="alert alert-success">
+            {{ msg }}
+        </div>
+    {% endfor %}
 
-    <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+    {% for msgs in app.session.flashBag.get('error') %}
+        <div class="alert alert-danger">
+            {% for msg in msgs %}
+                <p>{{ msg }}</p>
+            {% endfor %}
+        </div>
+    {% endfor %}
+
+    <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
         <thead>
             <tr>
                 <th>Id</th>
@@ -19,33 +33,46 @@
             </tr>
         </thead>
         <tbody>
-        {% for pfg in pfgs %}
-            <tr>
-                <td><a href="{{ path('pfg_show', { 'id': pfg.id }) }}">{{ pfg.id }}</a></td>
-                <td>{{ pfg.nombre }}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('pfg_show', { 'id': pfg.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('pfg_edit', { 'id': pfg.id }) }}">edit</a>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
-        {% endfor %}
+            {% for pfg in pfgs %}
+                <tr>
+                    <td><a href="{{ path('pfg_show', { 'id': pfg.id }) }}">{{ loop.index  }}</a></td>
+                    <td>{{ pfg.nombre }}</td>
+                    <td>
+                        <a href="{{ path('pfg_show', { 'id': pfg.id }) }}">
+                            <button type="button" class="btn btn-xs btn-warning" data-toggle="tooltip" data-placement="top" title="" data-original-title="Ver">  <i class="fa fa-eye"></i>  </button>
+                        </a>
+                        <a href="{{ path('pfg_edit', { 'id': pfg.id }) }}">
+                            <button type="button" class="btn btn-xs btn-success" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editar">  <i class="fa fa-pencil"></i>  </button>
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
 
-    <ul>
-        <li>
-            <a href="{{ path('pfg_new') }}">Create a new pfg</a>
-        </li>
-    </ul>
+
 {% endblock %}
 {% block javascripts %}
     <!-- Datatables -->
+    <script src="{{ asset('bundles/app/vendors/datatables.net/js/jquery.dataTables.min.js')}}"></script>
+    <script src="{{ asset('bundles/app/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>   
+    <script src="{{ asset('bundles/app/vendors/datatables.net-buttons/js/dataTables.buttons.min.js')}}"></script>
+    <script src="{{ asset('bundles/app/vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js')}}"></script>
+
+    <script src="{{ asset('bundles/app/vendors/datatables.net-buttons/js/buttons.flash.min.js')}}"></script>    
+    <script src="{{ asset('bundles/app/vendors/datatables.net-buttons/js/buttons.html5.min.js')}}"></script>    
+    <script src="{{ asset('bundles/app/vendors/datatables.net-buttons/js/buttons.print.min.js')}}"></script>    
+    <script src="{{ asset('bundles/app/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js')}}"></script>
+
+    <script src="{{ asset('bundles/app/vendors/datatables.net-keytable/js/dataTables.keyTable.min.js')}}"></script>       
+    <script src="{{ asset('bundles/app/vendors/datatables.net-responsive/js/dataTables.responsive.min.js')}}"></script>     
+    <script src="{{ asset('bundles/app/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js')}}"></script>    
+    <script src="{{ asset('bundles/app/vendors/datatables.net-scroller/js/dataTables.scroller.min.js')}}"></script>
+
+    <script src="{{ asset('bundles/app/vendors/jszip/jszip.min.js')}}"></script>       
+    <script src="{{ asset('bundles/app/vendors/pdfmake/pdfmake.min.js')}}"></script>     
+    <script src="{{ asset('bundles/app/vendors/pdfmake/vfs_fonts.js')}}"></script>     
+
     <script>
         $(document).ready(function () {
             var handleDataTableButtons = function () {
