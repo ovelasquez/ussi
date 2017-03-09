@@ -43,5 +43,62 @@ class ProfesionalEspecialidad
     private $profesional;
 
 
-}
 
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set especialidad
+     *
+     * @param \AppBundle\Entity\Especialidad $especialidad
+     *
+     * @return ProfesionalEspecialidad
+     */
+    public function setEspecialidad(\AppBundle\Entity\Especialidad $especialidad = null)
+    {
+        $this->especialidad = $especialidad;
+
+        return $this;
+    }
+
+    /**
+     * Get especialidad
+     *
+     * @return \AppBundle\Entity\Especialidad
+     */
+    public function getEspecialidad()
+    {
+        return $this->especialidad;
+    }
+
+    /**
+     * Set profesional
+     *
+     * @param \AppBundle\Entity\Profesional $profesional
+     *
+     * @return ProfesionalEspecialidad
+     */
+    public function setProfesional(\AppBundle\Entity\Profesional $profesional = null)
+    {
+        $this->profesional = $profesional;
+
+        return $this;
+    }
+
+    /**
+     * Get profesional
+     *
+     * @return \AppBundle\Entity\Profesional
+     */
+    public function getProfesional()
+    {
+        return $this->profesional;
+    }
+}

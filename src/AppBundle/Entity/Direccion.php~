@@ -61,5 +61,120 @@ class Direccion
         $this->paciente = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
-}
 
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set tipo
+     *
+     * @param string $tipo
+     *
+     * @return Direccion
+     */
+    public function setTipo($tipo)
+    {
+        $this->tipo = $tipo;
+
+        return $this;
+    }
+
+    /**
+     * Get tipo
+     *
+     * @return string
+     */
+    public function getTipo()
+    {
+        return $this->tipo;
+    }
+
+    /**
+     * Set sector
+     *
+     * @param string $sector
+     *
+     * @return Direccion
+     */
+    public function setSector($sector)
+    {
+        $this->sector = $sector;
+
+        return $this;
+    }
+
+    /**
+     * Get sector
+     *
+     * @return string
+     */
+    public function getSector()
+    {
+        return $this->sector;
+    }
+
+    /**
+     * Set parroquia
+     *
+     * @param \AppBundle\Entity\Parroquia $parroquia
+     *
+     * @return Direccion
+     */
+    public function setParroquia(\AppBundle\Entity\Parroquia $parroquia = null)
+    {
+        $this->parroquia = $parroquia;
+
+        return $this;
+    }
+
+    /**
+     * Get parroquia
+     *
+     * @return \AppBundle\Entity\Parroquia
+     */
+    public function getParroquia()
+    {
+        return $this->parroquia;
+    }
+
+    /**
+     * Add paciente
+     *
+     * @param \AppBundle\Entity\Paciente $paciente
+     *
+     * @return Direccion
+     */
+    public function addPaciente(\AppBundle\Entity\Paciente $paciente)
+    {
+        $this->paciente[] = $paciente;
+
+        return $this;
+    }
+
+    /**
+     * Remove paciente
+     *
+     * @param \AppBundle\Entity\Paciente $paciente
+     */
+    public function removePaciente(\AppBundle\Entity\Paciente $paciente)
+    {
+        $this->paciente->removeElement($paciente);
+    }
+
+    /**
+     * Get paciente
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPaciente()
+    {
+        return $this->paciente;
+    }
+}

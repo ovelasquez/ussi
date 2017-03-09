@@ -54,5 +54,110 @@ class Disponible
     private $profesionalEspecialidad;
 
 
-}
 
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set fecha
+     *
+     * @param \DateTime $fecha
+     *
+     * @return Disponible
+     */
+    public function setFecha($fecha)
+    {
+        $this->fecha = $fecha;
+
+        return $this;
+    }
+
+    /**
+     * Get fecha
+     *
+     * @return \DateTime
+     */
+    public function getFecha()
+    {
+        return $this->fecha;
+    }
+
+    /**
+     * Set consultorio
+     *
+     * @param string $consultorio
+     *
+     * @return Disponible
+     */
+    public function setConsultorio($consultorio)
+    {
+        $this->consultorio = $consultorio;
+
+        return $this;
+    }
+
+    /**
+     * Get consultorio
+     *
+     * @return string
+     */
+    public function getConsultorio()
+    {
+        return $this->consultorio;
+    }
+
+    /**
+     * Set status
+     *
+     * @param string $status
+     *
+     * @return Disponible
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return string
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Set profesionalEspecialidad
+     *
+     * @param \AppBundle\Entity\ProfesionalEspecialidad $profesionalEspecialidad
+     *
+     * @return Disponible
+     */
+    public function setProfesionalEspecialidad(\AppBundle\Entity\ProfesionalEspecialidad $profesionalEspecialidad = null)
+    {
+        $this->profesionalEspecialidad = $profesionalEspecialidad;
+
+        return $this;
+    }
+
+    /**
+     * Get profesionalEspecialidad
+     *
+     * @return \AppBundle\Entity\ProfesionalEspecialidad
+     */
+    public function getProfesionalEspecialidad()
+    {
+        return $this->profesionalEspecialidad;
+    }
+}

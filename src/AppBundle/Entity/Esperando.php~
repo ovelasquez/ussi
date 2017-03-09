@@ -67,5 +67,134 @@ class Esperando
     private $paciente;
 
 
-}
 
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set fechaRegistro
+     *
+     * @param \DateTime $fechaRegistro
+     *
+     * @return Esperando
+     */
+    public function setFechaRegistro($fechaRegistro)
+    {
+        $this->fechaRegistro = $fechaRegistro;
+
+        return $this;
+    }
+
+    /**
+     * Get fechaRegistro
+     *
+     * @return \DateTime
+     */
+    public function getFechaRegistro()
+    {
+        return $this->fechaRegistro;
+    }
+
+    /**
+     * Set status
+     *
+     * @param string $status
+     *
+     * @return Esperando
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return string
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Set especialidad
+     *
+     * @param \AppBundle\Entity\Especialidad $especialidad
+     *
+     * @return Esperando
+     */
+    public function setEspecialidad(\AppBundle\Entity\Especialidad $especialidad = null)
+    {
+        $this->especialidad = $especialidad;
+
+        return $this;
+    }
+
+    /**
+     * Get especialidad
+     *
+     * @return \AppBundle\Entity\Especialidad
+     */
+    public function getEspecialidad()
+    {
+        return $this->especialidad;
+    }
+
+    /**
+     * Set profesional
+     *
+     * @param \AppBundle\Entity\Profesional $profesional
+     *
+     * @return Esperando
+     */
+    public function setProfesional(\AppBundle\Entity\Profesional $profesional = null)
+    {
+        $this->profesional = $profesional;
+
+        return $this;
+    }
+
+    /**
+     * Get profesional
+     *
+     * @return \AppBundle\Entity\Profesional
+     */
+    public function getProfesional()
+    {
+        return $this->profesional;
+    }
+
+    /**
+     * Set paciente
+     *
+     * @param \AppBundle\Entity\Paciente $paciente
+     *
+     * @return Esperando
+     */
+    public function setPaciente(\AppBundle\Entity\Paciente $paciente = null)
+    {
+        $this->paciente = $paciente;
+
+        return $this;
+    }
+
+    /**
+     * Get paciente
+     *
+     * @return \AppBundle\Entity\Paciente
+     */
+    public function getPaciente()
+    {
+        return $this->paciente;
+    }
+}

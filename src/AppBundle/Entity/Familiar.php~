@@ -58,5 +58,120 @@ class Familiar
         $this->paciente = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
-}
 
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set parentesco
+     *
+     * @param string $parentesco
+     *
+     * @return Familiar
+     */
+    public function setParentesco($parentesco)
+    {
+        $this->parentesco = $parentesco;
+
+        return $this;
+    }
+
+    /**
+     * Get parentesco
+     *
+     * @return string
+     */
+    public function getParentesco()
+    {
+        return $this->parentesco;
+    }
+
+    /**
+     * Set nombre
+     *
+     * @param string $nombre
+     *
+     * @return Familiar
+     */
+    public function setNombre($nombre)
+    {
+        $this->nombre = $nombre;
+
+        return $this;
+    }
+
+    /**
+     * Get nombre
+     *
+     * @return string
+     */
+    public function getNombre()
+    {
+        return $this->nombre;
+    }
+
+    /**
+     * Set ocupacion
+     *
+     * @param string $ocupacion
+     *
+     * @return Familiar
+     */
+    public function setOcupacion($ocupacion)
+    {
+        $this->ocupacion = $ocupacion;
+
+        return $this;
+    }
+
+    /**
+     * Get ocupacion
+     *
+     * @return string
+     */
+    public function getOcupacion()
+    {
+        return $this->ocupacion;
+    }
+
+    /**
+     * Add paciente
+     *
+     * @param \AppBundle\Entity\Paciente $paciente
+     *
+     * @return Familiar
+     */
+    public function addPaciente(\AppBundle\Entity\Paciente $paciente)
+    {
+        $this->paciente[] = $paciente;
+
+        return $this;
+    }
+
+    /**
+     * Remove paciente
+     *
+     * @param \AppBundle\Entity\Paciente $paciente
+     */
+    public function removePaciente(\AppBundle\Entity\Paciente $paciente)
+    {
+        $this->paciente->removeElement($paciente);
+    }
+
+    /**
+     * Get paciente
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPaciente()
+    {
+        return $this->paciente;
+    }
+}
