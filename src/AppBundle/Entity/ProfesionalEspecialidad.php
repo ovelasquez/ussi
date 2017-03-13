@@ -101,4 +101,13 @@ class ProfesionalEspecialidad
     {
         return $this->profesional;
     }
+    
+    public function __toString() {
+        try {
+            return (string) $this-> getProfesional()->getPersona()->getCedula().' - '.$this->getEspecialidad()->getNombre();
+        } catch (Exception $e) {
+            return get_class($this) . '@' . spl_object_hash($this); 
+        }
+    }
+    
 }

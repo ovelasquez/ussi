@@ -64,4 +64,12 @@ class Consulta
     {
         return $this->nombre;
     }
+    
+    public function __toString() {
+        try {
+            return (string) $this-> getNombre();
+        } catch (Exception $e) {
+            return get_class($this) . '@' . spl_object_hash($this); 
+        }
+    }
 }

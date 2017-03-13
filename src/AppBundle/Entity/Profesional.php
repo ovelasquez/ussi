@@ -10,8 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="profesional", indexes={@ORM\Index(name="IDX_2BB32E08F5F88DB9", columns={"persona_id"})})
  * @ORM\Entity
  */
-class Profesional
-{
+class Profesional {
+
     /**
      * @var integer
      *
@@ -39,15 +39,12 @@ class Profesional
      */
     private $persona;
 
-
-
     /**
      * Get id
      *
      * @return integer
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -58,8 +55,7 @@ class Profesional
      *
      * @return Profesional
      */
-    public function setCodigoSsa($codigoSsa)
-    {
+    public function setCodigoSsa($codigoSsa) {
         $this->codigoSsa = $codigoSsa;
 
         return $this;
@@ -70,8 +66,7 @@ class Profesional
      *
      * @return string
      */
-    public function getCodigoSsa()
-    {
+    public function getCodigoSsa() {
         return $this->codigoSsa;
     }
 
@@ -82,8 +77,7 @@ class Profesional
      *
      * @return Profesional
      */
-    public function setPersona(\AppBundle\Entity\Persona $persona = null)
-    {
+    public function setPersona(\AppBundle\Entity\Persona $persona = null) {
         $this->persona = $persona;
 
         return $this;
@@ -94,8 +88,16 @@ class Profesional
      *
      * @return \AppBundle\Entity\Persona
      */
-    public function getPersona()
-    {
+    public function getPersona() {
         return $this->persona;
     }
+
+    public function __toString() {
+        try {
+            return (string) $this->getPersona()->getCedula();
+        } catch (Exception $e) {
+            return get_class($this) . '@' . spl_object_hash($this); 
+        }
+    }
+
 }

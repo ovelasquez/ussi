@@ -2,6 +2,13 @@
 {% block title %} Paciente {% endblock %}
 {% block Subtitulo %} Registrar Datos de Paciente -  <small> <a href="{{ path('paciente_index') }}">Regresar a la lista</a></small> {% endblock %} 
 {% block body %}
+    {% for msg in app.session.flashBag.get('success') %}
+        <div class="alert alert-success"> {{ msg }} </div>       
+    {% endfor %}
+
+    {% for msg in app.session.flashBag.get('error') %}
+        <div class="alert alert-danger"> <p>{{ msg }}</p> </div>
+    {% endfor %}
     <div class="x_content">
         <br />
         {% form_theme form 'AppBundle::jquery.collection.html.twig' %}
@@ -103,7 +110,7 @@
                 {{form_widget(form.ocupacion,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
             </div>
         </div>
-            
+
         <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="genero">{{ form_label(form.analfabeta) }} <span class="required">*</span></label>
             <div class="col-md-6 col-sm-6 col-xs-12">
@@ -128,7 +135,7 @@
             </div>
         </div>
 
-        
+
 
         <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="genero">{{ form_label(form.fechaNacimiento) }} <span class="required">*</span></label>
@@ -237,8 +244,8 @@
             }
         });
     </script>
-    
-    
+
+
 
     <!-- /Direccion de Habitacion y de Lugar de nacimiento -->
 

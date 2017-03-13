@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Profesionals list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Codigossa</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for profesional in profesionals %}
+            <tr>
+                <td><a href="{{ path('profesional_show', { 'id': profesional.id }) }}">{{ profesional.id }}</a></td>
+                <td>{{ profesional.codigoSsa }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('profesional_show', { 'id': profesional.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('profesional_edit', { 'id': profesional.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('profesional_new') }}">Create a new profesional</a>
+        </li>
+    </ul>
+{% endblock %}

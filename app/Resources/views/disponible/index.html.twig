@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Disponibles list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Fecha</th>
+                <th>Consultorio</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for disponible in disponibles %}
+            <tr>
+                <td><a href="{{ path('disponible_show', { 'id': disponible.id }) }}">{{ disponible.id }}</a></td>
+                <td>{% if disponible.fecha %}{{ disponible.fecha|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ disponible.consultorio }}</td>
+                <td>{{ disponible.status }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('disponible_show', { 'id': disponible.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('disponible_edit', { 'id': disponible.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('disponible_new') }}">Create a new disponible</a>
+        </li>
+    </ul>
+{% endblock %}

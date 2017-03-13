@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Profesionalespecialidads list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for profesionalEspecialidad in profesionalEspecialidads %}
+            <tr>
+                <td><a href="{{ path('profesionalespecialidad_show', { 'id': profesionalEspecialidad.id }) }}">{{ profesionalEspecialidad.id }}</a></td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('profesionalespecialidad_show', { 'id': profesionalEspecialidad.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('profesionalespecialidad_edit', { 'id': profesionalEspecialidad.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('profesionalespecialidad_new') }}">Create a new profesionalEspecialidad</a>
+        </li>
+    </ul>
+{% endblock %}

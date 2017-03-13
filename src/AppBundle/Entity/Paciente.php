@@ -649,7 +649,10 @@ class Paciente
     }
     
     public function __toString() {
-        //return $this->getPersona()->getPrimerApellido()." ".$this->getPersona->getPrimerNombre();
-        return '';
+        try {
+            return (string) $this->getPersona()->getCedula();
+        } catch (Exception $e) {
+            return get_class($this) . '@' . spl_object_hash($this); 
+        }
     }
 }
