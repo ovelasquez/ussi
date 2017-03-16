@@ -3,10 +3,12 @@
 {% block body %}
     <h1>Profesionals list</h1>
 
-    <table>
+    <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
                 <th>Codigossa</th>
                 <th>Actions</th>
             </tr>
@@ -14,7 +16,9 @@
         <tbody>
         {% for profesional in profesionals %}
             <tr>
-                <td><a href="{{ path('profesional_show', { 'id': profesional.id }) }}">{{ profesional.id }}</a></td>
+                <td><a href="{{ path('profesional_show', { 'id': profesional.id }) }}">{{ profesional.id }}</a></td>                
+                <td>{{ profesional.persona.primerNombre }}</td>
+                <td>{{ profesional.persona.primerApellido }}</td>
                 <td>{{ profesional.codigoSsa }}</td>
                 <td>
                     <ul>

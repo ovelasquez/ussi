@@ -3,29 +3,35 @@
 {% block body %}
     <h1>Profesionalespecialidads list</h1>
 
-    <table>
+    <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Especialidad</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-        {% for profesionalEspecialidad in profesionalEspecialidads %}
-            <tr>
-                <td><a href="{{ path('profesionalespecialidad_show', { 'id': profesionalEspecialidad.id }) }}">{{ profesionalEspecialidad.id }}</a></td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('profesionalespecialidad_show', { 'id': profesionalEspecialidad.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('profesionalespecialidad_edit', { 'id': profesionalEspecialidad.id }) }}">edit</a>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
-        {% endfor %}
+            {% for profesionalEspecialidad in profesionalEspecialidads %}
+                <tr>
+                    <td><a href="{{ path('profesionalespecialidad_show', { 'id': profesionalEspecialidad.id }) }}">{{ profesionalEspecialidad.id }}</a></td>
+                    <td>{{ profesionalEspecialidad.profesional.persona.primerNombre }}</td>
+                    <td>{{ profesionalEspecialidad.profesional.persona.primerApellido }}</td>
+                    <td>{{ profesionalEspecialidad.especialidad.nombre }}</td>
+                    <td>
+                        <ul>
+                            <li>
+                                <a href="{{ path('profesionalespecialidad_show', { 'id': profesionalEspecialidad.id }) }}">show</a>
+                            </li>
+                            <li>
+                                <a href="{{ path('profesionalespecialidad_edit', { 'id': profesionalEspecialidad.id }) }}">edit</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
 

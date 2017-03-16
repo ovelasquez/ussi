@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Servicioprofesionals list</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Status</th>
+                <th>Fechaactualizacion</th>
+                <th>Observacion</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for servicioProfesional in servicioProfesionals %}
+            <tr>
+                <td><a href="{{ path('servicioprofesional_show', { 'id': servicioProfesional.id }) }}">{{ servicioProfesional.id }}</a></td>
+                <td>{{ servicioProfesional.status }}</td>
+                <td>{% if servicioProfesional.fechaActualizacion %}{{ servicioProfesional.fechaActualizacion|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ servicioProfesional.observacion }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('servicioprofesional_show', { 'id': servicioProfesional.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('servicioprofesional_edit', { 'id': servicioProfesional.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('servicioprofesional_new') }}">Create a new servicioProfesional</a>
+        </li>
+    </ul>
+{% endblock %}

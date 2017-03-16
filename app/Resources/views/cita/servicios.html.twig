@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Cita Servicios</h1>
+    <div class="x_content">
+        <br>
+        {% if profesionalEspecialidad != null %}
+            <h2>Cita Planificada:</h2>
+            <p> Doctor: {{profesionalEspecialidad.profesional.persona.cedula}} - {{profesionalEspecialidad.profesional.persona.primerApellido}} {{profesionalEspecialidad.profesional.persona.primerNombre}}</p>
+            <p> Especialidad: {{profesionalEspecialidad.especialidad.nombre}}</p>
+        {% else %}
+            <h2>No Posee Cita Planificada:</h2>
+        {% endif %}
+    </div>
+    <a href="{{ path('cita_index') }}">Back to the list</a>       
+{% endblock %}

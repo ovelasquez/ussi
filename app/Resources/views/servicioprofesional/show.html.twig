@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Servicioprofesional</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ servicioProfesional.id }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ servicioProfesional.status }}</td>
+            </tr>
+            <tr>
+                <th>Fechaactualizacion</th>
+                <td>{% if servicioProfesional.fechaActualizacion %}{{ servicioProfesional.fechaActualizacion|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Observacion</th>
+                <td>{{ servicioProfesional.observacion }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('servicioprofesional_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('servicioprofesional_edit', { 'id': servicioProfesional.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

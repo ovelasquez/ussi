@@ -82,87 +82,97 @@ class CitaController extends Controller {
         $form->handleRequest($request);
 
         //if ($request->isMethod('POST')) {
-            $var = $request->request->get('form');
-            $cedula = $var['cedula'];
-            $nacionalidad = $var['nacionalidad'];
-            $registroPaciente = false;
+        $var = $request->request->get('form');
+        $cedula = $var['cedula'];
+        $nacionalidad = $var['nacionalidad'];
+        $registroPaciente = false;
+        $profesionalEspecialidad=null;
 
-            if ($form->isSubmitted() && $form->isValid()) {
-                $em = $this->getDoctrine()->getManager();
-                $persona = $em->getRepository('AppBundle:Persona')->findBy(array('cedula' => $cedula, 'nacionalidad' => $nacionalidad));
-                if ($persona) {
-                    $paciente = $em->getRepository('AppBundle:Paciente')->findBy(array('persona' => $persona));
-                    if ($paciente) {
-                        $cita = $em->getRepository('AppBundle:Cita')->findBy(array('paciente' => $paciente, 'status' => 'Activa', 'fecha' => new \DateTime("now")));
-                        if ($cita) {
-                            //dump($cita);
-                            //Verifico si esta disponible el medico y la especialidad a la que esta referido 
-                            $profesionalEspecialidad = $em->getRepository('AppBundle:ProfesionalEspecialidad')->findBy(array('profesional' => $cita[0]->getProfesional(), 'especialidad' => $cita[0]->getEspecialidad()));
-                            if ($profesionalEspecialidad) {
-                                $disponible = $em->getRepository('AppBundle:Disponible')->findBy(array('profesionalEspecialidad' => $profesionalEspecialidad));
-                                if ($disponible) {
-                                    //Medico - Especialidad referenciado => Disponible
-                                    return $this->redirectToRoute('cita_servicios');
-                                   /* 
-                                    //Add a la lista de Espera
-                                    $esperando = new \AppBundle\Entity\Esperando();
-                                    $esperando->setEspecialidad($cita[0]->getEspecialidad());
-                                    $esperando->setProfesional($cita[0]->getProfesional());
-                                    $esperando->setFechaRegistro(new \DateTime("now"));
-                                    $esperando->setStatus('Activo');
-                                    $esperando->setPaciente($paciente[0]);
-                                    $em->persist($esperando);
-                                    $em->flush($esperando);
-                                    
-                                    //Update al status de la cita
-                                    $cita[0]->setStatus('No Activa');
-                                    $em->persist($cita[0]);
-                                    $em->flush($cita[0]);
-                                    dump($esperando);
-                                    dump($cita[0]);
-                                    die();
-                                    
-                                    */
-                                } else {
-                                    //Medico - Especialidad referenciado => No Disponible                                 
-                                    $profesionalEspecialidad = $em->getRepository('AppBundle:ProfesionalEspecialidad')->findBy(array('especialidad' => $cita[0]->getEspecialidad()));
-                                    if ($profesionalEspecialidad) {
-                                        echo"Medicos disponibles: " . count($profesionalEspecialidad) . "</br>";
-                                        foreach ($profesionalEspecialidad as &$valor) {
-                                            $disponible = $em->getRepository('AppBundle:Disponible')->findBy(array('profesionalEspecialidad' => $valor));
-                                            dump($disponible);
-                                        }
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $persona = $em->getRepository('AppBundle:Persona')->findBy(array('cedula' => $cedula, 'nacionalidad' => $nacionalidad));
+            if ($persona) {
+                $paciente = $em->getRepository('AppBundle:Paciente')->findBy(array('persona' => $persona));
+                if ($paciente) {
+                    $cita = $em->getRepository('AppBundle:Cita')->findBy(array('paciente' => $paciente, 'status' => 'Activa', 'fecha' => new \DateTime("now")));
+                    if ($cita) {
+                        //dump($cita);
+                        //Verifico si esta disponible el medico y la especialidad a la que esta referido 
+                        $profesionalEspecialidad = $em->getRepository('AppBundle:ProfesionalEspecialidad')->findBy(array('profesional' => $cita[0]->getProfesional(), 'especialidad' => $cita[0]->getEspecialidad()));
+                        //dump($profesionalEspecialidad[0]); die();
+                        if ($profesionalEspecialidad) {
+                            $disponible = $em->getRepository('AppBundle:Disponible')->findBy(array('profesionalEspecialidad' => $profesionalEspecialidad, 'status' => 'Activo', 'fecha' => new \DateTime("now")));
+                            if ($disponible) {
+                                //Medico - Especialidad referenciado => Disponible
+                                // return $this->redirectToRoute('cita_servicios');
+                                return $this->render('cita/servicios.html.twig', array(
+                                            'profesionalEspecialidad' => $profesionalEspecialidad[0],
+                                ));
+                                /*
+                                  //Add a la lista de Espera
+                                  $esperando = new \AppBundle\Entity\Esperando();
+                                  $esperando->setEspecialidad($cita[0]->getEspecialidad());
+                                  $esperando->setProfesional($cita[0]->getProfesional());
+                                  $esperando->setFechaRegistro(new \DateTime("now"));
+                                  $esperando->setStatus('Activo');
+                                  $esperando->setPaciente($paciente[0]);
+                                  $em->persist($esperando);
+                                  $em->flush($esperando);
 
-                                        die();
-                                    }
-                                }
+                                  //Update al status de la cita
+                                  $cita[0]->setStatus('No Activa');
+                                  $em->persist($cita[0]);
+                                  $em->flush($cita[0]);
+                                  dump($esperando);
+                                  dump($cita[0]);
+                                  die();
+
+                                 */
                             } else {
-                                die('medico - especialidad (combinacion) no existe en la USSI');
-                                //Si no esta disponible, buscamos todos los médicos de esa especialidad
+                                //Medico - Especialidad referenciado => No Disponible
+                                $observacion = 'Medico - Especialidad referenciado => No Disponible';
+                                $profesionalEspecialidad = $em->getRepository('AppBundle:ProfesionalEspecialidad')->findBy(array('especialidad' => $cita[0]->getEspecialidad()));
+                                if ($profesionalEspecialidad) {
+                                    echo"Medicos disponibles: " . count($profesionalEspecialidad) . "</br>";
+                                    foreach ($profesionalEspecialidad as &$valor) {
+                                        $disponible = $em->getRepository('AppBundle:Disponible')->findBy(array('profesionalEspecialidad' => $valor, 'status' => 'Activo', 'fecha' => new \DateTime("now")));
+                                        dump($disponible);
+                                    }
+
+                                    die();
+                                }
                             }
+                        } else {
+                            die('medico - especialidad (combinacion) no existe en la USSI');
+                            //Si no esta disponible, buscamos todos los médicos de esa especialidad
                         }
                     } else {
-                        die('No es paciente');
-                        $this->addFlash('error', 'La persona con la identificación: ' . $nacionalidad . ' - ' . $cedula . ' no está registrada como Paciente');
-                        $registroPaciente = true;
+                        //No posee cita
+                        return $this->render('cita/servicios.html.twig', array(
+                                            'profesionalEspecialidad' => $profesionalEspecialidad[0],
+                                ));
                     }
                 } else {
-                    die('No es persona');
-                    $this->addFlash('error', 'La persona con la identificación: ' . $nacionalidad . ' - ' . $cedula . ' no está registrada como Persona');
+                    // die('No es paciente');
+                    $this->addFlash('error', 'La persona con la identificación: ' . $nacionalidad . ' - ' . $cedula . ' no está registrada como Paciente');
                     $registroPaciente = true;
                 }
+            } else {
+                //die('No es persona');
+                $this->addFlash('error', 'La persona con la identificación: ' . $nacionalidad . ' - ' . $cedula . ' no está registrada como Persona');
+                $registroPaciente = true;
+            }
 
-                if ($registroPaciente === \TRUE) {
-                    return $this->redirectToRoute('paciente_new');
-                }
-            } 
-       //}        die(';(');
+            if ($registroPaciente === \TRUE) {
+                return $this->redirectToRoute('paciente_new');
+            }
+        }
+        //}        die(';(');
         return $this->render('cita/consulta.html.twig', array(
                     'form' => $form->createView(),
         ));
     }
-    
-    
+
     /**
      * Finds and displays a citum entity.
      *
@@ -170,10 +180,9 @@ class CitaController extends Controller {
      * @Method("GET")
      */
     public function serviciosAction() {
-        
+
 
         return $this->render('cita/servicios.html.twig', array(
-                   
         ));
     }
 
