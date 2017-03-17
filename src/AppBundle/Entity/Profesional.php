@@ -94,7 +94,7 @@ class Profesional {
 
     public function __toString() {
         try {
-            return (string) $this->getPersona()->getCedula();
+            return (string) $this->getPersona()->getCedula(). ' ' .(string) $this->getPersona()->getPrimerNombre(). ' ' .(string) $this->getPersona()->getPrimerApellido();
         } catch (Exception $e) {
             return get_class($this) . '@' . spl_object_hash($this); 
         }

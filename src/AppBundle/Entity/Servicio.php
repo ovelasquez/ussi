@@ -10,8 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="servicio")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ServicioRepository")
  */
-class Servicio
-{
+class Servicio {
+
     /**
      * @var int
      *
@@ -41,6 +41,22 @@ class Servicio
      * @ORM\Column(name="cupo", type="integer")
      */
     private $cupo;
+    
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="disponible", type="integer", nullable=true)
+     */
+    private $disponible;
+    
+     /**
+     * @var int
+     *
+     * @ORM\Column(name="fecha", type="date", nullable=true)
+     */
+    private $fecha;
+    
+    
 
     /**
      * @var string
@@ -48,7 +64,7 @@ class Servicio
      * @ORM\Column(name="dia", type="string", length=255)
      */
     private $dia;
-    
+
     /**
      * @var \Especialidad
      *
@@ -59,14 +75,12 @@ class Servicio
      */
     private $especialidad;
 
-
     /**
      * Get id
      *
      * @return int
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -77,8 +91,7 @@ class Servicio
      *
      * @return Servicio
      */
-    public function setTurno($turno)
-    {
+    public function setTurno($turno) {
         $this->turno = $turno;
 
         return $this;
@@ -89,8 +102,7 @@ class Servicio
      *
      * @return string
      */
-    public function getTurno()
-    {
+    public function getTurno() {
         return $this->turno;
     }
 
@@ -101,8 +113,7 @@ class Servicio
      *
      * @return Servicio
      */
-    public function setProcedencia($procedencia)
-    {
+    public function setProcedencia($procedencia) {
         $this->procedencia = $procedencia;
 
         return $this;
@@ -113,8 +124,7 @@ class Servicio
      *
      * @return string
      */
-    public function getProcedencia()
-    {
+    public function getProcedencia() {
         return $this->procedencia;
     }
 
@@ -125,8 +135,7 @@ class Servicio
      *
      * @return Servicio
      */
-    public function setCupo($cupo)
-    {
+    public function setCupo($cupo) {
         $this->cupo = $cupo;
 
         return $this;
@@ -137,8 +146,7 @@ class Servicio
      *
      * @return int
      */
-    public function getCupo()
-    {
+    public function getCupo() {
         return $this->cupo;
     }
 
@@ -149,8 +157,7 @@ class Servicio
      *
      * @return Servicio
      */
-    public function setDia($dia)
-    {
+    public function setDia($dia) {
         $this->dia = $dia;
 
         return $this;
@@ -161,8 +168,7 @@ class Servicio
      *
      * @return string
      */
-    public function getDia()
-    {
+    public function getDia() {
         return $this->dia;
     }
 
@@ -173,8 +179,7 @@ class Servicio
      *
      * @return Servicio
      */
-    public function setEspecialidad(\AppBundle\Entity\Especialidad $especialidad = null)
-    {
+    public function setEspecialidad(\AppBundle\Entity\Especialidad $especialidad = null) {
         $this->especialidad = $especialidad;
 
         return $this;
@@ -185,11 +190,83 @@ class Servicio
      *
      * @return \AppBundle\Entity\Especialidad
      */
-    public function getEspecialidad()
-    {
+    public function getEspecialidad() {
         return $this->especialidad;
     }
+
     public function __toString() {
-        return $this->getEspecialidad()->getNombre() . ' - ' . $this->getDia();
+        switch ($this->getDia()) {
+            case 0:
+                $_dia='Domingo';
+                break;
+            case 1:
+               $_dia='Lunes';
+                break;
+            case 2:
+                $_dia='Martes';
+                break;
+            case 3:
+                $_dia='Miércoles';
+                break;
+            case 4:
+                $_dia='Jueves';
+                break;
+            case 5:
+                $_dia='Viernes';
+                break;
+            case 6:
+                $_dia='Sábado';
+                break;
+        }
+        return $this->getEspecialidad()->getNombre() . ' - ' .$_dia ;
+    }
+
+
+    /**
+     * Set disponible
+     *
+     * @param integer $disponible
+     *
+     * @return Servicio
+     */
+    public function setDisponible($disponible)
+    {
+        $this->disponible = $disponible;
+
+        return $this;
+    }
+
+    /**
+     * Get disponible
+     *
+     * @return integer
+     */
+    public function getDisponible()
+    {
+        return $this->disponible;
+    }
+
+    /**
+     * Set fecha
+     *
+     * @param \DateTime $fecha
+     *
+     * @return Servicio
+     */
+    public function setFecha($fecha)
+    {
+        $this->fecha = $fecha;
+
+        return $this;
+    }
+
+    /**
+     * Get fecha
+     *
+     * @return \DateTime
+     */
+    public function getFecha()
+    {
+        return $this->fecha;
     }
 }

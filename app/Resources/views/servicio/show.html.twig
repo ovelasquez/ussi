@@ -23,7 +23,21 @@
             </tr>
             <tr>
                 <th>Dia</th>
-                <td>{{ servicio.dia }}</td>
+                <td>{% if servicio.dia==0 %}
+                        Domingo
+                        {% elseif servicio.dia==1 %}
+                            Lunes
+                            {% elseif servicio.dia==2 %}
+                                Martes
+                                {% elseif servicio.dia==3 %}
+                                    Miércoles
+                                    {% elseif servicio.dia==4 %}
+                                        Jueves
+                                        {% elseif servicio.dia==5 %}
+                                            Viernes
+                                            {% elseif servicio.dia==6 %}
+                                                Sábado                                            
+                                                {% endif %}</td>
             </tr>
         </tbody>
     </table>

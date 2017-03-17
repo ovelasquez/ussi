@@ -3,45 +3,64 @@
 {% block body %}
     <h1>Servicios list</h1>
 
-     <table class="table">
+    <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
                 <th>Especialidad</th>
+                <th>Día</th>
                 <th>Turno</th>
                 <th>Procedencia</th>
-                <th>Cupo</th>
-                <th>Dia</th>
+                <th>Cupos</th>
+                <th>Disponibles</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-        {% for servicio in servicios %}
-            <tr>
-                <td><a href="{{ path('servicio_show', { 'id': servicio.id }) }}">{{ servicio.id }}</a></td>
-                <td>{{ servicio.especialidad.nombre }}</td>
-                <td>{{ servicio.turno }}</td>
-                <td>{{ servicio.procedencia }}</td>
-                <td>{{ servicio.cupo }}</td>
-                <td>{{ servicio.dia }}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('servicio_show', { 'id': servicio.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('servicio_edit', { 'id': servicio.id }) }}">edit</a>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            {% for servicio in servicios %}
+                <tr>
+                    <td><a href="{{ path('servicio_show', { 'id': servicio.id }) }}">{{ servicio.id }}</a></td>
+                    <td>{{ servicio.especialidad.nombre }}</td>
+                    <td>{% if servicio.dia==0 %}
+                        Domingo
+                        {% elseif servicio.dia==1 %}
+                            Lunes
+                            {% elseif servicio.dia==2 %}
+                                Martes
+                                {% elseif servicio.dia==3 %}
+                                    Miércoles
+                                    {% elseif servicio.dia==4 %}
+                                        Jueves
+                                        {% elseif servicio.dia==5 %}
+                                            Viernes
+                                            {% else %}
+                                                Sábado                                            
+                                                {% endif %}
+                                                    
+                                                </td>
 
-    <ul>
-        <li>
-            <a href="{{ path('servicio_new') }}">Create a new servicio</a>
-        </li>
-    </ul>
-{% endblock %}
+                    <td>{{ servicio.turno | title }}</td>
+                    <td>{{ servicio.procedencia }}</td>
+                    <td>{{ servicio.cupo }}</td>
+                     <td>{{ servicio.disponible }}</td>
+                    <td>
+                        <ul>
+                            <li>
+                                <a href="{{ path('servicio_show', { 'id': servicio.id }) }}">show</a>
+                            </li>
+                            <li>
+                                <a href="{{ path('servicio_edit', { 'id': servicio.id }) }}">edit</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <ul>
+            <li>
+                <a href="{{ path('servicio_new') }}">Create a new servicio</a>
+            </li>
+        </ul>
+        {% endblock %}
