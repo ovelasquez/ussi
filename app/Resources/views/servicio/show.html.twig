@@ -23,21 +23,8 @@
             </tr>
             <tr>
                 <th>Dia</th>
-                <td>{% if servicio.dia==0 %}
-                        Domingo
-                        {% elseif servicio.dia==1 %}
-                            Lunes
-                            {% elseif servicio.dia==2 %}
-                                Martes
-                                {% elseif servicio.dia==3 %}
-                                    Miércoles
-                                    {% elseif servicio.dia==4 %}
-                                        Jueves
-                                        {% elseif servicio.dia==5 %}
-                                            Viernes
-                                            {% elseif servicio.dia==6 %}
-                                                Sábado                                            
-                                                {% endif %}</td>
+                <td>{% set dia = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'] %}
+                    {{ dia[servicio.dia] }}</td>
             </tr>
         </tbody>
     </table>
@@ -51,7 +38,7 @@
         </li>
         <li>
             {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
+            <input type="submit" value="Delete">
             {{ form_end(delete_form) }}
         </li>
     </ul>

@@ -21,28 +21,15 @@
                 <tr>
                     <td><a href="{{ path('servicio_show', { 'id': servicio.id }) }}">{{ servicio.id }}</a></td>
                     <td>{{ servicio.especialidad.nombre }}</td>
-                    <td>{% if servicio.dia==0 %}
-                        Domingo
-                        {% elseif servicio.dia==1 %}
-                            Lunes
-                            {% elseif servicio.dia==2 %}
-                                Martes
-                                {% elseif servicio.dia==3 %}
-                                    Miércoles
-                                    {% elseif servicio.dia==4 %}
-                                        Jueves
-                                        {% elseif servicio.dia==5 %}
-                                            Viernes
-                                            {% else %}
-                                                Sábado                                            
-                                                {% endif %}
-                                                    
-                                                </td>
+                    <td>
+                        {% set dia = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'] %}
+                        {{ dia[servicio.dia] }}
+                    </td>
 
                     <td>{{ servicio.turno | title }}</td>
                     <td>{{ servicio.procedencia }}</td>
                     <td>{{ servicio.cupo }}</td>
-                     <td>{{ servicio.disponible }}</td>
+                    <td>{{ servicio.disponible }}</td>
                     <td>
                         <ul>
                             <li>
@@ -55,12 +42,12 @@
                     </td>
                 </tr>
             {% endfor %}
-            </tbody>
-        </table>
+        </tbody>
+    </table>
 
-        <ul>
-            <li>
-                <a href="{{ path('servicio_new') }}">Create a new servicio</a>
-            </li>
-        </ul>
-        {% endblock %}
+    <ul>
+        <li>
+            <a href="{{ path('servicio_new') }}">Create a new servicio</a>
+        </li>
+    </ul>
+{% endblock %}

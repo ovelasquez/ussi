@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use AppBundle\Entity\Profesional;
 
 /**
  * Citum controller.
@@ -69,9 +70,10 @@ class CitaController extends Controller {
         // Buscamos todos los servicios Disponibles del Día.
         $em = $this->getDoctrine()->getManager();
         $servicio = $em->getRepository('AppBundle:Servicio')->findByDia(date("w"));
+        $hoy = new \DateTime('now');
+        $hoy->setTime(0, 0, 0);
+        $profesionalDisponible=null;
         foreach ($servicio as &$valor) {
-            $hoy = new \DateTime('now');
-            $hoy->setTime(0, 0, 0);
             if (!($hoy == $valor->getFecha())) {
                 $valor->setDisponible($valor->getCupo()); //Restablecer los cupos disponibles
                 $valor->setFecha(new \DateTime("now"));   //actualizamos la fecha
@@ -101,22 +103,101 @@ class CitaController extends Controller {
                 ))
                 ->getForm();
         $form->handleRequest($request);
-        
+
         //<input type="hidden" id="form__token" name="form[_token]" value="1tME9nbWbI5i_5PEY4PgC9BjrBgjY_Df8nbxwHBJw4I">
 
         if ($request->isMethod('POST')) {
             $var = $request->request->get('form');
-            $cedula = $var['cedula'];
-            $nacionalidad = $var['nacionalidad'];
-            dump($cedula);
-            dump($nacionalidad);
-            echo("Alguien metio el dedo el registrar");
-        }
 
+            $persona = $em->getRepository('AppBundle:Persona')->findOneBy(
+                    array(
+                        'nacionalidad' => $var['nacionalidad'],
+                        'cedula' => $var['cedula']
+                    )
+            );
+
+            $especialidad = $em->getRepository('AppBundle:Especialidad')->findOneBy(
+                    array(
+                        'nombre' => $var['especialidad'],
+                    )
+            );
+
+
+            if ($persona) {
+                $paciente = $em->getRepository('AppBundle:Paciente')->findOneBy(array('persona' => $persona));
+            } else {
+                return $this->redirectToRoute('paciente_new');
+            }
+
+            //Verificamos si esta en la lista de espera           
+            $estaEsperando = $em->getRepository('AppBundle:Esperando')->findByPaciente($paciente);
+            $cont = 0;
+            foreach ($estaEsperando as &$valor) {
+                if (($hoy == $valor->getFechaRegistro()->setTime(0, 0, 0))) {
+                    $cont = $cont + 1;
+                }
+            }
+            $numeroConsultas = $em->getRepository('AppBundle:Configuracion')->findAll();
+            if ($numeroConsultas[0]->getNumeroConsultas() == $cont) {
+                die("Ha alcanzado el número máximo de consultas (" . (string) $numeroConsultas[0]->getNumeroConsultas() . ") por el día de hoy.");
+            } else {
+                //Verificamos si tiene una Cita Sucesiva en la especialidad seleccionada
+                $cita = $em->getRepository('AppBundle:Cita')->findBy(
+                        array(
+                            'paciente' => $paciente,
+                            'fecha' => $hoy,
+                            'especialidad' => $especialidad,
+                        )
+                );
+                //Creamos Lista de Espera
+                $listaEspera = new \AppBundle\Entity\Esperando();
+                $listaEspera->setPaciente($paciente);
+                $listaEspera->setStatus("activo");
+                $listaEspera->setEspecialidad($especialidad);
+                $listaEspera->setFechaRegistro(new \DateTime("now"));
+
+                if (!$cita) {
+                    //No posee cita, entonces lo asignamos a la Lista de Espera
+                    $listaEspera->setProfesional(null);
+                } else {
+                    //Verificamos si el Profesional esta de Servicio o notifico que no asistía
+                    //$profesionale = new Profesional();
+                    //$profesionale = $cita[0]->getProfesional();
+                    //dump($profesionale); die();
+                    $profesionalDisponible = $this->disponibleProfesional($cita[0]->getProfesional());
+                    if ($profesionalDisponible!=null&&$profesionalDisponible=="activo") {
+                        $listaEspera->setProfesional($cita[0]->getProfesional());
+                        $em->persist($listaEspera);
+                        $em->flush($listaEspera);
+                    } else {
+                        //return $this->render('cita/servicios.html.twig', array('profesionalDisponible' => $profesionalDisponible));
+                        dump($profesionalDisponible);
+                    }
+                }
+            }
+        }
+        
         return $this->render('cita/consulta.html.twig', array(
                     'servicios' => $servicio,
                     'form' => $form->createView(),
+                    'profesionalDisponible'=> $profesionalDisponible,
         ));
+    }
+
+    private function disponibleProfesional(Profesional $profesional) {
+        $em = $this->getDoctrine()->getManager();
+        $profesionalDisponible = $em->getRepository('AppBundle:ServicioProfesional')->findOneBy(
+                array(
+                    'profesional' => $profesional,                    
+                )
+        );
+        /* if ($profesionalDisponible) {
+          return TRUE;
+          } else {
+          return FALSE
+          ;
+          } */
+        return $profesionalDisponible;
     }
 
     /**

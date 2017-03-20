@@ -26,23 +26,9 @@
                     <td>{{ servicioProfesional.profesional.persona.primerNombre}}</td>
                     <td>{{ servicioProfesional.profesional.persona.primerApellido }}</td>
                     <td>{{ servicioProfesional.servicio.especialidad.nombre }}</td>                    
-                    <td>{% if servicioProfesional.servicio.dia==0 %}
-                        Domingo
-                        {% elseif servicioProfesional.servicio.dia==1 %}
-                            Lunes
-                            {% elseif servicioProfesional.servicio.dia==2 %}
-                                Martes
-                                {% elseif servicioProfesional.servicio.dia==3 %}
-                                    Miércoles
-                                    {% elseif servicioProfesional.servicio.dia==4 %}
-                                        Jueves
-                                        {% elseif servicioProfesional.servicio.dia==5 %}
-                                            Viernes
-                                            {% else %}
-                                                Sábado                                            
-                                                {% endif %}
-                                                    
-                                                </td>
+                    <td>{% set dia = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'] %}
+                        {{ dia[servicioProfesional.servicio.dia] }}
+                    </td>
                     <td>{{ servicioProfesional.status | title }}</td>
                     <td>{% if servicioProfesional.fechaActualizacion %}{{ servicioProfesional.fechaActualizacion|date('Y-m-d H:i:s') }}{% endif %}</td>
                     <td>{{ servicioProfesional.observacion }}</td>
