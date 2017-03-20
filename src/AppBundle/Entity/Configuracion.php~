@@ -70,28 +70,5 @@ class Configuracion
     {
         return $this->numeroConsultas;
     }
-
-    /**
-     * Set servicioActualizado
-     *
-     * @param \DateTime $servicioActualizado
-     *
-     * @return Configuracion
-     */
-    public function setServicioActualizado($servicioActualizado)
-    {
-        $this->servicioActualizado = $servicioActualizado;
-
-        return $this;
-    }
-
-    /**
-     * Get servicioActualizado
-     *
-     * @return \DateTime
-     */
-    public function getServicioActualizado()
-    {
-        return $this->servicioActualizado;
-    }
 }
+

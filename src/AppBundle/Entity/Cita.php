@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Cita
  *
  * @ORM\Table(name="cita", indexes={@ORM\Index(name="IDX_3E379A6216A490EC", columns={"especialidad_id"}), @ORM\Index(name="IDX_3E379A62E38D288B", columns={"consulta_id"}), @ORM\Index(name="IDX_3E379A62313D7FB9", columns={"profesional_id"}), @ORM\Index(name="IDX_3E379A627310DAD4", columns={"paciente_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\CitaRepository")
  */
 class Cita
 {
