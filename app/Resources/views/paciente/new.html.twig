@@ -145,13 +145,7 @@
             </div>
         </div>
 
-        <div class="form-group">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="genero">{{ form_label(form.procedencia) }} <span class="required">*</span></label>
-            <div class="col-md-6 col-sm-6 col-xs-12">
-                {{ form_errors(form.procedencia) }}                
-                {{form_widget(form.procedencia,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
-            </div>
-        </div>
+
 
         <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="genero">{{ form_label(form.apellidoFamilia) }} <span class="required">*</span></label>
@@ -177,7 +171,7 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div id='pfg' class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="genero">{{ form_label(form.pfg) }} <span class="required">*</span></label>
             <div class="col-md-6 col-sm-6 col-xs-12">
                 {{ form_errors(form.pfg) }}                
@@ -245,11 +239,7 @@
         });
     </script>
 
-
-
     <!-- /Direccion de Habitacion y de Lugar de nacimiento -->
-
-
     <!-- Familiar -->
     <script type="text/javascript">
         $('.my-familiar').collection();
@@ -262,6 +252,24 @@
             }
 
         });
+        
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            
+             $("#appbundle_paciente_comunidad").click(function () {
+             if($('#appbundle_paciente_comunidad').val()=='pfg') {
+                $('#pfg').show();
+            }else {
+                 $('#appbundle_paciente_pfg').val(null);
+                $('#pfg').hide();
+            }
+            
+            });
+            
+        });
+
     </script>
     <!-- /Familiar -->
 

@@ -132,7 +132,7 @@ class CitaController extends Controller {
             $cont = $this->estoyEsperando($paciente);
 
             if ($configuracion[0]->getNumeroConsultas() == $cont) {
-                $maximoConsulta = "Ha alcanzado el número máximo de consultas (" . (string) $configuracion[0]->getNumeroConsultas() . ") por el día de hoy.";
+                $maximoConsulta = "Ha alcanzado el número máximo de consultas (" . (string) $configuracion[0]->getNumeroConsultas() . ") diarias.";
             } else {
                 //Verificamos si tiene una Cita Sucesiva en la especialidad seleccionada
                 $cita = $em->getRepository('AppBundle:Cita')->findBy(
@@ -332,12 +332,15 @@ class CitaController extends Controller {
                 $em->flush($valor);
             }
         }
-
-        $em = $this->getDoctrine()->getManager();
+        
         $configuracion = $em->getRepository('AppBundle:Configuracion')->findAll();
         $configuracion[0]->setServicioActualizado($hoy);
         $em->persist($configuracion[0]);
         $em->flush($configuracion[0]);
+                        
+        //Setear Lista de Espera
+//        $esperando= $em->getRepository('AppBundle:Esperando')->findByStatus('activo');
+        
     }
 
     /**
@@ -347,7 +350,6 @@ class CitaController extends Controller {
      * @Method("GET")
      */
     public function serviciosAction() {
-
 
         return $this->render('cita/servicios.html.twig', array(
         ));

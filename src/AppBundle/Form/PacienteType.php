@@ -55,11 +55,7 @@ class PacienteType extends AbstractType {
                     ),
                     'label' => 'Fecha Nacimiento',
                 ))
-                ->add('procedencia', TextType::class, array(
-                    'label' => 'Procedencia',
-                    'required' => true,
-                    'attr' => array('placeholder' => 'Procedencia'),
-                ))
+                
                 ->add('apellidoFamilia', TextType::class, array(
                     'label' => 'Apellido Familia',
                     'required' => true,
@@ -71,7 +67,7 @@ class PacienteType extends AbstractType {
                     'attr' => array('placeholder' => 'Cédula del Jefe Familia'),
                 ))
                 ->add('comunidad', ChoiceType::class, array(
-                    'choices' => array('Estudiante de Pregrado' => 'pfg', 'Estudiante de Postgrado' => 'pfa', 'Docente' => 'docente', 'Administrativo' => 'administrativo', 'Obrero' => 'obrero', 'Comunidad' => 'comunidad'),
+                    'choices' => array('Estudiante de Pregrado' => 'pfg', 'Estudiante de Postgrado' => 'pfa', 'Docente' => 'docente', 'Administrativo' => 'administrativo', 'Obrero' => 'obrero', 'Jubilado'=>'jubilado' ,'Comunidad' => 'comunidad'),
                     'required' => true,
                     'attr' => array('placeholder' => 'Comunidad'),
                     'label' => 'Comunidad',

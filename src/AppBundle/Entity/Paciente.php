@@ -67,13 +67,6 @@ class Paciente
     /**
      * @var string
      *
-     * @ORM\Column(name="procedencia", type="string", length=255, nullable=false)
-     */
-    private $procedencia;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(name="apellido_familia", type="string", length=255, nullable=false)
      */
     private $apellidoFamilia;
@@ -340,31 +333,7 @@ class Paciente
         return $this->fechaNacimiento;
     }
 
-    /**
-     * Set procedencia
-     *
-     * @param string $procedencia
-     *
-     * @return Paciente
-     */
-    public function setProcedencia($procedencia)
-    {
-        $this->procedencia = $procedencia;
-
-        return $this;
-    }
-
-    /**
-     * Get procedencia
-     *
-     * @return string
-     */
-    public function getProcedencia()
-    {
-        return $this->procedencia;
-    }
-
-    /**
+     /**
      * Set apellidoFamilia
      *
      * @param string $apellidoFamilia
