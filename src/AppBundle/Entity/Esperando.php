@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Esperando
  *
  * @ORM\Table(name="esperando", indexes={@ORM\Index(name="IDX_F82E1F7DACB064F9", columns={"especialidad"}), @ORM\Index(name="IDX_F82E1F7D2BB32E08", columns={"profesional"}), @ORM\Index(name="IDX_F82E1F7D7310DAD4", columns={"paciente_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\EsperandoRepository")
  */
 class Esperando
 {
@@ -66,6 +66,19 @@ class Esperando
      */
     private $paciente;
 
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="penalizacion", type="integer", nullable=true)
+     */
+    private $penalizacion = '0';
+    
+     /**
+     * @var integer
+     *
+     * @ORM\Column(name="posicion", type="integer", nullable=true)
+     */
+    private $posicion = '0';
 
 
     /**
@@ -196,5 +209,53 @@ class Esperando
     public function getPaciente()
     {
         return $this->paciente;
+    }
+
+    /**
+     * Set penalizacion
+     *
+     * @param integer $penalizacion
+     *
+     * @return Esperando
+     */
+    public function setPenalizacion($penalizacion)
+    {
+        $this->penalizacion = $penalizacion;
+
+        return $this;
+    }
+
+    /**
+     * Get penalizacion
+     *
+     * @return integer
+     */
+    public function getPenalizacion()
+    {
+        return $this->penalizacion;
+    }
+
+    /**
+     * Set posicion
+     *
+     * @param integer $posicion
+     *
+     * @return Esperando
+     */
+    public function setPosicion($posicion)
+    {
+        $this->posicion = $posicion;
+
+        return $this;
+    }
+
+    /**
+     * Get posicion
+     *
+     * @return integer
+     */
+    public function getPosicion()
+    {
+        return $this->posicion;
     }
 }

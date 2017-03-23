@@ -1,47 +1,123 @@
 {% extends 'base.html.twig' %}
 {% block stylesheets %}
-    <!-- sweetalert2 -->
+    <!-- sweetalert2 -->    
     <script src="{{ asset('bundles/app/vendors/sweetalert2/sweetalert2.min.js')}}"></script>
     <link href="{{ asset('bundles/app/vendors/sweetalert2/sweetalert2.min.css')}}" rel="stylesheet">
 {% endblock %}
 
-{% block title %} Etnia {% endblock %}
-{% block Subtitulo %} Cita Sucesiva -  <small> {{profesionalDisponible.servicio.especialidad.nombre |title}} </small> {% endblock %} 
+{% block title %} Procesar Lista de Espera {% endblock %}
+{% block Subtitulo %} Llamada en Curso -  <small>  </small> {% endblock %} 
 
 {% block body %}
 
+    <h1>Esperandos list</h1>
+    {% if esperando %}
+    <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+               
+                <th>Cédula</th>
+                <th>Paciente</th>
+                <th>Fecha</th>
+                <th>Status</th>
+                <th>Penalizacion</th>
+                <th>Posicion</th>
+                <th>Especialidad</th>
+                <th>Profesional</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+                <tr>
+                   
+                    <td>{{ esperando.paciente.persona.nacionalidad }} - {{ esperando.paciente.persona.cedula }}</td>
+                    <td>{{ esperando.paciente.persona.primerApellido }} {{ esperando.paciente.persona.primerNombre }}</td>
+                    <td>{% if esperando.fechaRegistro %}{{ esperando.fechaRegistro|date('d-m-Y H:i:s') }}{% endif %}</td>
+                    <td>{{ esperando.status }}</td>
+                    <td>{{ esperando.penalizacion }}</td>
+                    <td>{{ esperando.posicion }}</td>
+                    <td>{{ esperando.especialidad.nombre }}</td>
+                    <td>{% if esperando.profesional != null %} {{ esperando.profesional.persona.primerApellido }} {{ esperando.profesional.persona.primerNombre }}{% endif %}</td>
+                    <td>                            
+                        <button type="button" id="miBoton" class="btn btn-primary">Llamar Paciente</button>
+                    </td>
+                </tr>
+            
+        </tbody>
+    </table>   
+{% endif %}
+    {% set valor = tiempoEspera*1000 %}
 
-    <ul class="messages">
-        <li>
-            <img src="{{ asset('uploads/fotos/')}}{{profesionalDisponible.profesional.persona.foto}}" class="avatar" alt="Avatar">
-            <div class="message_wrapper">
-                <h4 class="heading"> Dr. {{profesionalDisponible.profesional.persona.primerNombre}} {{profesionalDisponible.profesional.persona.primerApellido}} </h4>
-                <blockquote class="message">
-                    Estatus: {{profesionalDisponible.status |title}}
-                    </br>
-                    Fecha: {{profesionalDisponible.fechaActualizacion |date("d/m/Y")}}                    
-                    </br>
-                    {{profesionalDisponible.observacion}}
-                </blockquote>
-                <br>
-                <p class="url">
-                    
-                    <button type="button" class="btn btn-success btn-lg">Desea Verse con otro doctor</button>
-                </p>
-            </div>
-        </li>
+    
 
 
-    </ul>
-    <a href="{{ path('cita_consulta') }}">Regresar</a>       
+
 
 {% endblock %}
 
 {% block javascripts %}
+
     <script>
-        $('.showcase.sweet button').on('click', function () {
-            swal('Oops...', 'Doctor No Disponible', 'error').catch(swal.noop)
-        })
+                $(document).ready(function () {
+                    if ({{id}}==0) {
+                        
+                         swal(
+                                'Ooops',
+                                'No hay Pacientes en la Lista de Espera :)',
+                                'success'
+                                )
+                        
+                    }
+        $("#miBoton").click(function () {
+        swal({
+        title: 'Llamando al Paciente',
+                text: 'Si el Paciente no llega la llamada se cerrara automaticamnete en {{ tiempoEspera}} segundos.',
+                timer:{{ tiempoEspera*1000}}
+        }).then(
+                function () {
+                },
+                // handling the promise rejection
+                        function (dismiss) {
+                        if (dismiss === 'timer') {
+                        swal({
+                        title: 'Llegó el Paciente?',
+                                text: " ",
+                                type: 'warning',
+                                showCancelButton: true,
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                confirmButtonText: 'SI',
+                                cancelButtonText: 'NO!',
+                                confirmButtonClass: 'btn btn-success',
+                                cancelButtonClass: 'btn btn-danger',
+                                buttonsStyling: false
+                                }).then(function () {
+                                swal(
+                                'Bienvenido!',
+                                '',
+                                'success'
+                                )
+                                 window.location.href = "../esperando/procesando/{{id}}/1";
+                                }, function (dismiss) {
+                        // dismiss can be 'cancel', 'overlay',
+                        // 'close', and 'timer'
+                        if (dismiss === 'cancel') {
+                        swal(
+                                'Paciente No Disponible',
+                                'Paciente será penalizado :)',
+                                'error'
+                                )
+                                                
+                         window.location.href = "../esperando/procesando/{{id}}/0";
+                        }
+                        })
+                        }
+                        }
+                )
+                });
+        });
+
     </script>
 {% endblock %}
 

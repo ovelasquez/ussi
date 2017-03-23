@@ -35,6 +35,20 @@ class Configuracion
      * @ORM\Column(name="servicio_actualizado", type="date", nullable=true)
      */
     private $servicioActualizado;
+    
+     /**
+     * @var integer
+     *
+     * @ORM\Column(name="tiempo_espera", type="integer", nullable=true)
+     */
+    private $tiempoEspera = '0';
+    
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="penalizacion", type="integer", nullable=true)
+     */
+    private $penalizacion = '0';
 
 
     /**
@@ -93,5 +107,55 @@ class Configuracion
     public function getServicioActualizado()
     {
         return $this->servicioActualizado;
+    }
+
+
+
+    /**
+     * Set penalizacion
+     *
+     * @param integer $penalizacion
+     *
+     * @return Configuracion
+     */
+    public function setPenalizacion($penalizacion)
+    {
+        $this->penalizacion = $penalizacion;
+
+        return $this;
+    }
+
+    /**
+     * Get penalizacion
+     *
+     * @return integer
+     */
+    public function getPenalizacion()
+    {
+        return $this->penalizacion;
+    }
+
+    /**
+     * Set tiempoEspera
+     *
+     * @param integer $tiempoEspera
+     *
+     * @return Configuracion
+     */
+    public function setTiempoEspera($tiempoEspera)
+    {
+        $this->tiempoEspera = $tiempoEspera;
+
+        return $this;
+    }
+
+    /**
+     * Get tiempoEspera
+     *
+     * @return integer
+     */
+    public function getTiempoEspera()
+    {
+        return $this->tiempoEspera;
     }
 }

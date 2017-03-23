@@ -19,6 +19,8 @@ class EsperandoType extends AbstractType
                 ->add('especialidad')
                 ->add('profesional')
                 ->add('paciente')
+                ->add('penalizacion')
+                ->add('posicion')
                 ;
     }
     

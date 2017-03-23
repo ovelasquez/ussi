@@ -171,7 +171,7 @@
                 $("#miBoton").click(function () {
         $("#paciente").submit();
         });
-                if (( {% if (profesionalDisponible!=null and profesionalDisponible.status=='inactivo')  %} 1 {% else %} 0{% endif %}) == 1) {
+        if (( {% if (profesionalDisponible!=null and profesionalDisponible.status=='inactivo')  %} 1 {% else %} 0{% endif %}) == 1) {
         swal({
         title: 'Cita - Dr. No Disponible',
                 text: "Dr. {{doctor}} - {{observacion}} ",

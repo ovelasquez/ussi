@@ -9,9 +9,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use AppBundle\Entity\Profesional;
-use AppBundle\Entity\Especialidad;
+
 
 /**
  * Citum controller.
@@ -166,10 +165,10 @@ class CitaController extends Controller {
                     $servicio = $this->buscarServicio($especialidad);
                     $profesionalDisponible = new \AppBundle\Entity\ServicioProfesional();
                     $profesionalDisponible = $this->disponibleProfesional($cita[0]->getProfesional(), $servicio);
-                    
+
 
                     if ($profesionalDisponible != null && $profesionalDisponible->getStatus() == "activo") {
-                        
+
                         $listaEspera->setProfesional($cita[0]->getProfesional());
                         if ($this->disponibilidadServicio($especialidad) > 0) {
                             $em->persist($listaEspera);
@@ -222,7 +221,7 @@ class CitaController extends Controller {
         $servicio = $em->getRepository('AppBundle:Servicio')->findBy(
                 array(
                     'especialidad' => $especialidad,
-                     'dia' => date("w"),
+                    'dia' => date("w"),
                 )
         );
         return $servicio[0];
@@ -252,8 +251,6 @@ class CitaController extends Controller {
                     'dia' => date("w"),
                 )
         );
-        
-        
         return $servicio[0]->getDisponible();
     }
 
@@ -287,7 +284,7 @@ class CitaController extends Controller {
                     'servicio' => $servicio,
                 )
         );
-       
+
         return $profesionalDisponible;
     }
 
@@ -332,15 +329,19 @@ class CitaController extends Controller {
                 $em->flush($valor);
             }
         }
-        
+
         $configuracion = $em->getRepository('AppBundle:Configuracion')->findAll();
         $configuracion[0]->setServicioActualizado($hoy);
         $em->persist($configuracion[0]);
         $em->flush($configuracion[0]);
-                        
+
         //Setear Lista de Espera
-//        $esperando= $em->getRepository('AppBundle:Esperando')->findByStatus('activo');
-        
+        $esperando = $em->getRepository('AppBundle:Esperando')->findByStatus('activo');
+        foreach ($esperando as &$valor) {
+            $valor->setStatus('abandono'); //El Paciente no se presento a la consulta
+            $em->persist($valor);
+            $em->flush($valor);
+        }
     }
 
     /**

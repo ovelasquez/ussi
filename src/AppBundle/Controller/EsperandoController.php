@@ -5,30 +5,161 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Esperando;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 /**
  * Esperando controller.
  *
  * @Route("esperando")
  */
-class EsperandoController extends Controller
-{
+class EsperandoController extends Controller {
+
     /**
      * Lists all esperando entities.
      *
      * @Route("/", name="esperando_index")
      * @Method("GET")
      */
-    public function indexAction()
-    {
-        $em = $this->getDoctrine()->getManager();
+    public function indexAction() {
 
-        $esperandos = $em->getRepository('AppBundle:Esperando')->findAll();
+        $hoy = new \DateTime('now');
+        $hoy->setTime(0, 0, 0);
+
+        $em = $this->getDoctrine()->getManager();
+        $configuracion = $em->getRepository('AppBundle:Configuracion')->findAll();
+        $repository = $em->getRepository('AppBundle:Esperando');
+
+        $query = $repository->createQueryBuilder('p')
+                ->where('p.fechaRegistro >= :hoy')
+                ->setParameter('hoy', $hoy)
+                ->orderBy('p.posicion', 'ASC')
+                ->getQuery();
+
+        $esperandos = $query->getResult();
+
 
         return $this->render('esperando/index.html.twig', array(
-            'esperandos' => $esperandos,
+                    'esperandos' => $esperandos,
+                    'penalizacion' => $configuracion[0]->getPenalizacion(),
         ));
+    }
+
+    /**
+     * Lists all esperando entities.
+     *
+     * @Route("/procesar", name="esperando_procesar")
+     * @Method("GET")
+     */
+    public function procesarAction(Request $request) {
+        $id = 0;
+        $esMio = false;
+        $em = $this->getDoctrine()->getManager();
+        $configuracion = $em->getRepository('AppBundle:Configuracion')->findAll();
+        $repetir = true;
+
+        //$especialidad = ["Medicina General", "Medicina Interna"];$especialidad[rand(0, 1)];
+        $especialidad = "Medicina Interna";
+        $miEspecialidad = $em->getRepository('AppBundle:Especialidad')->findByNombre($especialidad);
+
+        $miId = 2;
+        // $miId = $miId[rand(0, 1)];
+        // ECHO(" entro 1 ");
+        //Buscamos al Primero de la Lista de Espera
+        $esperandos = $em->getRepository('AppBundle:Esperando')->findBy(
+                array('especialidad' => $miEspecialidad, 'status' => 'activo',), array('posicion' => 'ASC')
+        );
+
+
+        // dump($esperandos); die();
+        //Cambiamos el estatus al paciente en la lista de espera de activo a procesando
+        if ($esperandos) {
+            $i = 0;
+            do {
+                if (($esperandos[$i]->getProfesional() == null) || ($esperandos[$i]->getProfesional()->getId() == $miId)) {
+                    $esperandos[$i]->setStatus('procesando');
+                    $em->flush($esperandos[$i]);
+                    $id = $esperandos[$i]->getId();
+                    $repetir = FALSE;
+                    $esperandos = $esperandos[$i];
+                    $esMio = true;
+                }
+                $i++;
+            } while ($repetir && ($i < count($esperandos)));
+        }
+
+        if ($esMio) {
+            $esperandos = $esperandos;
+        } else {
+            $esperandos = null;
+        }
+
+        return $this->render('esperando/procesar.html.twig', array(
+                    'esperando' => $esperandos,
+                    'tiempoEspera' => $configuracion[0]->getTiempoEspera(),
+                    'penalizacion' => $configuracion[0]->getPenalizacion(),
+                    'id' => $id,
+        ));
+    }
+
+    /**
+     * Lists all esperando entities.
+     *
+     * @Route("/procesando/{id}/{llego}", name="esperando_procesando")
+     * @Method("GET")
+     */
+    public function procesandoAction(Request $request, $id, $llego) {
+
+        $em = $this->getDoctrine()->getManager();
+        $esperandos = $em->getRepository('AppBundle:Esperando')->find($id);
+
+        if ($esperandos) {
+            if ($llego == 1) { //El Paciente llego al consultorio y le abriran su consulta
+                $esperandos->setStatus('atendido');
+                $em->flush($esperandos);
+                return $this->redirectToRoute('paciente_show', array('id' => $esperandos->getPaciente()->getId()));
+            } else {
+                //El Paciente NO llego al consultorio y será penalizado
+                //Se verifica que no ha alcanzado el limite de penalizaciones, 
+                //de ser cierto se le cambiará el status a abandono y no se llamará más
+                $configuracion = $em->getRepository('AppBundle:Configuracion')->findAll();
+                $esperandos->setPenalizacion($esperandos->getPenalizacion() + 1);
+
+                if ($esperandos->getPenalizacion() < $configuracion[0]->getPenalizacion()) {
+                    $esperandos->setStatus('activo');
+                    //Buscamos al Primero de la Lista de Espera
+                    $listaEspera = $em->getRepository('AppBundle:Esperando')->findBy(
+                            array('especialidad' => $esperandos->getEspecialidad(), 'status' => 'activo',), array('posicion' => 'ASC')
+                    );
+                    // dump($listaEspera); die();
+
+                    if ($listaEspera) {
+                        $miPosicion = $esperandos->getPosicion();
+                        $i = 0;
+                        $repetir = true;
+                        do {
+                            if ($listaEspera[$i]->getPosicion() > $miPosicion) {
+                                $esperandos->setPosicion($listaEspera[$i]->getPosicion());
+                                $listaEspera[$i]->setPosicion($miPosicion);
+                                $em->flush($listaEspera[$i]);
+                                $repetir = false;
+                            } else {
+                                //$repetir = false;
+                            }
+                            $i++;
+                        } while ($repetir && ($i < count($listaEspera)));
+                    }
+                } else {
+                    $esperandos->setStatus('abandono');
+                }
+
+
+                $em->flush($esperandos);
+                return $this->redirectToRoute('esperando_index');
+            }
+        }
     }
 
     /**
@@ -37,8 +168,7 @@ class EsperandoController extends Controller
      * @Route("/new", name="esperando_new")
      * @Method({"GET", "POST"})
      */
-    public function newAction(Request $request)
-    {
+    public function newAction(Request $request) {
         $esperando = new Esperando();
         $form = $this->createForm('AppBundle\Form\EsperandoType', $esperando);
         $form->handleRequest($request);
@@ -52,8 +182,8 @@ class EsperandoController extends Controller
         }
 
         return $this->render('esperando/new.html.twig', array(
-            'esperando' => $esperando,
-            'form' => $form->createView(),
+                    'esperando' => $esperando,
+                    'form' => $form->createView(),
         ));
     }
 
@@ -63,13 +193,12 @@ class EsperandoController extends Controller
      * @Route("/{id}", name="esperando_show")
      * @Method("GET")
      */
-    public function showAction(Esperando $esperando)
-    {
+    public function showAction(Esperando $esperando) {
         $deleteForm = $this->createDeleteForm($esperando);
 
         return $this->render('esperando/show.html.twig', array(
-            'esperando' => $esperando,
-            'delete_form' => $deleteForm->createView(),
+                    'esperando' => $esperando,
+                    'delete_form' => $deleteForm->createView(),
         ));
     }
 
@@ -79,8 +208,7 @@ class EsperandoController extends Controller
      * @Route("/{id}/edit", name="esperando_edit")
      * @Method({"GET", "POST"})
      */
-    public function editAction(Request $request, Esperando $esperando)
-    {
+    public function editAction(Request $request, Esperando $esperando) {
         $deleteForm = $this->createDeleteForm($esperando);
         $editForm = $this->createForm('AppBundle\Form\EsperandoType', $esperando);
         $editForm->handleRequest($request);
@@ -92,9 +220,9 @@ class EsperandoController extends Controller
         }
 
         return $this->render('esperando/edit.html.twig', array(
-            'esperando' => $esperando,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+                    'esperando' => $esperando,
+                    'edit_form' => $editForm->createView(),
+                    'delete_form' => $deleteForm->createView(),
         ));
     }
 
@@ -104,8 +232,7 @@ class EsperandoController extends Controller
      * @Route("/{id}", name="esperando_delete")
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, Esperando $esperando)
-    {
+    public function deleteAction(Request $request, Esperando $esperando) {
         $form = $this->createDeleteForm($esperando);
         $form->handleRequest($request);
 
@@ -125,12 +252,12 @@ class EsperandoController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm(Esperando $esperando)
-    {
+    private function createDeleteForm(Esperando $esperando) {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('esperando_delete', array('id' => $esperando->getId())))
-            ->setMethod('DELETE')
-            ->getForm()
+                        ->setAction($this->generateUrl('esperando_delete', array('id' => $esperando->getId())))
+                        ->setMethod('DELETE')
+                        ->getForm()
         ;
     }
+
 }

@@ -66,6 +66,19 @@ class Esperando
      */
     private $paciente;
 
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="penalizacion", type="integer", nullable=true)
+     */
+    private $penalizacion = '0';
+    
+     /**
+     * @var integer
+     *
+     * @ORM\Column(name="posicion", type="integer", nullable=true)
+     */
+    private $posicion = '0';
 
 
     /**
