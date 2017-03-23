@@ -30,102 +30,124 @@
                     <td>{{ esperando.paciente.persona.nacionalidad }} - {{ esperando.paciente.persona.cedula }}</td>
                     <td>{{ esperando.paciente.persona.primerApellido }} {{ esperando.paciente.persona.primerNombre }}</td>
                     <td>{% if esperando.fechaRegistro %}{{ esperando.fechaRegistro|date('d-m-Y H:i:s') }}{% endif %}</td>
-                    <td>{{ esperando.status }}</td>
-                    <td class="project_progress">    
-                        {% set valor = (esperando.penalizacion *100/ penalizacion)%}                           
-                        {% set color = 'bg-red'-%}
-                        {% if(valor<31) %}
-                            {% set color = 'bg-green' %}
-                        {% endif%}
 
-                        <div class="progress progress_sm right">
-                            <div class="progress-bar {{color}}" role="progressbar" data-transitiongoal="{{valor}}" ></div>
-                        </div>
+                    <td>{% if esperando.status=='atendido' %}                                                        
+                        <button type="button" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{esperando.status |title}}">
+                            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                        </button>
+                    {% elseif esperando.status=='abandono' %}
+                        <button type="button" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{esperando.status |title}}">
+                            <span class="glyphicon glyphicon-trash" aria-hidden="true" ></span>                            
+                        </button>
+                    {% elseif  esperando.status=='procesando' %}
+                        <button type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{esperando.status |title}}">
+                            <span class="glyphicon glyphicon-time" aria-hidden="true"></span>
+                        </button>                           
+                    {% elseif esperando.status=='cancelado' %}
+                        <button type="button" class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{esperando.status |title}}"> 
+                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                        </button>
+                    {% else %}    
+                        <button type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{esperando.status |title}}"> 
+                            <span class="glyphicon glyphicon-fire" aria-hidden="true"></span>
+                        </button>
+                    {% endif %}
+                </td>
+                <td class="project_progress">    
+                    {% set valor = (esperando.penalizacion *100/ penalizacion)%}                           
+                    {% set color = 'bg-red'-%}
+                    {% if(valor<31) %}
+                        {% set color = 'bg-green' %}
+                    {% endif%}
 
-                        <small>    {{ valor }}%  - de {{ penalizacion}} Oportunidades </small>
-                    </td>
-                    <td>{{ esperando.posicion -1 }}</td>
-                    <td>{{ esperando.especialidad.nombre }}</td>
-                    <td>{% if esperando.profesional != null %} {{ esperando.profesional.persona.primerApellido }} {{ esperando.profesional.persona.primerNombre }}{% endif %}</td>
-                    <td><button type="button" id="miBoton" class="btn btn-primary">Llamar Paciente</button></td>
-                </tr>           
-            </tbody>
-        </table>   
+                    <div class="progress progress_sm right">
+                        <div class="progress-bar {{color}}" role="progressbar" data-transitiongoal="{{valor}}" ></div>
+                    </div>
+
+                    <small>    {{ valor }}%  - de {{ penalizacion}} Oportunidades </small>
+                </td>
+                <td>{{ esperando.posicion -1 }}</td>
+                <td>{{ esperando.especialidad.nombre }}</td>
+                <td>{% if esperando.profesional != null %} {{ esperando.profesional.persona.primerApellido }} {{ esperando.profesional.persona.primerNombre }}{% endif %}</td>
+                <td><button type="button" id="miBoton" class="btn btn-primary">Llamar Paciente</button></td>
+            </tr>           
+        </tbody>
+    </table>   
     {% endif %}
-    {% set valor = tiempoEspera*1000 %}
-{% endblock %}
+        {% set valor = tiempoEspera*1000 %}
+        {% endblock %}
 
-{% block javascripts %}
-    <script>
-       $(document).ready(function () {
-        if ({{id}} == 0) {
-        swal(
-                'Ooops',
-                'No hay Pacientes en la Lista de Espera :)',
-                'success'
-                )
-        }
-        $("#miBoton").click(function () {
-        swal({
-            type: 'info',
-            title: 'Llamando al Paciente',
-            text: 'Si el Paciente no llega la llamada se cerrara automaticamnete en {{ tiempoEspera}} segundos.',
-            timer:{{ tiempoEspera*1000}},    
-            showConfirmButton: false,
-            imageUrl: '{{ asset('uploads/fotos/')}}{{esperando.paciente.persona.foto}}',
-            imageWidth: 250,
-            imageHeight: 250,
-            animation: false
-        }).then(
-                function () {
-                   
-                },
-                // handling the promise rejection
-                        function (dismiss) {
-                        if (dismiss === 'timer') {
-                        swal({
-                        title: 'Llegó el Paciente?',
-                        text: " ",
-                        type: 'question',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: '  SI  ',
-                        cancelButtonText: '  NO  ',
-                        confirmButtonClass: 'btn btn-success',
-                        cancelButtonClass: 'btn btn-danger',
-                        buttonsStyling: false,
-                        imageUrl: '{{ asset('uploads/fotos/')}}{{esperando.paciente.persona.foto}}',
-                        imageWidth: 250,
-                        imageHeight: 250,
-                        animation: false
-                        }).then(function () {
-                        swal(
-                                'Bienvenido!',
-                                '',
-                                'success'
-                                )
-                                window.location.href = "../esperando/procesando/{{id}}/1";
-                        }, function (dismiss) {
-                        // dismiss can be 'cancel', 'overlay',
-                        // 'close', and 'timer'
-                        if (dismiss === 'cancel') {
-                            swal(
-                                    'Paciente No Disponible',
-                                    'Paciente será penalizado :)',
-                                    'error'
-                                    )
-                             window.location.href = "../esperando/procesando/{{id}}/0";
-                        }
-                        })
-                        }
-                        }
-                )
-                });
-        });
+            {% block javascripts %}
+                <script>
+                            $(document).ready(function () {
+                    if ({{id}} == 0) {
+                    swal(
+                            'Ooops',
+                            'No hay Pacientes en la Lista de Espera :)',
+                            'success'
+                            )
+                    }
+                    $("#miBoton").click(function () {
+                    swal({
+                    type: 'info',
+                            title: 'Llamando al Paciente',
+                            text: 'Si el Paciente no llega la llamada se cerrara automaticamnete en {{ tiempoEspera}} segundos.',
+                            timer:{{ tiempoEspera*1000}},
+                            showConfirmButton: false,
+                            imageUrl: '{{ asset('uploads/fotos/')}}{{esperando.paciente.persona.foto}}',
+                            imageWidth: 250,
+                            imageHeight: 250,
+                            animation: false
+                    }).then(
+                            function () {
 
-    </script>
-{% endblock %}
+                            },
+                            // handling the promise rejection
+                                    function (dismiss) {
+                                    if (dismiss === 'timer') {
+                                    swal({
+                                    title: 'Llegó el Paciente?',
+                                            text: " ",
+                                            type: 'question',
+                                            showCancelButton: true,
+                                            confirmButtonColor: '#3085d6',
+                                            cancelButtonColor: '#d33',
+                                            confirmButtonText: '  SI  ',
+                                            cancelButtonText: '  NO  ',
+                                            confirmButtonClass: 'btn btn-success',
+                                            cancelButtonClass: 'btn btn-danger',
+                                            buttonsStyling: false,
+                                            imageUrl: '{{ asset('uploads/fotos/')}}{{esperando.paciente.persona.foto}}',
+                                            imageWidth: 250,
+                                            imageHeight: 250,
+                                            animation: false
+                                    }).then(function () {
+                                    swal(
+                                            'Bienvenido!',
+                                            '',
+                                            'success'
+                                            )
+                                            window.location.href = "../esperando/procesando/{{id}}/1";
+                                    }, function (dismiss) {
+                                    // dismiss can be 'cancel', 'overlay',
+                                    // 'close', and 'timer'
+                                    if (dismiss === 'cancel') {
+                                    swal(
+                                            'Paciente No Disponible',
+                                            'Paciente será penalizado :)',
+                                            'error'
+                                            )
+                                            window.location.href = "../esperando/procesando/{{id}}/0";
+                                    }
+                                    })
+                                    }
+                                    }
+                            )
+                            });
+                    });
+
+                </script>
+            {% endblock %}
 
 
 

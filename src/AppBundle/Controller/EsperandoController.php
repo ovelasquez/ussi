@@ -30,14 +30,13 @@ class EsperandoController extends Controller {
 
         $em = $this->getDoctrine()->getManager();
         $configuracion = $em->getRepository('AppBundle:Configuracion')->findAll();
+        
         $repository = $em->getRepository('AppBundle:Esperando');
-
         $query = $repository->createQueryBuilder('p')
                 ->where('p.fechaRegistro >= :hoy')
                 ->setParameter('hoy', $hoy)
                 ->orderBy('p.posicion', 'ASC')
                 ->getQuery();
-
         $esperandos = $query->getResult();
 
 

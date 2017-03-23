@@ -39,8 +39,7 @@ class PersonaController extends Controller
      */
     public function newAction(Request $request)
     {
-        $persona = new Persona();
-        
+        $persona = new Persona();        
         $form = $this->createForm('AppBundle\Form\PersonaType', $persona);
         $form->handleRequest($request);
 

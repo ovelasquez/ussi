@@ -39,7 +39,29 @@
                     <td>{{ esperando.paciente.persona.nacionalidad }} - {{ esperando.paciente.persona.cedula }}</td>
                     <td>{{ esperando.paciente.persona.primerApellido }} {{ esperando.paciente.persona.primerNombre }}</td>
                     <td>{% if esperando.fechaRegistro %}{{ esperando.fechaRegistro|date('Y-m-d H:i:s') }}{% endif %}</td>
-                    <td>{{ esperando.status }}</td>
+                    <td>
+                        {% if esperando.status=='atendido' %}                                                        
+                            <button type="button" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{esperando.status |title}}">
+                                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                            </button>
+                        {% elseif esperando.status=='abandono' %}
+                            <button type="button" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{esperando.status |title}}">
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true" ></span>                            
+                            </button>
+                        {% elseif  esperando.status=='procesando' %}
+                            <button type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{esperando.status |title}}">
+                                <span class="glyphicon glyphicon-time" aria-hidden="true"></span>
+                            </button>                           
+                        {% elseif esperando.status=='cancelado' %}
+                            <button type="button" class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{esperando.status |title}}"> 
+                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                            </button>
+                        {% else %}    
+                            <button type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{esperando.status |title}}"> 
+                                <span class="glyphicon glyphicon-fire" aria-hidden="true"></span>
+                            </button>
+                        {% endif %}
+                    </td>
 
                     <td class="project_progress">    
                         {% set valor = (esperando.penalizacion *100/ penalizacion)%}                           

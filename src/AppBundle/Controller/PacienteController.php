@@ -44,7 +44,14 @@ class PacienteController extends Controller {
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+                                   
             $paciente->setFechaRegistro(new \DateTime("now"));
+            if ($paciente->getPersona()->getFoto()===null){
+                $paciente->getPersona()->setFoto('user.png');
+            }
+            
+             $paciente->getPersona()->setFechaRegistro($paciente->getFechaRegistro());
+            
             $em->persist($paciente);
             $em->flush($paciente);
 
@@ -90,6 +97,7 @@ class PacienteController extends Controller {
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $paciente->setFechaActualizacion(new \DateTime("now"));
+            $paciente->getPersona()->setFechaRegistro($paciente->setFechaActualizacion());            
             $this->getDoctrine()->getManager()->flush();
             $this->addFlash('success', 'Datos actualizados satisfactoriamente');
 
