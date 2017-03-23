@@ -26,5 +26,16 @@ class CitaRepository extends EntityRepository {
         $stmt->execute(array('status' => 'activo', 'dia' => $dia));
         return $stmt->fetchAll();
     }
+    
+    public function findOneByPosicion($id) {
+        $conn = $this->getEntityManager()->getConnection();
+        $sql='select posicion from esperando where posicion>:id order by posicion desc limit 1';        
+        $stmt = $conn->prepare($sql);        
+        $stmt->execute(array('id' => $id));        
+        return $stmt->fetch();
+    }
+    
+    
+    
 
 }

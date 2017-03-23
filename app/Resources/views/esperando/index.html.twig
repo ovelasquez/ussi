@@ -16,7 +16,7 @@
     <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
         <thead>
             <tr>
-                <th>Id</th>
+                <th>Foto</th>
                 <th>Cédula</th>
                 <th>Paciente</th>
                 <th>Fecha</th>
@@ -31,12 +31,16 @@
         <tbody>
             {% for esperando in esperandos %}
                 <tr>
-                    <td><a href="{{ path('esperando_show', { 'id': esperando.id }) }}">{{ loop.index  }}</a></td>
+                    <td>
+                        <span class="image">
+                            <img src="{{ asset('uploads/fotos/')}}{{esperando.paciente.persona.foto}}" alt="{{esperando.paciente.persona.cedula}}" class="img-rounded" height="100" width="100">
+                        </span>
+                    </td>
                     <td>{{ esperando.paciente.persona.nacionalidad }} - {{ esperando.paciente.persona.cedula }}</td>
                     <td>{{ esperando.paciente.persona.primerApellido }} {{ esperando.paciente.persona.primerNombre }}</td>
                     <td>{% if esperando.fechaRegistro %}{{ esperando.fechaRegistro|date('Y-m-d H:i:s') }}{% endif %}</td>
                     <td>{{ esperando.status }}</td>
-                   
+
                     <td class="project_progress">    
                         {% set valor = (esperando.penalizacion *100/ penalizacion)%}                           
                         {% set color = 'bg-red'-%}
@@ -50,7 +54,9 @@
 
                         <small>    {{ valor }}%  - de {{ penalizacion}} Oportunidades </small>
                     </td>
-                    <td>{{ esperando.posicion }}</td>
+                    <td>
+                        {% if esperando.posicion > 1 %}{{  esperando.posicion -1 }}{% endif %}
+                    </td>
                     <td>{{ esperando.especialidad.nombre }}</td>
                     <td>{% if esperando.profesional != null %} {{ esperando.profesional.persona.primerApellido }} {{ esperando.profesional.persona.primerNombre }}{% endif %}</td>
                     <td>

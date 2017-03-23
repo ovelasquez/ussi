@@ -11,7 +11,6 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use AppBundle\Entity\Profesional;
 
-
 /**
  * Citum controller.
  *
@@ -150,6 +149,10 @@ class CitaController extends Controller {
                 $listaEspera->setEspecialidad($especialidad);
                 $listaEspera->setFechaRegistro(new \DateTime("now"));
 
+                $ultimoListaEspera = $em->getRepository('AppBundle:Cita')->findOneByPosicion(0);
+                $listaEspera->setPosicion($ultimoListaEspera['posicion']+1);
+                
+                
                 if (!$cita || $var['medico'] == 'Verdad') {
                     //No posee cita, entonces lo asignamos a la Lista de Espera
                     $listaEspera->setProfesional(null);
@@ -339,9 +342,11 @@ class CitaController extends Controller {
         $esperando = $em->getRepository('AppBundle:Esperando')->findByStatus('activo');
         foreach ($esperando as &$valor) {
             $valor->setStatus('abandono'); //El Paciente no se presento a la consulta
+            $valor->setPosicion(null); 
             $em->persist($valor);
-            $em->flush($valor);
+           $em->flush($valor);
         }
+         
     }
 
     /**

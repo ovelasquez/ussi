@@ -61,7 +61,7 @@ class EsperandoController extends Controller {
         $repetir = true;
 
         //$especialidad = ["Medicina General", "Medicina Interna"];$especialidad[rand(0, 1)];
-        $especialidad = "Medicina Interna";
+        $especialidad = "Pediatría";
         $miEspecialidad = $em->getRepository('AppBundle:Especialidad')->findByNombre($especialidad);
 
         $miId = 2;
@@ -118,6 +118,7 @@ class EsperandoController extends Controller {
         if ($esperandos) {
             if ($llego == 1) { //El Paciente llego al consultorio y le abriran su consulta
                 $esperandos->setStatus('atendido');
+                $esperandos->setPosicion(null); 
                 $em->flush($esperandos);
                 return $this->redirectToRoute('paciente_show', array('id' => $esperandos->getPaciente()->getId()));
             } else {
@@ -153,6 +154,7 @@ class EsperandoController extends Controller {
                     }
                 } else {
                     $esperandos->setStatus('abandono');
+                    $esperandos->setPosicion(null); 
                 }
 
 
