@@ -7,8 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+
 
 /**
  * Esperando controller.
@@ -58,6 +57,7 @@ class EsperandoController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $configuracion = $em->getRepository('AppBundle:Configuracion')->findAll();
         $repetir = true;
+        $foto='';
 
         //$especialidad = ["Medicina General", "Medicina Interna"];$especialidad[rand(0, 1)];
         $especialidad = "Pediatría";
@@ -75,7 +75,7 @@ class EsperandoController extends Controller {
         // dump($esperandos); die();
         //Cambiamos el estatus al paciente en la lista de espera de activo a procesando
         if ($esperandos) {
-            $i = 0;
+           $i=0;
             do {
                 if (($esperandos[$i]->getProfesional() == null) || ($esperandos[$i]->getProfesional()->getId() == $miId)) {
                     $esperandos[$i]->setStatus('procesando');
@@ -83,10 +83,12 @@ class EsperandoController extends Controller {
                     $id = $esperandos[$i]->getId();
                     $repetir = FALSE;
                     $esperandos = $esperandos[$i];
+                    $foto=$esperandos->getPaciente()->getPersona()->getFoto();
                     $esMio = true;
                 }
                 $i++;
             } while ($repetir && ($i < count($esperandos)));
+            
         }
 
         if ($esMio) {
@@ -100,6 +102,7 @@ class EsperandoController extends Controller {
                     'tiempoEspera' => $configuracion[0]->getTiempoEspera(),
                     'penalizacion' => $configuracion[0]->getPenalizacion(),
                     'id' => $id,
+                    'foto'=>$foto,
         ));
     }
 

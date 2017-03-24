@@ -8,7 +8,7 @@
 {% block Subtitulo %} Llamada en Curso -  <small>  </small> {% endblock %} 
 {% block body %}
     <h1>Esperandos list</h1>
-    {% if esperando %}
+    {% if esperando != null %}
         <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
             <thead>
                 <tr>
@@ -18,7 +18,7 @@
                     <th>Fecha</th>
                     <th>Status</th>
                     <th>Penalizacion</th>
-                    <th>Posicion</th>
+                    <th>Posición</th>
                     <th>Especialidad</th>
                     <th>Profesional</th>
                     <th>Actions</th>
@@ -66,7 +66,7 @@
 
                     <small>    {{ valor }}%  - de {{ penalizacion}} Oportunidades </small>
                 </td>
-                <td>{{ esperando.posicion -1 }}</td>
+                <td>{{ esperando.posicion}}</td>
                 <td>{{ esperando.especialidad.nombre }}</td>
                 <td>{% if esperando.profesional != null %} {{ esperando.profesional.persona.primerApellido }} {{ esperando.profesional.persona.primerNombre }}{% endif %}</td>
                 <td><button type="button" id="miBoton" class="btn btn-primary">Llamar Paciente</button></td>
@@ -79,22 +79,24 @@
 
             {% block javascripts %}
                 <script>
-                            $(document).ready(function () {
+                    $(document).ready(function () {
                     if ({{id}} == 0) {
                     swal(
                             'Ooops',
                             'No hay Pacientes en la Lista de Espera :)',
                             'success'
                             )
-                    }
-                    $("#miBoton").click(function () {
+                    } else {
+                    // $('#miBoton').click();
+                    //$("#miBoton").click(function () {});
+
                     swal({
                     type: 'info',
                             title: 'Llamando al Paciente',
                             text: 'Si el Paciente no llega la llamada se cerrara automaticamnete en {{ tiempoEspera}} segundos.',
                             timer:{{ tiempoEspera*1000}},
                             showConfirmButton: false,
-                            imageUrl: '{{ asset('uploads/fotos/')}}{{esperando.paciente.persona.foto}}',
+                            imageUrl: '{{ asset('uploads/fotos/')}}{{foto}}',
                             imageWidth: 250,
                             imageHeight: 250,
                             animation: false
@@ -117,7 +119,7 @@
                                             confirmButtonClass: 'btn btn-success',
                                             cancelButtonClass: 'btn btn-danger',
                                             buttonsStyling: false,
-                                            imageUrl: '{{ asset('uploads/fotos/')}}{{esperando.paciente.persona.foto}}',
+                                            imageUrl:  '{{ asset('uploads/fotos/')}}{{foto}}',
                                             imageWidth: 250,
                                             imageHeight: 250,
                                             animation: false
@@ -143,7 +145,8 @@
                                     }
                                     }
                             )
-                            });
+
+                            }
                     });
 
                 </script>
