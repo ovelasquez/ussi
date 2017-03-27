@@ -8,7 +8,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 
-
 /**
  * Esperando controller.
  *
@@ -29,15 +28,15 @@ class EsperandoController extends Controller {
 
         $em = $this->getDoctrine()->getManager();
         $configuracion = $em->getRepository('AppBundle:Configuracion')->findAll();
-        
-        $repository = $em->getRepository('AppBundle:Esperando');
-        $query = $repository->createQueryBuilder('p')
-                ->where('p.fechaRegistro >= :hoy')
-                ->setParameter('hoy', $hoy)
-                ->orderBy('p.posicion', 'ASC')
-                ->getQuery();
-        $esperandos = $query->getResult();
-
+        /*
+          $repository = $em->getRepository('AppBundle:Esperando');
+          $query = $repository->createQueryBuilder('p')
+          ->where('p.fechaRegistro >= :hoy')
+          ->setParameter('hoy', $hoy)
+          ->orderBy('p.posicion', 'ASC')
+          ->getQuery();
+          $esperandos = $query->getResult(); */
+        $esperandos = $em->getRepository('AppBundle:Esperando')->findAllByFecha();
 
         return $this->render('esperando/index.html.twig', array(
                     'esperandos' => $esperandos,
@@ -57,7 +56,7 @@ class EsperandoController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $configuracion = $em->getRepository('AppBundle:Configuracion')->findAll();
         $repetir = true;
-        $foto='';
+        $foto = '';
 
         //$especialidad = ["Medicina General", "Medicina Interna"];$especialidad[rand(0, 1)];
         $especialidad = "Pediatría";
@@ -75,7 +74,7 @@ class EsperandoController extends Controller {
         // dump($esperandos); die();
         //Cambiamos el estatus al paciente en la lista de espera de activo a procesando
         if ($esperandos) {
-           $i=0;
+            $i = 0;
             do {
                 if (($esperandos[$i]->getProfesional() == null) || ($esperandos[$i]->getProfesional()->getId() == $miId)) {
                     $esperandos[$i]->setStatus('procesando');
@@ -83,12 +82,11 @@ class EsperandoController extends Controller {
                     $id = $esperandos[$i]->getId();
                     $repetir = FALSE;
                     $esperandos = $esperandos[$i];
-                    $foto=$esperandos->getPaciente()->getPersona()->getFoto();
+                    $foto = $esperandos->getPaciente()->getPersona()->getFoto();
                     $esMio = true;
                 }
                 $i++;
             } while ($repetir && ($i < count($esperandos)));
-            
         }
 
         if ($esMio) {
@@ -102,7 +100,7 @@ class EsperandoController extends Controller {
                     'tiempoEspera' => $configuracion[0]->getTiempoEspera(),
                     'penalizacion' => $configuracion[0]->getPenalizacion(),
                     'id' => $id,
-                    'foto'=>$foto,
+                    'foto' => $foto,
         ));
     }
 
@@ -120,7 +118,7 @@ class EsperandoController extends Controller {
         if ($esperandos) {
             if ($llego == 1) { //El Paciente llego al consultorio y le abriran su consulta
                 $esperandos->setStatus('atendido');
-                $esperandos->setPosicion(null); 
+                $esperandos->setPosicion(null);
                 $em->flush($esperandos);
                 return $this->redirectToRoute('paciente_show', array('id' => $esperandos->getPaciente()->getId()));
             } else {
@@ -156,7 +154,7 @@ class EsperandoController extends Controller {
                     }
                 } else {
                     $esperandos->setStatus('abandono');
-                    $esperandos->setPosicion(null); 
+                    $esperandos->setPosicion(null);
                 }
 
 

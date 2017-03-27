@@ -14,7 +14,7 @@
 
 {% endblock %}
 {% block title %} Lista de Espera {% endblock %}
-{% block Subtitulo %} Lista de Espera -  <small> <a href="{{ path('pfg_new') }}">Crear un nuevo PFG</a></small> {% endblock %} 
+{% block Subtitulo %} Lista de Espera -  <small> <a href="#">Crear un nuevo</a></small> {% endblock %} 
 
 {% block body %}
     <h1>Lista de Espera </h1>
@@ -149,7 +149,7 @@
                             cache: false,
                             success: function (html)
                             {
-                                new PNotify({
+                              /*  new PNotify({
                                     title: "Llamando a Paciente",
                                     type: "info",
                                     text: "Paciente # " + html,
@@ -167,9 +167,9 @@
 
                                         return false;
                                     }
-                                });
+                                });*/
 
-                                /* Push.create("Llamando al", {
+                                 Push.create("Llamando al", {
                                  body: "Paciente # "+html,
                                  icon: 'http://127.0.0.1:8080/ussi/web/uploads/fotos/fba9e9c083883951ead4121fd1d36591.jpeg',
                                  timeout: 50000,
@@ -178,7 +178,7 @@
                                  window.focus();
                                  this.close();
                                  }
-                                 });*/
+                                 });
 
                             }
                         });

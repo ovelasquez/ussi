@@ -1,0 +1,54 @@
+{% extends 'dashboard.html.twig' %}
+{% block title %} Recepción{% endblock %}
+{% block topTiles %}
+    <div class="row tile_count">
+        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+            <span class="count_top"><i class="fa fa-user"></i> Total Pacientes</span>
+            <div class="count">{{esperandos| length}}</div>
+            <span class="count_bottom"><i class="green">100% </i> del día</span>
+        </div>
+        {% set atendidos =0 %}
+        {% for esperando in esperandos %}            
+            {% if (esperando.status=='atendido') %}
+                {% set atendidos= atendidos +1 %}
+            {% endif%}
+        {% endfor %}
+
+        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+            <span class="count_top"><i class="fa fa-clock-o"></i> Pacientes Atendidos</span>
+            <div class="count">{{atendidos}}</div>
+            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i> {{ (atendidos*100)/(esperandos| length) }}% </i> atendidos</span>
+        </div>
+        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+            <span class="count_top"><i class="fa fa-user"></i> Total Médicos</span>
+            <div class="count green">{{medicos| length}}</div>
+            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>100% </i> del día</span>
+        </div>
+
+        {% set atendidos =0 %}
+        {% for medico in medicos %}            
+            {% if (medico.status=='activo') %}
+                {% set atendidos= atendidos +1 %}
+            {% endif%}
+        {% endfor %}
+
+        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+            <span class="count_top"><i class="fa fa-user"></i> Médicos Disponibles</span>
+            <div class="count green">{{atendidos}}</div>
+            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>{{ (atendidos*100)/(medicos| length) }}% </i> disponibles</span>
+        </div>
+        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+            <span class="count_top"><i class="fa fa-user"></i> Total Especialidades</span>
+            <div class="count">{{especialidades | length}}</div>
+            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>100%</i> del día</span>
+        </div>
+        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+            <span class="count_top"><i class="fa fa-user"></i> Fecha</span>
+            <div class="count"></div>
+            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span>
+        </div>
+    </div>
+{% endblock %}
+{% block body %}
+    Hola
+{% endblock %}
