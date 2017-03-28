@@ -8,7 +8,8 @@ services:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
 
-
+    app.crear_persona:
+        class: AppBundle\Controller\PersonaController
     app.photo_uploader:
         class: AppBundle\FileUploader
         arguments: ['%photos_directory%']

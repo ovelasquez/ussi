@@ -1,16 +1,291 @@
 {% extends 'base.html.twig' %}
-
+{% block title %} Paciente {% endblock %}
+{% block Subtitulo %} Registrar Datos del Profesional -  <small> <a href="{{ path('profesional_index') }}">Regresar a la lista</a></small> {% endblock %} 
 {% block body %}
-    <h1>Profesional creation</h1>
+    {% for msg in app.session.flashBag.get('success') %}
+        <div class="alert alert-success"> {{ msg }} </div>       
+    {% endfor %}
 
-    {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <input type="submit" value="Create" />
-    {{ form_end(form) }}
+    {% for msg in app.session.flashBag.get('error') %}
+        <div class="alert alert-danger"> <p>{{ msg }}</p> </div>
+    {% endfor %}
+    <div class="x_content">
+        <br />
+        {% form_theme form 'AppBundle::jquery.collection.html.twig' %}
 
-    <ul>
-        <li>
-            <a href="{{ path('profesional_index') }}">Back to the list</a>
-        </li>
-    </ul>
+        {{ form_start(form, { 'attr': {'id':'paciente','class': 'form-horizontal form-label-left'} }) }} 
+        {{ form_errors(form) }}
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nacionalidad">{{ form_label(form.paciente.persona.nacionalidad) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(form.paciente.persona.nacionalidad) }}                
+                {{form_widget(form.paciente.persona.nacionalidad,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="cedula">{{ form_label(form.paciente.persona.cedula) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(form.paciente.persona.cedula) }}                
+                {{form_widget(form.paciente.persona.cedula,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="primerApellido">{{ form_label(form.paciente.persona.primerApellido) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(form.paciente.persona.primerApellido) }}                
+                {{form_widget(form.paciente.persona.primerApellido,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="segundoApellido">{{ form_label(form.paciente.persona.segundoApellido) }}</label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(form.paciente.persona.segundoApellido) }}                
+                {{form_widget(form.paciente.persona.segundoApellido,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="primerNombre">{{ form_label(form.paciente.persona.primerNombre) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(form.paciente.persona.primerNombre) }}                
+                {{form_widget(form.paciente.persona.primerNombre,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="segundoNombre">{{ form_label(form.paciente.persona.segundoNombre) }} </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(form.paciente.persona.segundoNombre) }}                
+                {{form_widget(form.paciente.persona.segundoNombre,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>        
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="genero">{{ form_label(form.paciente.persona.genero) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(form.paciente.persona.genero) }}                
+                {{form_widget(form.paciente.persona.genero,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="genero">{{ form_label(form.paciente.persona.telefono) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(form.paciente.persona.telefono) }}                
+                {{form_widget(form.paciente.persona.telefono,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="genero">{{ form_label(form.paciente.persona.email) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(form.paciente.persona.email) }}                
+                {{form_widget(form.paciente.persona.email,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="genero">{{ form_label(form.paciente.persona.foto) }} </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(form.paciente.persona.foto) }}                
+                {{form_widget(form.paciente.persona.foto) }}                
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="genero">{{ form_label(form.paciente.edoCivil) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(form.paciente.edoCivil) }}                
+                {{form_widget(form.paciente.edoCivil,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="genero">{{ form_label(form.paciente.ocupacion) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(form.paciente.ocupacion) }}                
+                {{form_widget(form.paciente.ocupacion,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="genero">{{ form_label(form.paciente.analfabeta) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(form.paciente.analfabeta) }}                
+                {{form_widget(form.paciente.analfabeta) }}                
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="genero">{{ form_label(form.paciente.estudio) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(form.paciente.estudio) }}                
+                {{form_widget(form.paciente.estudio,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="genero">{{ form_label(form.paciente.anoAprobado) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(form.paciente.anoAprobado) }}                
+                {{form_widget(form.paciente.anoAprobado,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="genero">{{ form_label(form.paciente.fechaNacimiento) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(form.paciente.fechaNacimiento) }}                
+                {{form_widget(form.paciente.fechaNacimiento) }}                
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="genero">{{ form_label(form.paciente.apellidoFamilia) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(form.paciente.apellidoFamilia) }}                
+                {{form_widget(form.paciente.apellidoFamilia,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="genero">{{ form_label(form.paciente.cedulaJefeFamilia) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(form.paciente.cedulaJefeFamilia) }}                
+                {{form_widget(form.paciente.cedulaJefeFamilia,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="genero">{{ form_label(form.paciente.comunidad) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(form.paciente.comunidad) }}                
+                {{form_widget(form.paciente.comunidad,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>
+
+        <div id='pfg' class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="genero">{{ form_label(form.paciente.pfg) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(form.paciente.pfg) }}                
+                {{form_widget(form.paciente.pfg,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="genero">{{ form_label(form.paciente.religion) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(form.paciente.religion) }}                
+                {{form_widget(form.paciente.religion,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="genero">{{ form_label(form.paciente.etnia) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(form.paciente.etnia) }}                
+                {{form_widget(form.paciente.etnia,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="genero">{{ form_label(form.paciente.direccion) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(form.paciente.direccion) }}                
+                {{form_widget(form.paciente.direccion ) }}                
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="genero">{{ form_label(form.paciente.familiar) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(form.paciente.familiar) }}                
+                {{form_widget(form.paciente.familiar ) }}                
+            </div>
+        </div>
+            
+            
+            <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="genero">{{ form_label(form.codigoSsa) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(form.codigoSsa) }}                
+                {{form_widget(form.codigoSsa ) }}                
+            </div>
+        </div>
+            
+            
+            
+
+
+        <div class="ln_solid"></div>
+        <div class="form-group">
+            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">                
+                <button type="submit" class="btn btn-success">Registrar</button>
+            </div>
+        </div>
+
+        {{ form_end(form) }}                           
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+
+    <script src="{{ asset('bundles/app/vendors/ninsuo/js/jquery.collection.js') }}"></script>
+    <!-- Direccion de Habitacion y de Lugar de nacimiento -->
+    <script type="text/javascript">
+        $('.my-direccion').collection();
+        $('.my-direccion').collection({max: 2});
+
+        $('.my-direccion').collection({
+            drag_drop: true,
+            drag_drop_options: {
+                placeholder: 'ui-state-highlight'
+            }
+        });
+    </script>
+
+    <!-- /Direccion de Habitacion y de Lugar de nacimiento -->
+    <!-- Familiar -->
+    <script type="text/javascript">
+        $('.my-familiar').collection();
+        $('.my-familiar').collection({max: 3});
+
+        $('.my-familiar').collection({
+            drag_drop: true,
+            drag_drop_options: {
+                placeholder: 'ui-state-highlight'
+            }
+
+        });
+        
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            
+            $('#appbundle_profesional_paciente_ocupacion').val('Médico');
+            
+             $("#appbundle_profesional_paciente_comunidad").click(function () {
+             if($('#appbundle_profesional_paciente_comunidad').val()=='pfg') {
+                $('#pfg').show();
+            }else {
+                 $('#appbundle_profesional_paciente_pfg').val(null);
+                $('#pfg').hide();
+            }
+            
+            });
+            
+        });
+
+    </script>
+    <!-- /Familiar -->
+
+
 {% endblock %}

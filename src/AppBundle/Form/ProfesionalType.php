@@ -13,7 +13,11 @@ class ProfesionalType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('codigoSsa')->add('persona')        ;
+        $builder
+                ->add('codigoSsa')
+                ->add('paciente', PacienteType::class, array('label' => ' ',"mapped" => false,))
+                
+                ;
     }
     
     /**

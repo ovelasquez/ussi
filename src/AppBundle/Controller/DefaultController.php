@@ -26,8 +26,6 @@ class DefaultController extends Controller {
                 ->getQuery();
         $esperandos = $query->getResult();
 
-
-
         $medicos = $em->getRepository('AppBundle:Cita')->findAllByServiosProfesionalesTodos(date("w")); //Lista Medicos
         $especialidades = $em->getRepository('AppBundle:Servicio')->findByDia(date("w"));
         $servicioProfesionals = $em->getRepository('AppBundle:ServicioProfesional')->findAll();
