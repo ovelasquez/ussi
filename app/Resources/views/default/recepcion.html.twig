@@ -17,7 +17,7 @@
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-clock-o"></i> Pacientes Atendidos</span>
             <div class="count">{{atendidos}}</div>
-            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i> {{ (atendidos*100)/(esperandos| length) }}% </i> atendidos</span>
+            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i> {% if (esperandos| length > 0) %} {{ (atendidos*100)/(esperandos| length) }}%  {% endif%} </i> atendidos</span>
         </div>
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-user"></i> Total Médicos</span>
@@ -35,7 +35,7 @@
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-user"></i> Médicos Disponibles</span>
             <div class="count green">{{atendidos}}</div>
-            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>{{ (atendidos*100)/(medicos| length) }}% </i> disponibles</span>
+            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>{% if (medicos| length > 0) %}  {{ (atendidos*100)/(medicos| length) }}%  {% endif%}</i> disponibles</span>
         </div>
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-user"></i> Total Especialidades</span>

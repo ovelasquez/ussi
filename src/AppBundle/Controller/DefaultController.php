@@ -13,10 +13,27 @@ class DefaultController extends Controller {
      */
     public function indexAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
-        $esperandos = $em->getRepository('AppBundle:Esperando')->findAllByFecha(); //Lista de Espera
+
+        $hoy = new \DateTime('now');
+        $hoy->setTime(0, 0, 0);
+
+        $configuracion = $em->getRepository('AppBundle:Configuracion')->findAll();
+        $repository = $em->getRepository('AppBundle:Esperando');
+        $query = $repository->createQueryBuilder('p')
+                ->where('p.fechaRegistro >= :hoy')
+                ->setParameter('hoy', $hoy)
+                ->orderBy('p.posicion', 'ASC')
+                ->getQuery();
+        $esperandos = $query->getResult();
+
+
+
         $medicos = $em->getRepository('AppBundle:Cita')->findAllByServiosProfesionalesTodos(date("w")); //Lista Medicos
         $especialidades = $em->getRepository('AppBundle:Servicio')->findByDia(date("w"));
-       //dump($especialidades);   die();
+        $servicioProfesionals = $em->getRepository('AppBundle:ServicioProfesional')->findAll();
+
+
+        //dump($esperandos);   die();
         // replace this example code with whatever you need
         //return $this->render('default/index.html.twig', ['base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,]);
 
@@ -24,6 +41,8 @@ class DefaultController extends Controller {
                     'esperandos' => $esperandos,
                     'medicos' => $medicos,
                     'especialidades' => $especialidades,
+                    'servicioProfesionals' => $servicioProfesionals,
+                    'penalizacion' => $configuracion[0]->getPenalizacion(),
         ));
     }
 
