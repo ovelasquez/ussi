@@ -41,7 +41,7 @@
                                 {% set color = 'bg-red' %}
                             {% endif%}
 
-                          <div class="progress progress_sm right">
+                            <div class="progress progress_sm right">
                                 <div class="progress-bar {{color}}" role="progressbar" data-transitiongoal="{{valor}}" ></div>
                             </div>
 
@@ -155,12 +155,12 @@
     <script src="{{ asset('bundles/app/vendors/pdfmake/pdfmake.min.js')}}"></script>     
     <script src="{{ asset('bundles/app/vendors/pdfmake/vfs_fonts.js')}}"></script>     
 
- 
+
 
     <!-- /Datatables -->
     <script>
                 $(document).ready(function () {
-       $('.progress .progress-bar').progressbar();
+        $('.progress .progress-bar').progressbar();
                 $("#mi-modal").hide();
                 $("#form_medico").val("False");
                 $(".medico").hide();
@@ -171,7 +171,7 @@
                 $("#miBoton").click(function () {
         $("#paciente").submit();
         });
-        if (( {% if (profesionalDisponible!=null and profesionalDisponible.status=='inactivo')  %} 1 {% else %} 0{% endif %}) == 1) {
+                if (( {% if (profesionalDisponible!=null and profesionalDisponible.status=='inactivo')  %} 1 {% else %} 0{% endif %}) == 1) {
         swal({
         title: 'Cita - Dr. No Disponible',
                 text: "Dr. {{doctor}} - {{observacion}} ",
@@ -203,39 +203,58 @@
         }
 
         if (( {% if (cola!=null)  %} 1 {% else %} 0{% endif %}) == 1) {
-        swal('Bienvenido...', 'En la Lista de Espera Usted tiene {{cola - 1}} persona(s) por delante', 'success').catch(swal.noop);
+        swal('Bienvenido...', '', 'success').catch(swal.noop);
+                swal({
+                type: 'success',
+                        title: 'Bienvenido',
+                        text: 'En la Lista de Espera, Usted tiene {{cola - 1}} persona(s) por delante',
+                        timer:5000,
+                        showConfirmButton: false,                        
+                }).then(
+                function () {
                 $('#form_cedula').val(null);
-        }
-        var handleDataTableButtons = function () {
-                if ($("#datatable-buttons").length) {
-                $("#datatable-buttons").DataTable({
-                dom: "Bfrtip",
-                        buttons: [
-                        {
-                        extend: "copy",
-                                className: "btn-sm"
-                        },
-                        {
-                        extend: "csv",
-                                className: "btn-sm"
-                        },
-                        {
-                        extend: "excel",
-                                className: "btn-sm"
-                        },
-                        {
-                        extend: "pdfHtml5",
-                                className: "btn-sm"
-                        },
-                        {
-                        extend: "print",
-                                className: "btn-sm"
-                        },
-                        ],
-                        responsive: true
-                });
+                        window.location.href = "../";
+                },
+                // handling the promise rejection
+                        function (dismiss) {
+                        if (dismiss === 'timer') {
+                        $('#form_cedula').val(null);
+                                window.location.href = "../";
+                        }
+                        }
+                )
+
                 }
-                };
+        var handleDataTableButtons = function () {
+        if ($("#datatable-buttons").length) {
+        $("#datatable-buttons").DataTable({
+        dom: "Bfrtip",
+                buttons: [
+                {
+                extend: "copy",
+                        className: "btn-sm"
+                },
+                {
+                extend: "csv",
+                        className: "btn-sm"
+                },
+                {
+                extend: "excel",
+                        className: "btn-sm"
+                },
+                {
+                extend: "pdfHtml5",
+                        className: "btn-sm"
+                },
+                {
+                extend: "print",
+                        className: "btn-sm"
+                },
+                ],
+                responsive: true
+        });
+        }
+        };
                 TableManageButtons = function () {
                 "use strict";
                         return {
@@ -273,7 +292,7 @@
                 });
                 TableManageButtons.init();
         });
-                
+
     </script>
     <!-- /Datatables -->
 {% endblock %}
