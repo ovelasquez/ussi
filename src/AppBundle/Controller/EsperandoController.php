@@ -28,15 +28,15 @@ class EsperandoController extends Controller {
 
         $em = $this->getDoctrine()->getManager();
         $configuracion = $em->getRepository('AppBundle:Configuracion')->findAll();
-        
-          $repository = $em->getRepository('AppBundle:Esperando');
-          $query = $repository->createQueryBuilder('p')
-          ->where('p.fechaRegistro >= :hoy')
-          ->setParameter('hoy', $hoy)
-          ->orderBy('p.posicion', 'ASC')
-          ->getQuery();
-          $esperandos = $query->getResult(); 
-          
+
+        $repository = $em->getRepository('AppBundle:Esperando');
+        $query = $repository->createQueryBuilder('p')
+                ->where('p.fechaRegistro >= :hoy')
+                ->setParameter('hoy', $hoy)
+                ->orderBy('p.posicion', 'ASC')
+                ->getQuery();
+        $esperandos = $query->getResult();
+
         //$esperandos = $em->getRepository('AppBundle:Esperando')->findAllByFecha();
 
         return $this->render('esperando/index.html.twig', array(

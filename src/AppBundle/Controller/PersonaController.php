@@ -142,32 +142,26 @@ class PersonaController extends Controller {
         ;
     }
 
-    public function crearPersona($persona) {     
-            //Agregamos el objeto Persona
+    public function crearPersona($persona) {
         $em = $this->getDoctrine()->getManager();
-         //dump($persona);  die();
-            $miPersona = new Persona();
-            $miPersona->setNacionalidad($persona['nacionalidad']);
-            $miPersona->setCedula($persona['cedula']);
-            $miPersona->setPrimerApellido($persona['primerApellido']);
-            $miPersona->setSegundoApellido($persona['segundoApellido']);
-            $miPersona->setPrimerNombre($persona['primerNombre']);
-            $miPersona->setSegundoNombre($persona['segundoNombre']);
-            $miPersona->setGenero($persona['genero']);
-            $miPersona->setTelefono($persona['telefono']);
-            $miPersona->setEmail($persona['email']);
-            if (!empty($persona['foto'])) {
-                $miPersona->setFoto($persona['foto']);
-            } else {
-                $miPersona->setFoto('user.png');
-            }
-            $miPersona->setFechaRegistro(new \DateTime("now"));                        
-            
-            dump($miPersona); die();
-            $em->persist($miPersona);
-    
-            $em->flush($miPersona);       
-            return $miPersona;
+        $miPersona = new Persona();
+        $miPersona->setNacionalidad($persona['nacionalidad']);
+        $miPersona->setCedula($persona['cedula']);
+        $miPersona->setPrimerApellido($persona['primerApellido']);
+        $miPersona->setSegundoApellido($persona['segundoApellido']);
+        $miPersona->setPrimerNombre($persona['primerNombre']);
+        $miPersona->setSegundoNombre($persona['segundoNombre']);
+        $miPersona->setGenero($persona['genero']);
+        $miPersona->setTelefono($persona['telefono']);
+        $miPersona->setEmail($persona['email']);
+        if (!empty($persona['foto'])) {
+            $miPersona->setFoto($persona['foto']);
+        } else {
+            $miPersona->setFoto('user.png');
         }
+        $miPersona->setFechaRegistro(new \DateTime("now"));
+        $em->flush($miPersona);
+        return $miPersona;
     }
-    
+
+}

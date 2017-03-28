@@ -9,8 +9,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Persona;
 use AppBundle\Entity\Paciente;
-use AppBundle\Entity\Direccion;
-use AppBundle\Entity\Familiar;
 
 /**
  * Profesional controller.
@@ -42,28 +40,34 @@ class ProfesionalController extends Controller {
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request) {
-        $var = $request->request->get('appbundle_profesional');
-        $paciente = $var['paciente'];
-        $persona = $paciente['persona'];
-        //$direccion = $paciente['direccion'];
-        // dump($request);
-        //  dump($var);  dump($en);  dump($per);    
-        //die();
-        //Agregamos el objeto Persona
-
-        if (!empty($persona)) {
-            $persona = $this->forward('app.crear_persona:crearPersona', array('persona' => $persona));
-        }
-        dump($persona);
-        die();
+        //  dump($request); die();
         $profesional = new Profesional();
         $form = $this->createForm('AppBundle\Form\ProfesionalType', $profesional);
         $form->handleRequest($request);
 
+
+
         if ($form->isSubmitted() && $form->isValid()) {
+            dump($request); die();
+            
             $em = $this->getDoctrine()->getManager();
             $em->persist($profesional);
             $em->flush($profesional);
+ 
+            $miPaciente = new Paciente();
+            $miPaciente->setEdoCivil('soltero');
+            $miPaciente->setOcupacion('medico');
+            $miPaciente->setEstudio('universitario');
+            $miPaciente->setAnoAprobado('5');
+            $miPaciente->setAnalfabeta(false);
+            $miPaciente->setFechaNacimiento(new \DateTime("now"));
+            $miPaciente->setFechaRegistro(new \DateTime("now"));
+            $miPaciente->setApellidoFamilia('Rodriguez');
+            $miPaciente->setCedulaJefeFamilia('7894561230');
+            $miPaciente->setComunidad('administrativo');
+            $miPaciente->setPersona($profesional->getPersona());
+            $em->persist($miPaciente);
+            $em->flush($miPaciente);
 
             return $this->redirectToRoute('profesional_show', array('id' => $profesional->getId()));
         }
