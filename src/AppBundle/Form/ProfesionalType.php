@@ -11,13 +11,15 @@ use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+
 class ProfesionalType extends AbstractType {
 
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options) {
-        
+
         $builder
                 ->add('codigoSsa')
                 ->add('persona', PersonaType::class, array('label' => ' '))
@@ -79,9 +81,25 @@ class ProfesionalType extends AbstractType {
                     'attr' => array('placeholder' => 'Comunidad'),
                     'label' => 'Comunidad',
                 ))
-                ->add('religion', null ,array("mapped" => false,))
-                ->add('pfg', null ,array("mapped" => false,))
-                ->add('etnia', null , array("mapped" => false,))
+               
+                ->add('religion', EntityType::class, array(                    
+                    'class' => 'AppBundle:Religion',                    
+                    'choice_label' => 'nombre',
+                    "mapped" => false,                       
+                ))
+                
+                 ->add('pfg', EntityType::class, array(                    
+                    'class' => 'AppBundle:Pfg',                    
+                    'choice_label' => 'nombre',
+                    "mapped" => false,                       
+                ))
+                 ->add('etnia', EntityType::class, array(                    
+                    'class' => 'AppBundle:Etnia',                    
+                    'choice_label' => 'nombre',
+                    "mapped" => false,                       
+                ))
+                
+                
                 ->add('direccion', CollectionType::class, array(
                     "mapped" => false,
                     'entry_type' => DireccionType::class,
