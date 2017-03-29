@@ -13,10 +13,7 @@ class DefaultController extends Controller {
      */
     public function indexAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
-
-        $hoy = new \DateTime('now');
-        $hoy->setTime(0, 0, 0);
-
+        $hoy = new \DateTime('now'); $hoy->setTime(0, 0, 0);
         $configuracion = $em->getRepository('AppBundle:Configuracion')->findAll();
         $repository = $em->getRepository('AppBundle:Esperando');
         $query = $repository->createQueryBuilder('p')
@@ -24,14 +21,11 @@ class DefaultController extends Controller {
                 ->setParameter('hoy', $hoy)
                 ->orderBy('p.posicion', 'ASC')
                 ->getQuery();
-        $esperandos = $query->getResult();
-
+        $esperandos = $query->getResult(); //Lista de Espera
         $medicos = $em->getRepository('AppBundle:Cita')->findAllByServiosProfesionalesTodos(date("w")); //Lista Medicos
-        $especialidades = $em->getRepository('AppBundle:Servicio')->findByDia(date("w"));
-        $servicioProfesionals = $em->getRepository('AppBundle:ServicioProfesional')->findAll();
-
-
-        //dump($esperandos);   die();
+        $especialidades = $em->getRepository('AppBundle:Servicio')->findByDia(date("w"));               // Lista de Especialidades
+        $servicioProfesionals = $em->getRepository('AppBundle:Cita')->findAllByServiosProfesionales(date("w"));         //Lista
+        //dump($medicos); dump($servicioProfesionals);     die();
         // replace this example code with whatever you need
         //return $this->render('default/index.html.twig', ['base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,]);
 

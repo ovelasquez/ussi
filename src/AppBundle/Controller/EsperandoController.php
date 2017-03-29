@@ -59,8 +59,10 @@ class EsperandoController extends Controller {
         $repetir = true;
         $foto = '';
 
-        //$especialidad = ["Medicina General", "Medicina Interna"];$especialidad[rand(0, 1)];
-        $especialidad = "Pediatría";
+        $especialidad = ["Medicina General", "Medicina Interna","Pediatría"]; 
+        $especialidad=$especialidad[rand(0, 2)];
+        //dump($especialidad); die();
+       // $especialidad = "Pediatría";
         $miEspecialidad = $em->getRepository('AppBundle:Especialidad')->findByNombre($especialidad);
 
         $miId = 2;
