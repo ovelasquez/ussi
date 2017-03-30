@@ -51,7 +51,7 @@ class PacienteController extends Controller {
                 $paciente->getPersona()->setFoto('user.png');
             }
             
-             $paciente->getPersona()->setFechaRegistro($paciente->getFechaRegistro());
+            $paciente->getPersona()->setFechaRegistro($paciente->getFechaRegistro());
             
             $em->persist($paciente);
             $em->flush($paciente);

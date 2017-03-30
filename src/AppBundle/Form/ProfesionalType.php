@@ -100,7 +100,7 @@ class ProfesionalType extends AbstractType {
                 ))
                 
                 
-                ->add('direccion', CollectionType::class, array(
+           /*     ->add('direccion', CollectionType::class, array(
                     "mapped" => false,
                     'entry_type' => DireccionType::class,
                     'label' => 'Direcciones',
@@ -122,6 +122,7 @@ class ProfesionalType extends AbstractType {
                         'class' => 'my-familiar',
                     ),
                 ))
+                */
 
         ;
     }
