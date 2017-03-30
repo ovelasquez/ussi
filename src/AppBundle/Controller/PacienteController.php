@@ -38,6 +38,7 @@ class PacienteController extends Controller {
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request) {
+        
         $paciente = new Paciente();
         $form = $this->createForm('AppBundle\Form\PacienteType', $paciente);
         $form->handleRequest($request);

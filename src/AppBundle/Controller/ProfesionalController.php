@@ -7,8 +7,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Entity\Persona;
 use AppBundle\Entity\Paciente;
+use Symfony\Component\Validator\Constraints\Date;
 
 /**
  * Profesional controller.
@@ -45,27 +45,36 @@ class ProfesionalController extends Controller {
         $form = $this->createForm('AppBundle\Form\ProfesionalType', $profesional);
         $form->handleRequest($request);
 
-
-
         if ($form->isSubmitted() && $form->isValid()) {
-            dump($request); die();
-            
             $em = $this->getDoctrine()->getManager();
             $em->persist($profesional);
             $em->flush($profesional);
- 
+
+            $valor = $request->request->get('appbundle_profesional');
+            $fechaNacimiento = ($valor['fechaNacimiento']);
             $miPaciente = new Paciente();
-            $miPaciente->setEdoCivil('soltero');
-            $miPaciente->setOcupacion('medico');
-            $miPaciente->setEstudio('universitario');
-            $miPaciente->setAnoAprobado('5');
-            $miPaciente->setAnalfabeta(false);
-            $miPaciente->setFechaNacimiento(new \DateTime("now"));
+            $miPaciente->setEdoCivil($valor['edoCivil']);
+            $miPaciente->setOcupacion($valor['ocupacion']);
+            $miPaciente->setEstudio($valor['estudio']);
+            $miPaciente->setAnoAprobado($valor['anoAprobado']);
+            $miPaciente->setAnalfabeta(FALSE);
+            $miPaciente->setFechaNacimiento(new \DateTime($fechaNacimiento['year'] . "-" . $fechaNacimiento['month'] . "-" . $fechaNacimiento['day']));
             $miPaciente->setFechaRegistro(new \DateTime("now"));
-            $miPaciente->setApellidoFamilia('Rodriguez');
-            $miPaciente->setCedulaJefeFamilia('7894561230');
-            $miPaciente->setComunidad('administrativo');
+            $miPaciente->setApellidoFamilia($valor['apellidoFamilia']);
+            $miPaciente->setCedulaJefeFamilia($valor['cedulaJefeFamilia']);
+            $miPaciente->setComunidad($valor['comunidad']);
+
+            $etnia = $em->getRepository('AppBundle:Etnia')->find($valor['etnia']);
+            $miPaciente->setEtnia($etnia);
+
+            $religion = $em->getRepository('AppBundle:Religion')->find($valor['religion']);
+            $miPaciente->setReligion($religion);
+
+
             $miPaciente->setPersona($profesional->getPersona());
+
+            //dump($miPaciente); die();
+
             $em->persist($miPaciente);
             $em->flush($miPaciente);
 
