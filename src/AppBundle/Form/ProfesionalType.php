@@ -10,8 +10,8 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 class ProfesionalType extends AbstractType {
 
@@ -62,6 +62,7 @@ class ProfesionalType extends AbstractType {
                     ),
                     'label' => 'Fecha Nacimiento',
                 ))
+
                 ->add('apellidoFamilia', TextType::class, array(
                     "mapped" => false,
                     'label' => 'Apellido Familia',
@@ -81,48 +82,46 @@ class ProfesionalType extends AbstractType {
                     'attr' => array('placeholder' => 'Comunidad'),
                     'label' => 'Comunidad',
                 ))
-               
-                ->add('religion', EntityType::class, array(                    
-                    'class' => 'AppBundle:Religion',                    
+                ->add('religion', EntityType::class, array(
+                    'class' => 'AppBundle:Religion',
                     'choice_label' => 'nombre',
-                    "mapped" => false,                       
-                ))
-                
-                 ->add('pfg', EntityType::class, array(                    
-                    'class' => 'AppBundle:Pfg',                    
-                    'choice_label' => 'nombre',
-                    "mapped" => false,                       
-                ))
-                 ->add('etnia', EntityType::class, array(                    
-                    'class' => 'AppBundle:Etnia',                    
-                    'choice_label' => 'nombre',
-                    "mapped" => false,                       
-                ))
-                
-                
-           /*     ->add('direccion', CollectionType::class, array(
                     "mapped" => false,
-                    'entry_type' => DireccionType::class,
-                    'label' => 'Direcciones',
-                    'allow_add' => true,
-                    'allow_delete' => true,
-                    'prototype' => true,
-                    'attr' => array(
-                        'class' => 'my-direccion',
-                    ),
                 ))
-                ->add('familiar', CollectionType::class, array(
+                ->add('pfg', EntityType::class, array(
+                    'class' => 'AppBundle:Pfg',
+                    'choice_label' => 'nombre',
                     "mapped" => false,
-                    'entry_type' => FamiliarType::class,
-                    'label' => 'Familiares',
-                    'allow_add' => true,
-                    'allow_delete' => true,
-                    'prototype' => true,
-                    'attr' => array(
-                        'class' => 'my-familiar',
-                    ),
                 ))
-                */
+                ->add('etnia', EntityType::class, array(
+                    'class' => 'AppBundle:Etnia',
+                    'choice_label' => 'nombre',
+                    "mapped" => false,
+                ))
+
+
+        /*     ->add('direccion', CollectionType::class, array(
+          "mapped" => false,
+          'entry_type' => DireccionType::class,
+          'label' => 'Direcciones',
+          'allow_add' => true,
+          'allow_delete' => true,
+          'prototype' => true,
+          'attr' => array(
+          'class' => 'my-direccion',
+          ),
+          ))
+          ->add('familiar', CollectionType::class, array(
+          "mapped" => false,
+          'entry_type' => FamiliarType::class,
+          'label' => 'Familiares',
+          'allow_add' => true,
+          'allow_delete' => true,
+          'prototype' => true,
+          'attr' => array(
+          'class' => 'my-familiar',
+          ),
+          ))
+         */
 
         ;
     }

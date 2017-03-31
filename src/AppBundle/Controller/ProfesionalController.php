@@ -8,7 +8,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Paciente;
-use Symfony\Component\Validator\Constraints\Date;
 
 /**
  * Profesional controller.
@@ -38,26 +37,28 @@ class ProfesionalController extends Controller {
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request) {
-        
+
         $profesional = new Profesional();
         $form = $this->createForm('AppBundle\Form\ProfesionalType', $profesional);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-           /*   $valores=($request->request->get('appbundle_profesional')); 
-          dump($valores['persona']['foto']);
-          die();*/
+            /*   $valores=($request->request->get('appbundle_profesional')); 
+              dump($valores['persona']['foto']);
+              die(); */
 
             $valor = $request->request->get('appbundle_profesional');
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($profesional);
-            if ($profesional->getPersona()->getFoto()==null) $profesional->getPersona()->setFoto('user.png');
+            if ($profesional->getPersona()->getFoto() == null) {
+                $profesional->getPersona()->setFoto('user.png');
+            }
             $profesional->getPersona()->setFechaRegistro(new \DateTime("now"));
             $em->flush($profesional);
 
-            
+
             $fechaNacimiento = ($valor['fechaNacimiento']);
             $miPaciente = new Paciente();
             $miPaciente->setEdoCivil($valor['edoCivil']);
@@ -102,9 +103,13 @@ class ProfesionalController extends Controller {
      */
     public function showAction(Profesional $profesional) {
         $deleteForm = $this->createDeleteForm($profesional);
-
+        
+        $em = $this->getDoctrine()->getManager();
+        $paciente = $em->getRepository('AppBundle:Paciente')->findOneByPersona($profesional->getPersona());
+        
         return $this->render('profesional/show.html.twig', array(
                     'profesional' => $profesional,
+                    'paciente' => $paciente,
                     'delete_form' => $deleteForm->createView(),
         ));
     }
@@ -116,11 +121,10 @@ class ProfesionalController extends Controller {
      * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, Profesional $profesional) {
-      
-      if($profesional!==null) {        
-          $foto= $profesional->getPersona()->getFoto();
-      }
-        
+
+        if ($profesional !== null) {
+            $foto = $profesional->getPersona()->getFoto();
+        }
 
         $deleteForm = $this->createDeleteForm($profesional);
         $editForm = $this->createForm('AppBundle\Form\ProfesionalType', $profesional);
@@ -128,26 +132,49 @@ class ProfesionalController extends Controller {
 
         $em = $this->getDoctrine()->getManager();
         $paciente = $em->getRepository('AppBundle:Paciente')->findOneByPersona($profesional->getPersona());
-       // dump($paciente); 
-
+        //dump($paciente); 
+        
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-           
-            
-            if ($profesional->getPersona()->getFoto()===null){
+            //Add Profesional / Persona
+            if ($profesional->getPersona()->getFoto() === null) {
                 $profesional->getPersona()->setFoto($foto);
             }
-            
-            dump($request); dump($profesional); die();
-
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('profesional_edit', array('id' => $profesional->getId()));
+            //Add Paciente
+            $valor = $request->request->get('appbundle_profesional');
+           // dump($valor); die();
+            $fechaNacimiento = ($valor['fechaNacimiento']);
+            
+            //$paciente = new Paciente();
+            $paciente->setEdoCivil($valor['edoCivil']);
+            $paciente->setOcupacion($valor['ocupacion']);
+            $paciente->setEstudio($valor['estudio']);
+            $paciente->setAnoAprobado($valor['anoAprobado']);
+            $paciente->setAnalfabeta(FALSE);
+            $paciente->setFechaNacimiento(new \DateTime($fechaNacimiento['year'] . "-" . $fechaNacimiento['month'] . "-" . $fechaNacimiento['day']));
+            $paciente->setFechaActualizacion(new \DateTime("now"));
+            $paciente->setApellidoFamilia($valor['apellidoFamilia']);
+            $paciente->setCedulaJefeFamilia($valor['cedulaJefeFamilia']);
+            $paciente->setComunidad($valor['comunidad']);
+            $paciente->setPersona($profesional->getPersona());
+            if (!empty($valor['etnia'])) {
+                $etnia = $em->getRepository('AppBundle:Etnia')->find($valor['etnia']);
+                $paciente->setEtnia($etnia);
+            }
+            if (!empty($valor['religion'])) {
+                $religion = $em->getRepository('AppBundle:Religion')->find($valor['religion']);
+                dump($religion); 
+                $paciente->setReligion($religion);
+            }
+            $em->persist($paciente);
+           // dump($paciente); die();
+            $em->flush($paciente);
+            return $this->redirectToRoute('profesional_show', array('id' => $profesional->getId()));
         }
-        
-        dump($paciente);
-        dump($paciente->getFechaNacimiento());
-        die();
 
+         // dump($paciente);  die();
+        
         return $this->render('profesional/edit.html.twig', array(
                     'profesional' => $profesional,
                     'paciente' => $paciente,
