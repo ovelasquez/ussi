@@ -21,7 +21,7 @@
             <div class="profile_img">
                 <div id="crop-avatar">
                     <!-- Current avatar -->
-                    <img class="img-responsive avatar-view" src="{{ asset('uploads/fotos/')}}{{paciente.persona.foto}}" alt="Avatar" title="Change the avatar">                    
+                    <img class="img-responsive img-thumbnail" src="{{ asset('uploads/fotos/')}}{{paciente.persona.foto}}" alt="{{ paciente.persona.primerApellido |capitalize }} {{ paciente.persona.primerNombre |capitalize }}" title="{{ paciente.persona.primerApellido |capitalize }} {{ paciente.persona.primerNombre |capitalize }}" >                    
                 </div>
             </div>
 
@@ -147,26 +147,15 @@
                                         </td>
                                     </tr>
                                 {% endfor %} 
-
-
-
-
                             </tbody>
                         </table>        
-
-
-
                     </div>  
-
-
                 </div>
             </div>
         </div>
     </div>
-
-
     {{ form_start(delete_form) }}
-    <input type="submit" value="Delete">
+    <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> Eliminar </button>
     {{ form_end(delete_form) }}
 
 {% endblock %}

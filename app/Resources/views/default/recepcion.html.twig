@@ -1,4 +1,7 @@
 {% extends 'dashboard.html.twig' %}
+{% block stylesheets %}
+ <link href="{{ asset('bundles/app/vendors/animate.css/animate.min.css')}}"   rel="stylesheet">
+{% endblock %}
 {% block title %} Recepción{% endblock %}
 {% block topTiles %}
     <div class="row tile_count">
@@ -178,11 +181,11 @@
                                         <img src="{{ asset('uploads/fotos/')}}{{servicioProfesional.foto}}" alt="img" />
                                     </span>
                                     <span>
-                                        <span>{{ servicioProfesional.primer_apellido}} {{ servicioProfesional.primer_nombre}}</span>
-                                        <span class="time">{{ servicioProfesional.nombre }}</span>
+                                        <span >{{ servicioProfesional.primer_apellido}} {{ servicioProfesional.primer_nombre}}</span>
+                                        <span id='alertaLlamando' class="hidden text-success time animated infinite flash">Llamando</span>
                                     </span>
                                     <span class="message">
-                                        
+                                        {{ servicioProfesional.nombre }}
                                     </span>
                                 </a>
                             </li>                                        
@@ -323,6 +326,24 @@
 
     <script>
         $(document).ready(function () {
+            
+            
+            //Verificar si un Doctor esta llamando a un Paciente
+            function alertaLlamando() {
+                $.ajax
+                        ({
+                            type: "POST",
+                            url: "{{ path ('ajax_alertaLlamando') }}",
+                            //data: dataString,
+                            cache: false,
+                            success: function (html)
+                            {
+                              $('#alertaLlamando').removeClass('hidden');
+                            }
+                        });
+
+
+            }
 
             //Verificar si un Doctor esta llamando a un Paciente
             function estanLlamando() {

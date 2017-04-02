@@ -48,6 +48,7 @@ class PaisController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($pais);
             $em->flush($pais);
+            $this->addFlash('success', 'Datos creados satisfactoriamente');
 
             return $this->redirectToRoute('pais_show', array('id' => $pais->getId()));
         }

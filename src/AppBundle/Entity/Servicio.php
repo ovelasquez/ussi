@@ -194,34 +194,7 @@ class Servicio {
         return $this->especialidad;
     }
 
-    public function __toString() {
-        switch ($this->getDia()) {
-            case 0:
-                $_dia='Domingo';
-                break;
-            case 1:
-               $_dia='Lunes';
-                break;
-            case 2:
-                $_dia='Martes';
-                break;
-            case 3:
-                $_dia='Miércoles';
-                break;
-            case 4:
-                $_dia='Jueves';
-                break;
-            case 5:
-                $_dia='Viernes';
-                break;
-            case 6:
-                $_dia='Sábado';
-                break;
-        }
-        return $this->getEspecialidad()->getNombre() . ' - ' .$_dia ;
-    }
-
-
+   
     /**
      * Set disponible
      *
@@ -268,5 +241,32 @@ class Servicio {
     public function getFecha()
     {
         return $this->fecha;
+    }
+    
+     public function __toString() {
+        switch ($this->getDia()) {
+            case 0:
+                $_dia='Domingo';
+                break;
+            case 1:
+               $_dia='Lunes';
+                break;
+            case 2:
+                $_dia='Martes';
+                break;
+            case 3:
+                $_dia='Miércoles';
+                break;
+            case 4:
+                $_dia='Jueves';
+                break;
+            case 5:
+                $_dia='Viernes';
+                break;
+            case 6:
+                $_dia='Sábado';
+                break;
+        }
+        return $this->getEspecialidad()->getNombre() . ' - ' .$_dia ;
     }
 }

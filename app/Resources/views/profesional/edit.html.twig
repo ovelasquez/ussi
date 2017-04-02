@@ -218,46 +218,40 @@
 {% block javascripts %}
     <script>
         $(document).ready(function () {
-            
-            
-                $('#appbundle_profesional_ocupacion').val('{{paciente.ocupacion}}');
-                $('#appbundle_profesional_apellidoFamilia').val('{{paciente.apellidoFamilia}}');
-                $('#appbundle_profesional_cedulaJefeFamilia').val('{{paciente.cedulaJefeFamilia}}');
-                $('#appbundle_profesional_edoCivil').val('{{paciente.edoCivil}}').prop('selected', true);
-                $('#appbundle_profesional_estudio').val('{{paciente.estudio}}').prop('selected', true);
-                $('#appbundle_profesional_anoAprobado').val('{{paciente.anoAprobado}}').prop('selected', true);
-                $('#appbundle_profesional_comunidad').val('{{paciente.comunidad}}').prop('selected', true);
-                $('#appbundle_profesional_religion').val('{{paciente.religion.id}}').prop('selected', true);
-                $('#appbundle_profesional_etnia').val('{{paciente.etnia.id}}').prop('selected', true);
-
-
-                var now = new Date({{paciente.fechaNacimiento |date("d/m/Y")}});
-                //var today = now.getDate() + '/' + (now.getMonth() + 1) + '/' + now.getFullYear();
-                var day = ("0" + now.getDate()).slice(-2);
-                var month = ("0" + (now.getMonth() + 1)).slice(-2);
-                var today = now.getFullYear();
-                $('#appbundle_profesional_fechaNacimiento_day').val(day);
-                $('#appbundle_profesional_fechaNacimiento_month').val(month);
-                $('#appbundle_profesional_fechaNacimiento_year').val(today);
-
-
-                // $('#appbundle_profesional_date_created').val(today);
-
+            $('#appbundle_profesional_ocupacion').val('{{paciente.ocupacion}}');
+            $('#appbundle_profesional_apellidoFamilia').val('{{paciente.apellidoFamilia}}');
+            $('#appbundle_profesional_cedulaJefeFamilia').val('{{paciente.cedulaJefeFamilia}}');
+            $('#appbundle_profesional_edoCivil').val('{{paciente.edoCivil}}').prop('selected', true);
+            $('#appbundle_profesional_estudio').val('{{paciente.estudio}}').prop('selected', true);
+            $('#appbundle_profesional_anoAprobado').val('{{paciente.anoAprobado}}').prop('selected', true);   
+            $('#appbundle_profesional_comunidad').val('{{paciente.comunidad}}').prop('selected', true);            
+            {% if ( not(paciente.religion is null )) %}        
+                 $('#appbundle_profesional_religion').val('{{paciente.religion.id}}').prop('selected', true);
+            {% endif%}                            
+            {% if ( not(paciente.etnia is null )) %}        
+                 $('#appbundle_profesional_etnia').val('{{paciente.etnia.id}}').prop('selected', true);
+            {% endif%}                
+            var now = new Date({{paciente.fechaNacimiento |date("d/m/Y")}});
+            var day = ("0" + now.getDate()).slice(-2);
+            var month = ("0" + (now.getMonth() + 1)).slice(-2);
+            var today = now.getFullYear();
+            $('#appbundle_profesional_fechaNacimiento_day').val(day);
+            $('#appbundle_profesional_fechaNacimiento_month').val(month);
+            $('#appbundle_profesional_fechaNacimiento_year').val(today);
+            if ($('#appbundle_profesional_comunidad').val() === 'pfg') {
+                $('#pfg').show();
+            } else {
+                $('#appbundle_profesional_pfg').val(null);
+                $('#pfg').hide();
+            }
+            $("#appbundle_profesional_comunidad").click(function () {
                 if ($('#appbundle_profesional_comunidad').val() === 'pfg') {
                     $('#pfg').show();
                 } else {
                     $('#appbundle_profesional_pfg').val(null);
                     $('#pfg').hide();
                 }
-                $("#appbundle_profesional_comunidad").click(function () {
-                    if ($('#appbundle_profesional_comunidad').val() === 'pfg') {
-                        $('#pfg').show();
-                    } else {
-                        $('#appbundle_profesional_pfg').val(null);
-                        $('#pfg').hide();
-                    }
-                });
-            
+            });
         });
     </script>
 {% endblock %}

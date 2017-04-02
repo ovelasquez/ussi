@@ -47,6 +47,7 @@ class ServicioProfesionalController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($servicioProfesional);
             $em->flush($servicioProfesional);
+            $this->addFlash('success', 'Datos creados satisfactoriamente');
 
             return $this->redirectToRoute('servicioprofesional_show', array('id' => $servicioProfesional->getId()));
         }
@@ -88,8 +89,9 @@ class ServicioProfesionalController extends Controller
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $servicioProfesional->setFechaActualizacion(new \DateTime("now"));
             $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success', 'Datos actualizados satisfactoriamente');
 
-            return $this->redirectToRoute('servicioprofesional_edit', array('id' => $servicioProfesional->getId()));
+            return $this->redirectToRoute('servicioprofesional_show', array('id' => $servicioProfesional->getId()));
         }
 
         return $this->render('servicioprofesional/edit.html.twig', array(

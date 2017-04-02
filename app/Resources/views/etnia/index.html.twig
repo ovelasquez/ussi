@@ -8,7 +8,7 @@
     <link href="{{ asset('bundles/app/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css')}}" rel="stylesheet">
 {% endblock %}
 {% block title %} Etnia {% endblock %}
-{% block Subtitulo %} Lista de Etnias -  <small> <a href="{{ path('etnia_new') }}">Crear una nueva Etnia</a></small> {% endblock %} 
+{% block Subtitulo %} Lista de Etnias -  <small> <a href="{{ path('etnia_new') }}">Crear Etnia</a></small> {% endblock %} 
 {% block body %}
     {% for msg in app.session.flashBag.get('success') %}
         <div class="alert alert-success">

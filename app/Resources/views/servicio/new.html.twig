@@ -1,16 +1,56 @@
 {% extends 'base.html.twig' %}
+{% block Subtitulo %} Crear Servicio -  <small> <a href="{{ path('servicio_index') }}">Regresar a la lista</a></small> {% endblock %} 
+
+{% block cerrar %} 
+
+{% endblock %} 
 
 {% block body %}
-    <h1>Servicio creation</h1>
-
-    {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <input type="submit" value="Create" />
-    {{ form_end(form) }}
-
-    <ul>
-        <li>
-            <a href="{{ path('servicio_index') }}">Back to the list</a>
-        </li>
-    </ul>
+    <div class="x_content">
+        <br />
+        {{ form_start(form, { 'attr': {'id':'servicio','class': 'form-horizontal form-label-left'} }) }} 
+        {{ form_errors(form) }}
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="especialidad">{{ form_label(form.especialidad) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(form.especialidad) }}                
+                {{form_widget(form.especialidad,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="dia">{{ form_label(form.dia) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(form.dia) }}                
+                {{form_widget(form.dia,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="turno">{{ form_label(form.turno) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(form.turno) }}                
+                {{form_widget(form.turno,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="procedencia">{{ form_label(form.procedencia) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(form.procedencia) }}                
+                {{form_widget(form.procedencia,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="cupo">{{ form_label(form.cupo) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(form.cupo) }}                
+                {{form_widget(form.cupo,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>
+        <div class="ln_solid"></div>
+        <div class="form-group">
+            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">                
+                <button type="submit" class="btn btn-success">Registrar</button>
+            </div>
+        </div>
+        {{ form_end(form) }}   
+    </div>
 {% endblock %}

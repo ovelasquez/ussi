@@ -72,11 +72,18 @@ class ProfesionalController extends Controller {
             $miPaciente->setCedulaJefeFamilia($valor['cedulaJefeFamilia']);
             $miPaciente->setComunidad($valor['comunidad']);
 
-            $etnia = $em->getRepository('AppBundle:Etnia')->find($valor['etnia']);
-            $miPaciente->setEtnia($etnia);
-
-            $religion = $em->getRepository('AppBundle:Religion')->find($valor['religion']);
-            $miPaciente->setReligion($religion);
+             if (!empty($valor['etnia'])) {
+                $etnia = $em->getRepository('AppBundle:Etnia')->find($valor['etnia']);
+                $miPaciente->setEtnia($etnia);
+            }else{
+                $miPaciente->setEtnia(null);
+            }
+            if (!empty($valor['religion'])) {
+                $religion = $em->getRepository('AppBundle:Religion')->find($valor['religion']);               
+                $miPaciente->setReligion($religion);
+            }else{
+                $miPaciente->setReligion(null);
+            }
 
 
             $miPaciente->setPersona($profesional->getPersona());
@@ -161,15 +168,19 @@ class ProfesionalController extends Controller {
             if (!empty($valor['etnia'])) {
                 $etnia = $em->getRepository('AppBundle:Etnia')->find($valor['etnia']);
                 $paciente->setEtnia($etnia);
+            }else{
+                $paciente->setEtnia(null);
             }
             if (!empty($valor['religion'])) {
-                $religion = $em->getRepository('AppBundle:Religion')->find($valor['religion']);
-                dump($religion); 
+                $religion = $em->getRepository('AppBundle:Religion')->find($valor['religion']);               
                 $paciente->setReligion($religion);
+            }else{
+                $paciente->setReligion(null);
             }
             $em->persist($paciente);
            // dump($paciente); die();
             $em->flush($paciente);
+            $this->addFlash('success', 'Datos actualizados satisfactoriamente');
             return $this->redirectToRoute('profesional_show', array('id' => $profesional->getId()));
         }
 

@@ -46,28 +46,29 @@ class EsperandoController extends Controller {
     }
 
     /**
-     * Lists all esperando entities.
+     * Lists all esperando
      *
      * @Route("/procesar", name="esperando_procesar")
      * @Method("GET")
      */
     public function procesarAction(Request $request) {
         $id = 0;
-        $esMio = false;
+
         $em = $this->getDoctrine()->getManager();
         $configuracion = $em->getRepository('AppBundle:Configuracion')->findAll();
         $repetir = true;
         $foto = '';
 
-        $especialidad = ["Medicina General", "Medicina Interna","Pediatría"]; 
-        $especialidad=$especialidad[rand(0, 2)];
-        //dump($especialidad); die();
-       // $especialidad = "Pediatría";
+        //Datos Cableados
+        $especialidad = ["Medicina General", "Medicina Interna", "Pediatría"];
+        $especialidad = $especialidad[rand(0, 2)];
+       // $esMio = false;
+        $miId = 2;
+
+        //dump($especialidad);
+
         $miEspecialidad = $em->getRepository('AppBundle:Especialidad')->findByNombre($especialidad);
 
-        $miId = 2;
-        // $miId = $miId[rand(0, 1)];
-        // ECHO(" entro 1 ");
         //Buscamos al Primero de la Lista de Espera
         $esperandos = $em->getRepository('AppBundle:Esperando')->findBy(
                 array('especialidad' => $miEspecialidad, 'status' => 'activo',), array('posicion' => 'ASC')
@@ -79,24 +80,25 @@ class EsperandoController extends Controller {
         if ($esperandos) {
             $i = 0;
             do {
+                // Verificamos si el Paciente no tiene asociado un Médico y en caso de ser afirmtivo, se verifica si es el Medico logueado
                 if (($esperandos[$i]->getProfesional() == null) || ($esperandos[$i]->getProfesional()->getId() == $miId)) {
                     $esperandos[$i]->setStatus('procesando');
-                    $em->flush($esperandos[$i]);
+                    $em->flush($esperandos[$i]); //Cambiamos status en la BD a Procesando
                     $id = $esperandos[$i]->getId();
                     $repetir = FALSE;
                     $esperandos = $esperandos[$i];
                     $foto = $esperandos->getPaciente()->getPersona()->getFoto();
-                    $esMio = true;
+                   // $esMio = true;
                 }
                 $i++;
             } while ($repetir && ($i < count($esperandos)));
         }
 
-        if ($esMio) {
-            $esperandos = $esperandos;
-        } else {
-            $esperandos = null;
-        }
+        //    if (!$esMio) {
+        // $esperandos = $esperandos;
+        //} else {
+        //        $esperandos = null;
+        //   }
 
         return $this->render('esperando/procesar.html.twig', array(
                     'esperando' => $esperandos,
@@ -159,8 +161,6 @@ class EsperandoController extends Controller {
                     $esperandos->setStatus('abandono');
                     $esperandos->setPosicion(null);
                 }
-
-
                 $em->flush($esperandos);
                 return $this->redirectToRoute('esperando_index');
             }

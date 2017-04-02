@@ -47,6 +47,7 @@ class ServicioController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($servicio);
             $em->flush($servicio);
+            $this->addFlash('success', 'Datos creados satisfactoriamente');
 
             return $this->redirectToRoute('servicio_show', array('id' => $servicio->getId()));
         }
@@ -87,8 +88,10 @@ class ServicioController extends Controller
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
+            
+            $this->addFlash('success', 'Datos actualizados satisfactoriamente');
 
-            return $this->redirectToRoute('servicio_edit', array('id' => $servicio->getId()));
+            return $this->redirectToRoute('servicio_show', array('id' => $servicio->getId()));
         }
 
         return $this->render('servicio/edit.html.twig', array(

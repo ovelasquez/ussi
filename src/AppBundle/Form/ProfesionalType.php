@@ -81,21 +81,28 @@ class ProfesionalType extends AbstractType {
                     'required' => true,
                     'attr' => array('placeholder' => 'Comunidad'),
                     'label' => 'Comunidad',
+                    
                 ))
                 ->add('religion', EntityType::class, array(
                     'class' => 'AppBundle:Religion',
                     'choice_label' => 'nombre',
                     "mapped" => false,
+                      'placeholder' => 'Seleccione',
+                      
                 ))
                 ->add('pfg', EntityType::class, array(
                     'class' => 'AppBundle:Pfg',
                     'choice_label' => 'nombre',
                     "mapped" => false,
+                    
                 ))
                 ->add('etnia', EntityType::class, array(
                     'class' => 'AppBundle:Etnia',
                     'choice_label' => 'nombre',
                     "mapped" => false,
+                    'placeholder' => 'Seleccione',
+                    'required'=>false,
+                    'placeholder' => 'Seleccione',
                 ))
 
 

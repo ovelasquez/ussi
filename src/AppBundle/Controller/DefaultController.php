@@ -9,9 +9,9 @@ use Symfony\Component\HttpFoundation\Request;
 class DefaultController extends Controller {
 
     /**
-     * @Route("/", name="homepage")
+     * @Route("/index", name="homepage")
      */
-    public function indexAction(Request $request) {
+    public function indexAction() {
         $em = $this->getDoctrine()->getManager();
         $hoy = new \DateTime('now'); $hoy->setTime(0, 0, 0);
         $configuracion = $em->getRepository('AppBundle:Configuracion')->findAll();
@@ -35,6 +35,14 @@ class DefaultController extends Controller {
                     'especialidades' => $especialidades,
                     'servicioProfesionals' => $servicioProfesionals,
                     'penalizacion' => $configuracion[0]->getPenalizacion(),
+        ));
+    }
+    /**
+     * @Route("/homepage_medico", name="homepage_medico")
+     */
+    public function medicoAction() {       
+        return $this->render('default/index.html.twig', array(
+                   
         ));
     }
 

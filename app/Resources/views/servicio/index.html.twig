@@ -4,15 +4,30 @@
     <link href="{{ asset('bundles/app/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{ asset('bundles/app/vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{ asset('bundles/app/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css')}}" rel="stylesheet">
-    <link href="{{ asset('bundles/app/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css')}}" rel="stylesheet">
-    <link href="{{ asset('bundles/app/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css')}}" rel="stylesheet">
 {% endblock %}
-{% block title %} PFG {% endblock %}
-{% block Subtitulo %} Lista de PFG -  <small> <a href="{{ path('pfg_new') }}">Crear un nuevo PFG</a></small> {% endblock %} 
+{% block title %} Servicios {% endblock %}
+{% block Subtitulo %} Lista de Servicios -  <small> <a href="{{ path('servicio_new') }}">Crear Servicio</a></small> {% endblock %} 
 {% block body %}
-    <h1>Servicios list</h1>
+  {% for msg in app.session.flashBag.get('success') %}        
+        <div class="alert alert-success alert-dismissible fade in" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+            </button>
+            <strong>{{ msg }}</strong>
+        </div>
+    {% endfor %}
 
-    <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+    {% for msgs in app.session.flashBag.get('error') %}
+        <div class="alert alert-danger alert-dismissible fade in" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+            <strong>
+                {% for msg in msgs %}
+                    <p>{{ msg }}</p>
+                {% endfor %}
+            </strong>
+        </div>
+    {% endfor %}
+
+    <table id="datatable-fixed-header" class="table table-striped table-bordered">
         <thead>
             <tr>
                 <th>Id</th>
@@ -28,7 +43,7 @@
         <tbody>
             {% for servicio in servicios %}
                 <tr>
-                    <td><a href="{{ path('servicio_show', { 'id': servicio.id }) }}">{{ servicio.id }}</a></td>
+                    <td><a href="{{ path('servicio_show', { 'id': servicio.id }) }}">{{ loop.index }}</a></td>
                     <td>{{ servicio.especialidad.nombre }}</td>
                     <td>
                         {% set dia = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'] %}
@@ -40,124 +55,31 @@
                     <td>{{ servicio.cupo }}</td>
                     <td>{{ servicio.disponible }}</td>
                     <td>
-                        <ul>
-                            <li>
-                                <a href="{{ path('servicio_show', { 'id': servicio.id }) }}">show</a>
-                            </li>
-                            <li>
-                                <a href="{{ path('servicio_edit', { 'id': servicio.id }) }}">edit</a>
-                            </li>
-                        </ul>
+                        <a href="{{ path('servicio_show', { 'id': servicio.id }) }}">
+                            <button type="button" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="top" title="" data-original-title="Ver">  <i class="fa fa-eye"></i>  </button>
+                        </a>
+                        <a href="{{ path('servicio_edit', { 'id': servicio.id }) }}">
+                            <button type="button" class="btn btn-sm btn-success" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editar">  <i class="fa fa-pencil"></i>  </button>
+                        </a>   
                     </td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
 
-    <ul>
-        <li>
-            <a href="{{ path('servicio_new') }}">Create a new servicio</a>
-        </li>
-    </ul>
 {% endblock %}
 {% block javascripts %}
     <!-- Datatables -->
     <script src="{{ asset('bundles/app/vendors/datatables.net/js/jquery.dataTables.min.js')}}"></script>
-    <script src="{{ asset('bundles/app/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>   
-    <script src="{{ asset('bundles/app/vendors/datatables.net-buttons/js/dataTables.buttons.min.js')}}"></script>
-    <script src="{{ asset('bundles/app/vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js')}}"></script>
-
-    <script src="{{ asset('bundles/app/vendors/datatables.net-buttons/js/buttons.flash.min.js')}}"></script>    
-    <script src="{{ asset('bundles/app/vendors/datatables.net-buttons/js/buttons.html5.min.js')}}"></script>    
-    <script src="{{ asset('bundles/app/vendors/datatables.net-buttons/js/buttons.print.min.js')}}"></script>    
     <script src="{{ asset('bundles/app/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js')}}"></script>
 
-    <script src="{{ asset('bundles/app/vendors/datatables.net-keytable/js/dataTables.keyTable.min.js')}}"></script>       
-    <script src="{{ asset('bundles/app/vendors/datatables.net-responsive/js/dataTables.responsive.min.js')}}"></script>     
-    <script src="{{ asset('bundles/app/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js')}}"></script>    
-    <script src="{{ asset('bundles/app/vendors/datatables.net-scroller/js/dataTables.scroller.min.js')}}"></script>
-
-    <script src="{{ asset('bundles/app/vendors/jszip/jszip.min.js')}}"></script>       
-    <script src="{{ asset('bundles/app/vendors/pdfmake/pdfmake.min.js')}}"></script>     
-    <script src="{{ asset('bundles/app/vendors/pdfmake/vfs_fonts.js')}}"></script>     
-
+    <!-- Datatables -->
     <script>
         $(document).ready(function () {
-            var handleDataTableButtons = function () {
-                if ($("#datatable-buttons").length) {
-                    $("#datatable-buttons").DataTable({
-                        dom: "Bfrtip",
-                        buttons: [
-                            {
-                                extend: "copy",
-                                className: "btn-sm"
-                            },
-                            {
-                                extend: "csv",
-                                className: "btn-sm"
-                            },
-                            {
-                                extend: "excel",
-                                className: "btn-sm"
-                            },
-                            {
-                                extend: "pdfHtml5",
-                                className: "btn-sm"
-                            },
-                            {
-                                extend: "print",
-                                className: "btn-sm"
-                            },
-                        ],
-                        responsive: true
-                    });
-                }
-            };
-
-            TableManageButtons = function () {
-                "use strict";
-                return {
-                    init: function () {
-                        handleDataTableButtons();
-                    }
-                };
-            }();
-
-            $('#datatable').dataTable();
-
-            $('#datatable-keytable').DataTable({
-                keys: true
-            });
-
-            $('#datatable-responsive').DataTable();
-
-            $('#datatable-scroller').DataTable({
-                ajax: "js/datatables/json/scroller-demo.json",
-                deferRender: true,
-                scrollY: 380,
-                scrollCollapse: true,
-                scroller: true
-            });
-
             $('#datatable-fixed-header').DataTable({
                 fixedHeader: true
             });
 
-            var $datatable = $('#datatable-checkbox');
-
-            $datatable.dataTable({
-                'order': [[1, 'asc']],
-                'columnDefs': [
-                    {orderable: false, targets: [0]}
-                ]
-            });
-            $datatable.on('draw.dt', function () {
-                $('input').iCheck({
-                    checkboxClass: 'icheckbox_flat-green'
-                });
-            });
-
-            TableManageButtons.init();
         });
     </script>
     <!-- /Datatables -->

@@ -1,42 +1,64 @@
 {% extends 'base.html.twig' %}
-{% block stylesheets %}
-    <!-- select2 -->
-    <link href="{{ asset('bundles/app/vendors/select2/dist/css/select2.min.css')}}" rel="stylesheet">
+{% block Subtitulo %} Editar Servicios Profesionales -  <small> <a href="{{ path('servicioprofesional_index') }}">Regresar a la lista</a></small> {% endblock %} 
 
-{% endblock %}
+{% block cerrar %} 
+
+{% endblock %} 
 
 {% block body %}
-    <h1>Servicioprofesional edit</h1>
+    <div class="x_content">
+        <br />
+        {{ form_start(edit_form, { 'attr': {'id':'servicioprofesional','class': 'form-horizontal form-label-left'} }) }} 
+        {{ form_errors(edit_form) }}
 
-    {{ form_start(edit_form) }}
-    {{ form_widget(edit_form) }}
-    <input type="submit" value="Edit" />
-    {{ form_end(edit_form) }}
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="servicio">{{ form_label(edit_form.servicio) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(edit_form.servicio) }}                
+                {{form_widget(edit_form.servicio,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>
 
-    <ul>
-        <li>
-            <a href="{{ path('servicioprofesional_index') }}">Back to the list</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-            <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
-{% endblock %}
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="profesional">{{ form_label(edit_form.profesional) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(edit_form.profesional) }}                
+                {{form_widget(edit_form.profesional,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="status">{{ form_label(edit_form.status) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(edit_form.status) }}                
+                {{form_widget(edit_form.status,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="observacion">{{ form_label(edit_form.observacion) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(edit_form.observacion) }}                
+                {{form_widget(edit_form.observacion,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>
+
+        <div class="ln_solid"></div>
+        <div class="form-group">
+            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">                
+                <button type="submit" class="btn btn-success">Registrar</button>
+            </div>
+        </div>
 
 
-{% block javascripts %}
-    <!-- Select2 -->   
-    <script src="{{ asset('bundles/app/vendors/select2/dist/js/select2.full.min.js')}}"></script>   
 
+        {{ form_end(edit_form) }}   
 
-    <script>
-        $(document).ready(function () {
-            $('#appbundle_servicioprofesional_servicio').select2();
+        {{ form_start(delete_form) }}                
+                <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> Eliminar </button>
+        {{ form_end(delete_form) }}
+        
+        
+    </div>
 
-
-        });
-    </script>
-    <!-- /Datatables -->
 {% endblock %}

@@ -98,8 +98,9 @@ class PacienteController extends Controller {
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $paciente->setFechaActualizacion(new \DateTime("now"));
-            $paciente->getPersona()->setFechaRegistro($paciente->setFechaActualizacion());            
+            $paciente->getPersona()->setFechaRegistro($paciente->getFechaActualizacion());            
             $this->getDoctrine()->getManager()->flush();
+           
             $this->addFlash('success', 'Datos actualizados satisfactoriamente');
 
             return $this->redirectToRoute('paciente_show', array('id' => $paciente->getId()));

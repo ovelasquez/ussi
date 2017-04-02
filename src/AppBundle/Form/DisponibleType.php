@@ -13,7 +13,7 @@ class DisponibleType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('fecha')->add('consultorio')->add('status')->add('profesionalEspecialidad')        ;
+        $builder->add('fecha')->add('consultorio')->add('status')->add('profesionalEspecialidad');
     }
     
     /**

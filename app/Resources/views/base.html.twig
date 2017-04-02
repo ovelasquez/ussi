@@ -22,7 +22,7 @@
         <link href="{{ asset('bundles/app/vendors/bootstrap/custom.min.css')}}"   rel="stylesheet">
 
     {% block stylesheets %}{% endblock %}
-    
+
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     <link rel="apple-touch-icon" sizes="57x57" href="{{ asset('apple-icon-57x57.png') }}" />
     <link rel="apple-touch-icon" sizes="60x60" href="{{ asset('apple-icon-60x60.png') }}" />
@@ -73,7 +73,14 @@
                         <div class="menu_section">
                             <h3>Menú Principal</h3>
                             <ul class="nav side-menu">
-                                <li><a href="{{ path('homepage') }}"><i class="fa fa-home"></i> Home </a>
+                                <li>
+                                    <!--a href=""><i class="fa fa-home"></i> Home </a-->
+                                    <a><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <!--li><a href="{{ path('persona_index') }}">Personas</a></li-->
+                                        <li><a href="{{ path('homepage') }}">Recepcionista</a></li>
+                                        <li><a href="{{ path('homepage_medico') }}">Médico</a></li>                                         
+                                    </ul>
                                 </li>
                                 <li>
                                     <a><i class="fa fa-edit"></i> Gestionar <span class="fa fa-chevron-down"></span></a>
@@ -81,11 +88,11 @@
                                         <!--li><a href="{{ path('persona_index') }}">Personas</a></li-->
                                         <li><a href="{{ path('paciente_index') }}">Pacientes</a></li>
                                         <li><a href="{{ path('profesional_index') }}">Profesional</a></li> 
-                                        <li><a href="{{ path('profesionalespecialidad_index') }}">Profesional - Especialidad</a></li> 
+                                        <!--li><a href="{{ path('profesionalespecialidad_index') }}">Profesional - Especialidad</a></li--> 
                                         <li><a href="{{ path('cita_index') }}">Citas</a></li>
                                         <li><a href="{{ path('cita_consulta') }}">Consulta Cita</a></li>
                                         <li><a href="{{ path('consulta_index') }}">Consultas</a></li>   
-                                        <li><a href="{{ path('disponible_index') }}">Disponible</a></li>
+                                        <!--li><a href="{{ path('disponible_index') }}">Disponible</a></li-->
                                         <li><a href="{{ path('servicio_index') }}">Servicio</a></li>
                                         <li><a href="{{ path('servicioprofesional_index') }}">Servicio - Profesional</a></li>
                                         <li><a href="{{ path('esperando_index') }}">Lista de Espera</a></li>
@@ -176,25 +183,23 @@
                                     <h2>{% block Subtitulo %} USSI UBV {% endblock %} </h2>
                                     <ul class="nav navbar-right panel_toolbox submenu">
                                         {% block paneltoolbox %} 
-                                            <li><a class="collapse-link" ><i class="fa fa-chevron-up"></i></a>
-                                            </li>
-                                            <!--li class="dropdown">
+                                            <li><a class="collapse-link" ><i class="fa fa-chevron-up"></i></a></li>
+                                            <li class="dropdown">
                                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
                                                 <ul class="dropdown-menu" role="menu">
-                                                    <li><a href="#">Settings 1</a>
+                                                    <li><a href="#">{% block cerrar %}  {% endblock %}</a>
                                                     </li>
                                                     <li><a href="#">Settings 2</a>
                                                     </li>
                                                 </ul>
-                                            </li-->
-                                            <li><a class="close-link" {% block cerrar %}  {% endblock %} ><i class="fa fa-close"></i></a>
                                             </li>
-                                        {% endblock %}          
+                                            <li><a class="close-link" ><i class="fa fa-close"></i></a> </li>
+                                        {% endblock %}     
                                     </ul>
                                     <div class="clearfix"></div>
                                 </div>
                                 <!--div class="x_content"-->
-                                    {% block body %} Contenido de mi vista va aquí  :)  {% endblock %}                                    
+                                {% block body %} Contenido de mi vista va aquí  :)  {% endblock %}                                    
                                 <!--/div-->
                             </div>
                         </div>
@@ -217,7 +222,7 @@
     <script src="{{ asset('bundles/app/vendors/fastclick/lib/fastclick.js')}}"></script>    
     <!-- NProgress -->
     <script src="{{ asset('bundles/app/vendors/nprogress/nprogress.js')}}"></script> 
-       <!-- bootstrap-progressbar -->
+    <!-- bootstrap-progressbar -->
     <script src="{{ asset('bundles/app/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js')}}" ></script>
 
     <!-- Custom Theme Scripts -->
