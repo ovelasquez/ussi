@@ -39,9 +39,11 @@ class DefaultController extends Controller {
                 ->orderBy('p.posicion', 'ASC')
                 ->getQuery();
         $esperandos = $query->getResult(); //Lista de Espera
-        $medicos = $em->getRepository('AppBundle:Cita')->findAllByServiosProfesionalesTodos(date("w")); //Lista Medicos
-        $especialidades = $em->getRepository('AppBundle:Servicio')->findByDia(date("w"));               // Lista de Especialidades
-        $servicioProfesionals = $em->getRepository('AppBundle:Cita')->findAllByServiosProfesionales(date("w"));         //Lista
+        $medicos = $em->getRepository('AppBundle:Cita')->findAllByServiosProfesionalesTodos(date("w"));             // Lista Medicos
+        $especialidades = $em->getRepository('AppBundle:Servicio')->findByDia(date("w"));                           // Lista de Especialidades
+        $servicioProfesionals = $em->getRepository('AppBundle:Cita')->findAllByServiosProfesionales(date("w"));     // Lista
+
+        //dump($servicioProfesionals); die();
 
         return $this->render('default/recepcion.html.twig', array(
                     'esperandos' => $esperandos,
@@ -59,14 +61,17 @@ class DefaultController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $hoy = new \DateTime('now');
         $hoy->setTime(0, 0, 0);
-        $configuracion = $em->getRepository('AppBundle:Configuracion')->findAll();
-        $especialidad = $em->getRepository('AppBundle:Especialidad')->findOneByNombre('Pediatría');
+        $configuracion = $em->getRepository('AppBundle:Configuracion')->findAll();        
+        $profesional = $em->getRepository('AppBundle:Profesional')->findOneByPersona($this->getUser()->getPersona());
+        $servicioProfesional = $em->getRepository('AppBundle:ServicioProfesional')->findOneBy(array('profesional'=>$profesional,'status'=>'activo'));
+        $especialidad = $em->getRepository('AppBundle:Especialidad')->find($servicioProfesional->getServicio()->getEspecialidad());
+        //dump($especialidad); die();
         $repository = $em->getRepository('AppBundle:Esperando');
         $query = $repository->createQueryBuilder('p')
                 ->where('p.fechaRegistro >= :hoy')
-                ->andWhere('p.especialidad = :miEspecialidad')
+                ->andWhere('p.especialidad = :especialidad')                                
                 ->setParameter('hoy', $hoy)
-                ->setParameter('miEspecialidad', $especialidad)
+                ->setParameter('especialidad', $especialidad)                
                 ->orderBy('p.posicion', 'ASC')
                 ->getQuery();
         $esperandos = $query->getResult(); //Lista de Espera

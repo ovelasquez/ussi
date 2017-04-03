@@ -257,8 +257,14 @@
     <!-- Push -->
     <script src="{{ asset('bundles/app/vendors/push/push.min.js')}}"></script> 
     <script>
+    function reloadPagina() {
+       location.reload();       
+    }
+
      $(document).ready(function () {  
          $('#datatable-fixed-header').DataTable({ fixedHeader: true });
+          setInterval(reloadPagina, 60000);
      });
     </script>
 {% endblock %}
+

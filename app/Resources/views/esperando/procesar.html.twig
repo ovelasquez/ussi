@@ -99,16 +99,16 @@
         });
 
         if ({{id}} == 0) {
-        swal(
+            swal(
                 'Ooops',
                 'No hay Pacientes en la Lista de Espera :)',
-                'success'
-                )
+                'success' 
+            )
+            window.location.href = "{{ path('homepage') }}";                             
         } else {
-        // $('#miBoton').click();
-        //$("#miBoton").click(function () {});
-        
+                    
         ion.sound.play("aeropuerto", {loop: 5 });
+
         swal({
         type: 'info',
                 title: 'Llamando al Paciente',

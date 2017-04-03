@@ -268,28 +268,4 @@ class Esperando
     {
         return $this->posicion;
     }
-
-    /**
-     * Set medico
-     *
-     * @param \AppBundle\Entity\Profesional $medico
-     *
-     * @return Esperando
-     */
-    public function setMedico(\AppBundle\Entity\Profesional $medico = null)
-    {
-        $this->medico = $medico;
-
-        return $this;
-    }
-
-    /**
-     * Get medico
-     *
-     * @return \AppBundle\Entity\Profesional
-     */
-    public function getMedico()
-    {
-        return $this->medico;
-    }
 }

@@ -27,6 +27,7 @@ class AjaxController extends Controller {
 
         $lista = $em->getRepository('AppBundle:Esperando')->findOneByStatus('procesando');
 
+        if($lista) {
         // encode user to json format
         $userDataAsJson = $this->encodeUserDataToJson($lista);
 
@@ -39,6 +40,12 @@ class AjaxController extends Controller {
         ]);
 
         //return array('userDataAsJson' => $userDataAsJson  );
+    } else {
+         return new JsonResponse([
+            'success' => false,
+            'data' => [] // Your data here
+        ]);
+    }
     }
 
     private function encodeUserDataToJson(Esperando $lista) {
@@ -52,6 +59,9 @@ class AjaxController extends Controller {
             ),
             'especialidad' => array(
                 'nombre' => $lista->getEspecialidad()->getNombre(),
+            ),
+              'medico' => array(
+                'id' => $lista->getMedico()->getId(),
             ),
             
         );
