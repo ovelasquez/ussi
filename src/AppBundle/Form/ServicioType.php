@@ -23,7 +23,7 @@ class ServicioType extends AbstractType {
                 ))
                 
                 ->add('turno', ChoiceType::class, array(
-                    'choices' => array('Mañana' => 'mañana', 'Tarde' => 'Tarde', 'Mixto' => 'mixto', 'Nínguno' => 'ninguno'),
+                    'choices' => array('Mañana' => 'mañana', 'Tarde' => 'tarde', 'Mixto' => 'mixto', 'Nínguno' => 'ninguno'),
                     'required' => true,
                     'label' => 'Turno',
                 ))

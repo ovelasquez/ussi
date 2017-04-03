@@ -1,4 +1,5 @@
 {% extends 'base.html.twig' %}
+
 {% block Subtitulo %} Ver Datos del Paciente -  <small> <a href="{{ path('paciente_index') }}">Regresar a la lista</a></small> {% endblock %} 
 {% block body %}
     {% for msg in app.session.flashBag.get('success') %}

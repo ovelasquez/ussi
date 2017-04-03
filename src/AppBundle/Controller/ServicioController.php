@@ -45,6 +45,8 @@ class ServicioController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $servicio->setDisponible($servicio->getCupo());
+            $servicio->setFecha(new \DateTime('now'));
             $em->persist($servicio);
             $em->flush($servicio);
             $this->addFlash('success', 'Datos creados satisfactoriamente');

@@ -5,7 +5,9 @@ namespace AppBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Entity\Esperando;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Ajax controller.
@@ -24,24 +26,38 @@ class AjaxController extends Controller {
         $em = $this->getDoctrine()->getManager();
 
         $lista = $em->getRepository('AppBundle:Esperando')->findOneByStatus('procesando');
-        //dump($lista); die();
 
-        return $this->render('ajax/estanLlamado.html.twig', array('lista' => $lista->getPosicion(),));
+        // encode user to json format
+        $userDataAsJson = $this->encodeUserDataToJson($lista);
+
+        //dump($userDataAsJson);   die();
+        //return $this->render('ajax/estanLlamado.html.twig', array('lista' => json_encode($lista)));
+
+        return new JsonResponse([
+            'success' => true,
+            'data' => [$userDataAsJson] // Your data here
+        ]);
+
+        //return array('userDataAsJson' => $userDataAsJson  );
     }
 
-    /**
-     * 
-     *
-     * @Route("/estanLlamando", name="ajax_alertaLlamando")
-     * @Method({"GET", "POST"})
-     */
-    public function alertaLlamandoAction() {
-        $em = $this->getDoctrine()->getManager();
+    private function encodeUserDataToJson(Esperando $lista) {
+        $userData = array(
+            'id' => $lista->getId(),
+            'paciente' => array(
+                'id' => $lista->getPaciente()->getId(),
+                'cedula' => $lista->getPaciente()->getPersona()->getNacionalidad() . ' - ' . $lista->getPaciente()->getPersona()->getCedula(),
+                'nombre' => $lista->getPaciente()->getPersona()->getPrimerNombre() . ' ' . $lista->getPaciente()->getPersona()->getPrimerApellido(),
+                'foto' => $lista->getPaciente()->getPersona()->getFoto()->getFilename(),
+            ),
+            'especialidad' => array(
+                'nombre' => $lista->getEspecialidad()->getNombre(),
+            ),
+            
+        );
 
-        $lista = $em->getRepository('AppBundle:Disponible')->findOneByStatus('procesando');
-        //dump($lista); die();
-
-        return $this->render('ajax/alertaLlamado.html.twig', array('lista' => $lista->getPosicion(),));
+        $jsonEncoder = new JsonEncoder();
+        return $jsonEncoder->encode($userData, $format = 'json');
     }
 
 }

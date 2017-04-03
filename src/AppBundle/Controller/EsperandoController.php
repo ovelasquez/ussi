@@ -62,7 +62,7 @@ class EsperandoController extends Controller {
         //Datos Cableados
         $especialidad = ["Medicina General", "Medicina Interna", "Pediatría"];
         $especialidad = $especialidad[rand(0, 2)];
-       // $esMio = false;
+        // $esMio = false;
         $miId = 2;
 
         //dump($especialidad);
@@ -88,7 +88,7 @@ class EsperandoController extends Controller {
                     $repetir = FALSE;
                     $esperandos = $esperandos[$i];
                     $foto = $esperandos->getPaciente()->getPersona()->getFoto();
-                   // $esMio = true;
+                    // $esMio = true;
                 }
                 $i++;
             } while ($repetir && ($i < count($esperandos)));
@@ -220,8 +220,8 @@ class EsperandoController extends Controller {
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('esperando_edit', array('id' => $esperando->getId()));
+            $this->addFlash('success', 'Datos actualizados satisfactoriamente');
+            return $this->redirectToRoute('esperando_show', array('id' => $esperando->getId()));
         }
 
         return $this->render('esperando/edit.html.twig', array(
