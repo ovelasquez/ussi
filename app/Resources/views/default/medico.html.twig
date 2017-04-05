@@ -221,13 +221,13 @@
                                                         <td class="project_progress">    
                                                             {% set valor = (esperando.penalizacion *100/ penalizacion)%}                           
                                                             {% set color = 'bg-red'-%}
-                                                            {% if(valor<31) %}
+                                                            {% if(valor<50) %}
                                                                 {% set color = 'bg-green' %}
                                                             {% endif%}
                                                             <div class="progress progress_sm right">
                                                                 <div class="progress-bar {{color}}" role="progressbar" data-transitiongoal="{{valor}}" ></div>
                                                             </div>
-                                                            <small>    {{ valor }}%  - de {{ penalizacion}} Oportunidades </small>
+                                                            <small>    {{ esperando.penalizacion }}  - de {{ penalizacion}} Oportunidades </small>
                                                         </td>
                                                         <td>{{ esperando.especialidad.nombre }}</td>
                                                         <td>{% if esperando.profesional != null %} {{ esperando.profesional.persona.primerApellido }} {{ esperando.profesional.persona.primerNombre }}{% endif %}</td>                                                                

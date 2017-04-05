@@ -1,0 +1,64 @@
+{% extends  'sala.html.twig' %}
+{% block stylesheets %}
+    <!-- sweetalert2 -->    
+    <script src="{{ asset('bundles/app/vendors/sweetalert2/sweetalert2.min.js')}}"></script>
+    <link href="{{ asset('bundles/app/vendors/sweetalert2/sweetalert2.min.css')}}" rel="stylesheet">
+{% endblock %}
+{% block contenido %}
+
+
+{% endblock contenido %}
+
+{% block javascripts %}
+    <script src="{{ asset('bundles/app/vendors/ion.sound/ion.sound.min.js')}}"></script> 
+    <script>
+        function reloadPagina() {
+            location.reload();
+        }
+        //Verificar si un Doctor esta llamando a un Paciente
+        function estanLlamando() {
+            $.ajax
+                    ({
+                        type: "POST",
+                        url: "{{ path ('ajax_estanLlamando') }}",
+                        //data: dataString,
+                        cache: false,
+                        success: function (html)
+                        {
+                            var obj = jQuery.parseJSON(html.data);
+                            $.each(obj, function (index, value) {
+                                 ion.sound.play("aeropuerto", {loop: 1});
+                                swal({
+                                    type: 'info',
+                                    title: value.paciente.nombre,
+                                    text: value.paciente.cedula + "  - " + " Especialidad: " + value.especialidad.nombre + " - Médico: " + value.medico.nombre,
+                                    timer: 10000,
+                                    showConfirmButton: false
+                                });
+
+                            }); //each
+                        }
+                    });
+
+
+        }
+        $(document).ready(function () {
+            setInterval(estanLlamando, 10000);
+            // init bunch of sounds
+            ion.sound({
+                sounds: [
+                    {name: "aeropuerto"},
+                ],
+                // main config
+                path: "{{ asset('bundles/app/vendors/ion.sound/sounds/')}}",
+                preload: true,
+                multiplay: true,
+                volume: 0.9
+            });
+
+            // setInterval(reloadPagina, 30000);
+        });
+    </script>
+
+
+{% endblock %}

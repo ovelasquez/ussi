@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>USSI - UBV | Sala de Espera</title>
+
+        <!-- Bootstrap -->
+        <script src="{{ asset('bundles/app/seguridad/js/pace.js')}}"></script> 
+        <link href="{{ asset('bundles/app/seguridad/css/bootstrap.css') }}" rel="stylesheet">       
+        <link href="{{ asset('bundles/app/seguridad/css/theme.css') }}" rel="stylesheet"> 
+        <link href="{{ asset('bundles/app/seguridad/css/font-awesome.css') }}" rel="stylesheet">
+        <link href="{{ asset('bundles/app/seguridad/css/animate.css') }}" rel="stylesheet">        
+        <!--link href="http://fonts.googleapis.com/css?family=Roboto+Slab:700,400|Open+Sans+Condensed:300" rel='stylesheet' type='text/css'-->
+        <link href="{{ asset('bundles/app/seguridad/css/theme-loading-bar.css') }}" rel="stylesheet"> 
+        {% block stylesheets %}{% endblock %}
+        
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    </head>
+    <body>
+        <div class="container" id="container" style="display:none;">
+            <header>            
+                    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+                      <div class="container">
+                            <div class="navbar-header">
+                              <a class="navbar-brand top-navbar-brand" href="{{ path('homepage') }}">
+                              <img src="{{ asset('bundles/app/seguridad/images/logoUBV.png')}}" alt="USSI-UBV" class="" > </a>
+                            </div>
+                            <!--ul class="nav navbar-nav navbar-right bigger-130 hidden-xs">
+                                    <li><a href="#"><i class="fa fa-google"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                            </ul-->
+                      </div>
+                    </nav>
+            </header>
+            <section id="form" class="animated fadeInDown">
+                <div class="container">    
+                    <div id="loginbox" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+                    {% block contenido %}                    
+                       CONTENIDO :)
+                    {% endblock contenido %} 
+                    </div>
+                </div>
+            </section>
+            <footer>
+                    <nav class="navbar navbar-default navbar-fixed-bottom" role="navigation">
+                      <div class="container text-center">
+                            <div class="footer-content">
+                              <!--¿Todavía no se ha registrado? <a href="register.html" class="btn btn-primary"> Registrarse Aquí </a-->
+                              Software de gestión, control y seguimiento de la Unidad de Servicios de Salud Integral <a href="http://www.ubv.edu.ve">UBV </a> © 2017 Reservados todos los derechos
+                            </div>
+                      </div><!-- /.container-fluid -->
+        </nav>
+    </footer-->
+</div>
+<script src="{{ asset('bundles/app/seguridad/js/jquery.min.js')}}"> </script> 
+<script src="{{ asset('bundles/app/seguridad/js/bootstrap.min.js')}}"> </script> 
+<script src="{{ asset('bundles/app/seguridad/js/jquery.backstretch.min.js')}}"> </script> 
+<script>
+    Pace.on('hide', function () {
+        $("#container").fadeIn('1000');
+        $.backstretch([            
+            "{{ asset('bundles/app/seguridad/images/1.jpg')}}",
+            "{{ asset('bundles/app/seguridad/images/2.jpg')}}",
+            "{{ asset('bundles/app/seguridad/images/3.jpg')}}",
+            "{{ asset('bundles/app/seguridad/images/4.jpg')}}",
+            "{{ asset('bundles/app/seguridad/images/5.jpg')}}",
+            "{{ asset('bundles/app/seguridad/images/6.jpg')}}",
+            "{{ asset('bundles/app/seguridad/images/7.jpg')}}",
+            "{{ asset('bundles/app/seguridad/images/8.jpg')}}",
+            "{{ asset('bundles/app/seguridad/images/9.jpg')}}",
+        ], {duration: 5000, fade: 1000});
+    });
+</script>
+{% block javascripts %}{% endblock %}
+</body>
+</html>

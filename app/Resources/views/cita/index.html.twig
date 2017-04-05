@@ -46,7 +46,8 @@
                     <td>{{ citum.paciente.persona.cedula}}</td>
                     <td>{{ citum.paciente.persona.primerApellido}} {{ citum.paciente.persona.primerNombre}}</td>
                     <td>{{ citum.especialidad.nombre}}</td>
-                    <td>{{ citum.profesional.persona.primerApellido}} {{ citum.profesional.persona.primerNombre}}</td>
+                    <td>{% if citum.profesional %}{{ citum.profesional.persona.primerApellido}} {{ citum.profesional.persona.primerNombre}}{% endif %}
+                        </td>
                     <td>{% if citum.fecha %}{{ citum.fecha|date('d-m-Y') }}{% endif %}</td>
                     <td>{{ citum.status }}</td>
                     <td>

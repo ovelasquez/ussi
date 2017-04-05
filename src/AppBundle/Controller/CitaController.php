@@ -26,7 +26,7 @@ class CitaController extends Controller {
      */
     public function indexAction() {
         $em = $this->getDoctrine()->getManager();
-        
+
 
         $citas = $em->getRepository('AppBundle:Cita')->findAll();
 
@@ -78,6 +78,7 @@ class CitaController extends Controller {
         //Parametrización de la aplicacion por BD
         $em = $this->getDoctrine()->getManager();
         $configuracion = $em->getRepository('AppBundle:Configuracion')->findAll();
+
         if ($hoy != $configuracion[0]->getServicioActualizado()) {
             $this->setServicio();
         }
@@ -122,6 +123,8 @@ class CitaController extends Controller {
                         'nombre' => $var['especialidad'],
                     )
             );
+            //   dump($persona); die();
+
             if ($persona) {
                 $paciente = $em->getRepository('AppBundle:Paciente')->findOneBy(array('persona' => $persona));
             } else {
@@ -151,9 +154,9 @@ class CitaController extends Controller {
                 $listaEspera->setFechaRegistro(new \DateTime("now"));
 
                 $ultimoListaEspera = $em->getRepository('AppBundle:Cita')->findOneByPosicion(0);
-                $listaEspera->setPosicion($ultimoListaEspera['posicion']+1);
-                
-                
+                $listaEspera->setPosicion($ultimoListaEspera['posicion'] + 1);
+
+
                 if (!$cita || $var['medico'] == 'Verdad') {
                     //No posee cita, entonces lo asignamos a la Lista de Espera
                     $listaEspera->setProfesional(null);
@@ -167,13 +170,26 @@ class CitaController extends Controller {
                 } else {
                     //Verificamos si el Profesional esta de Servicio o notifico que no asistía
                     $servicio = $this->buscarServicio($especialidad);
-                    $profesionalDisponible = new \AppBundle\Entity\ServicioProfesional();
-                    $profesionalDisponible = $this->disponibleProfesional($cita[0]->getProfesional(), $servicio);
 
 
-                    if ($profesionalDisponible != null && $profesionalDisponible->getStatus() == "activo") {
-
-                        $listaEspera->setProfesional($cita[0]->getProfesional());
+                    if ($cita[0]->getProfesional() != null) {
+                        $profesionalDisponible = new \AppBundle\Entity\ServicioProfesional();
+                        $profesionalDisponible = $this->disponibleProfesional($cita[0]->getProfesional(), $servicio);
+                        if ($profesionalDisponible != null && $profesionalDisponible->getStatus() == "activo") {
+                            $listaEspera->setProfesional($cita[0]->getProfesional());
+                            if ($this->disponibilidadServicio($especialidad) > 0) {
+                                $em->persist($listaEspera);
+                                $em->flush($listaEspera);
+                                $this->descontandoDisponibilidadServicio($especialidad);
+                                $cola = $this->enCola($especialidad, $listaEspera->getProfesional());
+                                $misServicos = $this->disponibleServicio();
+                            }
+                        } else {
+                            //NO ENTIENDO PARA QUE ERA ESTO - FAVOR COMENTAR EL CODIGO
+                            $doctor = $profesionalDisponible->getProfesional()->getPersona()->getPrimerApellido() . ' ' . $profesionalDisponible->getProfesional()->getPersona()->getPrimerNombre();
+                            $observacion = $profesionalDisponible->getObservacion();
+                        }
+                    } else {
                         if ($this->disponibilidadServicio($especialidad) > 0) {
                             $em->persist($listaEspera);
                             $em->flush($listaEspera);
@@ -181,10 +197,6 @@ class CitaController extends Controller {
                             $cola = $this->enCola($especialidad, $listaEspera->getProfesional());
                             $misServicos = $this->disponibleServicio();
                         }
-                    } else {
-
-                        $doctor = $profesionalDisponible->getProfesional()->getPersona()->getPrimerApellido() . ' ' . $profesionalDisponible->getProfesional()->getPersona()->getPrimerNombre();
-                        $observacion = $profesionalDisponible->getObservacion();
                     }
                 }
             }
@@ -304,13 +316,11 @@ class CitaController extends Controller {
         $misServicos = array();
 
         foreach ($servicio as &$valor) {
-
-            if (!in_array($valor['id'], $unServicio)) {
+            if (!in_array($valor['nombre'], $unServicio)) {
                 array_push($misServicos, $valor);
-                array_push($unServicio, $valor['id']);
+                array_push($unServicio, $valor['nombre']);
             }
         }
-
         return $misServicos;
     }
 
@@ -343,11 +353,10 @@ class CitaController extends Controller {
         $esperando = $em->getRepository('AppBundle:Esperando')->findByStatus('activo');
         foreach ($esperando as &$valor) {
             $valor->setStatus('abandono'); //El Paciente no se presento a la consulta
-            $valor->setPosicion(null); 
+            $valor->setPosicion(null);
             $em->persist($valor);
-           $em->flush($valor);
+            $em->flush($valor);
         }
-         
     }
 
     /**

@@ -3,8 +3,8 @@ security:
         FOS\UserBundle\Model\UserInterface: bcrypt
 
     role_hierarchy:
-        
-        ROLE_MEDICO:       ROLE_USER
+        ROLE_RECEPCION:   ROLE_USER
+        ROLE_MEDICO:      ROLE_RECEPCION
         ROLE_ADMIN:       ROLE_MEDICO
         ROLE_SUPER_ADMIN: ROLE_ADMIN
 
@@ -29,6 +29,8 @@ security:
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/, role: ROLE_USER }
+        - { path: ^/homepage_recepcion/, role: ROLE_RECEPCION }
+        - { path: ^/homepage_medico/, role: ROLE_MEDICO }
         - { path: ^/pfg/, role: ROLE_ADMIN }
         - { path: ^/etnia/, role: ROLE_ADMIN }
         - { path: ^/religion/, role: ROLE_ADMIN }

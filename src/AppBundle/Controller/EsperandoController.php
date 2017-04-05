@@ -159,7 +159,7 @@ class EsperandoController extends Controller {
                     $esperandos->setPosicion(null);
                 }
                 $em->flush($esperandos);
-                return $this->redirectToRoute('esperando_index');
+                return $this->redirectToRoute('homepage');
             }
         }
     }

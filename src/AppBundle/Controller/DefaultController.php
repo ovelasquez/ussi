@@ -14,13 +14,11 @@ class DefaultController extends Controller {
      */
     public function indexAction() {
 
-        if (in_array('ROLE_MEDICO', $this->getUser()->getRoles())) {
-            return $this->redirectToRoute('homepage_medico');
-        } elseif (in_array('ROLE_RECEPCION', $this->getUser()->getRoles())) {
+        if (in_array('ROLE_RECEPCION', $this->getUser()->getRoles())) {
             return $this->redirectToRoute('homepage_recepcion');
+        } elseif (in_array('ROLE_MEDICO', $this->getUser()->getRoles())) {
+            return $this->redirectToRoute('homepage_medico');
         }
-
-
         return $this->render('default/index.html.twig', ['base_dir' => realpath($this->getParameter('kernel.root_dir') . '/..') . DIRECTORY_SEPARATOR,]);
     }
 
@@ -75,11 +73,22 @@ class DefaultController extends Controller {
                 ->orderBy('p.posicion', 'ASC')
                 ->getQuery();
         $esperandos = $query->getResult(); //Lista de Espera
+        
+       // dump($esperandos); die();
 
         return $this->render('default/medico.html.twig', array(
                     'esperandos' => $esperandos,
                     'penalizacion' => $configuracion[0]->getPenalizacion(),
         ));
+    }
+    
+    
+        /**
+     * @Route("/sala", name="homepage_sala")
+     */
+    public function salaAction() {
+        
+        return $this->render('sala/index.html.twig');
     }
 
 }
