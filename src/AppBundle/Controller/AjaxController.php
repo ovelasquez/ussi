@@ -24,50 +24,42 @@ class AjaxController extends Controller {
      */
     public function estanLlamandoAction() {
         $em = $this->getDoctrine()->getManager();
-
-        $lista = $em->getRepository('AppBundle:Esperando')->findOneByStatus('procesando');
-
-        if($lista) {
+        $lista = $em->getRepository('AppBundle:Esperando')->findByStatus('procesando');
         // encode user to json format
         $userDataAsJson = $this->encodeUserDataToJson($lista);
-
-        //dump($userDataAsJson);   die();
-        //return $this->render('ajax/estanLlamado.html.twig', array('lista' => json_encode($lista)));
-
+        //dump($userDataAsJson);   die(); 
         return new JsonResponse([
             'success' => true,
-            'data' => [$userDataAsJson] // Your data here
-        ]);
-
-        //return array('userDataAsJson' => $userDataAsJson  );
-    } else {
-         return new JsonResponse([
-            'success' => false,
-            'data' => [] // Your data here
+            'data' => [$userDataAsJson]
         ]);
     }
-    }
 
-    private function encodeUserDataToJson(Esperando $lista) {
-        $userData = array(
-            'id' => $lista->getId(),
-            'paciente' => array(
-                'id' => $lista->getPaciente()->getId(),
-                'cedula' => $lista->getPaciente()->getPersona()->getNacionalidad() . ' - ' . $lista->getPaciente()->getPersona()->getCedula(),
-                'nombre' => $lista->getPaciente()->getPersona()->getPrimerNombre() . ' ' . $lista->getPaciente()->getPersona()->getPrimerApellido(),
-                'foto' => $lista->getPaciente()->getPersona()->getFoto()->getFilename(),
-            ),
-            'especialidad' => array(
-                'nombre' => $lista->getEspecialidad()->getNombre(),
-            ),
-              'medico' => array(
-                'id' => $lista->getMedico()->getId(),
-            ),
+    private function encodeUserDataToJson(Array $valor) {
+        $procesando= array();
+        foreach ($valor as &$lista) {
             
-        );
-
+            $userData = array(
+                'id' => $lista->getId(),
+                'paciente' => array(
+                    'id' => $lista->getPaciente()->getId(),
+                    'cedula' => $lista->getPaciente()->getPersona()->getNacionalidad() . ' - ' . $lista->getPaciente()->getPersona()->getCedula(),
+                    'nombre' => $lista->getPaciente()->getPersona()->getPrimerNombre() . ' ' . $lista->getPaciente()->getPersona()->getPrimerApellido(),
+                    'foto' => $lista->getPaciente()->getPersona()->getFoto()->getFilename(),
+                ),
+                'especialidad' => array(
+                    'nombre' => $lista->getEspecialidad()->getNombre(),
+                ),
+                'medico' => array(
+                    'id' => $lista->getMedico()->getId(),
+                    'nombre' => $lista->getMedico()->getPersona()->getPrimerNombre() . ' ' . $lista->getMedico()->getPersona()->getPrimerApellido(),
+                ),
+            );
+            
+            array_push($procesando,$userData);
+        }        
+        
         $jsonEncoder = new JsonEncoder();
-        return $jsonEncoder->encode($userData, $format = 'json');
+        return $jsonEncoder->encode($procesando, $format = 'json');
     }
 
 }

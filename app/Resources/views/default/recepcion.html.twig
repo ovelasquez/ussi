@@ -194,14 +194,14 @@
                                         <span id='medico{{servicioProfesional.id}}' class="hidden text-success time animated infinite flash">Llamando</span>
                                         </br>
                                         <span id='llamada{{servicioProfesional.id}}' class="hidden time">
-                                        <button type="button" class="btn btn-xs btn-success" data-toggle="tooltip" data-placement="top" title="" data-original-title="Activo"> 
-                                         <span class="glyphicon glyphicon-fire" aria-hidden="true"> Si</span> </button>
-                                         <button type="button" class="btn btn-xs btn-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="Activo"> 
-                                         <span class="glyphicon glyphicon-fire" aria-hidden="true"> No</span> </button>
+                                            <button type="button" class="btn btn-xs btn-success" data-toggle="tooltip" data-placement="top" title="" data-original-title="Activo"> 
+                                                <span class="glyphicon glyphicon-fire" aria-hidden="true"> Si</span> </button>
+                                            <button type="button" class="btn btn-xs btn-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="Activo"> 
+                                                <span class="glyphicon glyphicon-fire" aria-hidden="true"> No</span> </button>
                                         </span>
                                     </span>
                                     <span class="message">
-                                     {{ servicioProfesional.nombre }}                                      
+                                        {{ servicioProfesional.nombre }}                                      
                                     </span>
                                 </a>
                             </li>                                        
@@ -320,67 +320,76 @@
     <!-- Push -->
     <script src="{{ asset('bundles/app/vendors/push/push.min.js')}}"></script> 
     <script>
-     function reloadPagina() {
-       location.reload();       
-    }
-  //Verificar si un Doctor esta llamando a un Paciente
-            function estanLlamando() {
-                $.ajax
-                        ({
-                            type: "POST",
-                            url: "{{ path ('ajax_estanLlamando') }}",
-                            //data: dataString,
-                            cache: false,
-                            success: function (html)
-                            {
-                                var obj = jQuery.parseJSON(html.data);                                
-                                var medico= 'medico'+obj.medico.id;                                
-                                $('#'+medico).removeClass( "hidden" );
-                                var llamada= 'llamada'+obj.medico.id;                                
-                                $('#'+llamada).removeClass( "hidden" );
+        function reloadPagina() {
+            location.reload();
+        }
+        //Verificar si un Doctor esta llamando a un Paciente
+        function estanLlamando() {
+            $.ajax
+                    ({
+                        type: "POST",
+                        url: "{{ path ('ajax_estanLlamando') }}",
+                        //data: dataString,
+                        cache: false,
+                        success: function (html)
+                        {
+                            var obj = jQuery.parseJSON(html.data);
+                            $.each(obj, function (index, value) {
+                                
+                                //var obj = jQuery.parseJSON(value);
+                                //var obj =value;
+                                //alert(obj);
+                                var medico = 'medico' + value.medico.id;
+                                $('#' + medico).removeClass("hidden");
+                                var llamada = 'llamada' + value.medico.id;
+                                $('#' + llamada).removeClass("hidden");
 
-                           /*     new PNotify({
-                                    title: "Llamando a Paciente",
-                                    type: "info",
-                                    text: "Paciente: " + obj.paciente.cedula + "  - " + obj.paciente.nombre + " Especialidad: " + obj.especialidad.nombre,
-                                    icon: "{{ asset('uploads/fotos/')}}" + obj.paciente.foto,
-                                    addclass: 'dark',
-                                    styling: 'bootstrap3',
-                                    hide: false,
-                                    before_close: function (PNotify) {
-                                        PNotify.update({
-                                            title: PNotify.options.title + " - Enjoy your Stay",
-                                            before_close: null
-                                        });
-
-                                        PNotify.queueRemove();
-
-                                        return false;
+                                var Paciente = value.paciente.cedula + "  - " + value.paciente.nombre;
+                                Push.create("Paciente", {
+                                    body: Paciente + " Especialidad: " + value.especialidad.nombre + " - Médico: " + value.medico.nombre,
+                                    icon: "{{ asset('uploads/fotos/')}}" + value.paciente.foto,
+                                    timeout: 10000,
+                                    vibrate: [200, 100],
+                                    onClick: function () {
+                                        window.focus();
+                                        this.close();
                                     }
                                 });
-*/
-                                
-                                 // alert(obj.paciente.foto);
-                                 Push.create("Llamando al", {
-                                 body: "Paciente: " + obj.paciente.cedula + "  - " + obj.paciente.nombre + " Especialidad: " + obj.especialidad.nombre,
-                                 icon: "{{ asset('uploads/fotos/')}}" + obj.paciente.foto,
-                                 timeout: 50000,
-                                 vibrate: [200, 100],
-                                 onClick: function () {
-                                 window.focus();
-                                 this.close();
-                                 }
-                                 });
-                                 
-
-                            }
-                        });
+                            });
 
 
-            }
+                            /*     new PNotify({
+                             title: "Llamando a Paciente",
+                             type: "info",
+                             text: "Paciente: " + obj.paciente.cedula + "  - " + obj.paciente.nombre + " Especialidad: " + obj.especialidad.nombre,
+                             icon: "{{ asset('uploads/fotos/')}}" + obj.paciente.foto,
+                             addclass: 'dark',
+                             styling: 'bootstrap3',
+                             hide: false,
+                             before_close: function (PNotify) {
+                             PNotify.update({
+                             title: PNotify.options.title + " - Enjoy your Stay",
+                             before_close: null
+                             });
+                             
+                             PNotify.queueRemove();
+                             
+                             return false;
+                             }
+                             });
+                             */
+
+
+                        }
+
+
+                    });
+
+
+        }
         $(document).ready(function () {
             setInterval(estanLlamando, 10000);
-           // setInterval(reloadPagina, 30000);
+            // setInterval(reloadPagina, 30000);
             $('#datatable-fixed-header').DataTable({
                 fixedHeader: true
             });
