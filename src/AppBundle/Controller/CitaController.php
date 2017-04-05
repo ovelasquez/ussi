@@ -26,6 +26,7 @@ class CitaController extends Controller {
      */
     public function indexAction() {
         $em = $this->getDoctrine()->getManager();
+        
 
         $citas = $em->getRepository('AppBundle:Cita')->findAll();
 
