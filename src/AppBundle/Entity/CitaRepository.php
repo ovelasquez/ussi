@@ -16,7 +16,7 @@ class CitaRepository extends EntityRepository {
     public function findAllByServiosProfesionales($dia) {
         $conn = $this->getEntityManager()->getConnection();
         $sql = '
-            select e.nombre, s.dia, s.cupo, s.disponible, s.turno, s.id, s.procedencia, sp.status, pers.foto, pers.primer_nombre, pers.primer_apellido from servicio_profesional as sp
+            select e.nombre, s.dia, s.cupo, s.disponible, s.turno, s.id, s.procedencia, sp.status, pers.foto, pers.primer_nombre, pers.primer_apellido, p.id from servicio_profesional as sp
             left join profesional as p on sp.profesional_id=p.id
             left join persona as pers on p.persona_id=pers.id
             left join servicio as s on s.id=sp.servicio_id

@@ -53,53 +53,50 @@ class EsperandoController extends Controller {
      */
     public function procesarAction(Request $request) {
         $id = 0;
-
         $em = $this->getDoctrine()->getManager();
         $configuracion = $em->getRepository('AppBundle:Configuracion')->findAll();
         $repetir = true;
+        $esMio = false;
         $foto = '';
 
-        //Datos Cableados
-        $especialidad = ["Medicina General", "Medicina Interna", "Pediatría"];
-        $especialidad = $especialidad[rand(0, 2)];
-        // $esMio = false;
-        $miId = 2;
-
-        //dump($especialidad);
-
-        $miEspecialidad = $em->getRepository('AppBundle:Especialidad')->findByNombre($especialidad);
-
+        //Datos Cableados para Pruebas:
+        //  $especialidad = ["Medicina General", "Medicina Interna", "Pediatría"];
+        //  $especialidad = $especialidad[rand(0, 2)];        
+        //  $miId = 2;
+        //  $miEspecialidad = $em->getRepository('AppBundle:Especialidad')->findByNombre($especialidad);
+        
+        //Datos Reales
+        $profesional = $em->getRepository('AppBundle:Profesional')->findOneByPersona($this->getUser()->getPersona());
+        $servicioProfesional = $em->getRepository('AppBundle:ServicioProfesional')->findOneBy(array('profesional'=>$profesional,'status'=>'activo'));
+        $especialidad = $em->getRepository('AppBundle:Especialidad')->find($servicioProfesional->getServicio()->getEspecialidad());
+        
         //Buscamos al Primero de la Lista de Espera
         $esperandos = $em->getRepository('AppBundle:Esperando')->findBy(
-                array('especialidad' => $miEspecialidad, 'status' => 'activo',), array('posicion' => 'ASC')
+                array('especialidad' => $especialidad, 'status' => 'activo',), array('posicion' => 'ASC')
         );
 
-
-        // dump($esperandos); die();
         //Cambiamos el estatus al paciente en la lista de espera de activo a procesando
-        if ($esperandos) {
+        if ($esperandos) {             
             $i = 0;
             do {
                 // Verificamos si el Paciente no tiene asociado un Médico y en caso de ser afirmtivo, se verifica si es el Medico logueado
-                if (($esperandos[$i]->getProfesional() == null) || ($esperandos[$i]->getProfesional()->getId() == $miId)) {
-                    $esperandos[$i]->setStatus('procesando');
-                    $em->flush($esperandos[$i]); //Cambiamos status en la BD a Procesando
+                if (($esperandos[$i]->getProfesional() == null) || ($esperandos[$i]->getProfesional()->getId() == $profesional->getId())) {
+                    $esperandos[$i]->setStatus('procesando'); //Cambiamos status en la BD a Procesando
+                    $esperandos[$i]->setMedico($profesional);  // Add el Profesional que lo esta llamando
+                    $em->flush($esperandos[$i]); 
                     $id = $esperandos[$i]->getId();
                     $repetir = FALSE;
                     $esperandos = $esperandos[$i];
                     $foto = $esperandos->getPaciente()->getPersona()->getFoto();
-                    // $esMio = true;
+                    $esMio = true;
                 }
                 $i++;
             } while ($repetir && ($i < count($esperandos)));
         }
-
-        //    if (!$esMio) {
-        // $esperandos = $esperandos;
-        //} else {
-        //        $esperandos = null;
-        //   }
-
+            if (!$esMio) {       
+                $esperandos = null;
+           }
+//dump($esperandos); die();
         return $this->render('esperando/procesar.html.twig', array(
                     'esperando' => $esperandos,
                     'tiempoEspera' => $configuracion[0]->getTiempoEspera(),
@@ -110,7 +107,7 @@ class EsperandoController extends Controller {
     }
 
     /**
-     * Lists all esperando entities.
+     * Procesando la lista de espera
      *
      * @Route("/procesando/{id}/{llego}", name="esperando_procesando")
      * @Method("GET")
@@ -200,6 +197,7 @@ class EsperandoController extends Controller {
      */
     public function showAction(Esperando $esperando) {
         $deleteForm = $this->createDeleteForm($esperando);
+        
 
         return $this->render('esperando/show.html.twig', array(
                     'esperando' => $esperando,
