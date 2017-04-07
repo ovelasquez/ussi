@@ -10,15 +10,14 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="sicobiologico", indexes={@ORM\Index(name="IDX_82DAD52E7310DAD4", columns={"paciente_id"})})
  * @ORM\Entity
  */
-class Sicobiologico
-{
+class Sicobiologico {
+
     /**
      * @var integer
      *
      * @ORM\Column(name="id", type="bigint", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="sicobiologico_id_seq", allocationSize=1, initialValue=1)
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
@@ -144,15 +143,12 @@ class Sicobiologico
      */
     private $paciente;
 
-
-
     /**
      * Get id
      *
      * @return integer
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -163,8 +159,7 @@ class Sicobiologico
      *
      * @return Sicobiologico
      */
-    public function setAlcohol($alcohol)
-    {
+    public function setAlcohol($alcohol) {
         $this->alcohol = $alcohol;
 
         return $this;
@@ -175,8 +170,7 @@ class Sicobiologico
      *
      * @return boolean
      */
-    public function getAlcohol()
-    {
+    public function getAlcohol() {
         return $this->alcohol;
     }
 
@@ -187,8 +181,7 @@ class Sicobiologico
      *
      * @return Sicobiologico
      */
-    public function setDrogas($drogas)
-    {
+    public function setDrogas($drogas) {
         $this->drogas = $drogas;
 
         return $this;
@@ -199,8 +192,7 @@ class Sicobiologico
      *
      * @return boolean
      */
-    public function getDrogas()
-    {
+    public function getDrogas() {
         return $this->drogas;
     }
 
@@ -211,8 +203,7 @@ class Sicobiologico
      *
      * @return Sicobiologico
      */
-    public function setIsecticidas($isecticidas)
-    {
+    public function setIsecticidas($isecticidas) {
         $this->isecticidas = $isecticidas;
 
         return $this;
@@ -223,8 +214,7 @@ class Sicobiologico
      *
      * @return boolean
      */
-    public function getIsecticidas()
-    {
+    public function getIsecticidas() {
         return $this->isecticidas;
     }
 
@@ -235,8 +225,7 @@ class Sicobiologico
      *
      * @return Sicobiologico
      */
-    public function setDeportes($deportes)
-    {
+    public function setDeportes($deportes) {
         $this->deportes = $deportes;
 
         return $this;
@@ -247,8 +236,7 @@ class Sicobiologico
      *
      * @return boolean
      */
-    public function getDeportes()
-    {
+    public function getDeportes() {
         return $this->deportes;
     }
 
@@ -259,8 +247,7 @@ class Sicobiologico
      *
      * @return Sicobiologico
      */
-    public function setSedentarismo($sedentarismo)
-    {
+    public function setSedentarismo($sedentarismo) {
         $this->sedentarismo = $sedentarismo;
 
         return $this;
@@ -271,8 +258,7 @@ class Sicobiologico
      *
      * @return boolean
      */
-    public function getSedentarismo()
-    {
+    public function getSedentarismo() {
         return $this->sedentarismo;
     }
 
@@ -283,8 +269,7 @@ class Sicobiologico
      *
      * @return Sicobiologico
      */
-    public function setSuenio($suenio)
-    {
+    public function setSuenio($suenio) {
         $this->suenio = $suenio;
 
         return $this;
@@ -295,8 +280,7 @@ class Sicobiologico
      *
      * @return boolean
      */
-    public function getSuenio()
-    {
+    public function getSuenio() {
         return $this->suenio;
     }
 
@@ -307,8 +291,7 @@ class Sicobiologico
      *
      * @return Sicobiologico
      */
-    public function setChupaDedo($chupaDedo)
-    {
+    public function setChupaDedo($chupaDedo) {
         $this->chupaDedo = $chupaDedo;
 
         return $this;
@@ -319,8 +302,7 @@ class Sicobiologico
      *
      * @return boolean
      */
-    public function getChupaDedo()
-    {
+    public function getChupaDedo() {
         return $this->chupaDedo;
     }
 
@@ -331,8 +313,7 @@ class Sicobiologico
      *
      * @return Sicobiologico
      */
-    public function setOnicofagia($onicofagia)
-    {
+    public function setOnicofagia($onicofagia) {
         $this->onicofagia = $onicofagia;
 
         return $this;
@@ -343,8 +324,7 @@ class Sicobiologico
      *
      * @return boolean
      */
-    public function getOnicofagia()
-    {
+    public function getOnicofagia() {
         return $this->onicofagia;
     }
 
@@ -355,8 +335,7 @@ class Sicobiologico
      *
      * @return Sicobiologico
      */
-    public function setMicciones($micciones)
-    {
+    public function setMicciones($micciones) {
         $this->micciones = $micciones;
 
         return $this;
@@ -367,8 +346,7 @@ class Sicobiologico
      *
      * @return boolean
      */
-    public function getMicciones()
-    {
+    public function getMicciones() {
         return $this->micciones;
     }
 
@@ -379,8 +357,7 @@ class Sicobiologico
      *
      * @return Sicobiologico
      */
-    public function setEvacuaciones($evacuaciones)
-    {
+    public function setEvacuaciones($evacuaciones) {
         $this->evacuaciones = $evacuaciones;
 
         return $this;
@@ -391,8 +368,7 @@ class Sicobiologico
      *
      * @return boolean
      */
-    public function getEvacuaciones()
-    {
+    public function getEvacuaciones() {
         return $this->evacuaciones;
     }
 
@@ -403,8 +379,7 @@ class Sicobiologico
      *
      * @return Sicobiologico
      */
-    public function setStress($stress)
-    {
+    public function setStress($stress) {
         $this->stress = $stress;
 
         return $this;
@@ -415,8 +390,7 @@ class Sicobiologico
      *
      * @return boolean
      */
-    public function getStress()
-    {
+    public function getStress() {
         return $this->stress;
     }
 
@@ -427,8 +401,7 @@ class Sicobiologico
      *
      * @return Sicobiologico
      */
-    public function setMetalesPesados($metalesPesados)
-    {
+    public function setMetalesPesados($metalesPesados) {
         $this->metalesPesados = $metalesPesados;
 
         return $this;
@@ -439,8 +412,7 @@ class Sicobiologico
      *
      * @return boolean
      */
-    public function getMetalesPesados()
-    {
+    public function getMetalesPesados() {
         return $this->metalesPesados;
     }
 
@@ -451,8 +423,7 @@ class Sicobiologico
      *
      * @return Sicobiologico
      */
-    public function setAlimentacion($alimentacion)
-    {
+    public function setAlimentacion($alimentacion) {
         $this->alimentacion = $alimentacion;
 
         return $this;
@@ -463,8 +434,7 @@ class Sicobiologico
      *
      * @return boolean
      */
-    public function getAlimentacion()
-    {
+    public function getAlimentacion() {
         return $this->alimentacion;
     }
 
@@ -475,8 +445,7 @@ class Sicobiologico
      *
      * @return Sicobiologico
      */
-    public function setCigarrillosDia($cigarrillosDia)
-    {
+    public function setCigarrillosDia($cigarrillosDia) {
         $this->cigarrillosDia = $cigarrillosDia;
 
         return $this;
@@ -487,8 +456,7 @@ class Sicobiologico
      *
      * @return boolean
      */
-    public function getCigarrillosDia()
-    {
+    public function getCigarrillosDia() {
         return $this->cigarrillosDia;
     }
 
@@ -499,8 +467,7 @@ class Sicobiologico
      *
      * @return Sicobiologico
      */
-    public function setFechaRegistro($fechaRegistro)
-    {
+    public function setFechaRegistro($fechaRegistro) {
         $this->fechaRegistro = $fechaRegistro;
 
         return $this;
@@ -511,8 +478,7 @@ class Sicobiologico
      *
      * @return \DateTime
      */
-    public function getFechaRegistro()
-    {
+    public function getFechaRegistro() {
         return $this->fechaRegistro;
     }
 
@@ -523,8 +489,7 @@ class Sicobiologico
      *
      * @return Sicobiologico
      */
-    public function setFechaActualizacion($fechaActualizacion)
-    {
+    public function setFechaActualizacion($fechaActualizacion) {
         $this->fechaActualizacion = $fechaActualizacion;
 
         return $this;
@@ -535,8 +500,7 @@ class Sicobiologico
      *
      * @return \DateTime
      */
-    public function getFechaActualizacion()
-    {
+    public function getFechaActualizacion() {
         return $this->fechaActualizacion;
     }
 
@@ -547,8 +511,7 @@ class Sicobiologico
      *
      * @return Sicobiologico
      */
-    public function setPaciente(\AppBundle\Entity\Paciente $paciente = null)
-    {
+    public function setPaciente(\AppBundle\Entity\Paciente $paciente = null) {
         $this->paciente = $paciente;
 
         return $this;
@@ -559,8 +522,8 @@ class Sicobiologico
      *
      * @return \AppBundle\Entity\Paciente
      */
-    public function getPaciente()
-    {
+    public function getPaciente() {
         return $this->paciente;
     }
+
 }

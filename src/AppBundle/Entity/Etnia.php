@@ -10,15 +10,14 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="etnia")
  * @ORM\Entity
  */
-class Etnia
-{
+class Etnia {
+
     /**
      * @var integer
      *
      * @ORM\Column(name="id", type="bigint", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="etnia_id_seq", allocationSize=1, initialValue=1)
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
@@ -29,15 +28,12 @@ class Etnia
      */
     private $nombre;
 
-
-
     /**
      * Get id
      *
      * @return integer
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -48,8 +44,7 @@ class Etnia
      *
      * @return Etnia
      */
-    public function setNombre($nombre)
-    {
+    public function setNombre($nombre) {
         $this->nombre = $nombre;
 
         return $this;
@@ -60,12 +55,12 @@ class Etnia
      *
      * @return string
      */
-    public function getNombre()
-    {
+    public function getNombre() {
         return $this->nombre;
     }
-    
+
     public function __toString() {
         return $this->getNombre();
     }
+
 }

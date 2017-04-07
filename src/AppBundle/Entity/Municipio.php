@@ -10,15 +10,14 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="municipio", indexes={@ORM\Index(name="idx_fe98f5e09f5a440b", columns={"estado_id"})})
  * @ORM\Entity
  */
-class Municipio
-{
+class Municipio {
+
     /**
      * @var integer
      *
      * @ORM\Column(name="id", type="bigint", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="municipio_id_seq", allocationSize=1, initialValue=1)
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
@@ -39,15 +38,12 @@ class Municipio
      */
     private $estado;
 
-
-
     /**
      * Get id
      *
      * @return integer
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -58,8 +54,7 @@ class Municipio
      *
      * @return Municipio
      */
-    public function setNombre($nombre)
-    {
+    public function setNombre($nombre) {
         $this->nombre = $nombre;
 
         return $this;
@@ -70,8 +65,7 @@ class Municipio
      *
      * @return string
      */
-    public function getNombre()
-    {
+    public function getNombre() {
         return $this->nombre;
     }
 
@@ -82,8 +76,7 @@ class Municipio
      *
      * @return Municipio
      */
-    public function setEstado(\AppBundle\Entity\Estado $estado = null)
-    {
+    public function setEstado(\AppBundle\Entity\Estado $estado = null) {
         $this->estado = $estado;
 
         return $this;
@@ -94,12 +87,12 @@ class Municipio
      *
      * @return \AppBundle\Entity\Estado
      */
-    public function getEstado()
-    {
+    public function getEstado() {
         return $this->estado;
     }
-    
-     public function __toString() {
+
+    public function __toString() {
         return $this->getNombre();
     }
+
 }

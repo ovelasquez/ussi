@@ -7,7 +7,11 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Paciente
  *
- * @ORM\Table(name="paciente", indexes={@ORM\Index(name="idx_c6cba95eb7850cbd", columns={"religion_id"}), @ORM\Index(name="idx_c6cba95e9363fd17", columns={"pfg_id"}), @ORM\Index(name="IDX_C6CBA95E594872DC", columns={"etnia_id"}), @ORM\Index(name="IDX_C6CBA95EF5F88DB9", columns={"persona_id"})})
+ * @ORM\Table(name="paciente", indexes={
+ * @ORM\Index(name="idx_c6cba95eb7850cbd", columns={"religion_id"}), 
+ * @ORM\Index(name="idx_c6cba95e9363fd17", columns={"pfg_id"}), 
+ * @ORM\Index(name="IDX_C6CBA95E594872DC", columns={"etnia_id"}), 
+ * @ORM\Index(name="IDX_C6CBA95EF5F88DB9", columns={"persona_id"})})
  * @ORM\Entity
  */
 class Paciente
@@ -17,8 +21,7 @@ class Paciente
      *
      * @ORM\Column(name="id", type="bigint", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="paciente_id_seq", allocationSize=1, initialValue=1)
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
