@@ -5,7 +5,32 @@
     <link href="{{ asset('bundles/app/vendors/sweetalert2/sweetalert2.min.css')}}" rel="stylesheet">
 {% endblock %}
 {% block contenido %}
+    <div class="panel white-alpha-90" >
+        <div class="panel-heading">
+            <div class="panel-title text-center"><h2>Ingresa a tu <span class="text-primary">USSI- UBV</span></h2></div>
+        </div>     
 
+        <div class="panel-body" > 
+            <form id="loginform" class="form-horizontal" role="form" method="post">
+                
+
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                    <input id="xxx" type="text" class="form-control" name="xxx" value="">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                    <input id="xxx" type="text" class="form-control" name="xxx" value="">
+                </div>
+                
+                <div style="margin-top:10px" class="form-group">
+                    <div class="col-sm-12 controls">
+
+                    </div>
+                </div>
+            </form>     
+        </div>                     
+    </div> 
 
 {% endblock contenido %}
 
@@ -27,7 +52,7 @@
                         {
                             var obj = jQuery.parseJSON(html.data);
                             $.each(obj, function (index, value) {
-                                 ion.sound.play("aeropuerto", {loop: 1});
+                                ion.sound.play("aeropuerto", {loop: 1});
                                 swal({
                                     type: 'info',
                                     title: value.paciente.nombre,
@@ -35,6 +60,7 @@
                                     timer: 10000,
                                     showConfirmButton: false
                                 });
+                                delay(5000);
 
                             }); //each
                         }
