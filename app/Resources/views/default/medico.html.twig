@@ -156,7 +156,11 @@
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="x_panel">
                         <div class="x_title">
-                            <h2>Lista de Pacientes <small><button type="button" class="btn btn-success btn-sm" onclick='window.location.href = "esperando/procesar"'>Llamar Paciente</button></small></h2>
+                            <h2>Lista de Pacientes <small>
+                                    {% if (esperandos!=null) %}
+                                        <button type="button" class="btn btn-success btn-sm" onclick='window.location.href = "esperando/procesar"'>Llamar Paciente</button>
+                                    {% endif %}
+                                </small></h2>
                             <ul class="nav navbar-right panel_toolbox">
                                 <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                                 </li>                                            
@@ -257,14 +261,14 @@
     <!-- Push -->
     <script src="{{ asset('bundles/app/vendors/push/push.min.js')}}"></script> 
     <script>
-    function reloadPagina() {
-       location.reload();       
-    }
+                                        function reloadPagina() {
+                                            location.reload();
+                                        }
 
-     $(document).ready(function () {  
-         $('#datatable-fixed-header').DataTable({ fixedHeader: true });
-          setInterval(reloadPagina, 60000);
-     });
+                                        $(document).ready(function () {
+                                            $('#datatable-fixed-header').DataTable({fixedHeader: true});
+                                            setInterval(reloadPagina, 60000);
+                                        });
     </script>
 {% endblock %}
 

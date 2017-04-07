@@ -59,10 +59,13 @@ class DefaultController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $hoy = new \DateTime('now');
         $hoy->setTime(0, 0, 0);
+        $esperandos =null;
         $configuracion = $em->getRepository('AppBundle:Configuracion')->findAll();        
         $profesional = $em->getRepository('AppBundle:Profesional')->findOneByPersona($this->getUser()->getPersona());
         $servicioProfesional = $em->getRepository('AppBundle:ServicioProfesional')->findOneBy(array('profesional'=>$profesional,'status'=>'activo'));
-        $especialidad = $em->getRepository('AppBundle:Especialidad')->find($servicioProfesional->getServicio()->getEspecialidad());
+        if ($servicioProfesional){
+            
+            $especialidad = $em->getRepository('AppBundle:Especialidad')->find($servicioProfesional->getServicio()->getEspecialidad());
         //dump($especialidad); die();
         $repository = $em->getRepository('AppBundle:Esperando');
         $query = $repository->createQueryBuilder('p')
@@ -73,7 +76,7 @@ class DefaultController extends Controller {
                 ->orderBy('p.posicion', 'ASC')
                 ->getQuery();
         $esperandos = $query->getResult(); //Lista de Espera
-        
+        }
        // dump($esperandos); die();
 
         return $this->render('default/medico.html.twig', array(

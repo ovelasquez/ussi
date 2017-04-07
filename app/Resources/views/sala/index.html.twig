@@ -7,22 +7,27 @@
 {% block contenido %}
     <div class="panel white-alpha-90" >
         <div class="panel-heading">
-            <div class="panel-title text-center"><h2>Ingresa a tu <span class="text-primary">USSI- UBV</span></h2></div>
+            <div class="panel-title text-center"><h2>Atención<span class="text-primary"> Llamando a Paciente</span></h2></div>
         </div>     
 
         <div class="panel-body" > 
-            <form id="loginform" class="form-horizontal" role="form" method="post">
-                
+            <form id="loginform" class="form-horizontal" role="form" method="post">                
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-user"></i> Paciente</span>
+                    <input id="paciente" type="text" class="form-control" name="paciente" value="">
+                </div>
 
                 <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                    <input id="xxx" type="text" class="form-control" name="xxx" value="">
+                    <span class="input-group-addon"><i class="fa fa-user"></i> Especialidad</span>
+                    <input id="especialidad" type="text" class="form-control" name="especialidad" value="">
                 </div>
+
                 <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                    <input id="xxx" type="text" class="form-control" name="xxx" value="">
+                    <span class="input-group-addon"><i class="fa fa-user"></i> Médico</span>
+                    <input id="medico" type="text" class="form-control" name="medico" value="">
                 </div>
-                
+
+
                 <div style="margin-top:10px" class="form-group">
                     <div class="col-sm-12 controls">
 
@@ -40,6 +45,17 @@
         function reloadPagina() {
             location.reload();
         }
+
+        function sleep(milliseconds) {
+            var start = new Date().getTime();
+            for (var i = 0; i < 1e7; i++) {
+                if ((new Date().getTime() - start) > milliseconds) {
+                    break;
+                }
+            }
+        }
+
+
         //Verificar si un Doctor esta llamando a un Paciente
         function estanLlamando() {
             $.ajax
@@ -51,18 +67,38 @@
                         success: function (html)
                         {
                             var obj = jQuery.parseJSON(html.data);
-                            $.each(obj, function (index, value) {
-                                ion.sound.play("aeropuerto", {loop: 1});
-                                swal({
-                                    type: 'info',
-                                    title: value.paciente.nombre,
-                                    text: value.paciente.cedula + "  - " + " Especialidad: " + value.especialidad.nombre + " - Médico: " + value.medico.nombre,
-                                    timer: 10000,
-                                    showConfirmButton: false
-                                });
-                                delay(5000);
+                            // alert(obj[0].paciente.nombre);
+                            //$.each(obj, function (index, value) {
+                            // ion.sound.play("aeropuerto", {loop: 1});
 
-                            }); //each
+                            /* alert(entry)
+                             $('#paciente').val([entry.paciente.nombre]);
+                             $('#especialidad').val(entry.especialidad.nombre);
+                             $('#medico').val(entry.medico.nombre);
+                             */
+
+
+                            for (var i = 0; i < obj.length; i++) {
+                                $('#paciente').val(obj[i].paciente.nombre + i);
+                                $('#especialidad').val(obj[i].especialidad.nombre + i);
+                                $('#medico').val(obj[i].medico.nombre + i);
+                                sleep(5000)
+                            }
+
+
+
+
+
+                            /* swal({
+                             type: 'info',
+                             title: value.paciente.nombre,
+                             text: value.paciente.cedula + "  - " + " Especialidad: " + value.especialidad.nombre + " - Médico: " + value.medico.nombre,
+                             timer: 10000,
+                             showConfirmButton: false
+                             });
+                             
+                             */
+                            // }); //each
                         }
                     });
 
