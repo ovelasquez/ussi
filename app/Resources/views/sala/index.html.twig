@@ -5,38 +5,7 @@
     <link href="{{ asset('bundles/app/vendors/sweetalert2/sweetalert2.min.css')}}" rel="stylesheet">
 {% endblock %}
 {% block contenido %}
-    <div class="panel white-alpha-90" >
-        <div class="panel-heading">
-            <div class="panel-title text-center"><h2>Atención<span class="text-primary"> Llamando a Paciente</span></h2></div>
-        </div>     
-
-        <div class="panel-body" > 
-            <form id="loginform" class="form-horizontal" role="form" method="post">                
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-user"></i> Paciente</span>
-                    <input id="paciente" type="text" class="form-control" name="paciente" value="">
-                </div>
-
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-user"></i> Especialidad</span>
-                    <input id="especialidad" type="text" class="form-control" name="especialidad" value="">
-                </div>
-
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-user"></i> Médico</span>
-                    <input id="medico" type="text" class="form-control" name="medico" value="">
-                </div>
-
-
-                <div style="margin-top:10px" class="form-group">
-                    <div class="col-sm-12 controls">
-
-                    </div>
-                </div>
-            </form>     
-        </div>                     
-    </div> 
-
+    
 {% endblock contenido %}
 
 {% block javascripts %}
@@ -44,15 +13,6 @@
     <script>
         function reloadPagina() {
             location.reload();
-        }
-
-        function sleep(milliseconds) {
-            var start = new Date().getTime();
-            for (var i = 0; i < 1e7; i++) {
-                if ((new Date().getTime() - start) > milliseconds) {
-                    break;
-                }
-            }
         }
 
 
@@ -68,48 +28,37 @@
                         {
                             var obj = jQuery.parseJSON(html.data);
                             // alert(obj[0].paciente.nombre);
-                            //$.each(obj, function (index, value) {
-                            // ion.sound.play("aeropuerto", {loop: 1});
-
-                            /* alert(entry)
-                             $('#paciente').val([entry.paciente.nombre]);
-                             $('#especialidad').val(entry.especialidad.nombre);
-                             $('#medico').val(entry.medico.nombre);
-                             */
-
+                            //    $.each(obj, function (index, value) {
 
                             for (var i = 0; i < obj.length; i++) {
-                                $('#paciente').val(obj[i].paciente.nombre + i);
-                                $('#especialidad').val(obj[i].especialidad.nombre + i);
-                                $('#medico').val(obj[i].medico.nombre + i);
-                                sleep(5000)
+                                (function (i) {
+                                    setTimeout(function () {
+                                        ion.sound.play("aeropuerto", {loop: 1});
+                                        value=obj[i];
+                                        swal({
+                                            type: 'info',
+                                            title: value.paciente.nombre,
+                                            text: value.paciente.cedula + "  - " + " Especialidad: " + value.especialidad.nombre + " - Médico: " + value.medico.nombre,                                            
+                                            showConfirmButton: false,
+                                            imageUrl: '{{ asset('uploads/fotos/')}}' + value.paciente.foto,
+                                            imageWidth: 250,
+                                            imageHeight: 250,
+                                            timer: 10000
+                                        });
+                                    }, 15000 * i);
+                                })(i);
                             }
 
-
-
-
-
-                            /* swal({
-                             type: 'info',
-                             title: value.paciente.nombre,
-                             text: value.paciente.cedula + "  - " + " Especialidad: " + value.especialidad.nombre + " - Médico: " + value.medico.nombre,
-                             timer: 10000,
-                             showConfirmButton: false
-                             });
-                             
-                             */
-                            // }); //each
+                            //  }); //each
                         }
                     });
-
-
         }
         $(document).ready(function () {
-            setInterval(estanLlamando, 10000);
+            setInterval(estanLlamando, 60000);
             // init bunch of sounds
             ion.sound({
                 sounds: [
-                    {name: "aeropuerto"},
+                    {name: "aeropuerto"}
                 ],
                 // main config
                 path: "{{ asset('bundles/app/vendors/ion.sound/sounds/')}}",
@@ -121,6 +70,4 @@
             // setInterval(reloadPagina, 30000);
         });
     </script>
-
-
 {% endblock %}
