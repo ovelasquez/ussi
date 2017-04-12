@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Entericaelementos list</h1>
+
+   <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Capitulo</th>
+                <th>Grupo</th>
+                <th>Codigo</th>
+                <th>Nombre</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entericaElemento in entericaElementos %}
+            <tr>
+                <td><a href="{{ path('entericaelemento_show', { 'id': entericaElemento.id }) }}">{{ entericaElemento.id }}</a></td>
+                <td>{{ entericaElemento.entericaGrupo.entericaCapitulo.nombre }}</td>
+                <td>{{ entericaElemento.entericaGrupo.nombre }}</td>
+                <td>{{ entericaElemento.codigo }}</td>
+                <td>{{ entericaElemento.nombre }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('entericaelemento_show', { 'id': entericaElemento.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('entericaelemento_edit', { 'id': entericaElemento.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('entericaelemento_new') }}">Create a new entericaElemento</a>
+        </li>
+    </ul>
+{% endblock %}

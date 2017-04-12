@@ -1,0 +1,178 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+    <!-- iCheck -->
+    <link href="{{ asset('bundles/app/vendors/iCheck/skins/flat/green.css')}}" rel="stylesheet">   
+{% endblock %}  
+{% block Subtitulo %} Editar Sicobiologico -  <small> <a href="{{ path('paciente_index') }}">Regresar a la lista</a></small> {% endblock %} 
+
+{% block body %}
+    <div class="x_content">
+        <br/>
+        {{ form_start(edit_form, { 'attr': {'id':'especialidad','class': 'form-horizontal form-label-left'} }) }} 
+        {{ form_errors(edit_form) }}
+        {{ form_start(edit_form) }}
+        <div class="form-group">
+            <label class="col-md-3 col-sm-3 col-xs-12 control-label">Factores de Riesgo (Hábitos Sicobiológicos)</label>
+            <div class="col-md-4 col-sm-9 col-xs-12">
+                <div class="checkbox">
+                    <label class="">
+                        <div class="icheckbox_flat-green checked" style="position: relative;">
+                            {{ form_errors(edit_form.alcohol) }}     
+                            {{form_widget(edit_form.alcohol,{ 'attr': {'class': 'flat', 'style':'position: absolute; opacity: 0;'} } ) }}                
+                            <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins>
+                        </div> {{ form_label(edit_form.alcohol) }} 
+                    </label>
+                </div>   
+
+                <div class="checkbox">
+                    <label class="">
+                        <div class="icheckbox_flat-green checked" style="position: relative;">
+                            {{ form_errors(edit_form.drogas) }}     
+                            {{form_widget(edit_form.drogas,{ 'attr': {'class': 'flat', 'style':'position: absolute; opacity: 0;'} } ) }}                
+                            <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins>
+                        </div> {{ form_label(edit_form.drogas) }} 
+                    </label>
+                </div>
+
+                <div class="checkbox">
+                    <label class="">
+                        <div class="icheckbox_flat-green checked" style="position: relative;">
+                            {{ form_errors(edit_form.isecticidas) }}     
+                            {{form_widget(edit_form.isecticidas,{ 'attr': {'class': 'flat', 'style':'position: absolute; opacity: 0;'} } ) }}                
+                            <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins>
+                        </div> {{ form_label(edit_form.isecticidas) }} 
+                    </label>
+                </div>
+
+                <div class="checkbox">
+                    <label class="">
+                        <div class="icheckbox_flat-green checked" style="position: relative;">
+                            {{ form_errors(edit_form.deportes) }}     
+                            {{form_widget(edit_form.deportes,{ 'attr': {'class': 'flat', 'style':'position: absolute; opacity: 0;'} } ) }}                
+                            <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins>
+                        </div> {{ form_label(edit_form.deportes) }} 
+                    </label>
+                </div>
+
+                <div class="checkbox">
+                    <label class="">
+                        <div class="icheckbox_flat-green checked" style="position: relative;">
+                            {{ form_errors(edit_form.sedentarismo) }}     
+                            {{form_widget(edit_form.sedentarismo,{ 'attr': {'class': 'flat', 'style':'position: absolute; opacity: 0;'} } ) }}                
+                            <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins>
+                        </div> {{ form_label(edit_form.sedentarismo) }} 
+                    </label>
+                </div>
+
+                <div class="checkbox">
+                    <label class="">
+                        <div class="icheckbox_flat-green checked" style="position: relative;">
+                            {{ form_errors(edit_form.suenio) }}     
+                            {{form_widget(edit_form.suenio,{ 'attr': {'class': 'flat', 'style':'position: absolute; opacity: 0;'} } ) }}                
+                            <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins>
+                        </div> {{ form_label(edit_form.suenio) }} 
+                    </label>
+                </div>
+
+                <div class="checkbox">
+                    <label class="">
+                        <div class="icheckbox_flat-green checked" style="position: relative;">
+                            {{ form_errors(edit_form.chupaDedo) }}     
+                            {{form_widget(edit_form.chupaDedo,{ 'attr': {'class': 'flat', 'style':'position: absolute; opacity: 0;'} } ) }}                
+                            <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins>
+                        </div> {{ form_label(edit_form.chupaDedo) }} 
+                    </label>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-9 col-xs-12">
+                <div class="checkbox">
+                    <label class="">
+                        <div class="icheckbox_flat-green checked" style="position: relative;">
+                            {{ form_errors(edit_form.onicofagia) }}     
+                            {{form_widget(edit_form.onicofagia,{ 'attr': {'class': 'flat', 'style':'position: absolute; opacity: 0;'} } ) }}                
+                            <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins>
+                        </div> {{ form_label(edit_form.onicofagia) }} 
+                    </label>
+                </div>
+
+                <div class="checkbox">
+                    <label class="">
+                        <div class="icheckbox_flat-green checked" style="position: relative;">
+                            {{ form_errors(edit_form.micciones) }}     
+                            {{form_widget(edit_form.micciones,{ 'attr': {'class': 'flat', 'style':'position: absolute; opacity: 0;'} } ) }}                
+                            <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins>
+                        </div> {{ form_label(edit_form.micciones) }} 
+                    </label>
+                </div>
+
+                <div class="checkbox">
+                    <label class="">
+                        <div class="icheckbox_flat-green checked" style="position: relative;">
+                            {{ form_errors(edit_form.evacuaciones) }}     
+                            {{form_widget(edit_form.evacuaciones,{ 'attr': {'class': 'flat', 'style':'position: absolute; opacity: 0;'} } ) }}                
+                            <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins>
+                        </div> {{ form_label(edit_form.evacuaciones) }} 
+                    </label>
+                </div>
+
+                <div class="checkbox">
+                    <label class="">
+                        <div class="icheckbox_flat-green checked" style="position: relative;">
+                            {{ form_errors(edit_form.stress) }}     
+                            {{form_widget(edit_form.stress,{ 'attr': {'class': 'flat', 'style':'position: absolute; opacity: 0;'} } ) }}                
+                            <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins>
+                        </div> {{ form_label(edit_form.stress) }} 
+                    </label>
+                </div>
+
+                <div class="checkbox">
+                    <label class="">
+                        <div class="icheckbox_flat-green checked" style="position: relative;">
+                            {{ form_errors(edit_form.metalesPesados) }}     
+                            {{form_widget(edit_form.metalesPesados,{ 'attr': {'class': 'flat', 'style':'position: absolute; opacity: 0;'} } ) }}                
+                            <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins>
+                        </div> {{ form_label(edit_form.metalesPesados) }} 
+                    </label>
+                </div>
+
+                <div class="checkbox">
+                    <label class="">
+                        <div class="icheckbox_flat-green checked" style="position: relative;">
+                            {{ form_errors(edit_form.alimentacion) }}     
+                            {{form_widget(edit_form.alimentacion,{ 'attr': {'class': 'flat', 'style':'position: absolute; opacity: 0;'} } ) }}                
+                            <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins>
+                        </div> {{ form_label(edit_form.alimentacion) }} 
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-2 col-sm-3 col-xs-12" for="nombre">{{ form_label(edit_form.cigarrillosDia) }} <span class="required"></span></label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        {{ form_errors(edit_form.cigarrillosDia) }}                
+                        {{form_widget(edit_form.cigarrillosDia,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+                    </div>                
+                </div>
+            </div>
+
+            <div class="ln_solid"></div>
+            <div class="form-group">
+                <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">                 
+                    <button type="submit" class="btn btn-success">Registrar</button>
+                </div>
+            </div>
+
+
+            {{ form_end(edit_form) }}  
+
+        </div>
+
+        {{ form_start(delete_form) }}
+        <input type="submit" value="Delete">
+        {{ form_end(delete_form) }}
+
+    {% endblock %}
+
+    {% block javascripts %}
+        <!-- iCheck -->
+        <script src="{{ asset('bundles/app/vendors/iCheck/icheck.min.js')}}"></script>
+    {% endblock %}

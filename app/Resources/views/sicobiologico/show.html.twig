@@ -1,0 +1,92 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Sicobiologico</h1>
+
+    <table id="datatable-buttons" class="table table-striped table-bordered dataTable no-footer dtr-inline collapsed" role="grid" aria-describedby="datatable-buttons_info" style="width: 1111px;">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ sicobiologico.id }}</td>
+            </tr>
+            <tr>
+                <th>Alcohol</th>
+                <td>{% if sicobiologico.alcohol %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Drogas</th>
+                <td>{% if sicobiologico.drogas %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Isecticidas</th>
+                <td>{% if sicobiologico.isecticidas %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Deportes</th>
+                <td>{% if sicobiologico.deportes %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Sedentarismo</th>
+                <td>{% if sicobiologico.sedentarismo %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Sueño</th>
+                <td>{% if sicobiologico.suenio %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Chupa Dedo</th>
+                <td>{% if sicobiologico.chupaDedo %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Onicofagia</th>
+                <td>{% if sicobiologico.onicofagia %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Micciones</th>
+                <td>{% if sicobiologico.micciones %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Evacuaciones</th>
+                <td>{% if sicobiologico.evacuaciones %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Stress</th>
+                <td>{% if sicobiologico.stress %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Metales Pesados</th>
+                <td>{% if sicobiologico.metalesPesados %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Alimentación</th>
+                <td>{% if sicobiologico.alimentacion %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Cigarrillos al Dia</th>
+                <td>{% if sicobiologico.cigarrillosDia %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Fecha Registro</th>
+                <td>{% if sicobiologico.fechaRegistro %}{{ sicobiologico.fechaRegistro|date('Y-m-d') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Fecha Actualización</th>
+                <td>{% if sicobiologico.fechaActualizacion %}{{ sicobiologico.fechaActualizacion|date('Y-m-d') }}{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('sicobiologico_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('sicobiologico_edit', { 'id': sicobiologico.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

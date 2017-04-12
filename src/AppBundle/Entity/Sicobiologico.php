@@ -113,11 +113,11 @@ class Sicobiologico {
     private $alimentacion = false;
 
     /**
-     * @var boolean
+     * @var string
      *
-     * @ORM\Column(name="cigarrillos_dia", type="boolean", nullable=false)
+     * @ORM\Column(name="cigarrillos_dia", type="string", length=255, nullable=true)
      */
-    private $cigarrillosDia = false;
+    private $cigarrillosDia;
 
     /**
      * @var \DateTime
@@ -129,7 +129,7 @@ class Sicobiologico {
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="fecha_actualizacion", type="date", nullable=false)
+     * @ORM\Column(name="fecha_actualizacion", type="date", nullable=true)
      */
     private $fechaActualizacion;
 

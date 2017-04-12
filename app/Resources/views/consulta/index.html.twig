@@ -7,7 +7,8 @@
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Nombre</th>
+                <th>Egreso</th>
+                <th>Fecha</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -15,7 +16,8 @@
         {% for consultum in consultas %}
             <tr>
                 <td><a href="{{ path('consulta_show', { 'id': consultum.id }) }}">{{ consultum.id }}</a></td>
-                <td>{{ consultum.nombre }}</td>
+                <td>{% if consultum.egreso %}Yes{% else %}No{% endif %}</td>
+                <td>{% if consultum.fecha %}{{ consultum.fecha|date('Y-m-d') }}{% endif %}</td>
                 <td>
                     <ul>
                         <li>

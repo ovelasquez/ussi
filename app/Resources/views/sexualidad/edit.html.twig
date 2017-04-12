@@ -1,0 +1,212 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+    <!-- iCheck -->
+    <link href="{{ asset('bundles/app/vendors/iCheck/skins/flat/green.css')}}" rel="stylesheet">   
+{% endblock %}  
+{% block Subtitulo %} Editar Sexualidad y Obtétricos -  <small> <a href="{{ path('paciente_index') }}">Regresar a la lista</a></small> {% endblock %} 
+
+
+{% block body %}
+    <div class="x_content">
+        <br />
+        {{ form_start(edit_form, { 'attr': {'id':'especialidad','class': 'form-horizontal form-label-left'} }) }} 
+        {{ form_errors(edit_form) }}
+        {{ form_start(edit_form) }}
+        
+        <div class="form-group">
+            <label class="col-md-3 col-sm-3 col-xs-12 control-label"> Registrar de Sexualidad y Obtétricos</label>
+            <div class="col-md-4 col-sm-9 col-xs-12">
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nombre">{{ form_label(edit_form.menarquia) }} <span class="required"></span></label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        {{ form_errors(edit_form.menarquia) }}                
+                        {{form_widget(edit_form.menarquia,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nombre">{{ form_label(edit_form.cicloMenstrual) }} <span class="required"></span></label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        {{ form_errors(edit_form.cicloMenstrual) }}                
+                        {{form_widget(edit_form.cicloMenstrual,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nombre">{{ form_label(edit_form.prSexual) }} <span class="required"></span></label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        {{ form_errors(edit_form.prSexual) }}                
+                        {{form_widget(edit_form.prSexual,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nombre">{{ form_label(edit_form.frecuenciaSexual) }} <span class="required"></span></label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        {{ form_errors(edit_form.frecuenciaSexual) }}                
+                        {{form_widget(edit_form.frecuenciaSexual,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nombre">{{ form_label(edit_form.numeroParejas) }} <span class="required"></span></label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        {{ form_errors(edit_form.numeroParejas) }}                
+                        {{form_widget(edit_form.numeroParejas,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nombre">{{ form_label(edit_form.edad1erParto) }} <span class="required"></span></label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        {{ form_errors(edit_form.edad1erParto) }}                
+                        {{form_widget(edit_form.edad1erParto,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+                    </div>
+                </div>                 
+
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nombre">{{ form_label(edit_form.fechaUltimoParto) }} <span class="required"></span></label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        {{ form_errors(edit_form.fechaUltimoParto) }}                
+                        {{form_widget(edit_form.fechaUltimoParto,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+                    </div>
+                </div> 
+
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nombre">{{ form_label(edit_form.numeroHijosVivos) }} <span class="required"></span></label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        {{ form_errors(edit_form.numeroHijosVivos) }}                
+                        {{form_widget(edit_form.numeroHijosVivos,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+                    </div>
+                </div>    
+
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nombre">{{ form_label(edit_form.numeroHijosMuertos) }} <span class="required"></span></label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        {{ form_errors(edit_form.numeroHijosMuertos) }}                
+                        {{form_widget(edit_form.numeroHijosMuertos,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+                    </div>
+                </div>    
+
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nombre">{{ form_label(edit_form.pesoUltimoHijo) }} <span class="required"></span></label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        {{ form_errors(edit_form.pesoUltimoHijo) }}                
+                        {{form_widget(edit_form.pesoUltimoHijo,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-9 col-xs-12">
+                <div class="checkbox">
+                    <label class="">
+                        <div class="icheckbox_flat-green checked" style="position: relative;">
+                            {{ form_errors(edit_form.dispareunia) }}     
+                            {{form_widget(edit_form.dispareunia,{ 'attr': {'class': 'flat', 'style':'position: absolute; opacity: 0;'} } ) }}                
+                            <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins>
+                        </div> {{ form_label(edit_form.dispareunia) }} 
+                    </label>
+                </div>
+
+                <div class="checkbox">
+                    <label class="">
+                        <div class="icheckbox_flat-green checked" style="position: relative;">
+                            {{ form_errors(edit_form.anticonceptivos) }}     
+                            {{form_widget(edit_form.anticonceptivos,{ 'attr': {'class': 'flat', 'style':'position: absolute; opacity: 0;'} } ) }}                
+                            <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins>
+                        </div> {{ form_label(edit_form.anticonceptivos) }} 
+                    </label>
+                </div>
+
+                <div class="checkbox">
+                    <label class="">
+                        <div class="icheckbox_flat-green checked" style="position: relative;">
+                            {{ form_errors(edit_form.menopausia) }}     
+                            {{form_widget(edit_form.menopausia,{ 'attr': {'class': 'flat', 'style':'position: absolute; opacity: 0;'} } ) }}                
+                            <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins>
+                        </div> {{ form_label(edit_form.menopausia) }} 
+                    </label>
+                </div>
+
+                <div class="checkbox">
+                    <label class="">
+                        <div class="icheckbox_flat-green checked" style="position: relative;">
+                            {{ form_errors(edit_form.andropausia) }}     
+                            {{form_widget(edit_form.andropausia,{ 'attr': {'class': 'flat', 'style':'position: absolute; opacity: 0;'} } ) }}                
+                            <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins>
+                        </div> {{ form_label(edit_form.andropausia) }} 
+                    </label>
+                </div>
+
+                <div class="checkbox">
+                    <label class="">
+                        <div class="icheckbox_flat-green checked" style="position: relative;">
+                            {{ form_errors(edit_form.gesta) }}     
+                            {{form_widget(edit_form.gesta,{ 'attr': {'class': 'flat', 'style':'position: absolute; opacity: 0;'} } ) }}                
+                            <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins>
+                        </div> {{ form_label(edit_form.gesta) }} 
+                    </label>
+                </div>                                         
+
+                <div class="checkbox">
+                    <label class="">
+                        <div class="icheckbox_flat-green checked" style="position: relative;">
+                            {{ form_errors(edit_form.parto) }}     
+                            {{form_widget(edit_form.parto,{ 'attr': {'class': 'flat', 'style':'position: absolute; opacity: 0;'} } ) }}                
+                            <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins>
+                        </div> {{ form_label(edit_form.parto) }} 
+                    </label>
+                </div>
+
+                <div class="checkbox">
+                    <label class="">
+                        <div class="icheckbox_flat-green checked" style="position: relative;">
+                            {{ form_errors(edit_form.cesarea) }}     
+                            {{form_widget(edit_form.cesarea,{ 'attr': {'class': 'flat', 'style':'position: absolute; opacity: 0;'} } ) }}                
+                            <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins>
+                        </div> {{ form_label(edit_form.cesarea) }} 
+                    </label>
+                </div>
+
+                <div class="checkbox">
+                    <label class="">
+                        <div class="icheckbox_flat-green checked" style="position: relative;">
+                            {{ form_errors(edit_form.aborto) }}     
+                            {{form_widget(edit_form.aborto,{ 'attr': {'class': 'flat', 'style':'position: absolute; opacity: 0;'} } ) }}                
+                            <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins>
+                        </div> {{ form_label(edit_form.aborto) }} 
+                    </label>
+                </div>                
+
+                <div class="checkbox">
+                    <label class="">
+                        <div class="icheckbox_flat-green checked" style="position: relative;">
+                            {{ form_errors(edit_form.curetaje) }}     
+                            {{form_widget(edit_form.curetaje,{ 'attr': {'class': 'flat', 'style':'position: absolute; opacity: 0;'} } ) }}                
+                            <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins>
+                        </div> {{ form_label(edit_form.curetaje) }} 
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="ln_solid"></div>
+        <div class="form-group">
+            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">                 
+                <button type="submit" class="btn btn-success">Registrar</button>
+            </div>
+        </div>
+
+
+        {{ form_end(edit_form) }}  
+
+    </div>
+
+    {{ form_start(delete_form) }}
+    <input type="submit" value="Delete">
+    {{ form_end(delete_form) }}
+
+{% endblock %}
+
+{% block javascripts %}
+    <!-- iCheck -->
+    <script src="{{ asset('bundles/app/vendors/iCheck/icheck.min.js')}}"></script>
+{% endblock %}

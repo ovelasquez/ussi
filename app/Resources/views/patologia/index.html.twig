@@ -1,0 +1,107 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Patologias list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Alergias</th>
+                <th>Asma</th>
+                <th>Neumonia</th>
+                <th>Tbc</th>
+                <th>Cardiotopia</th>
+                <th>Hipertension</th>
+                <th>Dislipidemias</th>
+                <th>Varices</th>
+                <th>Cardopatiachag</th>
+                <th>Hepatopatia</th>
+                <th>Desnutricion</th>
+                <th>Diabetes</th>
+                <th>Obesidad</th>
+                <th>Gastroenteritis</th>
+                <th>Encoprexis</th>
+                <th>Enfermedadrenal</th>
+                <th>Eunereis</th>
+                <th>Cancer</th>
+                <th>Tromboembolia</th>
+                <th>Tumorm</th>
+                <th>Meningitis</th>
+                <th>Tcraneoenc</th>
+                <th>Enfermedaderup</th>
+                <th>Dengue</th>
+                <th>Hospitalizacion</th>
+                <th>Intervencionquirurgica</th>
+                <th>Accidente</th>
+                <th>Artritis</th>
+                <th>Enfermedadts</th>
+                <th>Enfermedadintran</th>
+                <th>Malaria</th>
+                <th>Hansenleishmar</th>
+                <th>Otros</th>
+                <th>Fecharegistro</th>
+                <th>Fechaactualizacion</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for patologium in patologias %}
+            <tr>
+                <td><a href="{{ path('patologia_show', { 'id': patologium.id }) }}">{{ patologium.id }}</a></td>
+                <td>{% if patologium.alergias %}Yes{% else %}No{% endif %}</td>
+                <td>{% if patologium.asma %}Yes{% else %}No{% endif %}</td>
+                <td>{% if patologium.neumonia %}Yes{% else %}No{% endif %}</td>
+                <td>{% if patologium.tbc %}Yes{% else %}No{% endif %}</td>
+                <td>{% if patologium.cardiotopia %}Yes{% else %}No{% endif %}</td>
+                <td>{% if patologium.hipertension %}Yes{% else %}No{% endif %}</td>
+                <td>{% if patologium.dislipidemias %}Yes{% else %}No{% endif %}</td>
+                <td>{% if patologium.varices %}Yes{% else %}No{% endif %}</td>
+                <td>{% if patologium.cardopatiaChag %}Yes{% else %}No{% endif %}</td>
+                <td>{% if patologium.hepatopatia %}Yes{% else %}No{% endif %}</td>
+                <td>{% if patologium.desnutricion %}Yes{% else %}No{% endif %}</td>
+                <td>{% if patologium.diabetes %}Yes{% else %}No{% endif %}</td>
+                <td>{% if patologium.obesidad %}Yes{% else %}No{% endif %}</td>
+                <td>{% if patologium.gastroenteritis %}Yes{% else %}No{% endif %}</td>
+                <td>{% if patologium.encoprexis %}Yes{% else %}No{% endif %}</td>
+                <td>{% if patologium.enfermedadRenal %}Yes{% else %}No{% endif %}</td>
+                <td>{% if patologium.eunereis %}Yes{% else %}No{% endif %}</td>
+                <td>{% if patologium.cancer %}Yes{% else %}No{% endif %}</td>
+                <td>{% if patologium.tromboembolia %}Yes{% else %}No{% endif %}</td>
+                <td>{% if patologium.tumorM %}Yes{% else %}No{% endif %}</td>
+                <td>{% if patologium.meningitis %}Yes{% else %}No{% endif %}</td>
+                <td>{% if patologium.tCraneoenc %}Yes{% else %}No{% endif %}</td>
+                <td>{% if patologium.enfermedadErup %}Yes{% else %}No{% endif %}</td>
+                <td>{% if patologium.dengue %}Yes{% else %}No{% endif %}</td>
+                <td>{% if patologium.hospitalizacion %}Yes{% else %}No{% endif %}</td>
+                <td>{% if patologium.intervencionQuirurgica %}Yes{% else %}No{% endif %}</td>
+                <td>{% if patologium.accidente %}Yes{% else %}No{% endif %}</td>
+                <td>{% if patologium.artritis %}Yes{% else %}No{% endif %}</td>
+                <td>{% if patologium.enfermedadTs %}Yes{% else %}No{% endif %}</td>
+                <td>{% if patologium.enfermedadInTran %}Yes{% else %}No{% endif %}</td>
+                <td>{% if patologium.malaria %}Yes{% else %}No{% endif %}</td>
+                <td>{% if patologium.hansenLeishmar %}Yes{% else %}No{% endif %}</td>
+                <td>{% if patologium.otros %}Yes{% else %}No{% endif %}</td>
+                <td>{% if patologium.fechaRegistro %}{{ patologium.fechaRegistro|date('Y-m-d') }}{% endif %}</td>
+                <td>{% if patologium.fechaActualizacion %}{{ patologium.fechaActualizacion|date('Y-m-d') }}{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('patologia_show', { 'id': patologium.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('patologia_edit', { 'id': patologium.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('patologia_new') }}">Create a new patologium</a>
+        </li>
+    </ul>
+{% endblock %}

@@ -5,8 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Consulta;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Consultum controller.
@@ -40,20 +39,20 @@ class ConsultaController extends Controller
      */
     public function newAction(Request $request)
     {
-        $consulta = new Consulta();
-        $form = $this->createForm('AppBundle\Form\ConsultaType', $consulta);
+        $consultum = new Consulta();
+        $form = $this->createForm('AppBundle\Form\ConsultaType', $consultum);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->persist($consulta);
-            $em->flush($consulta);
+            $em->persist($consultum);
+            $em->flush($consultum);
 
-            return $this->redirectToRoute('consulta_show', array('id' => $consulta->getId()));
+            return $this->redirectToRoute('consulta_show', array('id' => $consultum->getId()));
         }
 
         return $this->render('consulta/new.html.twig', array(
-            'consultum' => $consulta,
+            'consultum' => $consultum,
             'form' => $form->createView(),
         ));
     }
@@ -64,12 +63,12 @@ class ConsultaController extends Controller
      * @Route("/{id}", name="consulta_show")
      * @Method("GET")
      */
-    public function showAction(Consulta $consulta)
+    public function showAction(Consulta $consultum)
     {
-        $deleteForm = $this->createDeleteForm($consulta);
+        $deleteForm = $this->createDeleteForm($consultum);
 
         return $this->render('consulta/show.html.twig', array(
-            'consultum' => $consulta,
+            'consultum' => $consultum,
             'delete_form' => $deleteForm->createView(),
         ));
     }
@@ -80,20 +79,20 @@ class ConsultaController extends Controller
      * @Route("/{id}/edit", name="consulta_edit")
      * @Method({"GET", "POST"})
      */
-    public function editAction(Request $request, Consulta $consulta)
+    public function editAction(Request $request, Consulta $consultum)
     {
-        $deleteForm = $this->createDeleteForm($consulta);
-        $editForm = $this->createForm('AppBundle\Form\ConsultaType', $consulta);
+        $deleteForm = $this->createDeleteForm($consultum);
+        $editForm = $this->createForm('AppBundle\Form\ConsultaType', $consultum);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('consulta_edit', array('id' => $consulta->getId()));
+            return $this->redirectToRoute('consulta_edit', array('id' => $consultum->getId()));
         }
 
         return $this->render('consulta/edit.html.twig', array(
-            'consultum' => $consulta,
+            'consultum' => $consultum,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
@@ -105,15 +104,15 @@ class ConsultaController extends Controller
      * @Route("/{id}", name="consulta_delete")
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, Consulta $consulta)
+    public function deleteAction(Request $request, Consulta $consultum)
     {
-        $form = $this->createDeleteForm($consulta);
+        $form = $this->createDeleteForm($consultum);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->remove($consulta);
-            $em->flush($consulta);
+            $em->remove($consultum);
+            $em->flush($consultum);
         }
 
         return $this->redirectToRoute('consulta_index');
@@ -122,14 +121,14 @@ class ConsultaController extends Controller
     /**
      * Creates a form to delete a consultum entity.
      *
-     * @param Consulta $consulta The consultum entity
+     * @param Consulta $consultum The consultum entity
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm(Consulta $consulta)
+    private function createDeleteForm(Consulta $consultum)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('consulta_delete', array('id' => $consulta->getId())))
+            ->setAction($this->generateUrl('consulta_delete', array('id' => $consultum->getId())))
             ->setMethod('DELETE')
             ->getForm()
         ;

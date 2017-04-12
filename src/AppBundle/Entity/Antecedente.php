@@ -7,10 +7,10 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Antecendente
  *
- * @ORM\Table(name="antecendente", indexes={@ORM\Index(name="IDX_C24A09BC7310DAD4", columns={"paciente_id"})})
+ * @ORM\Table(name="antecedente", indexes={@ORM\Index(name="IDX_C24A09BC7310DAD4", columns={"paciente_id"})})
  * @ORM\Entity
  */
-class Antecendente
+class Antecedente
 {
     /**
      * @var integer
@@ -92,11 +92,11 @@ class Antecendente
     private $gastropatia = false;
 
     /**
-     * @var string
+     * @var boolean
      *
-     * @ORM\Column(name="neurologica", type="string", nullable=false)
+     * @ORM\Column(name="neurologica", type="boolean", nullable=false)
      */
-    private $neurologica;
+    private $neurologica= false;
 
     /**
      * @var boolean
@@ -178,7 +178,7 @@ class Antecendente
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="fecha_actualizacion", type="date", nullable=false)
+     * @ORM\Column(name="fecha_actualizacion", type="date", nullable=true)
      */
     private $fechaActualizacion;
 
@@ -451,29 +451,7 @@ class Antecendente
         return $this->gastropatia;
     }
 
-    /**
-     * Set neurologica
-     *
-     * @param string $neurologica
-     *
-     * @return Antecendente
-     */
-    public function setNeurologica($neurologica)
-    {
-        $this->neurologica = $neurologica;
-
-        return $this;
-    }
-
-    /**
-     * Get neurologica
-     *
-     * @return string
-     */
-    public function getNeurologica()
-    {
-        return $this->neurologica;
-    }
+   
 
     /**
      * Set enfermedadRenal
@@ -809,5 +787,29 @@ class Antecendente
     public function getPaciente()
     {
         return $this->paciente;
+    }
+
+    /**
+     * Set neurologica
+     *
+     * @param boolean $neurologica
+     *
+     * @return Antecedente
+     */
+    public function setNeurologica($neurologica)
+    {
+        $this->neurologica = $neurologica;
+
+        return $this;
+    }
+
+    /**
+     * Get neurologica
+     *
+     * @return boolean
+     */
+    public function getNeurologica()
+    {
+        return $this->neurologica;
     }
 }

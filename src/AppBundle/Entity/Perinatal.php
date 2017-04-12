@@ -24,182 +24,182 @@ class Perinatal
     /**
      * @var boolean
      *
-     * @ORM\Column(name="carnet_perinatal", type="boolean", nullable=false)
+     * @ORM\Column(name="carnet_perinatal", type="boolean", nullable=true)
      */
     private $carnetPerinatal = false;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="patologia_embarazo", type="boolean", nullable=false)
+     * @ORM\Column(name="patologia_embarazo", type="boolean", nullable=true)
      */
     private $patologiaEmbarazo = false;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="patologia_parto", type="boolean", nullable=false)
+     * @ORM\Column(name="patologia_parto", type="boolean", nullable=true)
      */
     private $patologiaParto = false;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="patologia_puerperio", type="boolean", nullable=false)
+     * @ORM\Column(name="patologia_puerperio", type="boolean", nullable=true)
      */
     private $patologiaPuerperio = false;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="consultas_prenatales", type="boolean", nullable=false)
+     * @ORM\Column(name="consultas_prenatales", type="boolean", nullable=true)
      */
     private $consultasPrenatales = false;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="edad_gestacional", type="integer", nullable=false)
+     * @ORM\Column(name="edad_gestacional", type="integer", nullable=true)
      */
     private $edadGestacional;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="forceps", type="boolean", nullable=false)
+     * @ORM\Column(name="forceps", type="boolean", nullable=true)
      */
     private $forceps = false;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="cesarea", type="boolean", nullable=false)
+     * @ORM\Column(name="cesarea", type="boolean", nullable=true)
      */
     private $cesarea = false;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="parto", type="boolean", nullable=false)
+     * @ORM\Column(name="parto", type="boolean", nullable=true)
      */
     private $parto = false;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="peso_nacer", type="integer", nullable=false)
+     * @ORM\Column(name="peso_nacer", type="integer", nullable=true)
      */
     private $pesoNacer;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="talla", type="integer", nullable=false)
+     * @ORM\Column(name="talla", type="integer", nullable=true)
      */
     private $talla;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="circunferencia", type="integer", nullable=false)
+     * @ORM\Column(name="circunferencia", type="integer", nullable=true)
      */
     private $circunferencia;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="apagar_min", type="boolean", nullable=false)
+     * @ORM\Column(name="apagar_min", type="boolean", nullable=true)
      */
     private $apagarMin = false;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="asfixia", type="boolean", nullable=false)
+     * @ORM\Column(name="asfixia", type="boolean", nullable=true)
      */
     private $asfixia = false;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="reanimacion", type="boolean", nullable=false)
+     * @ORM\Column(name="reanimacion", type="boolean", nullable=true)
      */
     private $reanimacion = false;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="patologias_rn", type="boolean", nullable=false)
+     * @ORM\Column(name="patologias_rn", type="boolean", nullable=true)
      */
     private $patologiasRn = false;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="egreso_rn_sano", type="boolean", nullable=false)
+     * @ORM\Column(name="egreso_rn_sano", type="boolean", nullable=true)
      */
     private $egresoRnSano = false;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="egreso_rn_patologico", type="boolean", nullable=false)
+     * @ORM\Column(name="egreso_rn_patologico", type="boolean", nullable=true)
      */
     private $egresoRnPatologico = false;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="lactancia_exclusiva", type="boolean", nullable=false)
+     * @ORM\Column(name="lactancia_exclusiva", type="boolean", nullable=true)
      */
     private $lactanciaExclusiva = false;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="lactancia_mixta", type="boolean", nullable=false)
+     * @ORM\Column(name="lactancia_mixta", type="boolean", nullable=true)
      */
     private $lactanciaMixta = false;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="lactancia_aglactacion", type="boolean", nullable=false)
+     * @ORM\Column(name="lactancia_aglactacion", type="boolean", nullable=true)
      */
     private $lactanciaAglactacion = false;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="madre_fuera_casa", type="integer", nullable=false)
+     * @ORM\Column(name="madre_fuera_casa", type="integer", nullable=true)
      */
     private $madreFueraCasa;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="familia_madre", type="boolean", nullable=false)
+     * @ORM\Column(name="familia_madre", type="boolean", nullable=true)
      */
     private $familiaMadre = false;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="familia_padre", type="boolean", nullable=false)
+     * @ORM\Column(name="familia_padre", type="boolean", nullable=true)
      */
     private $familiaPadre = false;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="familia_hermanos", type="boolean", nullable=false)
+     * @ORM\Column(name="familia_hermanos", type="boolean", nullable=true)
      */
     private $familiaHermanos = false;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="familia_otros", type="boolean", nullable=false)
+     * @ORM\Column(name="familia_otros", type="boolean", nullable=true)
      */
     private $familiaOtros = false;
 
@@ -213,7 +213,7 @@ class Perinatal
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="fecha_actualizacion", type="date", nullable=false)
+     * @ORM\Column(name="fecha_actualizacion", type="date", nullable=true)
      */
     private $fechaActualizacion;
 

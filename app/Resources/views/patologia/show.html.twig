@@ -1,0 +1,168 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Patologium</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ patologium.id }}</td>
+            </tr>
+            <tr>
+                <th>Alergias</th>
+                <td>{% if patologium.alergias %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Asma</th>
+                <td>{% if patologium.asma %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Neumonia</th>
+                <td>{% if patologium.neumonia %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Tbc</th>
+                <td>{% if patologium.tbc %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Cardiotopia</th>
+                <td>{% if patologium.cardiotopia %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Hipertension</th>
+                <td>{% if patologium.hipertension %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Dislipidemias</th>
+                <td>{% if patologium.dislipidemias %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Varices</th>
+                <td>{% if patologium.varices %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Cardopatiachag</th>
+                <td>{% if patologium.cardopatiaChag %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Hepatopatia</th>
+                <td>{% if patologium.hepatopatia %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Desnutricion</th>
+                <td>{% if patologium.desnutricion %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Diabetes</th>
+                <td>{% if patologium.diabetes %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Obesidad</th>
+                <td>{% if patologium.obesidad %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Gastroenteritis</th>
+                <td>{% if patologium.gastroenteritis %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Encoprexis</th>
+                <td>{% if patologium.encoprexis %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Enfermedadrenal</th>
+                <td>{% if patologium.enfermedadRenal %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Eunereis</th>
+                <td>{% if patologium.eunereis %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Cancer</th>
+                <td>{% if patologium.cancer %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Tromboembolia</th>
+                <td>{% if patologium.tromboembolia %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Tumorm</th>
+                <td>{% if patologium.tumorM %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Meningitis</th>
+                <td>{% if patologium.meningitis %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Tcraneoenc</th>
+                <td>{% if patologium.tCraneoenc %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Enfermedaderup</th>
+                <td>{% if patologium.enfermedadErup %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Dengue</th>
+                <td>{% if patologium.dengue %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Hospitalizacion</th>
+                <td>{% if patologium.hospitalizacion %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Intervencionquirurgica</th>
+                <td>{% if patologium.intervencionQuirurgica %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Accidente</th>
+                <td>{% if patologium.accidente %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Artritis</th>
+                <td>{% if patologium.artritis %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Enfermedadts</th>
+                <td>{% if patologium.enfermedadTs %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Enfermedadintran</th>
+                <td>{% if patologium.enfermedadInTran %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Malaria</th>
+                <td>{% if patologium.malaria %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Hansenleishmar</th>
+                <td>{% if patologium.hansenLeishmar %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Otros</th>
+                <td>{% if patologium.otros %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Fecharegistro</th>
+                <td>{% if patologium.fechaRegistro %}{{ patologium.fechaRegistro|date('Y-m-d') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Fechaactualizacion</th>
+                <td>{% if patologium.fechaActualizacion %}{{ patologium.fechaActualizacion|date('Y-m-d') }}{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('patologia_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('patologia_edit', { 'id': patologium.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

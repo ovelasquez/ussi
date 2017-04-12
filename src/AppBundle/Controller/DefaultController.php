@@ -4,8 +4,7 @@ namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
-//use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class DefaultController extends Controller {
 
@@ -40,7 +39,6 @@ class DefaultController extends Controller {
         $medicos = $em->getRepository('AppBundle:Cita')->findAllByServiosProfesionalesTodos(date("w"));             // Lista Medicos
         $especialidades = $em->getRepository('AppBundle:Servicio')->findByDia(date("w"));                           // Lista de Especialidades
         $servicioProfesionals = $em->getRepository('AppBundle:Cita')->findAllByServiosProfesionales(date("w"));     // Lista
-
         //dump($servicioProfesionals); die();
 
         return $this->render('default/recepcion.html.twig', array(
@@ -59,38 +57,100 @@ class DefaultController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $hoy = new \DateTime('now');
         $hoy->setTime(0, 0, 0);
-        $esperandos =null;
-        $configuracion = $em->getRepository('AppBundle:Configuracion')->findAll();        
+        $esperandos = null;
+        $configuracion = $em->getRepository('AppBundle:Configuracion')->findAll();
         $profesional = $em->getRepository('AppBundle:Profesional')->findOneByPersona($this->getUser()->getPersona());
-        $servicioProfesional = $em->getRepository('AppBundle:ServicioProfesional')->findOneBy(array('profesional'=>$profesional,'status'=>'activo'));
-        if ($servicioProfesional){
-            
+        $servicioProfesional = $em->getRepository('AppBundle:ServicioProfesional')->findOneBy(array('profesional' => $profesional, 'status' => 'activo'));
+        if ($servicioProfesional) {
+
             $especialidad = $em->getRepository('AppBundle:Especialidad')->find($servicioProfesional->getServicio()->getEspecialidad());
-        //dump($especialidad); die();
-        $repository = $em->getRepository('AppBundle:Esperando');
-        $query = $repository->createQueryBuilder('p')
-                ->where('p.fechaRegistro >= :hoy')
-                ->andWhere('p.especialidad = :especialidad')                                
-                ->setParameter('hoy', $hoy)
-                ->setParameter('especialidad', $especialidad)                
-                ->orderBy('p.posicion', 'ASC')
-                ->getQuery();
-        $esperandos = $query->getResult(); //Lista de Espera
+            //dump($especialidad); die();
+            $repository = $em->getRepository('AppBundle:Esperando');
+            $query = $repository->createQueryBuilder('p')
+                    ->where('p.fechaRegistro >= :hoy')
+                    ->andWhere('p.especialidad = :especialidad')
+                    ->setParameter('hoy', $hoy)
+                    ->setParameter('especialidad', $especialidad)
+                    ->orderBy('p.posicion', 'ASC')
+                    ->getQuery();
+            $esperandos = $query->getResult(); //Lista de Espera
         }
-       // dump($esperandos); die();
+        // dump($esperandos); die();
 
         return $this->render('default/medico.html.twig', array(
                     'esperandos' => $esperandos,
                     'penalizacion' => $configuracion[0]->getPenalizacion(),
         ));
     }
-    
-    
-        /**
+
+    /**
+     * @Route("/homepage_consulta/{paciente}", name="homepage_consulta")
+     */
+    public function consultaAction($paciente) {
+        
+        $em = $this->getDoctrine()->getManager();
+        $paciente = $em->getRepository('AppBundle:Paciente')->find($paciente);
+
+        // Buscamos si el Paciente tiene Historia Medica
+        $historicoAntecedentes = $em->getRepository('AppBundle:Antecedente')->findByPaciente($paciente);
+        $sicobiologicos = $em->getRepository('AppBundle:Sicobiologico')->findByPaciente($paciente);
+        $patologias = $em->getRepository('AppBundle:Patologia')->findByPaciente($paciente);
+        $sexualidads = $em->getRepository('AppBundle:Sexualidad')->findByPaciente($paciente);
+        $perinatals = $em->getRepository('AppBundle:Perinatal')->findByPaciente($paciente);
+        $profesional = $em->getRepository('AppBundle:Profesional')->findOneByPersona($this->getUser()->getPersona());
+        $ServicioProfesional = $em->getRepository('AppBundle:ServicioProfesional')->findByProfesional($profesional);
+        foreach ($ServicioProfesional as &$valor) {
+            if ($valor->getServicio()->getDia() == date("w") && $valor->getStatus() == 'activo') {
+                $especialidad = $valor->getServicio()->getEspecialidad();
+            }
+        }
+
+        $tieneConsultaActiva = $em->getRepository('AppBundle:Consulta')->findOneBy(
+                array('paciente' => $paciente,
+                    'egreso' => false,
+                    'profesional' => $profesional,
+                    'especialidad' => $especialidad )
+        );
+        dump($tieneConsultaActiva); //die();
+
+        if ($tieneConsultaActiva) {
+            $consulta=$tieneConsultaActiva;
+        } else {
+            //Creamos una nueva consulta
+            if (in_array('ROLE_MEDICO', $this->getUser()->getRoles()) && $especialidad) {
+                $consulta = new \AppBundle\Entity\Consulta;
+                $consulta->setFecha(new \DateTime('now'));
+                $consulta->setEgreso(FALSE);
+                $consulta->setPaciente($paciente);
+                $consulta->setProfesional($profesional);
+                $consulta->setEspecialidad($especialidad);
+                $em->persist($consulta);
+                $em->flush($consulta);
+            }
+        }
+
+        //  $session = new Session();
+        //$session->start();
+        //  $session->set('consulta', $consulta);
+        //  dump($session->get('consulta'));        die();
+
+
+        return $this->render('default/consulta.html.twig', array(
+                    'paciente' => $paciente,
+                    'historicoAntecedentes' => $historicoAntecedentes,
+                    'sicobiologicos' => $sicobiologicos,
+                    'patologias' => $patologias,
+                    'sexualidads' => $sexualidads,
+                    'perinatals' => $perinatals,
+                    'consulta' => $consulta,
+        ));
+    }
+
+    /**
      * @Route("/sala", name="homepage_sala")
      */
     public function salaAction() {
-        
+
         return $this->render('sala/index.html.twig');
     }
 

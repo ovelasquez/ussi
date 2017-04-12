@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Antecedentes list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Alergia</th>
+                <th>Asma</th>
+                <th>Tbc</th>
+                <th>Cardiotopia</th>
+                <th>Hipertension</th>
+                <th>Varices</th>
+                <th>Desnutricion</th>
+                <th>Diabetes</th>
+                <th>Obesidad</th>
+                <th>Gastropatia</th>
+                <th>Neurologica</th>
+                <th>Enfermedadrenal</th>
+                <th>Cancer</th>
+                <th>Alcohol</th>
+                <th>Drogas</th>
+                <th>Sifilis</th>
+                <th>Sida</th>
+                <th>Artritis</th>
+                <th>Otrospadre</th>
+                <th>Otrosmadre</th>
+                <th>Otroshermanos</th>
+                <th>Otros</th>
+                <th>Fechaactualizacion</th>
+                <th>Fecharegistro</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for antecedente in antecedentes %}
+            <tr>
+                <td><a href="{{ path('antecedente_show', { 'id': antecedente.id }) }}">{{ antecedente.id }}</a></td>
+                <td>{% if antecedente.alergia %}Yes{% else %}No{% endif %}</td>
+                <td>{% if antecedente.asma %}Yes{% else %}No{% endif %}</td>
+                <td>{% if antecedente.tbc %}Yes{% else %}No{% endif %}</td>
+                <td>{% if antecedente.cardiotopia %}Yes{% else %}No{% endif %}</td>
+                <td>{% if antecedente.hipertension %}Yes{% else %}No{% endif %}</td>
+                <td>{% if antecedente.varices %}Yes{% else %}No{% endif %}</td>
+                <td>{% if antecedente.desnutricion %}Yes{% else %}No{% endif %}</td>
+                <td>{% if antecedente.diabetes %}Yes{% else %}No{% endif %}</td>
+                <td>{% if antecedente.obesidad %}Yes{% else %}No{% endif %}</td>
+                <td>{% if antecedente.gastropatia %}Yes{% else %}No{% endif %}</td>
+                <td>{{ antecedente.neurologica }}</td>
+                <td>{% if antecedente.enfermedadRenal %}Yes{% else %}No{% endif %}</td>
+                <td>{% if antecedente.cancer %}Yes{% else %}No{% endif %}</td>
+                <td>{% if antecedente.alcohol %}Yes{% else %}No{% endif %}</td>
+                <td>{% if antecedente.drogas %}Yes{% else %}No{% endif %}</td>
+                <td>{% if antecedente.sifilis %}Yes{% else %}No{% endif %}</td>
+                <td>{% if antecedente.sida %}Yes{% else %}No{% endif %}</td>
+                <td>{% if antecedente.artritis %}Yes{% else %}No{% endif %}</td>
+                <td>{% if antecedente.otrosPadre %}Yes{% else %}No{% endif %}</td>
+                <td>{% if antecedente.otrosMadre %}Yes{% else %}No{% endif %}</td>
+                <td>{% if antecedente.otrosHermanos %}Yes{% else %}No{% endif %}</td>
+                <td>{% if antecedente.otros %}Yes{% else %}No{% endif %}</td>
+                <td>{% if antecedente.fechaActualizacion %}{{ antecedente.fechaActualizacion|date('Y-m-d') }}{% endif %}</td>
+                <td>{% if antecedente.fechaRegistro %}{{ antecedente.fechaRegistro|date('Y-m-d') }}{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('antecedente_show', { 'id': antecedente.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('antecedente_edit', { 'id': antecedente.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('antecedente_new') }}">Create a new antecedente</a>
+        </li>
+    </ul>
+{% endblock %}
+
