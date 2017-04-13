@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Configuracions list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Numeroconsultas</th>
+                <th>Servicioactualizado</th>
+                <th>Tiempoespera</th>
+                <th>Penalizacion</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for configuracion in configuracions %}
+            <tr>
+                <td><a href="{{ path('configuracion_show', { 'id': configuracion.id }) }}">{{ configuracion.id }}</a></td>
+                <td>{{ configuracion.numeroConsultas }}</td>
+                <td>{% if configuracion.servicioActualizado %}{{ configuracion.servicioActualizado|date('Y-m-d') }}{% endif %}</td>
+                <td>{{ configuracion.tiempoEspera }}</td>
+                <td>{{ configuracion.penalizacion }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('configuracion_show', { 'id': configuracion.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('configuracion_edit', { 'id': configuracion.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('configuracion_new') }}">Create a new configuracion</a>
+        </li>
+    </ul>
+{% endblock %}

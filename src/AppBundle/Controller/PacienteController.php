@@ -88,9 +88,12 @@ class PacienteController extends Controller {
      */
     public function editAction(Request $request, Paciente $paciente) {
         $fileOld = $paciente->getPersona()->getFoto();
+        
         $deleteForm = $this->createDeleteForm($paciente);
         $editForm = $this->createForm('AppBundle\Form\PacienteType', $paciente);
         $editForm->handleRequest($request);
+
+        
 
         if ($paciente->getPersona()->getFoto() === null && $fileOld !== null) {
             $paciente->getPersona()->setFoto($fileOld);

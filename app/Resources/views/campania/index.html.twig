@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Campanias list</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for campanium in campanias %}
+            <tr>
+                <td><a href="{{ path('campania_show', { 'id': campanium.id }) }}">{{ campanium.id }}</a></td>
+                <td>{{ campanium.nombre }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('campania_show', { 'id': campanium.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('campania_edit', { 'id': campanium.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('campania_new') }}">Create a new campanium</a>
+        </li>
+    </ul>
+{% endblock %}

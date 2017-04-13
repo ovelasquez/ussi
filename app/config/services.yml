@@ -14,11 +14,24 @@ services:
         class: AppBundle\FileUploader
         arguments: ['%photos_directory%']
 
+    app.images_uploader:
+        class: AppBundle\FileUploader
+        arguments: ['%images_directory%']
+            
+
     app.doctrine_photo_listener:
         class: AppBundle\EventListener\FotoUploadListener
         arguments: ['@app.photo_uploader']
         tags:
             - { name: doctrine.event_listener, event: prePersist }
             - { name: doctrine.event_listener, event: preUpdate }
-            - { name: doctrine.event_listener, event: postLoad }            
+            - { name: doctrine.event_listener, event: postLoad }
+
+    app.doctrine_imagen_listener:
+        class: AppBundle\EventListener\ImagenUploadListener
+        arguments: ['@app.images_uploader']
+        tags:
+            - { name: doctrine.event_listener, event: prePersist }
+            - { name: doctrine.event_listener, event: preUpdate }
+            - { name: doctrine.event_listener, event: postLoad }              
    

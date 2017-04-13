@@ -168,28 +168,4 @@ class Configuracion
     {
         return $this->tiempoEspera;
     }
-
-    /**
-     * Set campania
-     *
-     * @param \AppBundle\Entity\Campania $campania
-     *
-     * @return Configuracion
-     */
-    public function setCampania(\AppBundle\Entity\Campania $campania = null)
-    {
-        $this->campania = $campania;
-
-        return $this;
-    }
-
-    /**
-     * Get campania
-     *
-     * @return \AppBundle\Entity\Campania
-     */
-    public function getCampania()
-    {
-        return $this->campania;
-    }
 }

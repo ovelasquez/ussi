@@ -5,11 +5,29 @@
     <link href="{{ asset('bundles/app/vendors/sweetalert2/sweetalert2.min.css')}}" rel="stylesheet">
 {% endblock %}
 {% block contenido %}
-    
+
 {% endblock contenido %}
 
 {% block javascripts %}
     <script src="{{ asset('bundles/app/vendors/ion.sound/ion.sound.min.js')}}"></script> 
+    <script src="{{ asset('bundles/app/seguridad/js/jquery.backstretch.min.js')}}"></script> 
+    <script>
+        {% set imagenes='' %}  
+        {% set k=0 %}
+        {% for value in campanium %}             
+            {% if k == 0 %}
+                {% set imagenes="'"~ "../uploads/campania/"~ value.nombre ~ "'," %}
+                {% set k=1 %}  
+            {% endif %}
+            {% set imagenes=imagenes ~ " '" ~ "../uploads/campania/"~ value.nombre  ~ "'," %}
+        {% endfor %} 
+
+                Pace.on('hide', function () {
+                    $("#container").fadeIn('1000');
+                    $.backstretch([{{imagenes|raw}}], {duration: 20000, fade: 1000});
+                });
+    </script>
+
     <script>
         function reloadPagina() {
             location.reload();
@@ -34,11 +52,11 @@
                                 (function (i) {
                                     setTimeout(function () {
                                         ion.sound.play("aeropuerto", {loop: 1});
-                                        value=obj[i];
+                                        value = obj[i];
                                         swal({
                                             type: 'info',
                                             title: value.paciente.nombre,
-                                            text: value.paciente.cedula + "  - " + " Especialidad: " + value.especialidad.nombre + " - Médico: " + value.medico.nombre,                                            
+                                            text: value.paciente.cedula + "  - " + " Especialidad: " + value.especialidad.nombre + " - Médico: " + value.medico.nombre,
                                             showConfirmButton: false,
                                             imageUrl: '{{ asset('uploads/fotos/')}}' + value.paciente.foto,
                                             imageWidth: 250,
@@ -54,7 +72,7 @@
                     });
         }
         $(document).ready(function () {
-            setInterval(estanLlamando, 60000);
+            setInterval(estanLlamando, 20000);
             // init bunch of sounds
             ion.sound({
                 sounds: [

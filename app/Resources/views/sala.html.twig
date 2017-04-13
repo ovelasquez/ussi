@@ -47,25 +47,7 @@
 </div>
 <script src="{{ asset('bundles/app/seguridad/js/jquery.min.js')}}"> </script> 
 <script src="{{ asset('bundles/app/seguridad/js/bootstrap.min.js')}}"> </script> 
-<script src="{{ asset('bundles/app/seguridad/js/jquery.backstretch.min.js')}}"> </script> 
-<script>
-    Pace.on('hide', function () {
-        $("#container").fadeIn('1000');
-        $.backstretch([            
-            "{{ asset('bundles/app/sala/1.jpg')}}",
-            "{{ asset('bundles/app/sala/2.jpg')}}",
-            "{{ asset('bundles/app/sala/3.jpg')}}",
-            "{{ asset('bundles/app/sala/4.jpg')}}",
-            "{{ asset('bundles/app/sala/5.jpg')}}",
-            "{{ asset('bundles/app/sala/6.jpg')}}",
-            "{{ asset('bundles/app/sala/7.jpg')}}",
-            "{{ asset('bundles/app/sala/8.jpg')}}",
-            "{{ asset('bundles/app/sala/9.jpg')}}",
-            "{{ asset('bundles/app/sala/10.jpg')}}",
-            "{{ asset('bundles/app/sala/11.jpg')}}",
-        ], {duration: 20000, fade: 1000});
-    });
-</script>
+
 {% block javascripts %}{% endblock %}
 </body>
 </html>

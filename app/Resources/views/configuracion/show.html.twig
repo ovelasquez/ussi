@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Configuracion</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ configuracion.id }}</td>
+            </tr>
+            <tr>
+                <th>Numeroconsultas</th>
+                <td>{{ configuracion.numeroConsultas }}</td>
+            </tr>
+            <tr>
+                <th>Servicioactualizado</th>
+                <td>{% if configuracion.servicioActualizado %}{{ configuracion.servicioActualizado|date('Y-m-d') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Tiempoespera</th>
+                <td>{{ configuracion.tiempoEspera }}</td>
+            </tr>
+            <tr>
+                <th>Penalizacion</th>
+                <td>{{ configuracion.penalizacion }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('configuracion_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('configuracion_edit', { 'id': configuracion.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}
