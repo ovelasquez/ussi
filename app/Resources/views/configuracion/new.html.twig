@@ -1,16 +1,58 @@
 {% extends 'base.html.twig' %}
-
+{% block title %} Configuración {% endblock %}
+{% block Subtitulo %} Editar Datos de la Configuración -  <small> <a href="{{ path('configuracion_index') }}">Regresar a la lista</a></small> {% endblock %} 
 {% block body %}
-    <h1>Configuracion creation</h1>
+    <div class="x_content">
+        <br />        
+        {{ form_start(form, { 'attr': {'id':'configuracion','class': 'form-horizontal form-label-left'} }) }} 
+        {{ form_errors(form) }}
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nombre">{{ form_label(form.numeroConsultas) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(form.numeroConsultas) }}                
+                {{form_widget(form.numeroConsultas,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>
 
-    {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <input type="submit" value="Create" />
-    {{ form_end(form) }}
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nombre">{{ form_label(form.servicioActualizado) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(form.servicioActualizado) }}                
+                {{form_widget(form.servicioActualizado ) }}                
+            </div>
+        </div>
 
-    <ul>
-        <li>
-            <a href="{{ path('configuracion_index') }}">Back to the list</a>
-        </li>
-    </ul>
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nombre">{{ form_label(form.tiempoEspera) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(form.tiempoEspera) }}                
+                {{form_widget(form.tiempoEspera,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nombre">{{ form_label(form.penalizacion) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(form.penalizacion) }}                
+                {{form_widget(form.penalizacion,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nombre">{{ form_label(form.campania) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(form.campania) }}                
+                {{form_widget(form.campania,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>
+
+        <div class="ln_solid"></div>
+        <div class="form-group">
+            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">                
+                <button type="submit" class="btn btn-success">Registrar</button>
+            </div>
+        </div>
+
+        {{ form_end(form) }}                           
+    </div>
 {% endblock %}

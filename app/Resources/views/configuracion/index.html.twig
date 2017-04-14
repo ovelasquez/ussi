@@ -1,45 +1,77 @@
 {% extends 'base.html.twig' %}
-
+{% block stylesheets %}
+    <!-- Datatables -->
+    <link href="{{ asset('bundles/app/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{ asset('bundles/app/vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{ asset('bundles/app/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css')}}" rel="stylesheet">
+{% endblock %}
+{% block title %} Configuración {% endblock %}
+{% block Subtitulo %} Panel de Configuración -  <small> Opciones </small> {% endblock %} 
 {% block body %}
-    <h1>Configuracions list</h1>
+    {% for msg in app.session.flashBag.get('success') %}        
+        <div class="alert alert-success alert-dismissible fade in" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+            </button>
+            <strong>{{ msg }}</strong>
+        </div>
+    {% endfor %}
 
-    <table>
+    {% for msgs in app.session.flashBag.get('error') %}
+        <div class="alert alert-danger alert-dismissible fade in" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+            <strong>
+                {% for msg in msgs %}
+                    <p>{{ msg }}</p>
+                {% endfor %}
+            </strong>
+        </div>
+    {% endfor %}
+
+
+    <table id="datatable-fixed-header" class="table table-striped table-bordered">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Numeroconsultas</th>
-                <th>Servicioactualizado</th>
-                <th>Tiempoespera</th>
-                <th>Penalizacion</th>
-                <th>Actions</th>
+                <th>#</th>
+                <th>Número Consultas</th>
+                <th>Servicio Actualizado</th>
+                <th>Tiempo Espera</th>
+                <th>Penalización</th>
+                <th>Accioes</th>
             </tr>
         </thead>
         <tbody>
-        {% for configuracion in configuracions %}
-            <tr>
-                <td><a href="{{ path('configuracion_show', { 'id': configuracion.id }) }}">{{ configuracion.id }}</a></td>
-                <td>{{ configuracion.numeroConsultas }}</td>
-                <td>{% if configuracion.servicioActualizado %}{{ configuracion.servicioActualizado|date('Y-m-d') }}{% endif %}</td>
-                <td>{{ configuracion.tiempoEspera }}</td>
-                <td>{{ configuracion.penalizacion }}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('configuracion_show', { 'id': configuracion.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('configuracion_edit', { 'id': configuracion.id }) }}">edit</a>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
-        {% endfor %}
+            {% for configuracion in configuracions %}
+                <tr>
+                    <td><a href="{{ path('configuracion_show', { 'id': configuracion.id }) }}">{{ loop.index  }}</a></td>
+                    <td>{{ configuracion.numeroConsultas }}</td>
+                    <td>{% if configuracion.servicioActualizado %}{{ configuracion.servicioActualizado|date('Y-m-d') }}{% endif %}</td>
+                    <td>{{ configuracion.tiempoEspera }}</td>
+                    <td>{{ configuracion.penalizacion }}</td>
+                    <td>
+                        <a href="{{ path('configuracion_show', { 'id': configuracion.id }) }}">
+                            <button type="button" class="btn btn-xs btn-warning" data-toggle="tooltip" data-placement="top" title="" data-original-title="Ver">  <i class="fa fa-eye"></i>  </button>
+                        </a>
+                        <a href="{{ path('configuracion_edit', { 'id': configuracion.id }) }}">
+                            <button type="button" class="btn btn-xs btn-success" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editar">  <i class="fa fa-pencil"></i>  </button>
+                        </a>                                                
+                    </td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
+{% endblock %}
+{% block javascripts %}
+    <!-- Datatables -->
+    <script src="{{ asset('bundles/app/vendors/datatables.net/js/jquery.dataTables.min.js')}}"></script>
+    <script src="{{ asset('bundles/app/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js')}}"></script>
+    <!-- Datatables -->
+    <script>
+        $(document).ready(function () {
+            $('#datatable-fixed-header').DataTable({
+                fixedHeader: true
+            });
 
-    <ul>
-        <li>
-            <a href="{{ path('configuracion_new') }}">Create a new configuracion</a>
-        </li>
-    </ul>
+        });
+    </script>
+
 {% endblock %}

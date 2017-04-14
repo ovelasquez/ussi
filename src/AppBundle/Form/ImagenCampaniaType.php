@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ImagenType extends AbstractType
+class ImagenCampaniaType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -15,7 +15,7 @@ class ImagenType extends AbstractType
     {
         $builder
         ->add('nombre')
-       ->add('campania')       
+         
          ;
     }
     

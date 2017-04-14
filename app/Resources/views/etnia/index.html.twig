@@ -10,17 +10,22 @@
 {% block title %} Etnia {% endblock %}
 {% block Subtitulo %} Lista de Etnias -  <small> <a href="{{ path('etnia_new') }}">Crear Etnia</a></small> {% endblock %} 
 {% block body %}
-    {% for msg in app.session.flashBag.get('success') %}
-        <div class="alert alert-success">
-            {{ msg }}
+    {% for msg in app.session.flashBag.get('success') %}        
+        <div class="alert alert-success alert-dismissible fade in" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+            </button>
+            <strong>{{ msg }}</strong>
         </div>
     {% endfor %}
 
     {% for msgs in app.session.flashBag.get('error') %}
-        <div class="alert alert-danger">
-            {% for msg in msgs %}
-                <p>{{ msg }}</p>
-            {% endfor %}
+        <div class="alert alert-danger alert-dismissible fade in" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+            <strong>
+                {% for msg in msgs %}
+                    <p>{{ msg }}</p>
+                {% endfor %}
+            </strong>
         </div>
     {% endfor %}
 
@@ -39,11 +44,11 @@
                 <td>{{ etnium.nombre }}</td>
                 <td>
                     <a href="{{ path('etnia_show', { 'id': etnium.id }) }}">
-                            <button type="button" class="btn btn-xs btn-warning" data-toggle="tooltip" data-placement="top" title="" data-original-title="Ver">  <i class="fa fa-eye"></i>  </button>
-                        </a>
-                        <a href="{{ path('etnia_edit', { 'id': etnium.id }) }}">
-                            <button type="button" class="btn btn-xs btn-success" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editar">  <i class="fa fa-pencil"></i>  </button>
-                        </a>
+                        <button type="button" class="btn btn-xs btn-warning" data-toggle="tooltip" data-placement="top" title="" data-original-title="Ver">  <i class="fa fa-eye"></i>  </button>
+                    </a>
+                    <a href="{{ path('etnia_edit', { 'id': etnium.id }) }}">
+                        <button type="button" class="btn btn-xs btn-success" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editar">  <i class="fa fa-pencil"></i>  </button>
+                    </a>
                 </td>
             </tr>
         {% endfor %}

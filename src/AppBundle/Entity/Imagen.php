@@ -25,7 +25,7 @@ class Imagen
     /**
      * @var string
      *
-     * @ORM\Column(name="nombre", type="string", length=255, nullable=true)
+     * @ORM\Column(name="nombre", type="string", length=255, nullable=false)
      * @Assert\File(
      *     maxSize = "1024k",
      *     mimeTypes = {"image/jpeg", "image/jpg", "image/png"},
