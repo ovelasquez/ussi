@@ -5,7 +5,7 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 
@@ -17,20 +17,20 @@ class EvolucionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-                ->add('subjetivo', TextType::class, array(
+                ->add('subjetivo', TextareaType::class, array(
                     'label' => 'Motivo de la Consulta',
                     'required' => true,
-                    'attr' => array('placeholder' => 'Motivo de la Consulta'),
+                    'attr' => array('placeholder' => '(S) Subjetivo'),
                 ))
-                ->add('objetivo' , TextType::class, array(
+                ->add('objetivo' , TextareaType::class, array(
                     'label' => 'Enfermedad Actual y hallazgos',
                     'required' => true,
-                    'attr' => array('placeholder' => 'Enfermedad Actual y hallazgos'),
+                    'attr' => array('placeholder' => '(O) Objetivo'),
                 ))                
-                ->add('apreciacion',TextType::class, array(
+                ->add('apreciacion',TextareaType::class, array(
                     'label' => 'Diagnóstica',
                     'required' => true,
-                    'attr' => array('placeholder' => 'Diagnóstica'),
+                    'attr' => array('placeholder' => '(A) Apreciación'),
                 ))
                 ->add('frecuencia', ChoiceType::class, array(
                     'choices' => array('Primera' => 'primera', 'Sucesiva' => 'sucesiva', 'Emergencia' => 'emergencia'),
@@ -38,11 +38,12 @@ class EvolucionType extends AbstractType
                     'attr' => array('placeholder' => 'Frecuencia de Consulta'),
                     'label' => 'Frecuencia de Consulta',))
                 
-                ->add('tratamiento' ,TextType::class, array(
+                ->add('tratamiento' ,TextareaType::class, array(
                     'label' => 'Tratamientos Pendiente',
                     'required' => true,
-                    'attr' => array('placeholder' => 'Tratamientos Pendiente'),
-                )) ;
+                    'attr' => array('placeholder' => '(P) Plan: Tratamiento Educa. Terap. Y Pendiente'),
+                ))
+                ->add('edad');
     }
     
     /**

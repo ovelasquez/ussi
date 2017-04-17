@@ -56,6 +56,13 @@ class Evolucion
      */
     private $frecuencia;
     
+     /**
+     * @var integer
+     *
+     * @ORM\Column(name="edad", type="integer", nullable=true)
+     */
+    private $edad = '0';
+    
        /**
      * @var \Consulta
      *
@@ -218,5 +225,29 @@ class Evolucion
     public function getConsulta()
     {
         return $this->consulta;
+    }
+
+    /**
+     * Set edad
+     *
+     * @param integer $edad
+     *
+     * @return Evolucion
+     */
+    public function setEdad($edad)
+    {
+        $this->edad = $edad;
+
+        return $this;
+    }
+
+    /**
+     * Get edad
+     *
+     * @return integer
+     */
+    public function getEdad()
+    {
+        return $this->edad;
     }
 }

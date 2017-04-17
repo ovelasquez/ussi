@@ -5,7 +5,8 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Consulta;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Consultum controller.
@@ -23,16 +24,14 @@ class ConsultaController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-
         $consultas = $em->getRepository('AppBundle:Consulta')->findAll();
-
         return $this->render('consulta/index.html.twig', array(
             'consultas' => $consultas,
         ));
     }
 
     /**
-     * Creates a new consultum entity.
+     * Crear nueva consulta.
      *
      * @Route("/new", name="consulta_new")
      * @Method({"GET", "POST"})

@@ -64,18 +64,20 @@ class DefaultController extends Controller {
         if ($servicioProfesional) {
 
             $especialidad = $em->getRepository('AppBundle:Especialidad')->find($servicioProfesional->getServicio()->getEspecialidad());
-            //dump($especialidad); die();
+
             $repository = $em->getRepository('AppBundle:Esperando');
             $query = $repository->createQueryBuilder('p')
                     ->where('p.fechaRegistro >= :hoy')
                     ->andWhere('p.especialidad = :especialidad')
+                    ->andWhere('p.status = :activo')
                     ->setParameter('hoy', $hoy)
                     ->setParameter('especialidad', $especialidad)
+                    ->setParameter('activo', 'activo')
                     ->orderBy('p.posicion', 'ASC')
                     ->getQuery();
             $esperandos = $query->getResult(); //Lista de Espera
         }
-        // dump($esperandos); die();
+
 
         return $this->render('default/medico.html.twig', array(
                     'esperandos' => $esperandos,
@@ -87,7 +89,6 @@ class DefaultController extends Controller {
      * @Route("/homepage_consulta/{paciente}", name="homepage_consulta")
      */
     public function consultaAction($paciente) {
-        
         $em = $this->getDoctrine()->getManager();
         $paciente = $em->getRepository('AppBundle:Paciente')->find($paciente);
 
@@ -104,18 +105,25 @@ class DefaultController extends Controller {
                 $especialidad = $valor->getServicio()->getEspecialidad();
             }
         }
+         $evolucion = null;
 
         $tieneConsultaActiva = $em->getRepository('AppBundle:Consulta')->findOneBy(
                 array('paciente' => $paciente,
                     'egreso' => false,
                     'profesional' => $profesional,
-                    'especialidad' => $especialidad )
+                    'especialidad' => $especialidad)
         );
-        dump($tieneConsultaActiva); //die();
+        //dump($tieneConsultaActiva);//die();
 
         if ($tieneConsultaActiva) {
-            $consulta=$tieneConsultaActiva;
+            $consulta = $tieneConsultaActiva;
+
+            //Buscar la Evolucion asociada a la Consulta
+            $evolucion = $em->getRepository('AppBundle:Evolucion')->findOneBy(
+                    array('consulta' => $tieneConsultaActiva,)
+            );
         } else {
+           
             //Creamos una nueva consulta
             if (in_array('ROLE_MEDICO', $this->getUser()->getRoles()) && $especialidad) {
                 $consulta = new \AppBundle\Entity\Consulta;
@@ -129,12 +137,6 @@ class DefaultController extends Controller {
             }
         }
 
-        //  $session = new Session();
-        //$session->start();
-        //  $session->set('consulta', $consulta);
-        //  dump($session->get('consulta'));        die();
-
-
         return $this->render('default/consulta.html.twig', array(
                     'paciente' => $paciente,
                     'historicoAntecedentes' => $historicoAntecedentes,
@@ -143,6 +145,7 @@ class DefaultController extends Controller {
                     'sexualidads' => $sexualidads,
                     'perinatals' => $perinatals,
                     'consulta' => $consulta,
+                    'evolucion'=>$evolucion,
         ));
     }
 

@@ -5,12 +5,12 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Evolucion
+ * Afeccione
  *
- * @ORM\Table(name="evolucion")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\EvolucionRepository")
+ * @ORM\Table(name="afeccione")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\AfeccioneRepository")
  */
-class Evolucion
+class Afeccione
 {
     /**
      * @var int
@@ -24,23 +24,16 @@ class Evolucion
     /**
      * @var string
      *
-     * @ORM\Column(name="objetivo", type="text")
+     * @ORM\Column(name="procedencia", type="string", length=255)
      */
-    private $objetivo;
+    private $procedencia;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="subjetivo", type="text")
+     * @ORM\Column(name="diagnostico", type="text")
      */
-    private $subjetivo;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="apreciacion", type="text")
-     */
-    private $apreciacion;
+    private $diagnostico;
 
     /**
      * @var string
@@ -49,21 +42,14 @@ class Evolucion
      */
     private $tratamiento;
 
-      /**
+    /**
      * @var string
      *
-     * @ORM\Column(name="frecuencia", type="string", length=255, nullable=true)
+     * @ORM\Column(name="referencia", type="text")
      */
-    private $frecuencia;
+    private $referencia;
     
-     /**
-     * @var integer
-     *
-     * @ORM\Column(name="edad", type="integer", nullable=true)
-     */
-    private $edad = '0';
-    
-       /**
+         /**
      * @var \Consulta
      *
      * @ORM\ManyToOne(targetEntity="Consulta")
@@ -72,6 +58,7 @@ class Evolucion
      * })
      */
     private $consulta;
+
 
     /**
      * Get id
@@ -84,75 +71,51 @@ class Evolucion
     }
 
     /**
-     * Set objetivo
+     * Set procedencia
      *
-     * @param string $objetivo
+     * @param string $procedencia
      *
-     * @return Evolucion
+     * @return Afeccione
      */
-    public function setObjetivo($objetivo)
+    public function setProcedencia($procedencia)
     {
-        $this->objetivo = $objetivo;
+        $this->procedencia = $procedencia;
 
         return $this;
     }
 
     /**
-     * Get objetivo
+     * Get procedencia
      *
      * @return string
      */
-    public function getObjetivo()
+    public function getProcedencia()
     {
-        return $this->objetivo;
+        return $this->procedencia;
     }
 
     /**
-     * Set subjetivo
+     * Set diagnostico
      *
-     * @param string $subjetivo
+     * @param string $diagnostico
      *
-     * @return Evolucion
+     * @return Afeccione
      */
-    public function setSubjetivo($subjetivo)
+    public function setDiagnostico($diagnostico)
     {
-        $this->subjetivo = $subjetivo;
+        $this->diagnostico = $diagnostico;
 
         return $this;
     }
 
     /**
-     * Get subjetivo
+     * Get diagnostico
      *
      * @return string
      */
-    public function getSubjetivo()
+    public function getDiagnostico()
     {
-        return $this->subjetivo;
-    }
-
-    /**
-     * Set apreciacion
-     *
-     * @param string $apreciacion
-     *
-     * @return Evolucion
-     */
-    public function setApreciacion($apreciacion)
-    {
-        $this->apreciacion = $apreciacion;
-
-        return $this;
-    }
-
-    /**
-     * Get apreciacion
-     *
-     * @return string
-     */
-    public function getApreciacion()
-    {
-        return $this->apreciacion;
+        return $this->diagnostico;
     }
 
     /**
@@ -160,7 +123,7 @@ class Evolucion
      *
      * @param string $tratamiento
      *
-     * @return Evolucion
+     * @return Afeccione
      */
     public function setTratamiento($tratamiento)
     {
@@ -180,27 +143,27 @@ class Evolucion
     }
 
     /**
-     * Set frecuencia
+     * Set referencia
      *
-     * @param string $frecuencia
+     * @param string $referencia
      *
-     * @return Evolucion
+     * @return Afeccione
      */
-    public function setFrecuencia($frecuencia)
+    public function setReferencia($referencia)
     {
-        $this->frecuencia = $frecuencia;
+        $this->referencia = $referencia;
 
         return $this;
     }
 
     /**
-     * Get frecuencia
+     * Get referencia
      *
      * @return string
      */
-    public function getFrecuencia()
+    public function getReferencia()
     {
-        return $this->frecuencia;
+        return $this->referencia;
     }
 
     /**
@@ -208,7 +171,7 @@ class Evolucion
      *
      * @param \AppBundle\Entity\Consulta $consulta
      *
-     * @return Evolucion
+     * @return Afeccione
      */
     public function setConsulta(\AppBundle\Entity\Consulta $consulta = null)
     {

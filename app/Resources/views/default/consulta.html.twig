@@ -1,4 +1,4 @@
-    {% extends 'dashboard.html.twig' %}
+{% extends 'dashboard.html.twig' %}
 {% block stylesheets %}
     <!-- Datatables -->
     <link href="{{ asset('bundles/app/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css')}}" rel="stylesheet">
@@ -48,149 +48,71 @@
     </div>
 {% endblock %}
 {% block body %}
-    <div class="row">
-        <div class="col-md-4 col-sm-4 col-xs-12">
-            <div class="x_panel tile fixed_height_320">
-                <div class="x_title">
-                    <h2>Gestionar Evolución</h2>
-                    <ul class="nav navbar-right panel_toolbox">
-                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                        </li>                                    
-                        <li><a class="close-link"><i class="fa fa-close"></i></a>
-                        </li>
-                    </ul>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="x_content">
 
-                    <div class="col-md-12">
-                        <div class="thumbnail">
 
-                            <div class="image view view-first">
-                                <a href="{{ path('evolucion_new' , {'consulta':consulta.id}) }}"> 
-                                    <img style="width: 100%; display: block;" src="{{ asset('bundles/app/seguridad/images/14.jpg')}}" alt="image">
-                                    <div class="mask">
-                                        <p>Gestionar Evolución</p>                                               
-                                    </div>
-                                </a> 
-                            </div>
-                            <div class="caption">
-                                <p><a href="{{ path('evolucion_new' , {'consulta':consulta.id}) }}"> Gestionar Evolución  </a>  </p>
-                            </div>
-                        </div>
-                    </div>    
+    <div class="">
+        <div class="page-title">
+            <div class="title_left">
+                <h3>{% block Titulo %} Unidad de los Servicios de Salud Integral Dr. Jesús Saturno Canelón  {% endblock %}</h3>
+            </div>
 
-                </div>
+            <div class="title_right">                            
             </div>
         </div>
-        <div class="col-md-4 col-sm-4 col-xs-12">
-            <div class="x_panel tile fixed_height_320">
-                <div class="x_title">
-                    <h2>Gestionar Expedientes</h2>
-                    <ul class="nav navbar-right panel_toolbox">
-                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                        </li>                                    
-                        <li><a class="close-link"><i class="fa fa-close"></i></a>
-                        </li>
-                    </ul>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="x_content">
-                    <div class="col-md-12">
-                        <div class="thumbnail">
-                            <div class="image view view-first">
-                                <a href="{{ path('paciente_index') }}"> 
-                                    <img style="width: 100%; display: block;" src="{{ asset('bundles/app/seguridad/images/1.jpg')}}" alt="image">
-                                    <div class="mask">
-                                        <p>Gestionar Expedientes</p>                                                
-                                    </div>
-                                </a> 
-                            </div>
-                            <div class="caption">
-                                <p> <a href="{{ path('paciente_index') }}"> Gestionar Expedientes </a>  </p>
-                            </div>
-                        </div>
-                    </div>    
-                    <br>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 col-sm-4 col-xs-12">
-            <div class="x_panel tile fixed_height_320">
-                <div class="x_title">
-                    <h2>Asignar CItas</h2>
-                    <ul class="nav navbar-right panel_toolbox">
-                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                        </li>                                    
-                        <li><a class="close-link"><i class="fa fa-close"></i></a>
-                        </li>
-                    </ul>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="x_content">
-                    <div class="col-md-12">
-                        <div class="thumbnail">
-                            <div class="image view view-first">
-                                <a href="{{ path('cita_new') }}">
-                                    <img style="width: 100%; display: block;" src="{{ asset('bundles/app/seguridad/images/13.jpg')}}" alt="image">
-                                    <div class="mask">
-                                        <p> Asignar Citas</p>                                                
-                                    </div>
-                                </a> 
-                            </div>
-                            <div class="caption">
-                                <p> <a href="{{ path('cita_new') }}"> Asignar Citas </a>  </p>
-                            </div>
-                        </div>
-                    </div>                                   
 
-                    <br>
+        <div class="clearfix"></div>
 
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12 col-sm-12 col-xs-12">
-            <div class="row">
-                <div class="col-md-12 col-sm-12 col-xs-12">
-                    <div class="x_panel">
-                        <div class="x_title">
-                            <h2>Datos del  <small>Paciente </small></h2>
-                            <ul class="nav navbar-right panel_toolbox">
-                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                                </li>                                            
-                                <li><a class="close-link"><i class="fa fa-close"></i></a>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>{% block Subtitulo %} USSI UBV {% endblock %} </h2>
+                        <ul class="nav navbar-right panel_toolbox submenu">
+                            {% block paneltoolbox %} 
+                                <li><a class="collapse-link" ><i class="fa fa-chevron-up"></i></a></li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="#">{% block cerrar %}  {% endblock %}</a>
+                                        </li>
+                                        <li><a href="#">Settings 2</a>
+                                        </li>
+                                    </ul>
                                 </li>
-                            </ul>
-                            <div class="clearfix"></div>
-                        </div>
-                        <!--Contenido Paciente-->
+                                <li><a class="close-link" ><i class="fa fa-close"></i></a> </li>
+                                    {% endblock %}     
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <!--div class="x_content"-->
+                    {% block body2 %}
                         <div class="x_content">
-                            
-                            <div class="col-md-12 col-sm-12 col-xs-12">                    
+                            <div class="col-md-3 col-sm-3 col-xs-12 profile_left">
+                                <div class="profile_img">
+                                    <div id="crop-avatar">
+                                        <!-- Current avatar -->
+                                        <img class="img-responsive avatar-view" src="{{ asset('uploads/fotos/')}}{{paciente.persona.foto}}" alt="Avatar" title="Change the avatar" height="80%" width="80%">                    
+                                    </div>
+                                </div>
+
+                                <p></p>
+
+                                <a class="btn btn-success" href="{{ path('paciente_edit', { 'id': paciente.id }) }}"><i class="fa fa-edit m-right-xs"></i>Editar Registro</a>
+                                <br/>           
+                            </div>
+                            <div class="col-md-9 col-sm-9 col-xs-12">                    
                                 <div class="" role="tabpanel" data-example-id="togglable-tabs">
                                     <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
                                         <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Personales</a></li>                     
                                         <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Otros</a></li>
                                         <li role="presentation" class=""><a href="#tab_content3" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Historia Médica</a></li>
+                                        <li role="presentation" class=""><a href="#tab_content4" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Evolución</a></li>
+                                        <li role="presentation" class=""><a href="#tab_content5" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Afecciones</a></li>
                                     </ul>
                                     <div id="myTabContent" class="tab-content">
                                         <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
                                             <table class="table table-striped">
                                                 <tbody>
-                                                    <tr>
-                                                        <th></th>
-                                                        <td>
-                                                            <div class="profile_img">
-                                                                <div id="crop-avatar">
-                                                                    <!-- Current avatar -->
-                                                                    <img class="img-responsive avatar-view" src="{{ asset('uploads/fotos/')}}{{paciente.persona.foto}}" alt="Avatar" title="Change the avatar" height="200px" width="200px">
-                                                                </div>
-                                                            </div>
-
-                                                        </td>
-                                                    </tr>
                                                     <tr>
                                                         <th>Identificación</th>
                                                         <td>{{ paciente.persona.nacionalidad }} - {{ paciente.persona.cedula |number_format(0, ',', '.')}}</td>
@@ -870,31 +792,60 @@
                                                 </div>
                                             </div>
                                         </div> <!--Fin  Acordion Historia Medica-->
+                                        <!--Evolucion-->
+                                        <div role="tabpanel" class="tab-pane fade active in" id="tab_content4" aria-labelledby="home-tab">
+                                            {% if (evolucion!=null) %}
+                                                {# Si el paciente posee antecedentes NO se muestra el boton de Registro de Antecedentes #}
+
+                                            {% else %}
+                                                <!-- no tiene evolucion -->
+                                                <form name="form_evolucion" action="{{path('evolucion_new')}}" method="post" id="form_evolucion" class="form-horizontal form-label-left"> 
+                                                    <input id="evolucion_consulta" name="evolucion_consulta" type="hidden" value="{{consulta.id}}"> 
+                                                   <div class="ln_solid"></div>
+                                                    <div class="form-group">
+                                                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">                
+                                                            <button type="submit" class="btn btn-success">Registrar Evolución</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            {%endif%}
+                                        </div>
+
+                                        <div role="tabpanel" class="tab-pane fade active in" id="tab_content5" aria-labelledby="home-tab">
+
+                                        </div>
+
                                     </div> {# Fin del Tab Historia Medica  #}
                                 </div> 
                             </div> {# Fin del Tab Principal  #}
-                            </d
-                            <!-- Fin Conteido Paciente -->
                         </div>
-                    </div>
+
+
+
+                    {% endblock %}                                    
+                    <!--/div-->
                 </div>
             </div>
         </div>
-    {% endblock %}
-    {% block javascripts %}
-        <!-- Datatables -->
-        <script src="{{ asset('bundles/app/vendors/datatables.net/js/jquery.dataTables.min.js')}}"></script>
-        <script src="{{ asset('bundles/app/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js')}}"></script>
-        <!-- PNotify -->
-        <script src="{{ asset('bundles/app/vendors/pnotify/dist/pnotify.js')}}"></script> 
-        <script src="{{ asset('bundles/app/vendors/pnotify/dist/pnotify.buttons.js')}}"></script> 
-        <script src="{{ asset('bundles/app/vendors/pnotify/dist/pnotify.nonblock.js')}}"></script> 
-        <!-- Push -->
-        <script src="{{ asset('bundles/app/vendors/push/push.min.js')}}"></script> 
-        <script>
-            $(document).ready(function () {
-                $('#datatable-fixed-header').DataTable({fixedHeader: true});
-            });
-        </script>
-    {% endblock %}
+    </div>
+
+
+
+{% endblock %}
+{% block javascripts %}
+    <!-- Datatables -->
+    <script src="{{ asset('bundles/app/vendors/datatables.net/js/jquery.dataTables.min.js')}}"></script>
+    <script src="{{ asset('bundles/app/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js')}}"></script>
+    <!-- PNotify -->
+    <script src="{{ asset('bundles/app/vendors/pnotify/dist/pnotify.js')}}"></script> 
+    <script src="{{ asset('bundles/app/vendors/pnotify/dist/pnotify.buttons.js')}}"></script> 
+    <script src="{{ asset('bundles/app/vendors/pnotify/dist/pnotify.nonblock.js')}}"></script> 
+    <!-- Push -->
+    <script src="{{ asset('bundles/app/vendors/push/push.min.js')}}"></script> 
+    <script>
+        $(document).ready(function () {
+            $('#datatable-fixed-header').DataTable({fixedHeader: true});
+        });
+    </script>
+{% endblock %}
 
