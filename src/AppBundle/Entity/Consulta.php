@@ -195,10 +195,11 @@ class Consulta
     public function getEspecialidad()
     {
         return $this->especialidad;
-    }
-    
+    }    
     
     public function __toString() {
-        return (string)$this->getId();
+        return $this->getPaciente()->getPersona()->getPrimerNombre()
+                .' '.$this->getPaciente()->getPersona()->getPrimerApellido()
+                .' - Especialidad: '.$this->getEspecialidad()->getNombre();
     }
 }

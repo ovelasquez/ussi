@@ -57,14 +57,7 @@ class EsperandoController extends Controller {
         $configuracion = $em->getRepository('AppBundle:Configuracion')->findAll();
         $repetir = true;
         $esMio = false;
-        $foto = '';
-
-        //Datos Cableados para Pruebas:
-        //  $especialidad = ["Medicina General", "Medicina Interna", "Pediatría"];
-        //  $especialidad = $especialidad[rand(0, 2)];        
-        //  $miId = 2;
-        //  $miEspecialidad = $em->getRepository('AppBundle:Especialidad')->findByNombre($especialidad);
-        //Datos Reales
+        $foto = '';       
         $profesional = $em->getRepository('AppBundle:Profesional')->findOneByPersona($this->getUser()->getPersona());
         $servicioProfesional = $em->getRepository('AppBundle:ServicioProfesional')->findOneBy(array('profesional' => $profesional, 'status' => 'activo'));
         $especialidad = $em->getRepository('AppBundle:Especialidad')->find($servicioProfesional->getServicio()->getEspecialidad());
@@ -87,6 +80,7 @@ class EsperandoController extends Controller {
                     $repetir = FALSE;
                     $esperandos = $esperandos[$i];
                     $foto = $esperandos->getPaciente()->getPersona()->getFoto();
+                    $nombre=$esperandos->getPaciente()->getPersona()->getPrimerNombre().' '.$esperandos->getPaciente()->getPersona()->getPrimerApellido();
                     $esMio = true;
                 }
                 $i++;
@@ -95,13 +89,14 @@ class EsperandoController extends Controller {
         if (!$esMio) {
             $esperandos = null;
         }
-//dump($esperandos); die();
+        
         return $this->render('esperando/procesar.html.twig', array(
                     'esperando' => $esperandos,
                     'tiempoEspera' => $configuracion[0]->getTiempoEspera(),
                     'penalizacion' => $configuracion[0]->getPenalizacion(),
                     'id' => $id,
                     'foto' => $foto,
+                    'nombre' => $nombre,
         ));
     }
 

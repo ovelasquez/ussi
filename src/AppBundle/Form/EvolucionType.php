@@ -43,7 +43,9 @@ class EvolucionType extends AbstractType
                     'required' => true,
                     'attr' => array('placeholder' => '(P) Plan: Tratamiento Educa. Terap. Y Pendiente'),
                 ))
-                ->add('edad');
+                ->add('edad')
+                ->add('consulta');
+                ;
     }
     
     /**

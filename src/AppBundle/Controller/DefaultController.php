@@ -62,9 +62,8 @@ class DefaultController extends Controller {
         $profesional = $em->getRepository('AppBundle:Profesional')->findOneByPersona($this->getUser()->getPersona());
         $servicioProfesional = $em->getRepository('AppBundle:ServicioProfesional')->findOneBy(array('profesional' => $profesional, 'status' => 'activo'));
         if ($servicioProfesional) {
-
             $especialidad = $em->getRepository('AppBundle:Especialidad')->find($servicioProfesional->getServicio()->getEspecialidad());
-
+            //Arma la lista de espera
             $repository = $em->getRepository('AppBundle:Esperando');
             $query = $repository->createQueryBuilder('p')
                     ->where('p.fechaRegistro >= :hoy')
@@ -77,8 +76,6 @@ class DefaultController extends Controller {
                     ->getQuery();
             $esperandos = $query->getResult(); //Lista de Espera
         }
-
-
         return $this->render('default/medico.html.twig', array(
                     'esperandos' => $esperandos,
                     'penalizacion' => $configuracion[0]->getPenalizacion(),
@@ -105,23 +102,28 @@ class DefaultController extends Controller {
                 $especialidad = $valor->getServicio()->getEspecialidad();
             }
         }
-         $evolucion = null;
-
+        $evolucion = null;
+        $afeccione=null;
+       
         $tieneConsultaActiva = $em->getRepository('AppBundle:Consulta')->findOneBy(
                 array('paciente' => $paciente,
                     'egreso' => false,
                     'profesional' => $profesional,
                     'especialidad' => $especialidad)
         );
-        //dump($tieneConsultaActiva);//die();
+        
 
         if ($tieneConsultaActiva) {
             $consulta = $tieneConsultaActiva;
 
             //Buscar la Evolucion asociada a la Consulta
             $evolucion = $em->getRepository('AppBundle:Evolucion')->findOneBy(
-                    array('consulta' => $tieneConsultaActiva,)
-            );
+                    array('consulta' => $tieneConsultaActiva,));    
+            
+            //Buscar las Afeccione asociada a la consulta
+            $afeccione= $em->getRepository('AppBundle:Afeccione')->findOneBy(
+                    array('consulta' =>$tieneConsultaActiva,)
+                    );
         } else {
            
             //Creamos una nueva consulta
@@ -136,7 +138,7 @@ class DefaultController extends Controller {
                 $em->flush($consulta);
             }
         }
-
+        
         return $this->render('default/consulta.html.twig', array(
                     'paciente' => $paciente,
                     'historicoAntecedentes' => $historicoAntecedentes,
@@ -146,6 +148,7 @@ class DefaultController extends Controller {
                     'perinatals' => $perinatals,
                     'consulta' => $consulta,
                     'evolucion'=>$evolucion,
+                    'afeccione'=>$afeccione,
         ));
     }
 

@@ -38,48 +38,40 @@ class EvolucionController extends Controller {
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request) {
-        dump($request);die();
         $em = $this->getDoctrine()->getManager();
-        $consulta = $em->getRepository('AppBundle:Consulta')->find($request->query->get('consulta'));                
+        $consulta=NULL;
+        
+        if ($request->request->get('evolucion_consulta')) {
+            $consulta = $em->getRepository('AppBundle:Consulta')->find($request->request->get('evolucion_consulta'));
+        }
+        $evolucion = new Evolucion();
+        if ($consulta) {
+            $evolucion->setConsulta($consulta);
+             $evolucion->setEdad($this->calcularEdad($consulta->getPaciente()->getFechaNacimiento()));
+        }
+       
+        // dump($consulta);  dump($evolucion);die();
+        $form = $this->createForm('AppBundle\Form\EvolucionType', $evolucion);
+        $form->handleRequest($request);
 
-        //Verificamos si no tiene una Evolucion asociada a laconsulta
-        $tieneEvolucion = $em->getRepository('AppBundle:Evolucion')->findOneByConsulta($consulta);
-
-        if ($tieneEvolucion) {
-            return $this->redirectToRoute('evolucion_show', array('id' => $tieneEvolucion->getId()));
-        } else {
-
-            //Crear Evoucion
-            $evolucion = new Evolucion();
-            $form = $this->createForm('AppBundle\Form\EvolucionType', $evolucion);
-            $form->handleRequest($request);
-                   
-            if ($form->isSubmitted() && $form->isValid()) {
-
-                $evolucion->setConsulta($consulta);
-
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($evolucion);
-                $em->flush($evolucion);
-
-                return $this->redirectToRoute('homepage_consulta', array(
-                    'paciente' => $consulta->getPaciente()->getId(),                    
-                        ));
-            }
-
-
-            return $this->render('evolucion/new.html.twig', array(
-                        'evolucion' => $evolucion,
-                        'form' => $form->createView(),
-                        'consulta' => $consulta,
-                        'pacienteEdad' => $this->calcularEdad($consulta->getPaciente()->getFechaNacimiento()),
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($evolucion);
+            $em->flush($evolucion);
+            return $this->redirectToRoute('homepage_consulta', array(
+                        'paciente' => $evolucion->getConsulta()->getPaciente()->getId(),
             ));
         }
+
+        return $this->render('evolucion/new.html.twig', array(
+                    'evolucion' => $evolucion,
+                    'form' => $form->createView(),
+        ));
     }
-    
+
     private function calcularEdad($fechaNacimiento) {
         //Calcular Edad del Paciente        
-        $fechaNacimiento=date_format($fechaNacimiento, 'd/m/Y');               
+        $fechaNacimiento = date_format($fechaNacimiento, 'd/m/Y');
         $dias = explode("/", $fechaNacimiento, 3);
         $dias = mktime(0, 0, 0, $dias[1], $dias[0], $dias[2]);
         $edad = (int) ((time() - $dias) / 31556926 );
@@ -116,7 +108,8 @@ class EvolucionController extends Controller {
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('homepage_consulta', array('paciente' => $evolucion->getConsulta()->getPaciente()->getId()));
+            return $this->redirectToRoute('homepage_consulta', array(
+                        'paciente' => $evolucion->getConsulta()->getPaciente()->getId()));
         }
 
         return $this->render('evolucion/edit.html.twig', array(

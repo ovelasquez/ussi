@@ -55,9 +55,7 @@
             <div class="title_left">
                 <h3>{% block Titulo %} Unidad de los Servicios de Salud Integral Dr. Jesús Saturno Canelón  {% endblock %}</h3>
             </div>
-
-            <div class="title_right">                            
-            </div>
+            <div class="title_right">  hh </div>
         </div>
 
         <div class="clearfix"></div>
@@ -87,7 +85,7 @@
                     <!--div class="x_content"-->
                     {% block body2 %}
                         <div class="x_content">
-                            <div class="col-md-3 col-sm-3 col-xs-12 profile_left">
+                            <div class="col-md-2 col-sm-2 col-xs-12 profile_left">
                                 <div class="profile_img">
                                     <div id="crop-avatar">
                                         <!-- Current avatar -->
@@ -100,16 +98,16 @@
                                 <a class="btn btn-success" href="{{ path('paciente_edit', { 'id': paciente.id }) }}"><i class="fa fa-edit m-right-xs"></i>Editar Registro</a>
                                 <br/>           
                             </div>
-                            <div class="col-md-9 col-sm-9 col-xs-12">                    
+                            <div class="col-md-10 col-sm-10 col-xs-12">                    
                                 <div class="" role="tabpanel" data-example-id="togglable-tabs">
                                     <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
-                                        <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Personales</a></li>                     
-                                        <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Otros</a></li>
-                                        <li role="presentation" class=""><a href="#tab_content3" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Historia Médica</a></li>
-                                        <li role="presentation" class=""><a href="#tab_content4" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Evolución</a></li>
-                                        <li role="presentation" class=""><a href="#tab_content5" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Afecciones</a></li>
+                                        <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Personales</a></li>
+                                        <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Historia Médica</a></li>
+                                        <li role="presentation" class=""><a href="#tab_content3" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Evolución</a></li>                                        
                                     </ul>
+
                                     <div id="myTabContent" class="tab-content">
+
                                         <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
                                             <table class="table table-striped">
                                                 <tbody>
@@ -153,23 +151,7 @@
                                                         </tr>
                                                     {% endfor %} 
 
-                                                    <tr>
-                                                        <th>Fecha de registro</th>
-                                                        <td>{{ paciente.fechaRegistro|date("d/m/Y h:i:s") }}</td>
-                                                    </tr>
 
-                                                    <tr>
-                                                        <th>Fecha de última actualización</th>
-                                                        <td>{{ paciente.fechaActualizacion|date("d/m/Y h:i:s") }}</td>
-                                                    </tr>
-
-                                                </tbody>
-                                            </table>                                
-                                        </div>   
-
-                                        <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
-                                            <table class="table table-striped">
-                                                <tbody>
                                                     <tr>
                                                         <th>Ocupación</th>
                                                         <td>{{ paciente.ocupacion |capitalize }}</td>
@@ -199,10 +181,12 @@
                                                         <th>Comunidad</th>
                                                         <td>{{ paciente.comunidad |capitalize }} </td>
                                                     </tr>
-                                                    <tr>
-                                                        <th>Programa de Formación de Grado</th>
-                                                        <td>{{ paciente.pfg |capitalize }} </td>
-                                                    </tr>
+                                                    {% if (paciente.pfg !=null ) %}
+                                                        <tr>
+                                                            <th>Programa de Formación de Grado</th>
+                                                            <td>{{ paciente.pfg |capitalize }} </td>
+                                                        </tr>
+                                                    {% endif %}
                                                     <tr>
                                                         <th>Religión</th>
                                                         <td>{{ paciente.religion |capitalize }} </td>
@@ -220,12 +204,25 @@
                                                             </td>
                                                         </tr>
                                                     {% endfor %} 
-                                                </tbody>
-                                            </table>        
-                                        </div> 
 
-                                        <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="profile-tab">
-                                            {# inicio Acordion Historias Médicas #}
+                                                    <tr>
+                                                        <th>Fecha de registro</th>
+                                                        <td>{{ paciente.fechaRegistro|date("d/m/Y h:i:s") }}</td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <th>Fecha de última actualización</th>
+                                                        <td>{{ paciente.fechaActualizacion|date("d/m/Y h:i:s") }}</td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>                                
+                                        </div>   
+
+
+                                        <!-- inicio Acordion Historias Médicas -->
+                                        <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+
                                             <div class="accordion" id="accordion" role="tablist" aria-multiselectable="true">
                                                 <div class="panel">
                                                     <a class="panel-heading collapsed" role="tab" id="headingOne" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
@@ -566,7 +563,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <!-- Tercer menu -->
+                                                <!-- Cuarto menu -->
 
 
                                                 <div class="panel">
@@ -669,6 +666,8 @@
                                                         </div>
                                                     </div>
                                                 </div>
+
+                                                <!-- QUinto menu -->
 
                                                 <div class="panel">
                                                     <a class="panel-heading collapsed" role="tab" id="headingFive" data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="false" aria-controls="collapseFive">                                 
@@ -792,16 +791,51 @@
                                                 </div>
                                             </div>
                                         </div> <!--Fin  Acordion Historia Medica-->
+
                                         <!--Evolucion-->
-                                        <div role="tabpanel" class="tab-pane fade active in" id="tab_content4" aria-labelledby="home-tab">
+
+                                        <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="profile-tab">                                         
                                             {% if (evolucion!=null) %}
-                                                {# Si el paciente posee antecedentes NO se muestra el boton de Registro de Antecedentes #}
+                                                <div class="x_content">                   
+                                                    <table class="table table-striped">
+                                                        <tbody>
+                                                           
+                                                            <tr>
+                                                                <th>Edad</th>
+                                                                <td>{{ evolucion.edad }}</td>
+                                                            </tr>  
+                                                            <tr>
+                                                                <th>Motivo de Consulta</th>
+                                                                <td>{{ evolucion.subjetivo }} </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>Enfermedades Actuales y Hallazgo</th>
+                                                                <td>{{ evolucion.objetivo}}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>Diagnóstica</th>
+                                                                <td>{{ evolucion.apreciacion }}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>Frecuencia de Consulta</th>
+                                                                <td>{{ evolucion.frecuencia }}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>Tratamiento Pendiente</th>
+                                                                <td>{{ evolucion.tratamiento }}</td>
+                                                            </tr>                                
+
+                                                        </tbody>
+                                                    </table>                                
+                                                </div>
+                                                <a class="btn btn-success" href="{{ path('evolucion_edit', { 'id': evolucion.id }) }}"><i class="fa fa-edit m-right-xs"></i>Editar Registro</a>
+
 
                                             {% else %}
                                                 <!-- no tiene evolucion -->
                                                 <form name="form_evolucion" action="{{path('evolucion_new')}}" method="post" id="form_evolucion" class="form-horizontal form-label-left"> 
                                                     <input id="evolucion_consulta" name="evolucion_consulta" type="hidden" value="{{consulta.id}}"> 
-                                                   <div class="ln_solid"></div>
+                                                    <div class="ln_solid"></div>
                                                     <div class="form-group">
                                                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">                
                                                             <button type="submit" class="btn btn-success">Registrar Evolución</button>
@@ -809,15 +843,15 @@
                                                     </div>
                                                 </form>
                                             {%endif%}
-                                        </div>
-
-                                        <div role="tabpanel" class="tab-pane fade active in" id="tab_content5" aria-labelledby="home-tab">
 
                                         </div>
+                                        <!--Fin Evolucion-->
 
-                                    </div> {# Fin del Tab Historia Medica  #}
-                                </div> 
-                            </div> {# Fin del Tab Principal  #}
+                                    </div> <!-- Fin myTabContent -->
+
+                                </div> <!--  togglable-tabs -->
+
+                            </div> {# Fin col-md-10 col-sm-10 col-xs-12  #}
                         </div>
 
 
@@ -826,7 +860,7 @@
                     <!--/div-->
                 </div>
             </div>
-        </div>
+        </div>  <!--/div clas=row-->
     </div>
 
 

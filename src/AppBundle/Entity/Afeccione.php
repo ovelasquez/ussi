@@ -58,7 +58,23 @@ class Afeccione
      * })
      */
     private $consulta;
-
+    
+     /**
+     * @var \EntericaElemento
+     *
+     * @ORM\ManyToOne(targetEntity="EntericaElemento")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="enterica_elemento_id", referencedColumnName="id")
+     * })
+     */
+    private $enterica_elemento;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="codigo", type="string", length=255)
+     */
+    private $codigo;
 
     /**
      * Get id
@@ -188,5 +204,54 @@ class Afeccione
     public function getConsulta()
     {
         return $this->consulta;
+    }
+   
+
+    /**
+     * Set entericaElemento
+     *
+     * @param \AppBundle\Entity\EntericaElemento $entericaElemento
+     *
+     * @return Afeccione
+     */
+    public function setEntericaElemento(\AppBundle\Entity\EntericaElemento $entericaElemento = null)
+    {
+        $this->enterica_elemento = $entericaElemento;
+
+        return $this;
+    }
+
+    /**
+     * Get entericaElemento
+     *
+     * @return \AppBundle\Entity\EntericaElemento
+     */
+    public function getEntericaElemento()
+    {
+        return $this->enterica_elemento;
+    }
+
+    /**
+     * Set codigo
+     *
+     * @param string $codigo
+     *
+     * @return Afeccione
+     */
+    public function setCodigo($codigo)
+    {
+        $this->codigo = $codigo;
+
+        return $this;
+    }
+
+    /**
+     * Get codigo
+     *
+     * @return string
+     */
+    public function getCodigo()
+    {
+        return $this->codigo;
     }
 }

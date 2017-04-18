@@ -1,0 +1,97 @@
+{% extends 'base.html.twig' %}
+{% block title %} Afecciones {% endblock %}
+{% block Subtitulo %} Registrar Afecciones de Paciente -  <small> <a href="{{ path('afeccione_index') }}">Regresar a la lista</a></small> {% endblock %} 
+{% block body %}
+    {% for msg in app.session.flashBag.get('success') %}
+        <div class="alert alert-success"> {{ msg }} </div>       
+    {% endfor %}
+
+    {% for msg in app.session.flashBag.get('error') %}
+        <div class="alert alert-danger"> <p>{{ msg }}</p> </div>
+    {% endfor %}
+    <div class="x_content">
+        <br />       
+        {{ form_start(form, { 'attr': {'id':'afeccione','class': 'form-horizontal form-label-left'} }) }} 
+        {{ form_errors(form) }}
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="consulta">{{ form_label(form.consulta) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(form.consulta) }}                
+                {{form_widget(form.consulta,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>
+            
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="procedencia">{{ form_label(form.procedencia) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(form.procedencia) }}                
+                {{form_widget(form.procedencia,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="diagnostico">{{ form_label(form.diagnostico) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(form.diagnostico) }}                
+                {{form_widget(form.diagnostico,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="tratamiento">{{ form_label(form.tratamiento) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(form.tratamiento) }}                
+                {{form_widget(form.tratamiento,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="referencia">{{ form_label(form.referencia) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(form.referencia) }}                
+                {{form_widget(form.referencia,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="enterica_elemento">{{ form_label(form.enterica_elemento) }}</label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(form.enterica_elemento) }}                
+                {{form_widget(form.enterica_elemento,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="codigo">{{ form_label(form.codigo) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(form.codigo) }}                
+                {{form_widget(form.codigo,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>
+
+
+
+        <div class="ln_solid"></div>
+        <div class="form-group">
+                <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3"> 
+                    <input id="afeccione_consulta" name="afeccione_consulta" type="hidden" value="{{afeccione.id}}"> 
+                    <button type="submit" class="btn btn-success">Registrar</button>
+                </div>
+            </div>
+
+        
+
+        {{ form_end(form) }}                           
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(document).ready(function () {
+           
+        });
+    </script>
+{% endblock %}
+
+
