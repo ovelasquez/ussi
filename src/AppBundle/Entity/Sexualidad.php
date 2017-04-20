@@ -24,91 +24,90 @@ class Sexualidad
     /**
      * @var string
      *
-     * @ORM\Column(name="menarquia", type="string", length=255, nullable=false)
+     * @ORM\Column(name="menarquia", type="string", length=255, nullable=true)
      */
     private $menarquia;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="ciclo_menstrual", type="string", length=255, nullable=false)
+     * @ORM\Column(name="ciclo_menstrual", type="string", length=255, nullable=true)
      */
     private $cicloMenstrual;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="pr_sexual", type="string", length=255, nullable=false)
+     * @ORM\Column(name="pr_sexual", type="string", length=255, nullable=true)
      */
-    private $prSexual = 'false';
-
+    private $prSexual;
     /**
      * @var string
      *
-     * @ORM\Column(name="frecuencia_sexual", type="string", length=255, nullable=false)
+     * @ORM\Column(name="frecuencia_sexual", type="string", length=255, nullable=true)
      */
-    private $frecuenciaSexual = 'false';
+    private $frecuenciaSexual;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="numero_parejas", type="integer", nullable=false)
+     * @ORM\Column(name="numero_parejas", type="integer", nullable=true)
      */
     private $numeroParejas = '0';
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="dispareunia", type="boolean", nullable=false)
+     * @ORM\Column(name="dispareunia", type="boolean", nullable=true)
      */
     private $dispareunia = false;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="anticonceptivos", type="boolean", nullable=false)
+     * @ORM\Column(name="anticonceptivos", type="boolean", nullable=true)
      */
     private $anticonceptivos = false;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="menopausia", type="boolean", nullable=false)
+     * @ORM\Column(name="menopausia", type="boolean", nullable=true)
      */
     private $menopausia = false;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="andropausia", type="boolean", nullable=false)
+     * @ORM\Column(name="andropausia", type="boolean", nullable=true)
      */
     private $andropausia = false;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="gesta", type="boolean", nullable=false)
+     * @ORM\Column(name="gesta", type="boolean", nullable=true)
      */
     private $gesta = false;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="parto", type="boolean", nullable=false)
+     * @ORM\Column(name="parto", type="boolean", nullable=true)
      */
     private $parto = false;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="cesarea", type="boolean", nullable=false)
+     * @ORM\Column(name="cesarea", type="boolean", nullable=true)
      */
     private $cesarea = false;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="aborto", type="boolean", nullable=false)
+     * @ORM\Column(name="aborto", type="boolean", nullable=true)
      */
     private $aborto = false;
 
@@ -129,35 +128,35 @@ class Sexualidad
     /**
      * @var boolean
      *
-     * @ORM\Column(name="curetaje", type="boolean", nullable=false)
+     * @ORM\Column(name="curetaje", type="boolean", nullable=true)
      */
     private $curetaje = false;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="numero_hijos_vivos", type="integer", nullable=false)
+     * @ORM\Column(name="numero_hijos_vivos", type="integer", nullable=true)
      */
     private $numeroHijosVivos = '0';
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="numero_hijos_muertos", type="integer", nullable=false)
+     * @ORM\Column(name="numero_hijos_muertos", type="integer", nullable=true)
      */
     private $numeroHijosMuertos = '0';
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="peso_ultimo_hijo", type="integer", nullable=false)
+     * @ORM\Column(name="peso_ultimo_hijo", type="integer", nullable=true)
      */
     private $pesoUltimoHijo = '0';
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="fecha_actualizacion", type="date", nullable=false)
+     * @ORM\Column(name="fecha_actualizacion", type="date", nullable=true)
      */
     private $fechaActualizacion;
 

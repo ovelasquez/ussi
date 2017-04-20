@@ -1,0 +1,93 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Perinatals list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Carnetperinatal</th>
+                <th>Patologiaembarazo</th>
+                <th>Patologiaparto</th>
+                <th>Patologiapuerperio</th>
+                <th>Consultasprenatales</th>
+                <th>Edadgestacional</th>
+                <th>Forceps</th>
+                <th>Cesarea</th>
+                <th>Parto</th>
+                <th>Pesonacer</th>
+                <th>Talla</th>
+                <th>Circunferencia</th>
+                <th>Apagarmin</th>
+                <th>Asfixia</th>
+                <th>Reanimacion</th>
+                <th>Patologiasrn</th>
+                <th>Egresornsano</th>
+                <th>Egresornpatologico</th>
+                <th>Lactanciaexclusiva</th>
+                <th>Lactanciamixta</th>
+                <th>Lactanciaaglactacion</th>
+                <th>Madrefueracasa</th>
+                <th>Familiamadre</th>
+                <th>Familiapadre</th>
+                <th>Familiahermanos</th>
+                <th>Familiaotros</th>
+                <th>Fecharegistro</th>
+                <th>Fechaactualizacion</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for perinatal in perinatals %}
+            <tr>
+                <td><a href="{{ path('perinatal_show', { 'id': perinatal.id }) }}">{{ perinatal.id }}</a></td>
+                <td>{% if perinatal.carnetPerinatal %}Yes{% else %}No{% endif %}</td>
+                <td>{% if perinatal.patologiaEmbarazo %}Yes{% else %}No{% endif %}</td>
+                <td>{% if perinatal.patologiaParto %}Yes{% else %}No{% endif %}</td>
+                <td>{% if perinatal.patologiaPuerperio %}Yes{% else %}No{% endif %}</td>
+                <td>{% if perinatal.consultasPrenatales %}Yes{% else %}No{% endif %}</td>
+                <td>{{ perinatal.edadGestacional }}</td>
+                <td>{% if perinatal.forceps %}Yes{% else %}No{% endif %}</td>
+                <td>{% if perinatal.cesarea %}Yes{% else %}No{% endif %}</td>
+                <td>{% if perinatal.parto %}Yes{% else %}No{% endif %}</td>
+                <td>{{ perinatal.pesoNacer }}</td>
+                <td>{{ perinatal.talla }}</td>
+                <td>{{ perinatal.circunferencia }}</td>
+                <td>{% if perinatal.apagarMin %}Yes{% else %}No{% endif %}</td>
+                <td>{% if perinatal.asfixia %}Yes{% else %}No{% endif %}</td>
+                <td>{% if perinatal.reanimacion %}Yes{% else %}No{% endif %}</td>
+                <td>{% if perinatal.patologiasRn %}Yes{% else %}No{% endif %}</td>
+                <td>{% if perinatal.egresoRnSano %}Yes{% else %}No{% endif %}</td>
+                <td>{% if perinatal.egresoRnPatologico %}Yes{% else %}No{% endif %}</td>
+                <td>{% if perinatal.lactanciaExclusiva %}Yes{% else %}No{% endif %}</td>
+                <td>{% if perinatal.lactanciaMixta %}Yes{% else %}No{% endif %}</td>
+                <td>{% if perinatal.lactanciaAglactacion %}Yes{% else %}No{% endif %}</td>
+                <td>{{ perinatal.madreFueraCasa }}</td>
+                <td>{% if perinatal.familiaMadre %}Yes{% else %}No{% endif %}</td>
+                <td>{% if perinatal.familiaPadre %}Yes{% else %}No{% endif %}</td>
+                <td>{% if perinatal.familiaHermanos %}Yes{% else %}No{% endif %}</td>
+                <td>{% if perinatal.familiaOtros %}Yes{% else %}No{% endif %}</td>
+                <td>{% if perinatal.fechaRegistro %}{{ perinatal.fechaRegistro|date('Y-m-d') }}{% endif %}</td>
+                <td>{% if perinatal.fechaActualizacion %}{{ perinatal.fechaActualizacion|date('Y-m-d') }}{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('perinatal_show', { 'id': perinatal.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('perinatal_edit', { 'id': perinatal.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('perinatal_new') }}">Create a new perinatal</a>
+        </li>
+    </ul>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+{% block Subtitulo %} Ver Evolución-  <small> <a href="{{ path('evolucion_index') }}">Regresar a la lista</a></small> {% endblock %} 
+{% block body %}
+    {% for msg in app.session.flashBag.get('success') %}
+        <div class="alert alert-success"> {{ msg }} </div>       
+    {% endfor %}
+
+    {% for msgs in app.session.flashBag.get('error') %}
+        <div class="alert alert-danger">
+            {% for msg in msgs %}
+                <p>{{ msg }}</p>
+            {% endfor %}
+        </div>
+    {% endfor %}
+
+    <!-- page content -->
+    <div class="x_content">                   
+        <table class="table table-striped">
+            <tbody>
+                <tr>
+                    <th>Id</th>
+                    <td>{{ evolucion.id }}</td>
+                </tr>   
+                <tr>
+                    <th>Motivo de Consulta</th>
+                    <td>{{ evolucion.subjetivo }} </td>
+                </tr>
+                <tr>
+                    <th>Enfermedades Actuales y Hallazgo</th>
+                    <td>{{ evolucion.objetivo}}</td>
+                </tr>
+                <tr>
+                    <th>Diagnóstica</th>
+                    <td>{{ evolucion.apreciacion }}</td>
+                </tr>
+                <tr>
+                    <th>Frecuencia de Consulta</th>
+                    <td>{{ evolucion.frecuencia }}</td>
+                </tr>
+                <tr>
+                    <th>Tratamiento Pendiente</th>
+                    <td>{{ evolucion.tratamiento }}</td>
+                </tr>                                
+
+            </tbody>
+        </table>                                
+    </div>                    
+
+                 <a class="btn btn-success" href="{{ path('evolucion_edit', { 'id': evolucion.id }) }}"><i class="fa fa-edit m-right-xs"></i>Editar Registro</a>
+                 
+
+    {{ form_start(delete_form) }}
+    <input type="submit" value="Eliminar">
+    {{ form_end(delete_form) }}
+{% endblock %}

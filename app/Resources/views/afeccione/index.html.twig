@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Afecciones list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+               
+                <th>Diagnostico</th>
+                <th>Tratamiento</th>
+                
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for afeccione in afecciones %}
+            <tr>
+                <td><a href="{{ path('afeccione_show', { 'id': afeccione.id }) }}">{{ afeccione.id }}</a></td>
+               
+                <td>{{ afeccione.diagnostico }}</td>
+                <td>{{ afeccione.tratamiento }}</td>
+               
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('afeccione_show', { 'id': afeccione.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('afeccione_edit', { 'id': afeccione.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('afeccione_new') }}">Create a new afeccione</a>
+        </li>
+    </ul>
+{% endblock %}

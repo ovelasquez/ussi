@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Entericagrupos list</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Capitulo</th>
+                <th>Nombre</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entericaGrupo in entericaGrupos %}
+            <tr>
+                <td><a href="{{ path('entericagrupo_show', { 'id': entericaGrupo.id }) }}">{{ entericaGrupo.id }}</a></td>
+                <td>{{ entericaGrupo.entericaCapitulo.nombre }}</td>
+                <td>{{ entericaGrupo.nombre }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('entericagrupo_show', { 'id': entericaGrupo.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('entericagrupo_edit', { 'id': entericaGrupo.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('entericagrupo_new') }}">Create a new entericaGrupo</a>
+        </li>
+    </ul>
+{% endblock %}

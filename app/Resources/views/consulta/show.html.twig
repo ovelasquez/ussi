@@ -10,8 +10,12 @@
                 <td>{{ consultum.id }}</td>
             </tr>
             <tr>
-                <th>Nombre</th>
-                <td>{{ consultum.nombre }}</td>
+                <th>Egreso</th>
+                <td>{% if consultum.egreso %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Fecha</th>
+                <td>{% if consultum.fecha %}{{ consultum.fecha|date('Y-m-d') }}{% endif %}</td>
             </tr>
         </tbody>
     </table>

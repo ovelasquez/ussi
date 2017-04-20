@@ -1,0 +1,140 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Perinatal</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ perinatal.id }}</td>
+            </tr>
+            <tr>
+                <th>Carnet Perinatal</th>
+                <td>{% if perinatal.carnetPerinatal %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Patologia Embarazo</th>
+                <td>{% if perinatal.patologiaEmbarazo %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Patologia Parto</th>
+                <td>{% if perinatal.patologiaParto %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Patologia Puerperio</th>
+                <td>{% if perinatal.patologiaPuerperio %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Consultas Prenatales</th>
+                <td>{% if perinatal.consultasPrenatales %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Edad Gestacional</th>
+                <td>{{ perinatal.edadGestacional }}</td>
+            </tr>
+            <tr>
+                <th>Fórceps</th>
+                <td>{% if perinatal.forceps %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Cesárea</th>
+                <td>{% if perinatal.cesarea %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Parto</th>
+                <td>{% if perinatal.parto %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Peso al Nacer</th>
+                <td>{{ perinatal.pesoNacer }}</td>
+            </tr>
+            <tr>
+                <th>Talla</th>
+                <td>{{ perinatal.talla }}</td>
+            </tr>
+            <tr>
+                <th>Circunferencia</th>
+                <td>{{ perinatal.circunferencia }}</td>
+            </tr>
+            <tr>
+                <th>Apagar Min</th>
+                <td>{% if perinatal.apagarMin %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Asfixia</th>
+                <td>{% if perinatal.asfixia %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Reanimación</th>
+                <td>{% if perinatal.reanimacion %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Patologias R.N</th>
+                <td>{% if perinatal.patologiasRn %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Egreso R.N Sano</th>
+                <td>{% if perinatal.egresoRnSano %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Egreso R.N Patologico</th>
+                <td>{% if perinatal.egresoRnPatologico %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Lactancia Exclusiva</th>
+                <td>{% if perinatal.lactanciaExclusiva %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Lactancia Mixta</th>
+                <td>{% if perinatal.lactanciaMixta %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Lactancia Aglactación</th>
+                <td>{% if perinatal.lactanciaAglactacion %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Madre Fuera Casa</th>
+                <td>{{ perinatal.madreFueraCasa }}</td>
+            </tr>
+            <tr>
+                <th>Familia Madre</th>
+                <td>{% if perinatal.familiaMadre %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Familia Padre</th>
+                <td>{% if perinatal.familiaPadre %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Familia Hermanos</th>
+                <td>{% if perinatal.familiaHermanos %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Familia Otros</th>
+                <td>{% if perinatal.familiaOtros %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Fecha Registro</th>
+                <td>{% if perinatal.fechaRegistro %}{{ perinatal.fechaRegistro|date('Y-m-d') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Fecha Actualización</th>
+                <td>{% if perinatal.fechaActualizacion %}{{ perinatal.fechaActualizacion|date('Y-m-d') }}{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('perinatal_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('perinatal_edit', { 'id': perinatal.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

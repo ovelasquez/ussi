@@ -5,9 +5,9 @@ namespace AppBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use AppBundle\Entity\Esperando;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Ajax controller.
@@ -35,9 +35,9 @@ class AjaxController extends Controller {
     }
 
     private function encodeUserDataToJson(Array $valor) {
-        $procesando= array();
+        $procesando = array();
         foreach ($valor as &$lista) {
-            
+
             $userData = array(
                 'id' => $lista->getId(),
                 'paciente' => array(
@@ -54,12 +54,74 @@ class AjaxController extends Controller {
                     'nombre' => $lista->getMedico()->getPersona()->getPrimerNombre() . ' ' . $lista->getMedico()->getPersona()->getPrimerApellido(),
                 ),
             );
-            
-            array_push($procesando,$userData);
-        }        
-        
+
+            array_push($procesando, $userData);
+        }
+
         $jsonEncoder = new JsonEncoder();
         return $jsonEncoder->encode($procesando, $format = 'json');
+    }
+
+    /**
+     * 
+     *
+     * @Route("/grupo", name="ajax_grupo")
+     * @Method({"POST"})
+     */
+    public function grupoAction(Request $request) {
+        $id = $request->request->get('id');
+
+        $em = $this->getDoctrine()->getManager();
+        $grupos = $em->getRepository('AppBundle:EntericaGrupo')->findByEntericaCapitulo($id);
+        $valores = '<option value="" selected="selected">Seleccione</option> ';
+        foreach ($grupos as $valor) {
+            $valores = $valores . ' <option value=' . $valor->getId() . '>' . $valor->getNombre() . '</option> ';
+        }
+        return $this->render('ajax/grupo.html.twig', array(
+                    'grupos' => $valores,
+        ));
+        
+    }
+    
+     /**
+     * 
+     *
+     * @Route("/elemento", name="ajax_elemento")
+     * @Method({"POST"})
+     */
+    public function elementoAction(Request $request) {
+        $id = $request->request->get('id');
+
+        $em = $this->getDoctrine()->getManager();
+        $grupos = $em->getRepository('AppBundle:EntericaElemento')->findByEntericaGrupo($id);
+        $valores = '<option value="" selected="selected">Seleccione</option> ';
+        foreach ($grupos as $valor) {
+            $valores = $valores . ' <option value=' . $valor->getId() . '>' . $valor->getNombre() . '</option> ';
+        }
+        return $this->render('ajax/elemento.html.twig', array(
+                    'elementos' => $valores,
+        ));
+        
+    }
+    
+    
+     /**
+     * 
+     *
+     * @Route("/elemento_grupo", name="ajax_elemento_grupo")
+     * @Method({"GET", "POST"})
+     */
+    public function elementoGrupoAction(Request $request) {
+        $id = $request->request->get('id');
+
+        $em = $this->getDoctrine()->getManager();
+        $grupos = $em->getRepository('AppBundle:EntericaElemento')->find(3);
+        $valores = '<option value='. $grupos->getId() .' selected="selected">'. $grupos->getNombre() .'</option> ';
+     
+        return $this->render('ajax/elemento_grupo.html.twig', array(
+                    'grupo' => $valores,
+        ));
+        
     }
 
 }
