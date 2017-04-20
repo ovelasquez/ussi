@@ -46,7 +46,8 @@ class CampaniaController extends Controller {
             $em = $this->getDoctrine()->getManager();
             $em->persist($campanium);
             $em->flush($campanium);
-
+            
+            $this->addFlash('success', 'Datos creados satisfactoriamente');
             return $this->redirectToRoute('campania_show', array('id' => $campanium->getId()));
         }
 
@@ -64,10 +65,7 @@ class CampaniaController extends Controller {
      */
     public function showAction(Campania $campanium) {
         $deleteForm = $this->createDeleteForm($campanium);
-        $em = $this->getDoctrine()->getManager();
-        // $imagens = $em->getRepository('AppBundle:Campania')->findAllByLasImagenes($campanium->getId());
-        // dump($imagens); die();
-
+       
         return $this->render('campania/show.html.twig', array(
                     'campanium' => $campanium,
                     'delete_form' => $deleteForm->createView(),
@@ -81,13 +79,28 @@ class CampaniaController extends Controller {
      * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, Campania $campanium) {
+        //Obtenemos una copia de las imagenes que tenemos en la campaña
+        $misImagenes = $campanium->getImagen()->getValues();
+        $oldImagen = array();
+        foreach ($misImagenes as $value):
+            $oldImagen[$value->getId()] = ($value->getNombre());
+        endforeach;
 
         $deleteForm = $this->createDeleteForm($campanium);
         $editForm = $this->createForm('AppBundle\Form\CampaniaType', $campanium);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
+          //Verificamos que esten todas las imagenes sino las restablecemos 
+            foreach ($campanium->getImagen()->getValues() as &$value):                
+                if ($value->getNombre()==null):
+                    $value->setNombre($oldImagen[$value->getId()]);
+                endif;                
+            endforeach;
+
             $this->getDoctrine()->getManager()->flush();
+            
+            $this->addFlash('success', 'Datos actualizados satisfactoriamente');
             return $this->redirectToRoute('campania_show', array('id' => $campanium->getId()));
         }
         return $this->render('campania/edit.html.twig', array(

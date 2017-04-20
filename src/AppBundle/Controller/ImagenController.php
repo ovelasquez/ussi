@@ -66,7 +66,6 @@ class ImagenController extends Controller
     public function showAction(Imagen $imagen)
     {
         $deleteForm = $this->createDeleteForm($imagen);
-
         return $this->render('imagen/show.html.twig', array(
             'imagen' => $imagen,
             'delete_form' => $deleteForm->createView(),

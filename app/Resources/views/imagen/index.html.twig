@@ -41,7 +41,7 @@
             {% for imagen in imagens %}
                 <tr>
                     <td><a href="{{ path('imagen_show', { 'id': imagen.id }) }}">{{ loop.index  }}</a></td>
-                    <td>{{ imagen.campania.nombre }}</td>
+                    <td></td>
                     <td>{{ imagen.nombre }}</td>
                     <td>
                         <a href="{{ path('imagen_show', { 'id': imagen.id }) }}">

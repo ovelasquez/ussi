@@ -108,6 +108,7 @@ class Campania
      */
     public function removeImagen(\AppBundle\Entity\Imagen $imagen)
     {
+        
         $this->imagen->removeElement($imagen);
     }
 
