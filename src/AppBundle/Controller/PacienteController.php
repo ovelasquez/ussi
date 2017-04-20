@@ -73,11 +73,29 @@ class PacienteController extends Controller {
      */
     public function showAction(Paciente $paciente) {
         $deleteForm = $this->createDeleteForm($paciente);
+        $em = $this->getDoctrine()->getManager();
+
+        // Buscamos si el Paciente tiene Historia Medica
+        $historicoAntecedentes = $em->getRepository('AppBundle:Antecedente')->findByPaciente($paciente);
+        $sicobiologicos = $em->getRepository('AppBundle:Sicobiologico')->findByPaciente($paciente);
+        $patologias = $em->getRepository('AppBundle:Patologia')->findByPaciente($paciente);
+        $sexualidads= $em->getRepository('AppBundle:Sexualidad')->findByPaciente($paciente);
+        $perinatals= $em->getRepository('AppBundle:Perinatal')->findByPaciente($paciente);
+
+        //$antecedente = new \AppBundle\Entity\Antecedente();
+        //$formAntecedente = $this->createForm('AppBundle\Form\AntecedenteType', $antecedente);
 
         return $this->render('paciente/show.html.twig', array(
                     'paciente' => $paciente,
                     'delete_form' => $deleteForm->createView(),
-        ));
+                    //'antecedente' => $antecedente,
+                    //'formAntecedente' => $formAntecedente->createView(),
+                    'historicoAntecedentes' => $historicoAntecedentes,
+                    'sicobiologicos' => $sicobiologicos,
+                    'patologias' => $patologias,
+                    'sexualidads'=>  $sexualidads,
+                    'perinatals'=> $perinatals,
+            ));
     }
 
     /**
@@ -105,6 +123,7 @@ class PacienteController extends Controller {
             $this->getDoctrine()->getManager()->flush();
            
             $this->addFlash('success', 'Datos actualizados satisfactoriamente');
+           
 
             return $this->redirectToRoute('paciente_show', array('id' => $paciente->getId()));
         }

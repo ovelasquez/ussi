@@ -262,7 +262,7 @@ class Patologia
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="fecha_actualizacion", type="date", nullable=false)
+     * @ORM\Column(name="fecha_actualizacion", type="date", nullable=true)
      */
     private $fechaActualizacion;
 

@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Sicobiologicos list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Alcohol</th>
+                <th>Drogas</th>
+                <th>Isecticidas</th>
+                <th>Deportes</th>
+                <th>Sedentarismo</th>
+                <th>Suenio</th>
+                <th>Chupadedo</th>
+                <th>Onicofagia</th>
+                <th>Micciones</th>
+                <th>Evacuaciones</th>
+                <th>Stress</th>
+                <th>Metalespesados</th>
+                <th>Alimentacion</th>
+                <th>Cigarrillosdia</th>
+                <th>Fecha Registro</th>
+                <th>Fecha Actualizacion</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for sicobiologico in sicobiologicos %}
+            <tr>
+                <td><a href="{{ path('sicobiologico_show', { 'id': sicobiologico.id }) }}">{{ sicobiologico.id }}</a></td>
+                <td>{% if sicobiologico.alcohol %}Yes{% else %}No{% endif %}</td>
+                <td>{% if sicobiologico.drogas %}Yes{% else %}No{% endif %}</td>
+                <td>{% if sicobiologico.isecticidas %}Yes{% else %}No{% endif %}</td>
+                <td>{% if sicobiologico.deportes %}Yes{% else %}No{% endif %}</td>
+                <td>{% if sicobiologico.sedentarismo %}Yes{% else %}No{% endif %}</td>
+                <td>{% if sicobiologico.suenio %}Yes{% else %}No{% endif %}</td>
+                <td>{% if sicobiologico.chupaDedo %}Yes{% else %}No{% endif %}</td>
+                <td>{% if sicobiologico.onicofagia %}Yes{% else %}No{% endif %}</td>
+                <td>{% if sicobiologico.micciones %}Yes{% else %}No{% endif %}</td>
+                <td>{% if sicobiologico.evacuaciones %}Yes{% else %}No{% endif %}</td>
+                <td>{% if sicobiologico.stress %}Yes{% else %}No{% endif %}</td>
+                <td>{% if sicobiologico.metalesPesados %}Yes{% else %}No{% endif %}</td>
+                <td>{% if sicobiologico.alimentacion %}Yes{% else %}No{% endif %}</td>
+                <td>{% if sicobiologico.cigarrillosDia %}Yes{% else %}No{% endif %}</td>
+                <td>{% if sicobiologico.fechaRegistro %}{{ sicobiologico.fechaRegistro|date('Y-m-d') }}{% endif %}</td>
+                <td>{% if sicobiologico.fechaActualizacion %}{{ sicobiologico.fechaActualizacion|date('Y-m-d') }}{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('sicobiologico_show', { 'id': sicobiologico.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('sicobiologico_edit', { 'id': sicobiologico.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('sicobiologico_new') }}">Create a new sicobiologico</a>
+        </li>
+    </ul>
+{% endblock %}

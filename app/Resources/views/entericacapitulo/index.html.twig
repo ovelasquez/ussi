@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Listar Capitulos Enterica</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entericaCapitulo in entericaCapitulos %}
+            <tr>
+                <td><a href="{{ path('entericacapitulo_show', { 'id': entericaCapitulo.id }) }}">{{ entericaCapitulo.id }}</a></td>
+                <td>{{ entericaCapitulo.nombre }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('entericacapitulo_show', { 'id': entericaCapitulo.id }) }}">Ver</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('entericacapitulo_edit', { 'id': entericaCapitulo.id }) }}">Editar</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('entericacapitulo_new') }}">Crear nuevo capitulo enterica</a>
+        </li>
+    </ul>
+{% endblock %}

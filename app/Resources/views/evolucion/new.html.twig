@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+{% block title %} Evolución {% endblock %}
+{% block Subtitulo %} Registrar Evolución de Paciente -  <small> <a href="{{ path('evolucion_index') }}">Regresar a la lista</a></small> {% endblock %} 
+{% block body %}
+    
+    <div class="x_content">
+        <br />       
+        {{ form_start(form, { 'attr': {'id':'evolucion','class': 'form-horizontal form-label-left'} }) }} 
+        {{ form_errors(form) }}
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="consulta">{{ form_label(form.consulta) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(form.consulta) }}                
+                {{form_widget(form.consulta,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="edad">{{ form_label(form.edad) }} (Años) <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(form.edad) }}                
+                {{form_widget(form.edad,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="subjetivo">{{ form_label(form.subjetivo) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(form.subjetivo) }}                
+                {{form_widget(form.subjetivo,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="objetivo">{{ form_label(form.objetivo) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(form.objetivo) }}                
+                {{form_widget(form.objetivo,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="apreciacion">{{ form_label(form.apreciacion) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(form.apreciacion) }}                
+                {{form_widget(form.apreciacion,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="tratamiento">{{ form_label(form.tratamiento) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(form.tratamiento) }}                
+                {{form_widget(form.tratamiento,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="frecuencia">{{ form_label(form.frecuencia) }}</label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(form.frecuencia) }}                
+                {{form_widget(form.frecuencia,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>
+
+
+
+        <div class="ln_solid"></div>
+        <div class="form-group">
+            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3"> 
+                <input id="evolucion_consulta" name="evolucion_consulta" type="hidden" value="{{evolucion.id}}"> 
+                <button type="submit" class="btn btn-success">Registrar</button>
+            </div>
+        </div>
+
+
+
+        {{ form_end(form) }}                           
+    </div>
+{% endblock %}
+

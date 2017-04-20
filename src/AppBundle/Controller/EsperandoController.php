@@ -57,52 +57,46 @@ class EsperandoController extends Controller {
         $configuracion = $em->getRepository('AppBundle:Configuracion')->findAll();
         $repetir = true;
         $esMio = false;
-        $foto = '';
-
-        //Datos Cableados para Pruebas:
-        //  $especialidad = ["Medicina General", "Medicina Interna", "Pediatría"];
-        //  $especialidad = $especialidad[rand(0, 2)];        
-        //  $miId = 2;
-        //  $miEspecialidad = $em->getRepository('AppBundle:Especialidad')->findByNombre($especialidad);
-        
-        //Datos Reales
+        $foto = '';       
         $profesional = $em->getRepository('AppBundle:Profesional')->findOneByPersona($this->getUser()->getPersona());
-        $servicioProfesional = $em->getRepository('AppBundle:ServicioProfesional')->findOneBy(array('profesional'=>$profesional,'status'=>'activo'));
+        $servicioProfesional = $em->getRepository('AppBundle:ServicioProfesional')->findOneBy(array('profesional' => $profesional, 'status' => 'activo'));
         $especialidad = $em->getRepository('AppBundle:Especialidad')->find($servicioProfesional->getServicio()->getEspecialidad());
-        
+
         //Buscamos al Primero de la Lista de Espera
         $esperandos = $em->getRepository('AppBundle:Esperando')->findBy(
                 array('especialidad' => $especialidad, 'status' => 'activo',), array('posicion' => 'ASC')
         );
 
         //Cambiamos el estatus al paciente en la lista de espera de activo a procesando
-        if ($esperandos) {             
+        if ($esperandos) {
             $i = 0;
             do {
                 // Verificamos si el Paciente no tiene asociado un Médico y en caso de ser afirmtivo, se verifica si es el Medico logueado
                 if (($esperandos[$i]->getProfesional() == null) || ($esperandos[$i]->getProfesional()->getId() == $profesional->getId())) {
                     $esperandos[$i]->setStatus('procesando'); //Cambiamos status en la BD a Procesando
                     $esperandos[$i]->setMedico($profesional);  // Add el Profesional que lo esta llamando
-                    $em->flush($esperandos[$i]); 
+                    $em->flush($esperandos[$i]);
                     $id = $esperandos[$i]->getId();
                     $repetir = FALSE;
                     $esperandos = $esperandos[$i];
                     $foto = $esperandos->getPaciente()->getPersona()->getFoto();
+                    $nombre=$esperandos->getPaciente()->getPersona()->getPrimerNombre().' '.$esperandos->getPaciente()->getPersona()->getPrimerApellido();
                     $esMio = true;
                 }
                 $i++;
             } while ($repetir && ($i < count($esperandos)));
         }
-            if (!$esMio) {       
-                $esperandos = null;
-           }
-//dump($esperandos); die();
+        if (!$esMio) {
+            $esperandos = null;
+        }
+        
         return $this->render('esperando/procesar.html.twig', array(
                     'esperando' => $esperandos,
                     'tiempoEspera' => $configuracion[0]->getTiempoEspera(),
                     'penalizacion' => $configuracion[0]->getPenalizacion(),
                     'id' => $id,
                     'foto' => $foto,
+                    'nombre' => $nombre,
         ));
     }
 
@@ -122,7 +116,8 @@ class EsperandoController extends Controller {
                 $esperandos->setStatus('atendido');
                 $esperandos->setPosicion(null);
                 $em->flush($esperandos);
-                return $this->redirectToRoute('paciente_show', array('id' => $esperandos->getPaciente()->getId()));
+                return $this->redirectToRoute('homepage_consulta', array('paciente' => $esperandos->getPaciente()->getId()));
+                //return $this->render('default/consulta.html.twig', array('paciente' => $esperandos->getPaciente(),));
             } else {
                 //El Paciente NO llego al consultorio y será penalizado
                 //Se verifica que no ha alcanzado el limite de penalizaciones, 
@@ -197,7 +192,7 @@ class EsperandoController extends Controller {
      */
     public function showAction(Esperando $esperando) {
         $deleteForm = $this->createDeleteForm($esperando);
-        
+
 
         return $this->render('esperando/show.html.twig', array(
                     'esperando' => $esperando,

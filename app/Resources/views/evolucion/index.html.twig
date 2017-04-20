@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Evolucions list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Objetivo</th>
+                <th>Subjetivo</th>
+                <th>Apreciacion</th>
+                <th>Tratamiento</th>
+                <th>Frecuencia</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for evolucion in evolucions %}
+            <tr>
+                <td><a href="{{ path('evolucion_show', { 'id': evolucion.id }) }}">{{ evolucion.id }}</a></td>
+                <td>{{ evolucion.objetivo }}</td>
+                <td>{{ evolucion.subjetivo }}</td>
+                <td>{{ evolucion.apreciacion }}</td>
+                <td>{{ evolucion.tratamiento }}</td>
+                <td>{{ evolucion.frecuencia }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('evolucion_show', { 'id': evolucion.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('evolucion_edit', { 'id': evolucion.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('evolucion_new') }}">Create a new evolucion</a>
+        </li>
+    </ul>
+{% endblock %}

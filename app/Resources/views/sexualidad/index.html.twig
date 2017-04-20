@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Sexualidads list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Menarquia</th>
+                <th>Ciclomenstrual</th>
+                <th>Prsexual</th>
+                <th>Frecuenciasexual</th>
+                <th>Numeroparejas</th>
+                <th>Dispareunia</th>
+                <th>Anticonceptivos</th>
+                <th>Menopausia</th>
+                <th>Andropausia</th>
+                <th>Gesta</th>
+                <th>Parto</th>
+                <th>Cesarea</th>
+                <th>Aborto</th>
+                <th>Edad1erparto</th>
+                <th>Fechaultimoparto</th>
+                <th>Curetaje</th>
+                <th>Numerohijosvivos</th>
+                <th>Numerohijosmuertos</th>
+                <th>Pesoultimohijo</th>
+                <th>Fechaactualizacion</th>
+                <th>Fecharegistro</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for sexualidad in sexualidads %}
+            <tr>
+                <td><a href="{{ path('sexualidad_show', { 'id': sexualidad.id }) }}">{{ sexualidad.id }}</a></td>
+                <td>{{ sexualidad.menarquia }}</td>
+                <td>{{ sexualidad.cicloMenstrual }}</td>
+                <td>{{ sexualidad.prSexual }}</td>
+                <td>{{ sexualidad.frecuenciaSexual }}</td>
+                <td>{{ sexualidad.numeroParejas }}</td>
+                <td>{% if sexualidad.dispareunia %}Yes{% else %}No{% endif %}</td>
+                <td>{% if sexualidad.anticonceptivos %}Yes{% else %}No{% endif %}</td>
+                <td>{% if sexualidad.menopausia %}Yes{% else %}No{% endif %}</td>
+                <td>{% if sexualidad.andropausia %}Yes{% else %}No{% endif %}</td>
+                <td>{% if sexualidad.gesta %}Yes{% else %}No{% endif %}</td>
+                <td>{% if sexualidad.parto %}Yes{% else %}No{% endif %}</td>
+                <td>{% if sexualidad.cesarea %}Yes{% else %}No{% endif %}</td>
+                <td>{% if sexualidad.aborto %}Yes{% else %}No{% endif %}</td>
+                <td>{{ sexualidad.edad1erParto }}</td>
+                <td>{% if sexualidad.fechaUltimoParto %}{{ sexualidad.fechaUltimoParto|date('Y-m-d') }}{% endif %}</td>
+                <td>{% if sexualidad.curetaje %}Yes{% else %}No{% endif %}</td>
+                <td>{{ sexualidad.numeroHijosVivos }}</td>
+                <td>{{ sexualidad.numeroHijosMuertos }}</td>
+                <td>{{ sexualidad.pesoUltimoHijo }}</td>
+                <td>{% if sexualidad.fechaActualizacion %}{{ sexualidad.fechaActualizacion|date('Y-m-d') }}{% endif %}</td>
+                <td>{% if sexualidad.fechaRegistro %}{{ sexualidad.fechaRegistro|date('Y-m-d') }}{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('sexualidad_show', { 'id': sexualidad.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('sexualidad_edit', { 'id': sexualidad.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('sexualidad_new') }}">Create a new sexualidad</a>
+        </li>
+    </ul>
+{% endblock %}
