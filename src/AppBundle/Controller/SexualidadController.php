@@ -48,8 +48,12 @@ class SexualidadController extends Controller {
             $sexualidad->setFechaRegistro(new \DateTime("now"));
             $em->persist($sexualidad);
             $em->flush($sexualidad);
+            
+             return $this->redirectToRoute('homepage_consulta', array(
+                        'paciente' => $sexualidad->getPaciente()->getId(),
+            )); 
 
-        return $this->redirectToRoute('paciente_show', array('id' => $sexualidad->getPaciente()->getId()));
+        
         }
 
         return $this->render('sexualidad/new.html.twig', array(
@@ -89,8 +93,12 @@ class SexualidadController extends Controller {
             $sexualidad->setFechaActualizacion(new \DateTime("now"));
             $this->getDoctrine()->getManager()->flush();
             $this->addFlash('success', 'Datos actualizados satisfactoriamente');
+            
+              return $this->redirectToRoute('homepage_consulta', array(
+                        'paciente' => $sexualidad->getPaciente()->getId(),
+            )); 
 
-            return $this->redirectToRoute('paciente_show', array('id' => $sexualidad->getPaciente()->getId()));
+            
         }
 
         return $this->render('sexualidad/edit.html.twig', array(

@@ -2,13 +2,7 @@
 {% block title %} Evolución {% endblock %}
 {% block Subtitulo %} Registrar Evolución de Paciente -  <small> <a href="{{ path('evolucion_index') }}">Regresar a la lista</a></small> {% endblock %} 
 {% block body %}
-    {% for msg in app.session.flashBag.get('success') %}
-        <div class="alert alert-success"> {{ msg }} </div>       
-    {% endfor %}
-
-    {% for msg in app.session.flashBag.get('error') %}
-        <div class="alert alert-danger"> <p>{{ msg }}</p> </div>
-    {% endfor %}
+    
     <div class="x_content">
         <br />       
         {{ form_start(form, { 'attr': {'id':'evolucion','class': 'form-horizontal form-label-left'} }) }} 

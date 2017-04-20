@@ -50,8 +50,12 @@ class PerinatalController extends Controller {
             $perinatal->setFechaRegistro(new \DateTime("now"));
             $em->persist($perinatal);
             $em->flush($perinatal);
+            
+              return $this->redirectToRoute('homepage_consulta', array(
+                        'paciente' => $perinatal->getPaciente()->getId(),
+            )); 
 
-            return $this->redirectToRoute('paciente_show', array('id' => $perinatal->getPaciente()->getId()));
+           
         }
 
         return $this->render('perinatal/new.html.twig', array(
@@ -92,8 +96,10 @@ class PerinatalController extends Controller {
             $this->getDoctrine()->getManager()->flush();
             $this->addFlash('success', 'Datos actualizados satisfactoriamente');
 
-
-            return $this->redirectToRoute('paciente_show', array('id' => $perinatal->getPaciente()->getId()));
+             return $this->redirectToRoute('homepage_consulta', array(
+                        'paciente' => $perinatal->getPaciente()->getId(),
+            )); 
+           
         }
 
         return $this->render('perinatal/edit.html.twig', array(

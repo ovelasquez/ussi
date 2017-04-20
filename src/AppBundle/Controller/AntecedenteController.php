@@ -50,7 +50,10 @@ class AntecedenteController extends Controller {
             $antecedente->setFechaRegistro(new \DateTime("now"));
             $em->persist($antecedente);
             $em->flush($antecedente);
-            return $this->redirectToRoute('paciente_show', array('id' => $antecedente->getPaciente()->getId()));
+             return $this->redirectToRoute('homepage_consulta', array(
+                        'paciente' => $antecedente->getPaciente()->getId(),
+            ));
+           
         }
 
         return $this->render('antecedente/new.html.twig', array(
@@ -91,7 +94,11 @@ class AntecedenteController extends Controller {
             $this->getDoctrine()->getManager()->flush(); 
             $this->addFlash('success', 'Datos actualizados satisfactoriamente');
             
-            return $this->redirectToRoute('paciente_show', array('id' => $antecedente->getPaciente()->getId()));
+            return $this->redirectToRoute('homepage_consulta', array(
+                        'paciente' => $antecedente->getPaciente()->getId(),
+            ));
+            
+           
         }
         return $this->render('antecedente/edit.html.twig', array(
                     'antecedente' => $antecedente,

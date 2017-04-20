@@ -50,8 +50,10 @@ class SicobiologicoController extends Controller {
             $sicobiologico->setFechaRegistro(new \DateTime("now"));
             $em->persist($sicobiologico);
             $em->flush($sicobiologico);
-
-            return $this->redirectToRoute('paciente_show', array('id' => $sicobiologico->getPaciente()->getId()));
+              return $this->redirectToRoute('homepage_consulta', array(
+                        'paciente' => $sicobiologico->getPaciente()->getId(),
+            ));
+            
         }
 
         return $this->render('sicobiologico/new.html.twig', array(
@@ -91,8 +93,12 @@ class SicobiologicoController extends Controller {
             $sicobiologico->setFechaActualizacion(new \DateTime("now"));
             $this->getDoctrine()->getManager()->flush();
             $this->addFlash('success', 'Datos actualizados satisfactoriamente');
+            
+            return $this->redirectToRoute('homepage_consulta', array(
+                        'paciente' => $sicobiologico->getPaciente()->getId(),
+            ));
 
-            return $this->redirectToRoute('paciente_show', array('id' => $sicobiologico->getPaciente()->getId()));
+            
         }
 
         return $this->render('sicobiologico/edit.html.twig', array(

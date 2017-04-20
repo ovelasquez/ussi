@@ -51,8 +51,10 @@ class PatologiaController extends Controller
             $patologium->setFechaRegistro(new \DateTime("now"));
             $em->persist($patologium);
             $em->flush($patologium);
-
-            return $this->redirectToRoute('paciente_show', array('id' => $patologium->getPaciente()->getId()));
+            
+            return $this->redirectToRoute('homepage_consulta', array(
+                        'paciente' => $patologium->getPaciente()->getId(),
+            ));            
         }
 
         return $this->render('patologia/new.html.twig', array(
@@ -94,8 +96,12 @@ class PatologiaController extends Controller
             $patologium->setFechaActualizacion(new \DateTime("now"));
             $this->getDoctrine()->getManager()->flush();
             $this->addFlash('success', 'Datos actualizados satisfactoriamente');
+            
+             return $this->redirectToRoute('homepage_consulta', array(
+                        'paciente' => $patologium->getPaciente()->getId(),
+            )); 
 
-            return $this->redirectToRoute('paciente_show', array('id' => $patologium->getPaciente()->getId()));
+            
         }
 
         return $this->render('patologia/edit.html.twig', array(
