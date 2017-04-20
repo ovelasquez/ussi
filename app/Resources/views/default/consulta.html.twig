@@ -41,9 +41,9 @@
             <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>100%</i> del día</span>
         </div>
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-            <span class="count_top"><i class="fa fa-user"></i> Fecha</span>
-            <div class="count"></div>
-            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span>
+            <span class="count_top"><i class="fa fa-user"></i> Consuta</span>
+            <div class="count">{{consulta.fecha |date("d/m/Y")}}</div>
+            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>Día </i> de la Consulta</span>
         </div>
     </div>
 {% endblock %}
@@ -55,7 +55,7 @@
             <div class="title_left">
                 <h3>{% block Titulo %} Unidad de los Servicios de Salud Integral Dr. Jesús Saturno Canelón  {% endblock %}</h3>
             </div>
-            <div class="title_right">  hh </div>
+            <div class="title_right">   </div>
         </div>
 
         <div class="clearfix"></div>
@@ -64,822 +64,896 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>{% block Subtitulo %} USSI UBV {% endblock %} </h2>
-                        <ul class="nav navbar-right panel_toolbox submenu">
-                            {% block paneltoolbox %} 
-                                <li><a class="collapse-link" ><i class="fa fa-chevron-up"></i></a></li>
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                                    <ul class="dropdown-menu" role="menu">
-                                        <li><a href="#">{% block cerrar %}  {% endblock %}</a>
-                                        </li>
-                                        <li><a href="#">Settings 2</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li><a class="close-link" ><i class="fa fa-close"></i></a> </li>
-                                    {% endblock %}     
-                        </ul>
-                        <div class="clearfix"></div>
-                    </div>
-                    <!--div class="x_content"-->
-                    {% block body2 %}
-                        <div class="x_content">
-                            <div class="col-md-2 col-sm-2 col-xs-12 profile_left">
-                                <div class="profile_img">
-                                    <div id="crop-avatar">
-                                        <!-- Current avatar -->
-                                        <img class="img-responsive avatar-view" src="{{ asset('uploads/fotos/')}}{{paciente.persona.foto}}" alt="Avatar" title="Change the avatar" height="80%" width="80%">                    
+                        <h2>{% block Subtitulo %}  
+                            Paciente:  {{ paciente.persona.primerApellido |capitalize }} {{ paciente.persona.segundoApellido |capitalize }} {{ paciente.persona.primerNombre |capitalize }} {{ paciente.persona.segundoNombre |capitalize }}                            
+
+                        {% endblock %} </h2>
+
+                    <ul class="nav navbar-right panel_toolbox submenu">
+                        {% block paneltoolbox %} 
+                            <li><a class="collapse-link" ><i class="fa fa-chevron-up"></i></a></li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="#">{% block cerrar %}  {% endblock %}</a>
+                                    </li>
+                                    <li><a href="#">Settings 2</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li><a class="close-link" ><i class="fa fa-close"></i></a> </li>
+                                {% endblock %}     
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <!--div class="x_content"-->
+                {% block body2 %}
+                    <div class="x_content">
+                        <div class="col-md-2 col-sm-2 col-xs-12 profile_left">
+                            <div class="profile_img">
+                                <div id="crop-avatar">
+                                    <!-- Current avatar -->
+                                    <img class="img-responsive avatar-view" src="{{ asset('uploads/fotos/')}}{{paciente.persona.foto}}" alt="Avatar" title="Change the avatar" height="80%" width="80%">                    
+                                </div>
+                            </div>
+
+                            <p></p>
+
+                                <!--a class="btn btn-success" href="{{ path('paciente_edit', { 'id': paciente.id }) }}"><i class="fa fa-edit m-right-xs"></i>Editar Registro</a-->
+
+                            <form name="form_consulta" action="{{path('consulta_alta')}}" method="post" id="form_consulta" class="form-horizontal form-label-left"> 
+                                <input id="alta_consulta" name="alta_consulta" type="hidden" value="{{consulta.id}}">                                 
+                                <div class="form-group">
+                                    <div class="col-md-2 col-sm-2 col-xs-12 col-md-offset-1">                
+                                        <button type="submit" class="btn btn-primary"><i class="fa fa-user-md m-right-xs"></i> Dar de Alta</button> 
                                     </div>
                                 </div>
+                            </form>
 
-                                <p></p>
+                            <br/>           
+                        </div>
+                        <div class="col-md-10 col-sm-10 col-xs-12">                    
+                            <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                                <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                                    <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Personales</a></li>
+                                    <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Historia Médica</a></li>
+                                    <li role="presentation" class=""><a href="#tab_content3" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Evolución</a></li>
+                                    <li role="presentation" class=""><a href="#tab_content4" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Afecciones</a></li>
+                                    <li role="presentation" class=""><a href="#tab_content5" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Consultas</a></li>
+                                </ul>
+                                <div id="myTabContent" class="tab-content">
 
-                                <a class="btn btn-success" href="{{ path('paciente_edit', { 'id': paciente.id }) }}"><i class="fa fa-edit m-right-xs"></i>Editar Registro</a>
-                                <br/>           
-                            </div>
-                            <div class="col-md-10 col-sm-10 col-xs-12">                    
-                                <div class="" role="tabpanel" data-example-id="togglable-tabs">
-                                    <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
-                                        <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Personales</a></li>
-                                        <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Historia Médica</a></li>
-                                        <li role="presentation" class=""><a href="#tab_content3" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Evolución</a></li>                                        
-                                    </ul>
+                                    <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+                                        <table class="table table-striped">
+                                            <tbody>
+                                                <tr>
+                                                    <th>Identificación</th>
+                                                    <td>{{ paciente.persona.nacionalidad }} - {{ paciente.persona.cedula |number_format(0, ',', '.')}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Nombre</th>
+                                                    <td>{{ paciente.persona.primerApellido |capitalize }} {{ paciente.persona.segundoApellido |capitalize }} {{ paciente.persona.primerNombre |capitalize }} {{ paciente.persona.segundoNombre |capitalize }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Género</th>
+                                                    <td>{{ paciente.persona.genero }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Fecha de Nacimiento</th>
+                                                    <td>{{ paciente.fechaNacimiento|date("d/m/Y") }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Correo Electrónico</th>
+                                                    <td>{{ paciente.persona.email }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Estado Civil</th>
+                                                    <td>{{ paciente.edoCivil |capitalize  }}</td>
+                                                </tr>
 
-                                    <div id="myTabContent" class="tab-content">
+                                                <tr>
+                                                    <th>Teléfono</th>
+                                                    <td>{{ paciente.persona.telefono }}</td>
+                                                </tr>
+                                                {% for value in paciente.direccion %}
+                                                    <tr>
+                                                        <th>Dirección de {{ value.tipo |capitalize }}</th>
+                                                        <td>                                           
+                                                            <p>Lugar : {{ value.sector |capitalize  }}</p>
+                                                            <p>{{ value.parroquia.municipio.estado.pais }} -{{ value.parroquia.municipio.estado }} -{{ value.parroquia.municipio }} -{{ value.parroquia }}</p>
 
-                                        <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
-                                            <table class="table table-striped">
-                                                <tbody>
-                                                    <tr>
-                                                        <th>Identificación</th>
-                                                        <td>{{ paciente.persona.nacionalidad }} - {{ paciente.persona.cedula |number_format(0, ',', '.')}}</td>
+                                                        </td>
                                                     </tr>
-                                                    <tr>
-                                                        <th>Nombre</th>
-                                                        <td>{{ paciente.persona.primerApellido |capitalize }} {{ paciente.persona.segundoApellido |capitalize }} {{ paciente.persona.primerNombre |capitalize }} {{ paciente.persona.segundoNombre |capitalize }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>Género</th>
-                                                        <td>{{ paciente.persona.genero }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>Fecha de Nacimiento</th>
-                                                        <td>{{ paciente.fechaNacimiento|date("d/m/Y") }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>Correo Electrónico</th>
-                                                        <td>{{ paciente.persona.email }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>Estado Civil</th>
-                                                        <td>{{ paciente.edoCivil |capitalize  }}</td>
-                                                    </tr>
-
-                                                    <tr>
-                                                        <th>Teléfono</th>
-                                                        <td>{{ paciente.persona.telefono }}</td>
-                                                    </tr>
-                                                    {% for value in paciente.direccion %}
-                                                        <tr>
-                                                            <th>Dirección de {{ value.tipo |capitalize }}</th>
-                                                            <td>                                           
-                                                                <p>Lugar : {{ value.sector |capitalize  }}</p>
-                                                                <p>{{ value.parroquia.municipio.estado.pais }} -{{ value.parroquia.municipio.estado }} -{{ value.parroquia.municipio }} -{{ value.parroquia }}</p>
-
-                                                            </td>
-                                                        </tr>
-                                                    {% endfor %} 
+                                                {% endfor %} 
 
 
-                                                    <tr>
-                                                        <th>Ocupación</th>
-                                                        <td>{{ paciente.ocupacion |capitalize }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>Es Analfabeta?</th>
-                                                            {% if paciente.analfabeta %}
-                                                            <td> Si  </td>
-                                                        {% else %}
-                                                            <td> No  </td>
-                                                        {% endif %}
-                                                    </tr>
-                                                    <tr>
-                                                        <th>Nivel de Instrucción</th>
-                                                        <td>{{ paciente.estudio |capitalize }} </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>Años Aprobados</th>
-                                                        <td>{{ paciente.anoAprobado }} </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>Cédula del Jefe Familia </th>
-                                                        <td>{{ paciente.cedulaJefeFamilia |number_format(0, ',', '.') }} </td>
-                                                    </tr>
-
-                                                    <tr>
-                                                        <th>Comunidad</th>
-                                                        <td>{{ paciente.comunidad |capitalize }} </td>
-                                                    </tr>
-                                                    {% if (paciente.pfg !=null ) %}
-                                                        <tr>
-                                                            <th>Programa de Formación de Grado</th>
-                                                            <td>{{ paciente.pfg |capitalize }} </td>
-                                                        </tr>
+                                                <tr>
+                                                    <th>Ocupación</th>
+                                                    <td>{{ paciente.ocupacion |capitalize }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Es Analfabeta?</th>
+                                                        {% if paciente.analfabeta %}
+                                                        <td> Si  </td>
+                                                    {% else %}
+                                                        <td> No  </td>
                                                     {% endif %}
+                                                </tr>
+                                                <tr>
+                                                    <th>Nivel de Instrucción</th>
+                                                    <td>{{ paciente.estudio |capitalize }} </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Años Aprobados</th>
+                                                    <td>{{ paciente.anoAprobado }} </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Cédula del Jefe Familia </th>
+                                                    <td>{{ paciente.cedulaJefeFamilia |number_format(0, ',', '.') }} </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <th>Comunidad</th>
+                                                    <td>{{ paciente.comunidad |capitalize }} </td>
+                                                </tr>
+                                                {% if (paciente.pfg !=null ) %}
                                                     <tr>
-                                                        <th>Religión</th>
-                                                        <td>{{ paciente.religion |capitalize }} </td>
+                                                        <th>Programa de Formación de Grado</th>
+                                                        <td>{{ paciente.pfg |capitalize }} </td>
                                                     </tr>
+                                                {% endif %}
+                                                <tr>
+                                                    <th>Religión</th>
+                                                    <td>{{ paciente.religion |capitalize }} </td>
+                                                </tr>
+                                                {% if (paciente.etnia !=null ) %}
                                                     <tr>
                                                         <th>Etnia</th>
                                                         <td>{{ paciente.etnia |capitalize }} </td>
                                                     </tr>
-                                                    {% for value in paciente.familiar %}
-                                                        <tr>
-                                                            <th>Parentesco {{ value.parentesco |capitalize }}</th>
-                                                            <td>                                           
-                                                                <p>Nombre: {{ value.nombre |capitalize  }}</p>
-                                                                <p>Ocupación:{{ value.ocupacion }}</p>
-                                                            </td>
-                                                        </tr>
-                                                    {% endfor %} 
-
+                                                {% endif %}
+                                                {% for value in paciente.familiar %}
                                                     <tr>
-                                                        <th>Fecha de registro</th>
-                                                        <td>{{ paciente.fechaRegistro|date("d/m/Y h:i:s") }}</td>
+                                                        <th>Parentesco {{ value.parentesco |capitalize }}</th>
+                                                        <td>                                           
+                                                            <p>Nombre: {{ value.nombre |capitalize  }}</p>
+                                                            <p>Ocupación:{{ value.ocupacion }}</p>
+                                                        </td>
                                                     </tr>
+                                                {% endfor %} 
 
-                                                    <tr>
-                                                        <th>Fecha de última actualización</th>
-                                                        <td>{{ paciente.fechaActualizacion|date("d/m/Y h:i:s") }}</td>
-                                                    </tr>
+                                                <tr>
+                                                    <th>Fecha de registro</th>
+                                                    <td>{{ paciente.fechaRegistro|date("d/m/Y h:i:s") }}</td>
+                                                </tr>
 
-                                                </tbody>
-                                            </table>                                
-                                        </div>   
+                                                <tr>
+                                                    <th>Fecha de última actualización</th>
+                                                    <td>{{ paciente.fechaActualizacion|date("d/m/Y h:i:s") }}</td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>                                
+                                    </div>   
 
 
-                                        <!-- inicio Acordion Historias Médicas -->
-                                        <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+                                    <!-- inicio Acordion Historias Médicas -->
+                                    <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
 
-                                            <div class="accordion" id="accordion" role="tablist" aria-multiselectable="true">
-                                                <div class="panel">
-                                                    <a class="panel-heading collapsed" role="tab" id="headingOne" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                                                        <h4 class="panel-title">Antecedente Familiares y Otros Contactos</h4>
-                                                    </a>
-                                                    <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne" aria-expanded="false" style="height: 0px;">
-                                                        <div class="panel-body">
+                                        <div class="accordion" id="accordion" role="tablist" aria-multiselectable="true">
+                                            <div class="panel">
+                                                <a class="panel-heading collapsed" role="tab" id="headingOne" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                                    <h4 class="panel-title">Antecedente Familiares y Otros Contactos</h4>
+                                                </a>
+                                                <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne" aria-expanded="false" style="height: 0px;">
+                                                    <div class="panel-body">
 
-                                                            <table class="table table-striped jambo_table bulk_action">
-                                                                {% for historicoAntecedente in historicoAntecedentes %}
-                                                                    <thead>
-                                                                        <tr>                                       
-                                                                            <th>Alergia</th>
-                                                                            <th>Asma</th>
-                                                                            <th>T.B.C</th>
-                                                                            <th>Cardiotopía</th>
-                                                                            <th>Hipertensión</th>
-                                                                            <th>Várices</th>
-                                                                            <th>Desnutrición</th>
-                                                                            <th>Diábetes</th>
-                                                                            <th>Obesidad</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                        <tr>                                       
-                                                                            <td>{% if historicoAntecedente.alergia %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if historicoAntecedente.asma %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if historicoAntecedente.tbc %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if historicoAntecedente.cardiotopia %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if historicoAntecedente.hipertension %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if historicoAntecedente.varices %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if historicoAntecedente.desnutricion %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if historicoAntecedente.diabetes %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if historicoAntecedente.obesidad %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                        </tr>
-                                                                    </tbody>
-                                                                    <thead>                                                    
-                                                                        <tr>
-                                                                            <th>Gastropatía</th>
-                                                                            <th>Neurológica</th>
-                                                                            <th>Enf. Renal</th>
-                                                                            <th>Cáncer</th>
-                                                                            <th>Alcohol</th>
-                                                                            <th>Drogas</th>
-                                                                            <th>Sifilis</th>
-                                                                            <th>Sida</th>
-                                                                            <th>Artritis</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                        <tr>
-                                                                            <td>{% if historicoAntecedente.gastropatia %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>                                                   
-                                                                            <td>{% if historicoAntecedente.neurologica %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if historicoAntecedente.enfermedadRenal %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if historicoAntecedente.cancer %} <i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if historicoAntecedente.alcohol %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if historicoAntecedente.drogas %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if historicoAntecedente.sifilis %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if historicoAntecedente.sida %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if historicoAntecedente.artritis %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>                                       
-                                                                        </tr>
-                                                                    </tbody>
-                                                                    <thead>                                                  
-                                                                        <tr>
-                                                                            <th>Otros Padre</th>
-                                                                            <th>Otros Madre</th>
-                                                                            <th>Otros Hermanos</th>
-                                                                            <th>Otros</th>
-                                                                            <th>Actualización</th>
-                                                                            <th>Registro</th>
-                                                                            <th>Acción</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                        <tr>
-                                                                            <td>{% if historicoAntecedente.otrosPadre %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if historicoAntecedente.otrosMadre %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if historicoAntecedente.otrosHermanos %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if historicoAntecedente.otros %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if historicoAntecedente.fechaActualizacion %}{{ historicoAntecedente.fechaActualizacion|date('d/m/Y h:i:s') }}{% endif %}</td>
-                                                                            <td>{% if historicoAntecedente.fechaRegistro %}{{ historicoAntecedente.fechaRegistro|date('d/m/Y h:i:s') }}{% endif %}</td>
-                                                                            <td>                                          
-                                                                                <a href="{{ path('antecedente_edit', { 'id': historicoAntecedente.id }) }}">
-                                                                                    <button type="button" class="btn btn-xs btn-success" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editar">  <i class="fa fa-pencil"></i>  </button>
-                                                                                </a>                                                
-                                                                            </td>
-                                                                        </tr>
-                                                                    {% endfor %}
+                                                        <table class="table table-striped jambo_table bulk_action">
+                                                            {% for historicoAntecedente in historicoAntecedentes %}
+                                                                <thead>
+                                                                    <tr>                                       
+                                                                        <th>Alergia</th>
+                                                                        <th>Asma</th>
+                                                                        <th>T.B.C</th>
+                                                                        <th>Cardiotopía</th>
+                                                                        <th>Hipertensión</th>
+                                                                        <th>Várices</th>
+                                                                        <th>Desnutrición</th>
+                                                                        <th>Diábetes</th>
+                                                                        <th>Obesidad</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr>                                       
+                                                                        <td>{% if historicoAntecedente.alergia %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if historicoAntecedente.asma %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if historicoAntecedente.tbc %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if historicoAntecedente.cardiotopia %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if historicoAntecedente.hipertension %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if historicoAntecedente.varices %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if historicoAntecedente.desnutricion %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if historicoAntecedente.diabetes %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if historicoAntecedente.obesidad %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                    </tr>
                                                                 </tbody>
-                                                            </table>
-
-                                                            {# Si el paciente posee antecedentes NO se muestra el boton de Registro de Antecedentes #}
-                                                            {% if historicoAntecedentes|length < 1 %}                                                                                      
-                                                                <form name="form_antecedente" action="{{path('antecedente_new')}}" method="post" id="form_antecedente" class="form-horizontal form-label-left"> 
-                                                                    <input id="info_paciente" name="info_paciente" type="hidden" value="{{paciente.id}}"> 
-                                                                    <div class="ln_solid"></div>
-                                                                    <div class="form-group">
-                                                                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">                
-                                                                            <button type="submit" class="btn btn-success">Registrar Antecedentes</button>
-                                                                        </div>
-                                                                    </div>
-                                                                </form>
-                                                            {% endif %}
-                                                        </div>
-                                                    </div>
-                                                </div> {# fin acordion Historias Medicas#}
-                                                <!-- Segundo Menu -->
-
-                                                <div class="panel">
-                                                    <a class="panel-heading collapsed" role="tab" id="headingTwo" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">                                 
-                                                        <h4 class="panel-title">Factores de Riesgo (Hábitos Sicobiológicos)</h4>
-                                                    </a>
-                                                    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo" aria-expanded="false" style="height: 0px;">                                
-                                                        <div class="panel-body">
-                                                            <table class="table table-striped jambo_table bulk_action">
-                                                                {% for sicobiologico in sicobiologicos %}
-                                                                    <thead>
-                                                                        <tr>                                       
-                                                                            <th>Alcohol</th>
-                                                                            <th>Drogas</th>
-                                                                            <th>Isecticidas</th>
-                                                                            <th>Deportes</th>
-                                                                            <th>Sedentarismo</th>
-                                                                            <th>Sueño</th>
-                                                                            <th>Chupa Dedo</th>
-                                                                            <th>Onicofagia</th>
-                                                                            <th>Micciones</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                        <tr>                                       
-                                                                            <td>{% if sicobiologico.alcohol %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if sicobiologico.drogas %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if sicobiologico.isecticidas %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if sicobiologico.deportes %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if sicobiologico.sedentarismo %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if sicobiologico.suenio %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if sicobiologico.chupaDedo %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if sicobiologico.onicofagia %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if sicobiologico.micciones %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                        </tr>
-                                                                    </tbody>
-                                                                    <thead>                                                   
-                                                                        <tr>
-                                                                            <th>Evacuaciones</th>
-                                                                            <th>Stress</th>
-                                                                            <th>Metales Pesados</th>
-                                                                            <th>Alimentación</th>
-                                                                            <th>Cigarrillos Dia</th>
-                                                                            <th>Actualización</th>
-                                                                            <th>Registro</th>
-                                                                            <th>Acción</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody> 
-                                                                        <tr>
-                                                                            <td>{% if sicobiologico.evacuaciones %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>                                                   
-                                                                            <td>{% if sicobiologico.stress %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if sicobiologico.metalesPesados %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if sicobiologico.alimentacion %} <i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if sicobiologico.cigarrillosDia %} {{ sicobiologico.cigarrillosDia }} {% else %}<i class="fa fa-close"></i>{% endif %}</td>                                                      
-                                                                            <td>{% if sicobiologico.fechaActualizacion %}{{ sicobiologico.fechaActualizacion|date('d/m/Y h:i:s') }}{% endif %}</td>
-                                                                            <td>{% if sicobiologico.fechaRegistro %}{{ sicobiologico.fechaRegistro|date('d/m/Y h:i:s') }}{% endif %}</td>
-                                                                            <td>                                          
-                                                                                <a href="{{ path('sicobiologico_edit', { 'id': sicobiologico.id }) }}">
-                                                                                    <button type="button" class="btn btn-xs btn-success" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editar">  <i class="fa fa-pencil"></i>  </button>
-                                                                                </a>                                                
-                                                                            </td>
-                                                                        </tr>
-                                                                    {% endfor %}
+                                                                <thead>                                                    
+                                                                    <tr>
+                                                                        <th>Gastropatía</th>
+                                                                        <th>Neurológica</th>
+                                                                        <th>Enf. Renal</th>
+                                                                        <th>Cáncer</th>
+                                                                        <th>Alcohol</th>
+                                                                        <th>Drogas</th>
+                                                                        <th>Sifilis</th>
+                                                                        <th>Sida</th>
+                                                                        <th>Artritis</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td>{% if historicoAntecedente.gastropatia %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>                                                   
+                                                                        <td>{% if historicoAntecedente.neurologica %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if historicoAntecedente.enfermedadRenal %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if historicoAntecedente.cancer %} <i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if historicoAntecedente.alcohol %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if historicoAntecedente.drogas %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if historicoAntecedente.sifilis %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if historicoAntecedente.sida %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if historicoAntecedente.artritis %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>                                       
+                                                                    </tr>
                                                                 </tbody>
-                                                            </table>
-
-                                                            {# Si el paciente posee antecedentes NO se muestra el boton de Registro de Antecedentes #}
-                                                            {% if sicobiologicos|length < 1 %}                                                                                      
-                                                                <form name="form_sicobiologico" action="{{path('sicobiologico_new')}}" method="post" id="form_sicobiologico" class="form-horizontal form-label-left"> 
-                                                                    <input id="i_paciente" name="i_paciente" type="hidden" value="{{paciente.id}}"> 
-                                                                    <div class="ln_solid"></div>
-                                                                    <div class="form-group">
-                                                                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">                
-                                                                            <button type="submit" class="btn btn-success">Registrar Sicobiologico</button>
-                                                                        </div>
-                                                                    </div>
-                                                                </form>
-                                                            {% endif %}
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <!-- Tercer menu -->
-                                                <div class="panel">
-                                                    <a class="panel-heading collapsed" role="tab" id="headingThree" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">                                 
-                                                        <h4 class="panel-title">Patologia Personal)</h4>
-                                                    </a>
-                                                    <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo" aria-expanded="false" style="height: 0px;">                                
-                                                        <div class="panel-body">
-                                                            <table class="table table-striped jambo_table bulk_action">
-
-                                                                {% for patologium in patologias %}
-                                                                    <thead>
-                                                                        <tr>                                       
-                                                                            <th>Alergias</th>
-                                                                            <th>Asma</th>
-                                                                            <th>Neumonia</th>
-                                                                            <th>Tbc</th>
-                                                                            <th>Cardiotopia</th>
-                                                                            <th>Hipertension</th>
-                                                                            <th>Dislipidemias</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                        <tr>                                       
-                                                                            <td>{% if patologium.alergias %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if patologium.asma %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if patologium.neumonia %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if patologium.tbc %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if patologium.cardiotopia %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if patologium.hipertension %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if patologium.dislipidemias %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                        </tr>
-                                                                    </tbody>
-                                                                    <thead>                                                   
-                                                                        <tr>
-                                                                            <th>Varices</th>
-                                                                            <th>Cardopatiachag</th>
-                                                                            <th>Hepatopatia</th>
-                                                                            <th>Desnutricion</th>
-                                                                            <th>Diabetes</th>
-                                                                            <th>Obesidad</th>
-                                                                            <th>Gastroenteritis</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                        <tr>
-                                                                            <td>{% if patologium.varices %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if patologium.cardopatiaChag %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>                                       
-                                                                            <td>{% if patologium.hepatopatia %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if patologium.desnutricion %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if patologium.diabetes %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if patologium.obesidad %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if patologium.gastroenteritis %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                        </tr>
-                                                                    </tbody>
-                                                                    <thead>                                                    
-                                                                        <tr>
-                                                                            <th>Encoprexis</th>
-                                                                            <th>Enfermedad Renal</th>
-                                                                            <th>Eunereis</th>
-                                                                            <th>Cancer</th>
-                                                                            <th>Tromboembolia</th>
-                                                                            <th>Tumorm</th>
-                                                                            <th>Meningitis</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                        <tr>
-                                                                            <td>{% if patologium.encoprexis %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if patologium.enfermedadRenal %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if patologium.eunereis %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if patologium.cancer %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if patologium.tromboembolia %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if patologium.tumorM %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if patologium.meningitis %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                        </tr>
-                                                                    </tbody>
-                                                                    <thead>                                                    
-                                                                        <tr>
-                                                                            <th>Tcraneoenc</th>
-                                                                            <th>Enfermeda de Rup</th>
-                                                                            <th>Dengue</th>    
-                                                                            <th>Hospitalización</th>
-                                                                            <th>Intervencion Quirurgica</th>
-                                                                            <th>Accidente</th>  
-                                                                            <th>Artritis</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody>  
-                                                                        <tr>
-                                                                            <td>{% if patologium.tCraneoenc %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if patologium.enfermedadErup %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if patologium.dengue %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if patologium.hospitalizacion %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if patologium.intervencionQuirurgica %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if patologium.accidente %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if patologium.artritis %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>                                           
-                                                                        </tr>
-                                                                    </tbody>
-                                                                    <thead>                                                    
-                                                                        <tr>
-                                                                            <th>Enfermedadts</th>
-                                                                            <th>Enfermedad Intran</th>
-                                                                            <th>Malaria</th>
-                                                                            <th>Hansenleishmar</th>
-                                                                            <th>Otros</th>
-                                                                            <th>Fecha Registro</th>
-                                                                            <th>Fecha Actualización</th>                                                       
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody>  
-                                                                        <tr>
-                                                                            <td>{% if patologium.enfermedadTs %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if patologium.enfermedadInTran %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if patologium.malaria %} <i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if patologium.hansenLeishmar %} <i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if patologium.otros %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>                                                      
-                                                                            <td>{% if patologium.fechaRegistro %}{{ patologium.fechaActualizacion|date('d/m/Y h:i:s') }}{% endif %}</td>
-                                                                            <td>{% if patologium.fechaActualizacion %}{{ patologium.fechaRegistro|date('d/m/Y h:i:s') }}{% endif %}</td>
-                                                                        </tr>
-                                                                    </tbody>
-                                                                    <thead>                                                    
-                                                                        <tr>
-                                                                            <th>Acción</th> 
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody>  
-                                                                        <tr>
-                                                                            <td>
-                                                                                <a href="{{ path('patologia_edit', { 'id': patologium.id }) }}">
-                                                                                    <button type="button" class="btn btn-xs btn-success" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editar">  <i class="fa fa-pencil"></i>  </button>
-                                                                                </a> 
-                                                                            </td>
-                                                                        </tr>
-                                                                    </tbody>
+                                                                <thead>                                                  
+                                                                    <tr>
+                                                                        <th>Otros Padre</th>
+                                                                        <th>Otros Madre</th>
+                                                                        <th>Otros Hermanos</th>
+                                                                        <th>Otros</th>
+                                                                        <th>Actualización</th>
+                                                                        <th>Registro</th>
+                                                                        <th>Acción</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td>{% if historicoAntecedente.otrosPadre %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if historicoAntecedente.otrosMadre %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if historicoAntecedente.otrosHermanos %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if historicoAntecedente.otros %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if historicoAntecedente.fechaActualizacion %}{{ historicoAntecedente.fechaActualizacion|date('d/m/Y h:i:s') }}{% endif %}</td>
+                                                                        <td>{% if historicoAntecedente.fechaRegistro %}{{ historicoAntecedente.fechaRegistro|date('d/m/Y h:i:s') }}{% endif %}</td>
+                                                                        <td>                                          
+                                                                            <a href="{{ path('antecedente_edit', { 'id': historicoAntecedente.id }) }}">
+                                                                                <button type="button" class="btn btn-xs btn-success" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editar">  <i class="fa fa-pencil"></i>  </button>
+                                                                            </a>                                                
+                                                                        </td>
+                                                                    </tr>
                                                                 {% endfor %}
-                                                            </table>
-                                                            {# Si el paciente posee antecedentes NO se muestra el boton de Registro de Antecedentes #}
-                                                            {% if patologias |length < 1 %}                                                                                      
-                                                                <form name="form_patologia" action="{{path('patologia_new')}}" method="post" id="form_patologia" class="form-horizontal form-label-left"> 
-                                                                    <input id="ii_paciente" name="ii_paciente" type="hidden" value="{{paciente.id}}"> 
-                                                                    <div class="ln_solid"></div>
-                                                                    <div class="form-group">
-                                                                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">                
-                                                                            <button type="submit" class="btn btn-success">Registrar Patologia</button>
-                                                                        </div>
+                                                            </tbody>
+                                                        </table>
+
+                                                        {# Si el paciente posee antecedentes NO se muestra el boton de Registro de Antecedentes #}
+                                                        {% if historicoAntecedentes|length < 1 %}                                                                                      
+                                                            <form name="form_antecedente" action="{{path('antecedente_new')}}" method="post" id="form_antecedente" class="form-horizontal form-label-left"> 
+                                                                <input id="info_paciente" name="info_paciente" type="hidden" value="{{paciente.id}}"> 
+                                                                <div class="ln_solid"></div>
+                                                                <div class="form-group">
+                                                                    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">                
+                                                                        <button type="submit" class="btn btn-success">Registrar Antecedentes</button>
                                                                     </div>
-                                                                </form>
-                                                            {% endif %}
-                                                        </div>
+                                                                </div>
+                                                            </form>
+                                                        {% endif %}
                                                     </div>
                                                 </div>
-                                                <!-- Cuarto menu -->
+                                            </div> {# fin acordion Historias Medicas#}
+                                            <!-- Segundo Menu -->
 
-
-                                                <div class="panel">
-                                                    <a class="panel-heading collapsed" role="tab" id="headingFour" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">                                 
-                                                        <h4 class="panel-title">Sexualidad y Obstétricos</h4>
-                                                    </a>
-                                                    <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour" aria-expanded="false" style="height: 0px;">                                
-                                                        <div class="panel-body">
-
-                                                            <table class="table table-striped jambo_table bulk_action">
-                                                                {% for sexualidad in sexualidads %}
-                                                                    <thead>
-                                                                        <tr>                                       
-                                                                            <th>Menarquia</th>
-                                                                            <th>Ciclo Menstrual</th>
-                                                                            <th>Pr Sexual</th>
-                                                                            <th>Frecuencia Sexual</th>
-                                                                            <th>Numero Parejas</th>
-                                                                            <th>Dispareunia</th>
-                                                                            <th>Anticonceptivos</th>
-                                                                            <th>Menopausia</th>                                                        
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                        <tr>                                       
-                                                                            <td>{% if sexualidad.menarquia %} {{ sexualidad.menarquia }}{% else %}<i class="fa fa-close"></i> {% endif %}</td>
-                                                                            <td>{% if sexualidad.cicloMenstrual %} {{ sexualidad.cicloMenstrual }}{% else %}<i class="fa fa-close"></i> {% endif %}</td>
-                                                                            <td>{% if sexualidad.prSexual %} {{ sexualidad.prSexual }}{% else %}<i class="fa fa-close"></i>  {% endif %}</td>
-                                                                            <td>{% if sexualidad.frecuenciaSexual %} {{ sexualidad.frecuenciaSexual }}{% else %}<i class="fa fa-close"></i> {% endif %}</td>
-                                                                            <td>{% if sexualidad.numeroParejas %} {{ sexualidad.numeroParejas }} {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if sexualidad.dispareunia %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if sexualidad.anticonceptivos %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if sexualidad.menopausia %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-
-                                                                        </tr>
-                                                                    </tbody>
-                                                                    <thead>                                                    
-                                                                        <tr>
-                                                                            <th>Andropausia</th>
-                                                                            <th>Gesta</th>
-                                                                            <th>Parto</th>
-                                                                            <th>Cesarea</th>
-                                                                            <th>Aborto</th>
-                                                                            <th>Edad 1er Parto</th>
-                                                                            <th>Fecha Utimo Parto</th>
-                                                                            <th>Curetaje</th>                                                        
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                        <tr> 
-                                                                            <td>{% if sexualidad.andropausia %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if sexualidad.gesta %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if sexualidad.parto %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if sexualidad.cesarea %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if sexualidad.aborto %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if sexualidad.edad1erParto %} {{ sexualidad.edad1erParto}} {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if sexualidad.fechaUltimoParto %} {{ sexualidad.fechaUltimoParto }} {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if sexualidad.curetaje %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>                                                                                                         
-                                                                        </tr>
-                                                                    </tbody>
-                                                                    <thead>                                                   
-                                                                        <tr>
-                                                                            <th>Numero Hijos Vivos</th>
-                                                                            <th>Numero Hijos Muertos</th>
-                                                                            <th>Peso Ultimo Hijo</th>                                                        
-                                                                            <th>Fecha Registro</th>
-                                                                            <th>Fecha Actualizacion</th>
-                                                                            <th>Actions</th>                                                       
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                        <tr>
-                                                                            <td>{% if sexualidad.numeroHijosVivos %} {{ sexualidad.numeroHijosVivos }} {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if sexualidad.numeroHijosMuertos %} {{ sexualidad.numeroHijosMuertos }} {% else %}<i class="fa fa-close"></i>{% endif %}</td>                                                        
-                                                                            <td>{% if sexualidad.pesoUltimoHijo %} {{ sexualidad.pesoUltimoHijo }} {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if sexualidad.fechaRegistro %}{{ sexualidad.fechaActualizacion|date('d/m/Y h:i:s') }}{% endif %}</td>
-                                                                            <td>{% if sexualidad.fechaActualizacion %}{{ sexualidad.fechaRegistro|date('d/m/Y h:i:s') }}{% endif %}</td>
-                                                                            <td>                                          
-                                                                                <a href="{{ path('sexualidad_edit', { 'id': sexualidad.id }) }}">
-                                                                                    <button type="button" class="btn btn-xs btn-success" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editar">  <i class="fa fa-pencil"></i>  </button>
-                                                                                </a>                                                
-                                                                            </td>
-                                                                        </tr>
-                                                                    {% endfor %}
+                                            <div class="panel">
+                                                <a class="panel-heading collapsed" role="tab" id="headingTwo" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">                                 
+                                                    <h4 class="panel-title">Factores de Riesgo (Hábitos Sicobiológicos)</h4>
+                                                </a>
+                                                <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo" aria-expanded="false" style="height: 0px;">                                
+                                                    <div class="panel-body">
+                                                        <table class="table table-striped jambo_table bulk_action">
+                                                            {% for sicobiologico in sicobiologicos %}
+                                                                <thead>
+                                                                    <tr>                                       
+                                                                        <th>Alcohol</th>
+                                                                        <th>Drogas</th>
+                                                                        <th>Isecticidas</th>
+                                                                        <th>Deportes</th>
+                                                                        <th>Sedentarismo</th>
+                                                                        <th>Sueño</th>
+                                                                        <th>Chupa Dedo</th>
+                                                                        <th>Onicofagia</th>
+                                                                        <th>Micciones</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr>                                       
+                                                                        <td>{% if sicobiologico.alcohol %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if sicobiologico.drogas %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if sicobiologico.isecticidas %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if sicobiologico.deportes %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if sicobiologico.sedentarismo %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if sicobiologico.suenio %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if sicobiologico.chupaDedo %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if sicobiologico.onicofagia %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if sicobiologico.micciones %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                    </tr>
                                                                 </tbody>
-                                                            </table>
+                                                                <thead>                                                   
+                                                                    <tr>
+                                                                        <th>Evacuaciones</th>
+                                                                        <th>Stress</th>
+                                                                        <th>Metales Pesados</th>
+                                                                        <th>Alimentación</th>
+                                                                        <th>Cigarrillos Dia</th>
+                                                                        <th>Actualización</th>
+                                                                        <th>Registro</th>
+                                                                        <th>Acción</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody> 
+                                                                    <tr>
+                                                                        <td>{% if sicobiologico.evacuaciones %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>                                                   
+                                                                        <td>{% if sicobiologico.stress %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if sicobiologico.metalesPesados %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if sicobiologico.alimentacion %} <i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if sicobiologico.cigarrillosDia %} {{ sicobiologico.cigarrillosDia }} {% else %}<i class="fa fa-close"></i>{% endif %}</td>                                                      
+                                                                        <td>{% if sicobiologico.fechaActualizacion %}{{ sicobiologico.fechaActualizacion|date('d/m/Y h:i:s') }}{% endif %}</td>
+                                                                        <td>{% if sicobiologico.fechaRegistro %}{{ sicobiologico.fechaRegistro|date('d/m/Y h:i:s') }}{% endif %}</td>
+                                                                        <td>                                          
+                                                                            <a href="{{ path('sicobiologico_edit', { 'id': sicobiologico.id }) }}">
+                                                                                <button type="button" class="btn btn-xs btn-success" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editar">  <i class="fa fa-pencil"></i>  </button>
+                                                                            </a>                                                
+                                                                        </td>
+                                                                    </tr>
+                                                                {% endfor %}
+                                                            </tbody>
+                                                        </table>
 
-                                                            {# Si el paciente posee antecedentes NO se muestra el boton de Registro de Antecedentes #}
-                                                            {% if sexualidads |length < 1 %}                                                                                      
-                                                                <form name="form_sexualidad" action="{{path('sexualidad_new')}}" method="post" id="form_sexualidad" class="form-horizontal form-label-left"> 
-                                                                    <input id="III_paciente" name="III_paciente" type="hidden" value="{{paciente.id}}"> 
-                                                                    <div class="ln_solid"></div>
-                                                                    <div class="form-group">
-                                                                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">                
-                                                                            <button type="submit" class="btn btn-success">Registrar Sexualidad y Obtétricos </button>
-                                                                        </div>
+                                                        {# Si el paciente posee antecedentes NO se muestra el boton de Registro de Antecedentes #}
+                                                        {% if sicobiologicos|length < 1 %}                                                                                      
+                                                            <form name="form_sicobiologico" action="{{path('sicobiologico_new')}}" method="post" id="form_sicobiologico" class="form-horizontal form-label-left"> 
+                                                                <input id="i_paciente" name="i_paciente" type="hidden" value="{{paciente.id}}"> 
+                                                                <div class="ln_solid"></div>
+                                                                <div class="form-group">
+                                                                    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">                
+                                                                        <button type="submit" class="btn btn-success">Registrar Sicobiologico</button>
                                                                     </div>
-                                                                </form>
-                                                            {% endif %}
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <!-- QUinto menu -->
-
-                                                <div class="panel">
-                                                    <a class="panel-heading collapsed" role="tab" id="headingFive" data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="false" aria-controls="collapseFive">                                 
-                                                        <h4 class="panel-title">Antecedente Perinatales</h4>
-                                                    </a>
-                                                    <div id="collapseFive" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFive" aria-expanded="false" style="height: 0px;">                                
-                                                        <div class="panel-body">
-                                                            <table class="table table-striped jambo_table bulk_action">
-
-                                                                {% for perinatal in perinatals %}
-                                                                    <thead>
-                                                                        <tr>                                       
-                                                                            <th>Carnet Perinatal</th>
-                                                                            <th>Patologia Embarazo</th>
-                                                                            <th>Patologia Parto</th>
-                                                                            <th>Patologia Puerperio</th>
-                                                                            <th>Consultas Prenatales</th>
-                                                                            <th>Edad Gestacional</th>
-                                                                            <th>Fórceps</th>
-                                                                            <th>Cesárea</th>
-                                                                            <th>Parto</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                        <tr>                                       
-                                                                            <td>{% if perinatal.carnetPerinatal %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if perinatal.patologiaEmbarazo %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if perinatal.patologiaParto %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if perinatal.patologiaPuerperio %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if perinatal.consultasPrenatales %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if perinatal.edadGestacional %} {{ perinatal.edadGestacional }} {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if perinatal.forceps %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if perinatal.cesarea %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if perinatal.parto %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                        </tr>
-                                                                    </tbody>
-                                                                    <thead>                                                    
-                                                                        <tr>                                       
-                                                                            <th>Peso al Nacer</th>
-                                                                            <th>Talla</th>
-                                                                            <th>Circunferencia</th>
-                                                                            <th>Apagar Min</th>
-                                                                            <th>Asfixia</th>
-                                                                            <th>Reanimación</th>
-                                                                            <th>Patologias RN</th>
-                                                                            <th>Egreso RN Sano</th>
-                                                                            <th>Egreso RN Patológico</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                        <tr>                                       
-                                                                            <td>{% if perinatal.pesoNacer %} {{ perinatal.pesoNacer }} {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if perinatal.talla %} {{ perinatal.talla }} {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if perinatal.circunferencia %} {{ perinatal.circunferencia }} {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if perinatal.apagarMin %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if perinatal.asfixia %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if perinatal.reanimacion %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if perinatal.patologiasRn %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if perinatal.egresoRnSano %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if perinatal.egresoRnPatologico %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                        </tr>
-                                                                    </tbody>
-                                                                    <thead>                                                   
-                                                                        <tr>                                       
-                                                                            <th>Lactancia Exclusiva</th>
-                                                                            <th>Lactancia Mixta</th>
-                                                                            <th>Lactancia Aglactación</th>
-                                                                            <th>Madre fuera Casa</th>
-                                                                            <th>Familia Madre</th>
-                                                                            <th>Familia Padre</th>
-                                                                            <th>Familia Hermanos</th>
-                                                                            <th>Familia Otros</th>
-                                                                            <th>Fecha Registro</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                        <tr>                                       
-                                                                            <td>{% if perinatal.lactanciaExclusiva %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if perinatal.lactanciaMixta %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if perinatal.lactanciaAglactacion %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if perinatal.madreFueraCasa %} {{ perinatal.madreFueraCasa }} {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if perinatal.familiaMadre %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if perinatal.familiaPadre %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if perinatal.familiaHermanos %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if perinatal.familiaOtros %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                            <td>{% if perinatal.fechaRegistro %}{{ perinatal.fechaActualizacion|date('d/m/Y h:i:s') }}{% endif %}</td>
-                                                                        </tr>
-                                                                    </tbody>
-                                                                    <thead>                                                  
-                                                                        <tr>                                                                                                              
-                                                                            <th>Fecha Actualización</th>
-                                                                            <th>Acción</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                        <tr> 
-                                                                            <td>{% if perinatal.fechaActualizacion %}{{ perinatal.fechaRegistro|date('d/m/Y h:i:s') }}{% endif %}</td>
-                                                                            <td>                                          
-                                                                                <a href="{{ path('perinatal_edit', { 'id': perinatal.id }) }}">
-                                                                                    <button type="button" class="btn btn-xs btn-success" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editar">  <i class="fa fa-pencil"></i>  </button>
-                                                                                </a>                                                
-                                                                            </td>
-                                                                        </tr>
-                                                                    {% endfor %}
-                                                                </tbody>
-                                                            </table>
-                                                            {# Si el paciente posee antecedentes NO se muestra el boton de Registro de Antecedentes #}
-                                                            {% if perinatals |length < 1 %}                                                                                      
-                                                                <form name="form_perinatal" action="{{path('perinatal_new')}}" method="post" id="form_perinatal" class="form-horizontal form-label-left"> 
-                                                                    <input id="IV_paciente" name="IV_paciente" type="hidden" value="{{paciente.id}}"> 
-                                                                    <div class="ln_solid"></div>
-                                                                    <div class="form-group">
-                                                                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">                
-                                                                            <button type="submit" class="btn btn-success">Registrar Antecedente Perinatales</button>
-                                                                        </div>
-                                                                    </div>
-                                                                </form>
-                                                            {% endif %}
-                                                        </div>
+                                                                </div>
+                                                            </form>
+                                                        {% endif %}
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div> <!--Fin  Acordion Historia Medica-->
 
-                                        <!--Evolucion-->
+                                            <!-- Tercer menu -->
+                                            <div class="panel">
+                                                <a class="panel-heading collapsed" role="tab" id="headingThree" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">                                 
+                                                    <h4 class="panel-title">Patologia Personal)</h4>
+                                                </a>
+                                                <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo" aria-expanded="false" style="height: 0px;">                                
+                                                    <div class="panel-body">
+                                                        <table class="table table-striped jambo_table bulk_action">
 
-                                        <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="profile-tab">                                         
-                                            {% if (evolucion!=null) %}
-                                                <div class="x_content">                   
-                                                    <table class="table table-striped">
-                                                        <tbody>
-                                                           
-                                                            <tr>
-                                                                <th>Edad</th>
-                                                                <td>{{ evolucion.edad }}</td>
-                                                            </tr>  
-                                                            <tr>
-                                                                <th>Motivo de Consulta</th>
-                                                                <td>{{ evolucion.subjetivo }} </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th>Enfermedades Actuales y Hallazgo</th>
-                                                                <td>{{ evolucion.objetivo}}</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th>Diagnóstica</th>
-                                                                <td>{{ evolucion.apreciacion }}</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th>Frecuencia de Consulta</th>
-                                                                <td>{{ evolucion.frecuencia }}</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th>Tratamiento Pendiente</th>
-                                                                <td>{{ evolucion.tratamiento }}</td>
-                                                            </tr>                                
-
-                                                        </tbody>
-                                                    </table>                                
-                                                </div>
-                                                <a class="btn btn-success" href="{{ path('evolucion_edit', { 'id': evolucion.id }) }}"><i class="fa fa-edit m-right-xs"></i>Editar Registro</a>
-
-
-                                            {% else %}
-                                                <!-- no tiene evolucion -->
-                                                <form name="form_evolucion" action="{{path('evolucion_new')}}" method="post" id="form_evolucion" class="form-horizontal form-label-left"> 
-                                                    <input id="evolucion_consulta" name="evolucion_consulta" type="hidden" value="{{consulta.id}}"> 
-                                                    <div class="ln_solid"></div>
-                                                    <div class="form-group">
-                                                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">                
-                                                            <button type="submit" class="btn btn-success">Registrar Evolución</button>
-                                                        </div>
+                                                            {% for patologium in patologias %}
+                                                                <thead>
+                                                                    <tr>                                       
+                                                                        <th>Alergias</th>
+                                                                        <th>Asma</th>
+                                                                        <th>Neumonia</th>
+                                                                        <th>Tbc</th>
+                                                                        <th>Cardiotopia</th>
+                                                                        <th>Hipertension</th>
+                                                                        <th>Dislipidemias</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr>                                       
+                                                                        <td>{% if patologium.alergias %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if patologium.asma %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if patologium.neumonia %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if patologium.tbc %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if patologium.cardiotopia %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if patologium.hipertension %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if patologium.dislipidemias %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                    </tr>
+                                                                </tbody>
+                                                                <thead>                                                   
+                                                                    <tr>
+                                                                        <th>Varices</th>
+                                                                        <th>Cardopatiachag</th>
+                                                                        <th>Hepatopatia</th>
+                                                                        <th>Desnutricion</th>
+                                                                        <th>Diabetes</th>
+                                                                        <th>Obesidad</th>
+                                                                        <th>Gastroenteritis</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td>{% if patologium.varices %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if patologium.cardopatiaChag %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>                                       
+                                                                        <td>{% if patologium.hepatopatia %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if patologium.desnutricion %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if patologium.diabetes %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if patologium.obesidad %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if patologium.gastroenteritis %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                    </tr>
+                                                                </tbody>
+                                                                <thead>                                                    
+                                                                    <tr>
+                                                                        <th>Encoprexis</th>
+                                                                        <th>Enfermedad Renal</th>
+                                                                        <th>Eunereis</th>
+                                                                        <th>Cancer</th>
+                                                                        <th>Tromboembolia</th>
+                                                                        <th>Tumorm</th>
+                                                                        <th>Meningitis</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td>{% if patologium.encoprexis %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if patologium.enfermedadRenal %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if patologium.eunereis %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if patologium.cancer %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if patologium.tromboembolia %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if patologium.tumorM %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if patologium.meningitis %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                    </tr>
+                                                                </tbody>
+                                                                <thead>                                                    
+                                                                    <tr>
+                                                                        <th>Tcraneoenc</th>
+                                                                        <th>Enfermeda de Rup</th>
+                                                                        <th>Dengue</th>    
+                                                                        <th>Hospitalización</th>
+                                                                        <th>Intervencion Quirurgica</th>
+                                                                        <th>Accidente</th>  
+                                                                        <th>Artritis</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>  
+                                                                    <tr>
+                                                                        <td>{% if patologium.tCraneoenc %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if patologium.enfermedadErup %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if patologium.dengue %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if patologium.hospitalizacion %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if patologium.intervencionQuirurgica %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if patologium.accidente %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if patologium.artritis %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>                                           
+                                                                    </tr>
+                                                                </tbody>
+                                                                <thead>                                                    
+                                                                    <tr>
+                                                                        <th>Enfermedadts</th>
+                                                                        <th>Enfermedad Intran</th>
+                                                                        <th>Malaria</th>
+                                                                        <th>Hansenleishmar</th>
+                                                                        <th>Otros</th>
+                                                                        <th>Fecha Registro</th>
+                                                                        <th>Fecha Actualización</th>                                                       
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>  
+                                                                    <tr>
+                                                                        <td>{% if patologium.enfermedadTs %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if patologium.enfermedadInTran %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if patologium.malaria %} <i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if patologium.hansenLeishmar %} <i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if patologium.otros %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>                                                      
+                                                                        <td>{% if patologium.fechaRegistro %}{{ patologium.fechaActualizacion|date('d/m/Y h:i:s') }}{% endif %}</td>
+                                                                        <td>{% if patologium.fechaActualizacion %}{{ patologium.fechaRegistro|date('d/m/Y h:i:s') }}{% endif %}</td>
+                                                                    </tr>
+                                                                </tbody>
+                                                                <thead>                                                    
+                                                                    <tr>
+                                                                        <th>Acción</th> 
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>  
+                                                                    <tr>
+                                                                        <td>
+                                                                            <a href="{{ path('patologia_edit', { 'id': patologium.id }) }}">
+                                                                                <button type="button" class="btn btn-xs btn-success" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editar">  <i class="fa fa-pencil"></i>  </button>
+                                                                            </a> 
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            {% endfor %}
+                                                        </table>
+                                                        {# Si el paciente posee antecedentes NO se muestra el boton de Registro de Antecedentes #}
+                                                        {% if patologias |length < 1 %}                                                                                      
+                                                            <form name="form_patologia" action="{{path('patologia_new')}}" method="post" id="form_patologia" class="form-horizontal form-label-left"> 
+                                                                <input id="ii_paciente" name="ii_paciente" type="hidden" value="{{paciente.id}}"> 
+                                                                <div class="ln_solid"></div>
+                                                                <div class="form-group">
+                                                                    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">                
+                                                                        <button type="submit" class="btn btn-success">Registrar Patologia</button>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        {% endif %}
                                                     </div>
-                                                </form>
-                                            {%endif%}
+                                                </div>
+                                            </div>
+                                            <!-- Cuarto menu -->
 
+
+                                            <div class="panel">
+                                                <a class="panel-heading collapsed" role="tab" id="headingFour" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">                                 
+                                                    <h4 class="panel-title">Sexualidad y Obstétricos</h4>
+                                                </a>
+                                                <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour" aria-expanded="false" style="height: 0px;">                                
+                                                    <div class="panel-body">
+
+                                                        <table class="table table-striped jambo_table bulk_action">
+                                                            {% for sexualidad in sexualidads %}
+                                                                <thead>
+                                                                    <tr>                                       
+                                                                        <th>Menarquia</th>
+                                                                        <th>Ciclo Menstrual</th>
+                                                                        <th>Pr Sexual</th>
+                                                                        <th>Frecuencia Sexual</th>
+                                                                        <th>Numero Parejas</th>
+                                                                        <th>Dispareunia</th>
+                                                                        <th>Anticonceptivos</th>
+                                                                        <th>Menopausia</th>                                                        
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr>                                       
+                                                                        <td>{% if sexualidad.menarquia %} {{ sexualidad.menarquia }}{% else %}<i class="fa fa-close"></i> {% endif %}</td>
+                                                                        <td>{% if sexualidad.cicloMenstrual %} {{ sexualidad.cicloMenstrual }}{% else %}<i class="fa fa-close"></i> {% endif %}</td>
+                                                                        <td>{% if sexualidad.prSexual %} {{ sexualidad.prSexual }}{% else %}<i class="fa fa-close"></i>  {% endif %}</td>
+                                                                        <td>{% if sexualidad.frecuenciaSexual %} {{ sexualidad.frecuenciaSexual }}{% else %}<i class="fa fa-close"></i> {% endif %}</td>
+                                                                        <td>{% if sexualidad.numeroParejas %} {{ sexualidad.numeroParejas }} {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if sexualidad.dispareunia %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if sexualidad.anticonceptivos %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if sexualidad.menopausia %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+
+                                                                    </tr>
+                                                                </tbody>
+                                                                <thead>                                                    
+                                                                    <tr>
+                                                                        <th>Andropausia</th>
+                                                                        <th>Gesta</th>
+                                                                        <th>Parto</th>
+                                                                        <th>Cesarea</th>
+                                                                        <th>Aborto</th>
+                                                                        <th>Edad 1er Parto</th>
+                                                                        <th>Fecha Utimo Parto</th>
+                                                                        <th>Curetaje</th>                                                        
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr> 
+                                                                        <td>{% if sexualidad.andropausia %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if sexualidad.gesta %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if sexualidad.parto %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if sexualidad.cesarea %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if sexualidad.aborto %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if sexualidad.edad1erParto %} {{ sexualidad.edad1erParto}} {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if sexualidad.fechaUltimoParto %} {{ sexualidad.fechaUltimoParto }} {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if sexualidad.curetaje %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>                                                                                                         
+                                                                    </tr>
+                                                                </tbody>
+                                                                <thead>                                                   
+                                                                    <tr>
+                                                                        <th>Numero Hijos Vivos</th>
+                                                                        <th>Numero Hijos Muertos</th>
+                                                                        <th>Peso Ultimo Hijo</th>                                                        
+                                                                        <th>Fecha Registro</th>
+                                                                        <th>Fecha Actualizacion</th>
+                                                                        <th>Actions</th>                                                       
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td>{% if sexualidad.numeroHijosVivos %} {{ sexualidad.numeroHijosVivos }} {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if sexualidad.numeroHijosMuertos %} {{ sexualidad.numeroHijosMuertos }} {% else %}<i class="fa fa-close"></i>{% endif %}</td>                                                        
+                                                                        <td>{% if sexualidad.pesoUltimoHijo %} {{ sexualidad.pesoUltimoHijo }} {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if sexualidad.fechaRegistro %}{{ sexualidad.fechaActualizacion|date('d/m/Y h:i:s') }}{% endif %}</td>
+                                                                        <td>{% if sexualidad.fechaActualizacion %}{{ sexualidad.fechaRegistro|date('d/m/Y h:i:s') }}{% endif %}</td>
+                                                                        <td>                                          
+                                                                            <a href="{{ path('sexualidad_edit', { 'id': sexualidad.id }) }}">
+                                                                                <button type="button" class="btn btn-xs btn-success" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editar">  <i class="fa fa-pencil"></i>  </button>
+                                                                            </a>                                                
+                                                                        </td>
+                                                                    </tr>
+                                                                {% endfor %}
+                                                            </tbody>
+                                                        </table>
+
+                                                        {# Si el paciente posee antecedentes NO se muestra el boton de Registro de Antecedentes #}
+                                                        {% if sexualidads |length < 1 %}                                                                                      
+                                                            <form name="form_sexualidad" action="{{path('sexualidad_new')}}" method="post" id="form_sexualidad" class="form-horizontal form-label-left"> 
+                                                                <input id="III_paciente" name="III_paciente" type="hidden" value="{{paciente.id}}"> 
+                                                                <div class="ln_solid"></div>
+                                                                <div class="form-group">
+                                                                    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">                
+                                                                        <button type="submit" class="btn btn-success">Registrar Sexualidad y Obtétricos </button>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- QUinto menu -->
+
+                                            <div class="panel">
+                                                <a class="panel-heading collapsed" role="tab" id="headingFive" data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="false" aria-controls="collapseFive">                                 
+                                                    <h4 class="panel-title">Antecedente Perinatales</h4>
+                                                </a>
+                                                <div id="collapseFive" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFive" aria-expanded="false" style="height: 0px;">                                
+                                                    <div class="panel-body">
+                                                        <table class="table table-striped jambo_table bulk_action">
+
+                                                            {% for perinatal in perinatals %}
+                                                                <thead>
+                                                                    <tr>                                       
+                                                                        <th>Carnet Perinatal</th>
+                                                                        <th>Patologia Embarazo</th>
+                                                                        <th>Patologia Parto</th>
+                                                                        <th>Patologia Puerperio</th>
+                                                                        <th>Consultas Prenatales</th>
+                                                                        <th>Edad Gestacional</th>
+                                                                        <th>Fórceps</th>
+                                                                        <th>Cesárea</th>
+                                                                        <th>Parto</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr>                                       
+                                                                        <td>{% if perinatal.carnetPerinatal %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if perinatal.patologiaEmbarazo %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if perinatal.patologiaParto %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if perinatal.patologiaPuerperio %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if perinatal.consultasPrenatales %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if perinatal.edadGestacional %} {{ perinatal.edadGestacional }} {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if perinatal.forceps %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if perinatal.cesarea %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if perinatal.parto %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                    </tr>
+                                                                </tbody>
+                                                                <thead>                                                    
+                                                                    <tr>                                       
+                                                                        <th>Peso al Nacer</th>
+                                                                        <th>Talla</th>
+                                                                        <th>Circunferencia</th>
+                                                                        <th>Apagar Min</th>
+                                                                        <th>Asfixia</th>
+                                                                        <th>Reanimación</th>
+                                                                        <th>Patologias RN</th>
+                                                                        <th>Egreso RN Sano</th>
+                                                                        <th>Egreso RN Patológico</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr>                                       
+                                                                        <td>{% if perinatal.pesoNacer %} {{ perinatal.pesoNacer }} {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if perinatal.talla %} {{ perinatal.talla }} {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if perinatal.circunferencia %} {{ perinatal.circunferencia }} {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if perinatal.apagarMin %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if perinatal.asfixia %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if perinatal.reanimacion %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if perinatal.patologiasRn %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if perinatal.egresoRnSano %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if perinatal.egresoRnPatologico %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                    </tr>
+                                                                </tbody>
+                                                                <thead>                                                   
+                                                                    <tr>                                       
+                                                                        <th>Lactancia Exclusiva</th>
+                                                                        <th>Lactancia Mixta</th>
+                                                                        <th>Lactancia Aglactación</th>
+                                                                        <th>Madre fuera Casa</th>
+                                                                        <th>Familia Madre</th>
+                                                                        <th>Familia Padre</th>
+                                                                        <th>Familia Hermanos</th>
+                                                                        <th>Familia Otros</th>
+                                                                        <th>Fecha Registro</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr>                                       
+                                                                        <td>{% if perinatal.lactanciaExclusiva %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if perinatal.lactanciaMixta %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if perinatal.lactanciaAglactacion %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if perinatal.madreFueraCasa %} {{ perinatal.madreFueraCasa }} {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if perinatal.familiaMadre %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if perinatal.familiaPadre %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if perinatal.familiaHermanos %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if perinatal.familiaOtros %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if perinatal.fechaRegistro %}{{ perinatal.fechaActualizacion|date('d/m/Y h:i:s') }}{% endif %}</td>
+                                                                    </tr>
+                                                                </tbody>
+                                                                <thead>                                                  
+                                                                    <tr>                                                                                                              
+                                                                        <th>Fecha Actualización</th>
+                                                                        <th>Acción</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr> 
+                                                                        <td>{% if perinatal.fechaActualizacion %}{{ perinatal.fechaRegistro|date('d/m/Y h:i:s') }}{% endif %}</td>
+                                                                        <td>                                          
+                                                                            <a href="{{ path('perinatal_edit', { 'id': perinatal.id }) }}">
+                                                                                <button type="button" class="btn btn-xs btn-success" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editar">  <i class="fa fa-pencil"></i>  </button>
+                                                                            </a>                                                
+                                                                        </td>
+                                                                    </tr>
+                                                                {% endfor %}
+                                                            </tbody>
+                                                        </table>
+                                                        {# Si el paciente posee antecedentes NO se muestra el boton de Registro de Antecedentes #}
+                                                        {% if perinatals |length < 1 %}                                                                                      
+                                                            <form name="form_perinatal" action="{{path('perinatal_new')}}" method="post" id="form_perinatal" class="form-horizontal form-label-left"> 
+                                                                <input id="IV_paciente" name="IV_paciente" type="hidden" value="{{paciente.id}}"> 
+                                                                <div class="ln_solid"></div>
+                                                                <div class="form-group">
+                                                                    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">                
+                                                                        <button type="submit" class="btn btn-success">Registrar Antecedente Perinatales</button>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <!--Fin Evolucion-->
+                                    </div> <!--Fin  Acordion Historia Medica-->
 
-                                    </div> <!-- Fin myTabContent -->
+                                    <!--Evolucion-->
 
-                                </div> <!--  togglable-tabs -->
+                                    <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="profile-tab">                                         
+                                        {% if (evolucion!=null) %}
+                                            <div class="x_content">                   
+                                                <table class="table table-striped">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th>Edad</th>
+                                                            <td>{{ evolucion.edad }}</td>
+                                                        </tr>  
+                                                        <tr>
+                                                            <th>Motivo de Consulta</th>
+                                                            <td>{{ evolucion.subjetivo |raw }} </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Enfermedades Actuales y Hallazgo</th>
+                                                            <td>{{ evolucion.objetivo |raw}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Diagnóstica</th>
+                                                            <td>{{ evolucion.apreciacion|raw }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Tratamiento Pendiente</th>
+                                                            <td>{{ evolucion.tratamiento|raw }}</td>
+                                                        </tr>  
+                                                        <tr>
+                                                            <th>Frecuencia de Consulta</th>
+                                                            <td>{{ evolucion.frecuencia|capitalize }}</td>
+                                                        </tr>
 
-                            </div> {# Fin col-md-10 col-sm-10 col-xs-12  #}
-                        </div>
+                                                    </tbody>
+                                                </table>                                
+                                            </div>
+                                            <a class="btn btn-success" href="{{ path('evolucion_edit', { 'id': evolucion.id }) }}"><i class="fa fa-edit m-right-xs"></i>Editar Evolución</a>
+
+
+                                        {% else %}
+                                            <!-- no tiene evolucion -->
+                                            <form name="form_evolucion" action="{{path('evolucion_new')}}" method="post" id="form_evolucion" class="form-horizontal form-label-left"> 
+                                                <input id="evolucion_consulta" name="evolucion_consulta" type="hidden" value="{{consulta.id}}"> 
+                                                <div class="ln_solid"></div>
+                                                <div class="form-group">
+                                                    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">                
+                                                        <button type="submit" class="btn btn-success">Registrar Evolución</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        {%endif%}
+
+                                    </div>
+                                    <!--Fin Evolucion-->
+
+
+                                    <!--Afecciones-->
+
+                                    <div role="tabpanel" class="tab-pane fade" id="tab_content4" aria-labelledby="profile-tab">                                         
+                                        {% if (afeccione!=null) %}<div class="x_content">                   
+                                                <table class="table table-striped">
+                                                    <tbody>
+
+                                                        <tr>
+                                                            <th>Diagnóstico</th>
+                                                            <td>{{ afeccione.diagnostico|raw  }}</td>
+                                                        </tr>  
+                                                        <tr>
+                                                            <th>Tratamiento</th>
+                                                            <td>{{ afeccione.tratamiento |raw }} </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Capítulo</th>
+                                                            <td>{{ afeccione.entericaElemento.entericaGrupo.entericaCapitulo.nombre }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Grupo</th>
+                                                            <td>{{ afeccione.entericaElemento.entericaGrupo.nombre }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Enterica</th>
+                                                            <td>{{ afeccione.entericaElemento }}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>                                
+                                            </div>
+                                            <a class="btn btn-success" href="{{ path('afeccione_edit', { 'id': afeccione.id }) }}"><i class="fa fa-edit m-right-xs"></i>Editar Afección</a>
+
+                                            <!-- Historico d Evoluciones  -->
+
+                                        {% else %}
+                                            <!-- no tiene Afecciones -->
+                                            <form name="form_afecciones" action="{{path('afeccione_new')}}" method="post" id="form_afecciones" class="form-horizontal form-label-left"> 
+                                                <input id="afecciones_consulta" name="afecciones_consulta" type="hidden" value="{{consulta.id}}"> 
+                                                <div class="ln_solid"></div>
+                                                <div class="form-group">
+                                                    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">                
+                                                        <button type="submit" class="btn btn-success">Registrar Afecciones</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        {%endif%}
+
+                                    </div>
+                                    <!--Fin Afecciones-->
+
+                                    <!--Historico Consultas-->
+                                    <div role="tabpanel" class="tab-pane fade" id="tab_content5" aria-labelledby="profile-tab">                                         
+
+
+                                    </div>
+                                    <!--Fin Historico Consultas-->
+
+                                </div> <!-- Fin myTabContent -->
+
+                            </div> <!--  togglable-tabs -->
+
+                        </div> {# Fin col-md-10 col-sm-10 col-xs-12  #}
+                    </div>
 
 
 
-                    {% endblock %}                                    
-                    <!--/div-->
-                </div>
+                {% endblock %}                                    
+                <!--/div-->
             </div>
-        </div>  <!--/div clas=row-->
-    </div>
+        </div>
+    </div>  <!--/div clas=row-->
+</div>
 
 
 
 {% endblock %}
-{% block javascripts %}
-    <!-- Datatables -->
-    <script src="{{ asset('bundles/app/vendors/datatables.net/js/jquery.dataTables.min.js')}}"></script>
-    <script src="{{ asset('bundles/app/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js')}}"></script>
-    <!-- PNotify -->
-    <script src="{{ asset('bundles/app/vendors/pnotify/dist/pnotify.js')}}"></script> 
-    <script src="{{ asset('bundles/app/vendors/pnotify/dist/pnotify.buttons.js')}}"></script> 
-    <script src="{{ asset('bundles/app/vendors/pnotify/dist/pnotify.nonblock.js')}}"></script> 
-    <!-- Push -->
-    <script src="{{ asset('bundles/app/vendors/push/push.min.js')}}"></script> 
-    <script>
-        $(document).ready(function () {
-            $('#datatable-fixed-header').DataTable({fixedHeader: true});
-        });
-    </script>
-{% endblock %}
+    {% block javascripts %}
+        <!-- Datatables -->
+        <script src="{{ asset('bundles/app/vendors/datatables.net/js/jquery.dataTables.min.js')}}"></script>
+        <script src="{{ asset('bundles/app/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js')}}"></script>
+        <!-- PNotify -->
+        <script src="{{ asset('bundles/app/vendors/pnotify/dist/pnotify.js')}}"></script> 
+        <script src="{{ asset('bundles/app/vendors/pnotify/dist/pnotify.buttons.js')}}"></script> 
+        <script src="{{ asset('bundles/app/vendors/pnotify/dist/pnotify.nonblock.js')}}"></script> 
+        <!-- Push -->
+        <script src="{{ asset('bundles/app/vendors/push/push.min.js')}}"></script> 
+        <script>
+            $(document).ready(function () {
+                $('#datatable-fixed-header').DataTable({fixedHeader: true});
+            });
+        </script>
+    {% endblock %}
 

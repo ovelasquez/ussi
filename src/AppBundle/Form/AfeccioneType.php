@@ -5,38 +5,44 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Ivory\CKEditorBundle\Form\Type\CKEditorType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
-class AfeccioneType extends AbstractType
-{
+class AfeccioneType extends AbstractType {
+
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
+    public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
-                ->add('procedencia')
-                ->add('diagnostico', TextareaType::class, array(
+                ->add('diagnostico', CKEditorType::class, array(
                     'label' => 'Diagnóstico',
                     'required' => true,
-                    'attr' => array('placeholder' => ''),
+                    'config_name' => 'my_config',
                 ))
-                ->add('tratamiento', TextareaType::class, array(
+                ->add('tratamiento', CKEditorType::class, array(
                     'label' => 'Tratamiento',
                     'required' => true,
-                    'attr' => array('placeholder' => ''),
+                    'config_name' => 'my_config',
                 ))
-                ->add('referencia')
                 ->add('consulta')
-                ->add('enterica_elemento')
-                ->add('codigo')        ;
+                ->add('entericaElemento')
+                ->add('capitulo', EntityType::class, array(
+                    'class' => 'AppBundle:EntericaCapitulo',
+                    'choice_label' => 'nombre',
+                    'mapped' => false))
+                ->add('grupo', EntityType::class, array(
+                    'class' => 'AppBundle:EntericaGrupo',
+                    'choice_label' => 'nombre',
+                    'mapped' => false)
+        );
+        ;
     }
-    
+
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
-    {
+    public function configureOptions(OptionsResolver $resolver) {
         $resolver->setDefaults(array(
             'data_class' => 'AppBundle\Entity\Afeccione'
         ));
@@ -45,10 +51,8 @@ class AfeccioneType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getBlockPrefix()
-    {
+    public function getBlockPrefix() {
         return 'appbundle_afeccione';
     }
-
 
 }

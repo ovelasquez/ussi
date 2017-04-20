@@ -102,30 +102,32 @@ class DefaultController extends Controller {
                 $especialidad = $valor->getServicio()->getEspecialidad();
             }
         }
+       // $historicoEvolucion = $em->getRepository('AppBundle:Evolucion')->findAllByConsulta($paciente->getId(),$especialidad->getId() );
+       // dump($historicoEvolucion);die();
         $evolucion = null;
-        $afeccione=null;
-       
+        $afeccione = null;
+
         $tieneConsultaActiva = $em->getRepository('AppBundle:Consulta')->findOneBy(
                 array('paciente' => $paciente,
                     'egreso' => false,
                     'profesional' => $profesional,
                     'especialidad' => $especialidad)
         );
-        
+
 
         if ($tieneConsultaActiva) {
             $consulta = $tieneConsultaActiva;
 
             //Buscar la Evolucion asociada a la Consulta
             $evolucion = $em->getRepository('AppBundle:Evolucion')->findOneBy(
-                    array('consulta' => $tieneConsultaActiva,));    
-            
+                    array('consulta' => $tieneConsultaActiva,));
+
             //Buscar las Afeccione asociada a la consulta
-            $afeccione= $em->getRepository('AppBundle:Afeccione')->findOneBy(
-                    array('consulta' =>$tieneConsultaActiva,)
-                    );
+            $afeccione = $em->getRepository('AppBundle:Afeccione')->findOneBy(
+                    array('consulta' => $tieneConsultaActiva,)
+            );
         } else {
-           
+
             //Creamos una nueva consulta
             if (in_array('ROLE_MEDICO', $this->getUser()->getRoles()) && $especialidad) {
                 $consulta = new \AppBundle\Entity\Consulta;
@@ -138,7 +140,7 @@ class DefaultController extends Controller {
                 $em->flush($consulta);
             }
         }
-        
+
         return $this->render('default/consulta.html.twig', array(
                     'paciente' => $paciente,
                     'historicoAntecedentes' => $historicoAntecedentes,
@@ -147,8 +149,9 @@ class DefaultController extends Controller {
                     'sexualidads' => $sexualidads,
                     'perinatals' => $perinatals,
                     'consulta' => $consulta,
-                    'evolucion'=>$evolucion,
-                    'afeccione'=>$afeccione,
+                    'evolucion' => $evolucion,
+                    'afeccione' => $afeccione,
+                   // 'historicoEvolucion' => $historicoEvolucion,
         ));
     }
 

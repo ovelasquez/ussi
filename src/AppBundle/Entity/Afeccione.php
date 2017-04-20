@@ -10,8 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="afeccione")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\AfeccioneRepository")
  */
-class Afeccione
-{
+class Afeccione {
+
     /**
      * @var int
      *
@@ -24,32 +24,18 @@ class Afeccione
     /**
      * @var string
      *
-     * @ORM\Column(name="procedencia", type="string", length=255)
+     * @ORM\Column(name="diagnostico", type="text", nullable=false)
      */
-    private $procedencia;
+    private $diagnostico = false;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="diagnostico", type="text")
+     * @ORM\Column(name="tratamiento", type="text", nullable=false)
      */
-    private $diagnostico;
+    private $tratamiento = false;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="tratamiento", type="text")
-     */
-    private $tratamiento;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="referencia", type="text")
-     */
-    private $referencia;
-    
-         /**
      * @var \Consulta
      *
      * @ORM\ManyToOne(targetEntity="Consulta")
@@ -58,57 +44,28 @@ class Afeccione
      * })
      */
     private $consulta;
-    
-     /**
+
+    /**
      * @var \EntericaElemento
      *
-     * @ORM\ManyToOne(targetEntity="EntericaElemento")
+     * @ORM\ManyToOne(targetEntity="EntericaElemento",cascade={"persist"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="enterica_elemento_id", referencedColumnName="id")
      * })
      */
-    private $enterica_elemento;
-    
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="codigo", type="string", length=255)
-     */
-    private $codigo;
+    private $entericaElemento;
+
+   
 
     /**
      * Get id
      *
      * @return int
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
-    /**
-     * Set procedencia
-     *
-     * @param string $procedencia
-     *
-     * @return Afeccione
-     */
-    public function setProcedencia($procedencia)
-    {
-        $this->procedencia = $procedencia;
-
-        return $this;
-    }
-
-    /**
-     * Get procedencia
-     *
-     * @return string
-     */
-    public function getProcedencia()
-    {
-        return $this->procedencia;
-    }
 
     /**
      * Set diagnostico
@@ -159,30 +116,6 @@ class Afeccione
     }
 
     /**
-     * Set referencia
-     *
-     * @param string $referencia
-     *
-     * @return Afeccione
-     */
-    public function setReferencia($referencia)
-    {
-        $this->referencia = $referencia;
-
-        return $this;
-    }
-
-    /**
-     * Get referencia
-     *
-     * @return string
-     */
-    public function getReferencia()
-    {
-        return $this->referencia;
-    }
-
-    /**
      * Set consulta
      *
      * @param \AppBundle\Entity\Consulta $consulta
@@ -205,7 +138,6 @@ class Afeccione
     {
         return $this->consulta;
     }
-   
 
     /**
      * Set entericaElemento
@@ -216,7 +148,7 @@ class Afeccione
      */
     public function setEntericaElemento(\AppBundle\Entity\EntericaElemento $entericaElemento = null)
     {
-        $this->enterica_elemento = $entericaElemento;
+        $this->entericaElemento = $entericaElemento;
 
         return $this;
     }
@@ -228,30 +160,6 @@ class Afeccione
      */
     public function getEntericaElemento()
     {
-        return $this->enterica_elemento;
-    }
-
-    /**
-     * Set codigo
-     *
-     * @param string $codigo
-     *
-     * @return Afeccione
-     */
-    public function setCodigo($codigo)
-    {
-        $this->codigo = $codigo;
-
-        return $this;
-    }
-
-    /**
-     * Get codigo
-     *
-     * @return string
-     */
-    public function getCodigo()
-    {
-        return $this->codigo;
+        return $this->entericaElemento;
     }
 }

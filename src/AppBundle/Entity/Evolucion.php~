@@ -226,4 +226,28 @@ class Evolucion
     {
         return $this->consulta;
     }
+
+    /**
+     * Set edad
+     *
+     * @param integer $edad
+     *
+     * @return Evolucion
+     */
+    public function setEdad($edad)
+    {
+        $this->edad = $edad;
+
+        return $this;
+    }
+
+    /**
+     * Get edad
+     *
+     * @return integer
+     */
+    public function getEdad()
+    {
+        return $this->edad;
+    }
 }

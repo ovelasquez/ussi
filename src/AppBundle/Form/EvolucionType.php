@@ -5,54 +5,56 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Ivory\CKEditorBundle\Form\Type\CKEditorType;
 
+class EvolucionType extends AbstractType {
 
-class EvolucionType extends AbstractType
-{
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
+    public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
-                ->add('subjetivo', TextareaType::class, array(
-                    'label' => 'Motivo de la Consulta',
+                ->add('subjetivo', CKEditorType::class, array(
+                    'label' => 'Motivo de la Consulta - (S) Subjetivo',
                     'required' => true,
-                    'attr' => array('placeholder' => '(S) Subjetivo'),
+                    'config_name' => 'my_config',
                 ))
-                ->add('objetivo' , TextareaType::class, array(
-                    'label' => 'Enfermedad Actual y hallazgos',
+                
+                ->add('objetivo', CKEditorType::class, array(
+                    'label' => 'Enfermedad Actual y Hallazgos - (O) Objetivo',
                     'required' => true,
-                    'attr' => array('placeholder' => '(O) Objetivo'),
-                ))                
-                ->add('apreciacion',TextareaType::class, array(
-                    'label' => 'Diagnóstica',
+                    'config_name' => 'my_config',
+                    ))
+                
+                ->add('apreciacion', CKEditorType::class, array(
+                    'label' => 'Diagnóstica - (A) Apreciación',
                     'required' => true,
-                    'attr' => array('placeholder' => '(A) Apreciación'),
-                ))
+                    'config_name' => 'my_config',
+                    
+                    ))
+                
+                ->add('tratamiento', CKEditorType::class, array(
+                    'label' => 'Tratamientos Pendiente - (P) Plan: Tratamiento Educa. Terap. Y Pendiente',
+                    'required' => true,
+                    'config_name' => 'my_config',
+                    
+                    ))
+                
                 ->add('frecuencia', ChoiceType::class, array(
                     'choices' => array('Primera' => 'primera', 'Sucesiva' => 'sucesiva', 'Emergencia' => 'emergencia'),
                     'required' => true,
                     'attr' => array('placeholder' => 'Frecuencia de Consulta'),
                     'label' => 'Frecuencia de Consulta',))
-                
-                ->add('tratamiento' ,TextareaType::class, array(
-                    'label' => 'Tratamientos Pendiente',
-                    'required' => true,
-                    'attr' => array('placeholder' => '(P) Plan: Tratamiento Educa. Terap. Y Pendiente'),
-                ))
                 ->add('edad')
                 ->add('consulta');
-                ;
+        ;
     }
-    
+
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
-    {
+    public function configureOptions(OptionsResolver $resolver) {
         $resolver->setDefaults(array(
             'data_class' => 'AppBundle\Entity\Evolucion'
         ));
@@ -61,10 +63,8 @@ class EvolucionType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getBlockPrefix()
-    {
+    public function getBlockPrefix() {
         return 'appbundle_evolucion';
     }
-
 
 }

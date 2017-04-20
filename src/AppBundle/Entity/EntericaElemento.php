@@ -31,7 +31,7 @@ class EntericaElemento
     /**
      * @var text
      *
-     * @ORM\Column(name="nombre", type="text")
+     * @ORM\Column(name="nombre", type="text", nullable=false)
      */
     private $nombre;
 
@@ -39,7 +39,7 @@ class EntericaElemento
     /**
      * @var \EntericaGrupo
      *
-     * @ORM\ManyToOne(targetEntity="EntericaGrupo")
+     * @ORM\ManyToOne(targetEntity="EntericaGrupo" ,cascade={"persist"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="entericaGrupo_id", referencedColumnName="id")
      * })
@@ -100,7 +100,7 @@ class EntericaElemento
      * Get entericaGrupo
      *
      * @return \stdClass
-     */
+     */ 
     public function getEntericaGrupo()
     {
         return $this->entericaGrupo;
@@ -130,7 +130,8 @@ class EntericaElemento
         return $this->nombre;
     }
     
-     public function __toString() {
-        return $this->getNombre();
+    public function __toString() {
+        //return $this->getEntericaGrupo()->getEntericaCapitulo().' - '.$this->getEntericaGrupo()->getNombre().' - '.$this->getCodigo().' - '.$this->getNombre();
+        return $this->getCodigo().' - '.$this->getNombre();
     }
 }

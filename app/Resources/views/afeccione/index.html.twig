@@ -7,10 +7,10 @@
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Procedencia</th>
+               
                 <th>Diagnostico</th>
                 <th>Tratamiento</th>
-                <th>Referencia</th>
+                
                 <th>Actions</th>
             </tr>
         </thead>
@@ -18,10 +18,10 @@
         {% for afeccione in afecciones %}
             <tr>
                 <td><a href="{{ path('afeccione_show', { 'id': afeccione.id }) }}">{{ afeccione.id }}</a></td>
-                <td>{{ afeccione.procedencia }}</td>
+               
                 <td>{{ afeccione.diagnostico }}</td>
                 <td>{{ afeccione.tratamiento }}</td>
-                <td>{{ afeccione.referencia }}</td>
+               
                 <td>
                     <ul>
                         <li>

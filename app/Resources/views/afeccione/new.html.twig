@@ -21,14 +21,6 @@
                 {{form_widget(form.consulta,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
             </div>
         </div>
-            
-        <div class="form-group">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="procedencia">{{ form_label(form.procedencia) }} <span class="required">*</span></label>
-            <div class="col-md-6 col-sm-6 col-xs-12">
-                {{ form_errors(form.procedencia) }}                
-                {{form_widget(form.procedencia,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
-            </div>
-        </div>
 
         <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="diagnostico">{{ form_label(form.diagnostico) }} <span class="required">*</span></label>
@@ -47,26 +39,26 @@
         </div>
 
         <div class="form-group">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="referencia">{{ form_label(form.referencia) }} <span class="required">*</span></label>
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="enterica_capitulo">{{ form_label(form.capitulo) }}</label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-                {{ form_errors(form.referencia) }}                
-                {{form_widget(form.referencia,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+                {{ form_errors(form.capitulo) }}                
+                {{form_widget(form.capitulo,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
             </div>
         </div>
 
         <div class="form-group">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="enterica_elemento">{{ form_label(form.enterica_elemento) }}</label>
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="enterica_grupo">{{ form_label(form.grupo) }}</label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-                {{ form_errors(form.enterica_elemento) }}                
-                {{form_widget(form.enterica_elemento,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+                {{ form_errors(form.grupo) }}                
+                {{form_widget(form.grupo,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
             </div>
         </div>
 
         <div class="form-group">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="codigo">{{ form_label(form.codigo) }} <span class="required">*</span></label>
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="enterica_elemento">{{ form_label(form.entericaElemento) }}</label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-                {{ form_errors(form.codigo) }}                
-                {{form_widget(form.codigo,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+                {{ form_errors(form.entericaElemento) }}                
+                {{form_widget(form.entericaElemento,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
             </div>
         </div>
 
@@ -74,24 +66,75 @@
 
         <div class="ln_solid"></div>
         <div class="form-group">
-                <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3"> 
-                    <input id="afeccione_consulta" name="afeccione_consulta" type="hidden" value="{{afeccione.id}}"> 
-                    <button type="submit" class="btn btn-success">Registrar</button>
-                </div>
+            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">                
+                <button type="submit" class="btn btn-success">Registrar</button>
             </div>
-
-        
+        </div>
 
         {{ form_end(form) }}                           
     </div>
 {% endblock %}
 
 {% block javascripts %}
+
     <script>
         $(document).ready(function () {
+            $("#appbundle_afeccione_capitulo").val('').change();
+            $('#appbundle_afeccione_grupo option ').remove();
+            $('#appbundle_afeccione_entericaElemento option ').remove();
+
+
+            //Cambiar Capitulo -> actualiza grupo
+            $("#appbundle_afeccione_capitulo").change(function () {
+                if ($('#appbundle_afeccione_capitulo').val() !== ' ') {
+                    // Ajax                                                 
+                    var dataString = 'id=' + $('#appbundle_afeccione_capitulo').val();
+                    $.ajax
+                            ({
+                                type: "POST",
+                                url: "{{ path ('ajax_grupo') }}",
+                                data: dataString,
+                                cache: false,
+                                success: function (html)
+                                {
+                                    $('#appbundle_afeccione_grupo option ').remove();
+                                    $('#appbundle_afeccione_grupo').append(html);
+                                    $('#appbundle_afeccione_entericaElemento option ').remove();
+                                }
+                            });
+
+                }
+            });
+
+
+            //Cambiar grupo -> actualiza elemento
+            $("#appbundle_afeccione_grupo").change(function () {
+                if ($('#appbundle_afeccione_grupo').val() !== '') {
+                    // Ajax                                                 
+                    var dataString = 'id=' + $('#appbundle_afeccione_grupo').val();
+                    $.ajax
+                            ({
+                                type: "POST",
+                                url: "{{ path ('ajax_elemento') }}",
+                                data: dataString,
+                                cache: false,
+                                success: function (html)
+                                {
+                                    $('#appbundle_afeccione_entericaElemento option ').remove();
+                                    $('#appbundle_afeccione_entericaElemento').append(html);
+                                }
+                            });
+
+                }
+            });
+
+
+
            
+           
+
         });
     </script>
-{% endblock %}
 
+{% endblock %}
 

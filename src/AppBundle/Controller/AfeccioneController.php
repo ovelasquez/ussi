@@ -40,43 +40,45 @@ class AfeccioneController extends Controller {
     public function newAction(Request $request) {
 
         $em = $this->getDoctrine()->getManager();
-        $consulta = $em->getRepository('AppBundle:Consulta')->find($request->request->get('afeccione_consulta'));
-        
-        //Verificamos si no tiene una Afeccione asociada a la consulta
-        $tieneAfeccione = $em->getRepository('AppBundle:Afeccione')->findOneByConsulta($consulta);
-         
-        if ($tieneAfeccione) {
-            return $this->redirectToRoute('afeccione_show', array('id' => $tieneAfeccione->getId()));
-        } else {
+        $consulta = NULL;
 
-            //Crear Afeccione
-            $afeccione = new Afeccione();
-            $form = $this->createForm('AppBundle\Form\AfeccioneType', $afeccione);
-            $form->handleRequest($request);
+        if ($request->request->get('afecciones_consulta')) {
+            $consulta = $em->getRepository('AppBundle:Consulta')->find($request->request->get('afecciones_consulta'));
+        }
 
-            dump($afeccione);
-            //die();
+        //Crear Afeccione
+        $afeccione = new Afeccione();
+
+        if ($consulta) {
+            $afeccione->setConsulta($consulta);
+        }
+
+        $form = $this->createForm('AppBundle\Form\AfeccioneType', $afeccione);
+        $form->handleRequest($request);
+
+        if (!($afeccione->getDiagnostico() == null || $afeccione->getTratamiento() == null || $afeccione->getConsulta() == null || $afeccione->getEntericaElemento() == null)) {
+
             if ($form->isSubmitted() && $form->isValid()) {
-                $afeccione->setConsulta($consulta);
+
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($afeccione);
                 $em->flush($afeccione);
-                dump($afeccione);
-                die();
 
                 return $this->redirectToRoute('homepage_consulta', array(
-                            'paciente' => $consulta->getPaciente()->getId(),
+                            'paciente' => $afeccione->getConsulta()->getPaciente()->getId(),
                 ));
-            }          
-                      
-            
-            return $this->render('afeccione/new.html.twig', array(
-                        'afeccione' => $afeccione,
-                        'form' => $form->createView(),
-                        'consulta'=>$consulta,
-                
-            ));
+            }
         }
+
+
+
+
+
+        return $this->render('afeccione/new.html.twig', array(
+                    'afeccione' => $afeccione,
+                    'form' => $form->createView(),
+                    'consulta' => $consulta,
+        ));
     }
 
     /**
@@ -104,22 +106,25 @@ class AfeccioneController extends Controller {
         $deleteForm = $this->createDeleteForm($afeccione);
         $editForm = $this->createForm('AppBundle\Form\AfeccioneType', $afeccione);
         $editForm->handleRequest($request);
+        $em = $this->getDoctrine()->getManager();
+        
 
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+        if (!($afeccione->getDiagnostico() == null || $afeccione->getTratamiento() == null || $afeccione->getConsulta() == null || $afeccione->getEntericaElemento() == null)) {
 
-             return $this->redirectToRoute('homepage_consulta', array(
-                        'paciente' => $afeccione->getConsulta()->getPaciente()->getId()));
+            if ($editForm->isSubmitted() && $editForm->isValid()) {
+                $this->getDoctrine()->getManager()->flush();
+                
+                return $this->redirectToRoute('homepage_consulta', array(
+                            'paciente' => $afeccione->getConsulta()->getPaciente()->getId()));
+            }
         }
-
+        
         return $this->render('afeccione/edit.html.twig', array(
                     'afeccione' => $afeccione,
                     'edit_form' => $editForm->createView(),
                     'delete_form' => $deleteForm->createView(),
         ));
     }
-    
-       
 
     /**
      * Deletes a afeccione entity.

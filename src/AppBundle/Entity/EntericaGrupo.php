@@ -31,7 +31,7 @@ class EntericaGrupo
     /**
      * @var \EntericaCapitulo
      *
-     * @ORM\ManyToOne(targetEntity="EntericaCapitulo")
+     * @ORM\ManyToOne(targetEntity="EntericaCapitulo",cascade={"persist"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="entericaCapitulo_id", referencedColumnName="id")
      * })

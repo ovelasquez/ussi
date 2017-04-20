@@ -13,21 +13,36 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @Route("consulta")
  */
-class ConsultaController extends Controller
-{
+class ConsultaController extends Controller {
+
     /**
      * Lists all consultum entities.
      *
      * @Route("/", name="consulta_index")
      * @Method("GET")
      */
-    public function indexAction()
-    {
+    public function indexAction() {
         $em = $this->getDoctrine()->getManager();
         $consultas = $em->getRepository('AppBundle:Consulta')->findAll();
         return $this->render('consulta/index.html.twig', array(
-            'consultas' => $consultas,
+                    'consultas' => $consultas,
         ));
+    }
+
+    /**
+     * Dar de alta la consulta.
+     *
+     * @Route("/alta", name="consulta_alta")
+     * @Method({"POST"})
+     */
+    public function altaAction(Request $request) {
+        $id = $request->request->get('alta_consulta');
+        $em = $this->getDoctrine()->getManager();
+        $consulta = $em->getRepository('AppBundle:Consulta')->find($id);
+        $consulta->setEgreso(TRUE);
+        $em->persist($consulta);
+        $em->flush($consulta);
+        return $this->redirectToRoute('homepage_medico');
     }
 
     /**
@@ -36,8 +51,7 @@ class ConsultaController extends Controller
      * @Route("/new", name="consulta_new")
      * @Method({"GET", "POST"})
      */
-    public function newAction(Request $request)
-    {
+    public function newAction(Request $request) {
         $consultum = new Consulta();
         $form = $this->createForm('AppBundle\Form\ConsultaType', $consultum);
         $form->handleRequest($request);
@@ -51,8 +65,8 @@ class ConsultaController extends Controller
         }
 
         return $this->render('consulta/new.html.twig', array(
-            'consultum' => $consultum,
-            'form' => $form->createView(),
+                    'consultum' => $consultum,
+                    'form' => $form->createView(),
         ));
     }
 
@@ -62,13 +76,12 @@ class ConsultaController extends Controller
      * @Route("/{id}", name="consulta_show")
      * @Method("GET")
      */
-    public function showAction(Consulta $consultum)
-    {
+    public function showAction(Consulta $consultum) {
         $deleteForm = $this->createDeleteForm($consultum);
 
         return $this->render('consulta/show.html.twig', array(
-            'consultum' => $consultum,
-            'delete_form' => $deleteForm->createView(),
+                    'consultum' => $consultum,
+                    'delete_form' => $deleteForm->createView(),
         ));
     }
 
@@ -78,8 +91,7 @@ class ConsultaController extends Controller
      * @Route("/{id}/edit", name="consulta_edit")
      * @Method({"GET", "POST"})
      */
-    public function editAction(Request $request, Consulta $consultum)
-    {
+    public function editAction(Request $request, Consulta $consultum) {
         $deleteForm = $this->createDeleteForm($consultum);
         $editForm = $this->createForm('AppBundle\Form\ConsultaType', $consultum);
         $editForm->handleRequest($request);
@@ -91,9 +103,9 @@ class ConsultaController extends Controller
         }
 
         return $this->render('consulta/edit.html.twig', array(
-            'consultum' => $consultum,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+                    'consultum' => $consultum,
+                    'edit_form' => $editForm->createView(),
+                    'delete_form' => $deleteForm->createView(),
         ));
     }
 
@@ -103,8 +115,7 @@ class ConsultaController extends Controller
      * @Route("/{id}", name="consulta_delete")
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, Consulta $consultum)
-    {
+    public function deleteAction(Request $request, Consulta $consultum) {
         $form = $this->createDeleteForm($consultum);
         $form->handleRequest($request);
 
@@ -124,12 +135,12 @@ class ConsultaController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm(Consulta $consultum)
-    {
+    private function createDeleteForm(Consulta $consultum) {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('consulta_delete', array('id' => $consultum->getId())))
-            ->setMethod('DELETE')
-            ->getForm()
+                        ->setAction($this->generateUrl('consulta_delete', array('id' => $consultum->getId())))
+                        ->setMethod('DELETE')
+                        ->getForm()
         ;
     }
+
 }
