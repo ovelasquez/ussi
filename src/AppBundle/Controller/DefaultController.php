@@ -108,7 +108,7 @@ class DefaultController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $paciente = $em->getRepository('AppBundle:Paciente')->find($paciente);
 
-// Buscamos si el Paciente tiene Historia Medica
+        // Buscamos si el Paciente tiene Historia Medica
         $historicoAntecedentes = $em->getRepository('AppBundle:Antecedente')->findByPaciente($paciente);
         $sicobiologicos = $em->getRepository('AppBundle:Sicobiologico')->findByPaciente($paciente);
         $patologias = $em->getRepository('AppBundle:Patologia')->findByPaciente($paciente);
@@ -127,7 +127,7 @@ class DefaultController extends Controller {
         //Buscamos Todas las Citas Activas del Paciente
         $citas = $em->getRepository('AppBundle:Cita')->findBy(
                 array('paciente' => $paciente,
-                    'status' => 'activa',)                   
+                    'status' => 'activo',)                   
         );
         
         
