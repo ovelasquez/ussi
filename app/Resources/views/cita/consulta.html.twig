@@ -135,14 +135,14 @@
         });
         if (( {% if (profesionalDisponible!=null and profesionalDisponible.status=='inactivo')  %} 1 {% else %} 0{% endif %}) == 1) {
         swal({
-        title: 'Cita - Dr. No Disponible',
-                text: "Dr. {{doctor}} - {{observacion}} ",
+        title: 'Cita con el Dr. {{doctor | title}}',
+                text: "No Disponible: {{observacion}} ",
                 type: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Otro Doctor!',
-                cancelButtonText: 'Cancelar!',
+                confirmButtonText: 'Desea otro Doctor!',
+                cancelButtonText: 'Cancelar Cita!',
                 confirmButtonClass: 'btn btn-success',
                 cancelButtonClass: 'btn btn-danger',
                 buttonsStyling: false

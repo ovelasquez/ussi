@@ -57,7 +57,7 @@ class EsperandoController extends Controller {
         $configuracion = $em->getRepository('AppBundle:Configuracion')->findAll();
         $repetir = true;
         $esMio = false;
-        $foto = '';       
+        $foto = '';
         $profesional = $em->getRepository('AppBundle:Profesional')->findOneByPersona($this->getUser()->getPersona());
         $servicioProfesional = $em->getRepository('AppBundle:ServicioProfesional')->findOneBy(array('profesional' => $profesional, 'status' => 'activo'));
         $especialidad = $em->getRepository('AppBundle:Especialidad')->find($servicioProfesional->getServicio()->getEspecialidad());
@@ -80,7 +80,7 @@ class EsperandoController extends Controller {
                     $repetir = FALSE;
                     $esperandos = $esperandos[$i];
                     $foto = $esperandos->getPaciente()->getPersona()->getFoto();
-                    $nombre=$esperandos->getPaciente()->getPersona()->getPrimerNombre().' '.$esperandos->getPaciente()->getPersona()->getPrimerApellido();
+                    $nombre = $esperandos->getPaciente()->getPersona()->getPrimerNombre() . ' ' . $esperandos->getPaciente()->getPersona()->getPrimerApellido();
                     $esMio = true;
                 }
                 $i++;
@@ -89,7 +89,7 @@ class EsperandoController extends Controller {
         if (!$esMio) {
             $esperandos = null;
         }
-        
+
         return $this->render('esperando/procesar.html.twig', array(
                     'esperando' => $esperandos,
                     'tiempoEspera' => $configuracion[0]->getTiempoEspera(),
@@ -236,6 +236,16 @@ class EsperandoController extends Controller {
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $servicio = $em->getRepository('AppBundle:Servicio')->findOneBy(
+                    array(
+                        'especialidad' => $esperando->getEspecialidad(),
+                         'dia' => date('N', strtotime((string)$esperando->getFechaRegistro()->format('m/d/Y'))),
+                        ));
+            $servicio->setDisponible($servicio->getDisponible() + 1);
+            $em->persist($servicio);
+            $em->flush($servicio);
+
+            
             $em->remove($esperando);
             $em->flush($esperando);
         }

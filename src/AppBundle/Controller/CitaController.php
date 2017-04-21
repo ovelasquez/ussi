@@ -97,9 +97,9 @@ class CitaController extends Controller {
             $this->setServicio();
         }
 
+        //Medicos / Especialidades disponibles para hoy
         $misServicos = $this->disponibleServicio();
-
-
+        
         //Creamos el formulario de Consulta
         $form = $this->createFormBuilder()
                 ->setAction($this->generateUrl('cita_consulta'))
@@ -123,20 +123,11 @@ class CitaController extends Controller {
                 ->getForm();
         $form->handleRequest($request);
 
-
+        //Verificamos si es enviado 
         if ($request->isMethod('POST')) {
             $var = $request->request->get('form');
-            $persona = $em->getRepository('AppBundle:Persona')->findOneBy(
-                    array(
-                        'nacionalidad' => $var['nacionalidad'],
-                        'cedula' => $var['cedula']
-                    )
-            );
-            $especialidad = $em->getRepository('AppBundle:Especialidad')->findOneBy(
-                    array(
-                        'nombre' => $var['especialidad'],
-                    )
-            );
+            $persona = $em->getRepository('AppBundle:Persona')->findOneBy( array('nacionalidad' => $var['nacionalidad'], 'cedula' => $var['cedula'] ) );
+            $especialidad = $em->getRepository('AppBundle:Especialidad')->findOneBy( array( 'nombre' => $var['especialidad'], ) );
             //   dump($persona); die();
 
             if ($persona) {
@@ -145,8 +136,8 @@ class CitaController extends Controller {
                 return $this->redirectToRoute('paciente_new');
             }
 
+            //Verifica cuantos servicios esta solicitando en el dia de hoy
             $cont = $this->estoyEsperando($paciente);
-
             if ($configuracion[0]->getNumeroConsultas() == $cont) {
                 $maximoConsulta = "Ha alcanzado el número máximo de consultas (" . (string) $configuracion[0]->getNumeroConsultas() . ") diarias.";
             } else {
@@ -158,7 +149,8 @@ class CitaController extends Controller {
                             'especialidad' => $especialidad,
                             'status' => 'activo',
                         )
-                );
+                );               
+               
 
                 //Creamos Lista de Espera
                 $listaEspera = new \AppBundle\Entity\Esperando();
@@ -166,7 +158,8 @@ class CitaController extends Controller {
                 $listaEspera->setStatus("activo");
                 $listaEspera->setEspecialidad($especialidad);
                 $listaEspera->setFechaRegistro(new \DateTime("now"));
-
+                
+                //Verificamos cual es el ultimo numero de la lista de espera
                 $ultimoListaEspera = $em->getRepository('AppBundle:Cita')->findOneByPosicion(0);
                 $listaEspera->setPosicion($ultimoListaEspera['posicion'] + 1);
 

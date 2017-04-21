@@ -1,4 +1,3 @@
-
 {% extends 'base.html.twig' %}
 {% block title %} Citas Médicas {% endblock %}
 {% block Subtitulo %} Agendar Citas Médicas -  <small> <a href="{{ path('cita_index') }}">Regresar a la lista</a></small> {% endblock %} 
@@ -75,4 +74,33 @@
 
         {{ form_end(form) }}                           
     </div>
+{% endblock %}
+{% block javascripts %}
+    <script>
+        $(document).ready(function () {
+            //Cambiar Capitulo -> actualiza grupo
+            $("#appbundle_cita_especialidad").change(function () {
+                if ($('#appbundle_cita_especialidad').val() !== ' ') {
+                    // Ajax                                                 
+                    var dataString = 'id=' + $('#appbundle_cita_especialidad').val();
+                    $.ajax
+                            ({
+                                type: "POST",
+                                url: "{{ path ('ajax_servicioprofesional') }}",
+                                data: dataString,
+                                cache: false,
+                                success: function (html)
+                                {
+                                    $('#appbundle_cita_profesional option ').remove();
+                                    $('#appbundle_cita_profesional').append(html);
+                                   
+                                }
+                            });
+
+
+                }
+            });
+        });
+    </script>
+
 {% endblock %}

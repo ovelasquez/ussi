@@ -123,5 +123,36 @@ class AjaxController extends Controller {
         ));
         
     }
+    
+    /**
+     * Filtrar Servicios Profesionales - 
+     *
+     * @Route("/servicioprofesional", name="ajax_servicioprofesional")
+     * @Method({"GET", "POST"})
+     */
+    public function servicioProfesionalAction(Request $request) {
+        $id = $request->request->get('id');
+        
+        $conn = $this->getDoctrine()->getManager()->getConnection();
+        
+        $sql = 'select * from servicio_profesional as sp left join servicio as s on s.id=sp.servicio_id  left join profesional as p on p.id=sp.profesional_id where s.especialidad_id=:especialidad';
+        $stmt = $conn->prepare($sql);
+
+        $stmt->execute(array('especialidad' => $id));
+
+        $servicios = $stmt->fetchAll();
+
+        $valores = '<option value="" selected="selected">Seleccione</option> ';
+        $em = $this->getDoctrine()->getManager();
+        foreach ($servicios as $valor) {            
+            $profesional = $em->getRepository('AppBundle:Profesional')->find($valor['profesional_id']);           
+            $valores = $valores . ' <option value=' . $profesional->getId() . '>' . $profesional->getPersona()->getPrimerNombre().' '. $profesional->getPersona()->getPrimerApellido() . '</option> ';
+        }
+         return $this->render('ajax/servicioprofesional.html.twig', array(
+                    'valores' => $valores,
+        ));
+        
+    }
 
 }
+

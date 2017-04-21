@@ -19,9 +19,7 @@ class CitaType extends AbstractType {
                 ->add('paciente')
                 ->add('especialidad')
                 ->add('profesional')                
-                ->add('fecha', DateType::class, array(
-                    'widget' => 'single_text',
-                ))
+                ->add('fecha')
                 ->add('prioridad', ChoiceType::class, array(
                     'choices' => array('Normal' => 'normal', 'Emergencia' => 'emergencia',),
                     'required' => true,
@@ -29,7 +27,7 @@ class CitaType extends AbstractType {
                     'attr' => array('placeholder' => 'Seleccione')
                 ))
                 ->add('status', ChoiceType::class, array(
-                    'choices' => array('Activa' => 'activa', 'Procesada' => 'procesada', 'Cancelada' => 'Ccncelada'),
+                    'choices' => array('Activa' => 'activo', 'Procesada' => 'procesada', 'Cancelada' => 'Ccncelada'),
                     'required' => true,
                     'label' => 'Estatus',
                     'attr' => array('placeholder' => 'Seleccione')
