@@ -53,7 +53,7 @@
     <div class="">
         <div class="page-title">
             <div class="title_left">
-                <h3>{% block Titulo %} Unidad de los Servicios de Salud Integral Dr. Jesús Saturno Canelón  {% endblock %}</h3>
+                <h3>{% block Titulo %} USSI Dr. Jesús Saturno Canelón  {% endblock %}</h3>
             </div>
             <div class="title_right">   </div>
         </div>
@@ -119,7 +119,7 @@
                                     <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Historia Médica</a></li>
                                     <li role="presentation" class=""><a href="#tab_content3" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Evolución</a></li>
                                     <li role="presentation" class=""><a href="#tab_content4" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Afecciones</a></li>
-                                    <li role="presentation" class=""><a href="#tab_content5" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Consultas</a></li>
+                                    <li role="presentation" class=""><a href="#tab_content5" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Referir</a></li>
                                 </ul>
                                 <div id="myTabContent" class="tab-content">
 
@@ -867,7 +867,8 @@
                                     <!--Afecciones-->
 
                                     <div role="tabpanel" class="tab-pane fade" id="tab_content4" aria-labelledby="profile-tab">                                         
-                                        {% if (afeccione!=null) %}<div class="x_content">                   
+                                        {% if (afeccione!=null) %}
+                                            <div class="x_content">                   
                                                 <table class="table table-striped">
                                                     <tbody>
 
@@ -915,8 +916,49 @@
                                     <!--Fin Afecciones-->
 
                                     <!--Historico Consultas-->
-                                    <div role="tabpanel" class="tab-pane fade" id="tab_content5" aria-labelledby="profile-tab">                                         
+                                    <div role="tabpanel" class="tab-pane fade" id="tab_content5" aria-labelledby="profile-tab">
+                                         <!-- Crear Cita-->
+                                            <form name="form_cita" action="{{path('cita_new')}}" method="post" id="form_cita" class="form-horizontal form-label-left"> 
+                                                <input id="cita_consulta" name="cita_consulta" type="hidden" value="{{consulta.id}}"> 
+                                                <div class="ln_solid"></div>
+                                                <div class="form-group">
+                                                    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">                
+                                                        <button type="submit" class="btn btn-success">Registrar Cita</button>
+                                                    </div>
+                                                </div>
+                                            </form>
 
+                                        {% if (citas!=null) %}
+                                            <table class="table table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th>#</th>                                                        
+                                                        <th>Especialidad</th>
+                                                        <th>Médico</th>
+                                                        <th>Fecha</th>
+                                                        <th>Status</th>
+                                                        <th>Acción</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for citum in citas %}
+                                                        <tr>
+                                                            <td><a href="{{ path('cita_show', { 'id': citum.id }) }}">{{ loop.index  }}</a></td>                                                            
+                                                            <td>{{ citum.especialidad.nombre}}</td>
+                                                            <td>{% if citum.profesional %}{{ citum.profesional.persona.primerApellido}} {{ citum.profesional.persona.primerNombre}}{% endif %}
+                                                            </td>
+                                                            <td>{% if citum.fecha %}{{ citum.fecha|date('d-m-Y') }}{% endif %}</td>
+                                                            <td>{{ citum.status|title }}</td>
+                                                            <td>
+                                                                <a href="{{ path('cita_edit', { 'id': citum.id }) }}">
+                                                                    <button type="button" class="btn btn-xs btn-success" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editar">  <i class="fa fa-pencil"></i>  </button>
+                                                                </a>                                                             
+                                                            </td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        {%endif%}
 
                                     </div>
                                     <!--Fin Historico Consultas-->

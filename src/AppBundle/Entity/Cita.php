@@ -81,6 +81,13 @@ class Cita {
     private $paciente;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="prioridad", type="string", length=255, nullable=false)
+     */
+    private $prioridad;
+    
+    /**
      * Get id
      *
      * @return integer
@@ -89,6 +96,7 @@ class Cita {
         return $this->id;
     }
 
+
     /**
      * Set fecha
      *
@@ -96,7 +104,8 @@ class Cita {
      *
      * @return Cita
      */
-    public function setFecha($fecha) {
+    public function setFecha($fecha)
+    {
         $this->fecha = $fecha;
 
         return $this;
@@ -107,7 +116,8 @@ class Cita {
      *
      * @return \DateTime
      */
-    public function getFecha() {
+    public function getFecha()
+    {
         return $this->fecha;
     }
 
@@ -118,7 +128,8 @@ class Cita {
      *
      * @return Cita
      */
-    public function setStatus($status) {
+    public function setStatus($status)
+    {
         $this->status = $status;
 
         return $this;
@@ -129,8 +140,33 @@ class Cita {
      *
      * @return string
      */
-    public function getStatus() {
+    public function getStatus()
+    {
         return $this->status;
+    }
+
+    /**
+     * Set prioridad
+     *
+     * @param string $prioridad
+     *
+     * @return Cita
+     */
+    public function setPrioridad($prioridad)
+    {
+        $this->prioridad = $prioridad;
+
+        return $this;
+    }
+
+    /**
+     * Get prioridad
+     *
+     * @return string
+     */
+    public function getPrioridad()
+    {
+        return $this->prioridad;
     }
 
     /**
@@ -140,7 +176,8 @@ class Cita {
      *
      * @return Cita
      */
-    public function setEspecialidad(\AppBundle\Entity\Especialidad $especialidad = null) {
+    public function setEspecialidad(\AppBundle\Entity\Especialidad $especialidad = null)
+    {
         $this->especialidad = $especialidad;
 
         return $this;
@@ -151,7 +188,8 @@ class Cita {
      *
      * @return \AppBundle\Entity\Especialidad
      */
-    public function getEspecialidad() {
+    public function getEspecialidad()
+    {
         return $this->especialidad;
     }
 
@@ -162,7 +200,8 @@ class Cita {
      *
      * @return Cita
      */
-    public function setConsulta(\AppBundle\Entity\Consulta $consulta = null) {
+    public function setConsulta(\AppBundle\Entity\Consulta $consulta = null)
+    {
         $this->consulta = $consulta;
 
         return $this;
@@ -173,7 +212,8 @@ class Cita {
      *
      * @return \AppBundle\Entity\Consulta
      */
-    public function getConsulta() {
+    public function getConsulta()
+    {
         return $this->consulta;
     }
 
@@ -184,7 +224,8 @@ class Cita {
      *
      * @return Cita
      */
-    public function setProfesional(\AppBundle\Entity\Profesional $profesional = null) {
+    public function setProfesional(\AppBundle\Entity\Profesional $profesional = null)
+    {
         $this->profesional = $profesional;
 
         return $this;
@@ -195,7 +236,8 @@ class Cita {
      *
      * @return \AppBundle\Entity\Profesional
      */
-    public function getProfesional() {
+    public function getProfesional()
+    {
         return $this->profesional;
     }
 
@@ -206,7 +248,8 @@ class Cita {
      *
      * @return Cita
      */
-    public function setPaciente(\AppBundle\Entity\Paciente $paciente = null) {
+    public function setPaciente(\AppBundle\Entity\Paciente $paciente = null)
+    {
         $this->paciente = $paciente;
 
         return $this;
@@ -217,8 +260,8 @@ class Cita {
      *
      * @return \AppBundle\Entity\Paciente
      */
-    public function getPaciente() {
+    public function getPaciente()
+    {
         return $this->paciente;
     }
-
 }

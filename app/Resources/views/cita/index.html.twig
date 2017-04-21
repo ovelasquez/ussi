@@ -8,7 +8,7 @@
     <link href="{{ asset('bundles/app/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css')}}" rel="stylesheet">
 {% endblock %}
 {% block title %} Citas {% endblock %}
-{% block Subtitulo %} Lista de Citas -  <small> <a href="#">Ver</a></small> {% endblock %} 
+{% block Subtitulo %} Lista de Citas -  <small> <a href="{{ path('cita_new') }}">Crear</a></small> {% endblock %} 
 {% block body %}
     {% for msg in app.session.flashBag.get('success') %}
         <div class="alert alert-success">

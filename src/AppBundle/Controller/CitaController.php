@@ -42,16 +42,30 @@ class CitaController extends Controller {
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request) {
+        $consulta = NULL;
+        $em = $this->getDoctrine()->getManager();
+        if ($request->request->get('cita_consulta')) {
+            $consulta = $em->getRepository('AppBundle:Consulta')->find($request->request->get('cita_consulta'));
+        }
+
+
         $cita = new Cita();
+        if ($consulta) {
+            $cita->setConsulta($consulta);
+            $cita->setPaciente($consulta->getPaciente());            
+        }
+
         $form = $this->createForm('AppBundle\Form\CitaType', $cita);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+            
             $em->persist($cita);
             $em->flush($cita);
 
-            return $this->redirectToRoute('cita_show', array('id' => $cita->getId()));
+           return $this->redirectToRoute('homepage_consulta', array(
+                        'paciente' => $cita->getPaciente()->getId(),
+            ));
         }
 
         return $this->render('cita/new.html.twig', array(
@@ -400,7 +414,9 @@ class CitaController extends Controller {
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('cita_edit', array('id' => $cita->getId()));
+            return $this->redirectToRoute('homepage_consulta', array(
+                        'paciente' => $cita->getPaciente()->getId(),
+            ));
         }
 
         return $this->render('cita/edit.html.twig', array(
@@ -419,6 +435,7 @@ class CitaController extends Controller {
     public function deleteAction(Request $request, Cita $cita) {
         $form = $this->createDeleteForm($cita);
         $form->handleRequest($request);
+        $paciente = $cita->getPaciente()->getId();
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -426,7 +443,9 @@ class CitaController extends Controller {
             $em->flush($cita);
         }
 
-        return $this->redirectToRoute('cita_index');
+        return $this->redirectToRoute('homepage_consulta', array(
+                    'paciente' => $paciente,
+        ));
     }
 
     /**

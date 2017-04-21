@@ -123,6 +123,14 @@ class DefaultController extends Controller {
         }
 // $historicoEvolucion = $em->getRepository('AppBundle:Evolucion')->findAllByConsulta($paciente->getId(),$especialidad->getId() );
 // dump($historicoEvolucion);die();
+        
+        //Buscamos Todas las Citas Activas del Paciente
+        $citas = $em->getRepository('AppBundle:Cita')->findBy(
+                array('paciente' => $paciente,
+                    'status' => 'activa',)                   
+        );
+        
+        
         $evolucion = null;
         $afeccione = null;
 
@@ -170,6 +178,7 @@ class DefaultController extends Controller {
                     'consulta' => $consulta,
                     'evolucion' => $evolucion,
                     'afeccione' => $afeccione,
+                    'citas' => $citas,
                         // 'historicoEvolucion' => $historicoEvolucion,
         ));
     }

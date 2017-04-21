@@ -41,9 +41,9 @@
             <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>100%</i> del día</span>
         </div>
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-            <span class="count_top"><i class="fa fa-user"></i> Fecha</span>
-            <div class="count"></div>
-            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span>
+            <span class="count_top"><i class="fa fa-user"></i> Consuta</span>
+            <div class="count">{{ "now"|date("d/m/Y") }}</div>
+            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>Día </i> de la Consulta</span>
         </div>
     </div>
 {% endblock %}
@@ -131,15 +131,15 @@
                     <div class="col-md-12">
                         <div class="thumbnail">
                             <div class="image view view-first">
-                                <a href="{{ path('cita_new') }}">
+                                <a href="{{ path('cita_index') }}">
                                     <img style="width: 100%; display: block;" src="{{ asset('bundles/app/seguridad/images/13.jpg')}}" alt="image">
                                     <div class="mask">
-                                        <p> Asignar Citas</p>                                                
+                                        <p> Gestionar Citas</p>                                                
                                     </div>
                                 </a> 
                             </div>
                             <div class="caption">
-                                <p> <a href="{{ path('cita_new') }}"> Asignar Citas </a>  </p>
+                                <p> <a href="{{ path('cita_index') }}"> Gestionar Citas </a>  </p>
                             </div>
                         </div>
                     </div>                                   

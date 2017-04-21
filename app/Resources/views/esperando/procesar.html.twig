@@ -111,8 +111,8 @@
 
         swal({
         type: 'info',
-                title: 'Llamando al Paciente: {{nombre | capitalize}}',
-                text: 'Si el Paciente no llega la llamada se cerrara automaticamnete en {{ tiempoEspera}} segundos.',
+                title: 'Llamando al Paciente: {{nombre | title}}',
+                text: 'La llamada se cerrara automaticamnete en {{ tiempoEspera}} segundos.',
                 timer:{{ tiempoEspera*1000}},
                 showConfirmButton: false,
                 imageUrl: '{{ asset('uploads/fotos/')}}{{foto}}',
@@ -145,7 +145,7 @@
                         }).then(function () {
                         swal(
                                 'Bienvenido!',
-                                '{{nombre | capitalize}}',
+                                '{{nombre | title}}',
                                 'success'
                                 )
                                 window.location.href = "../esperando/procesando/{{id}}/1";

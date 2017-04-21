@@ -1,36 +1,92 @@
 {% extends 'base.html.twig' %}
-
+{% block Subtitulo %} Ver Cita Médica -  <small> <a href="{{ path('cita_index') }}">Regresar a la lista</a></small> {% endblock %} 
 {% block body %}
-    <h1>Citum</h1>
+    {% for msg in app.session.flashBag.get('success') %}
+        <div class="alert alert-success"> {{ msg }} </div>       
+    {% endfor %}
 
-    <table>
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ citum.id }}</td>
-            </tr>
-            <tr>
-                <th>Fecha</th>
-                <td>{% if citum.fecha %}{{ citum.fecha|date('Y-m-d') }}{% endif %}</td>
-            </tr>
-            <tr>
-                <th>Status</th>
-                <td>{{ citum.status }}</td>
-            </tr>
-        </tbody>
-    </table>
+    {% for msgs in app.session.flashBag.get('error') %}
+        <div class="alert alert-danger">
+            {% for msg in msgs %}
+                <p>{{ msg }}</p>
+            {% endfor %}
+        </div>
+    {% endfor %}
 
-    <ul>
-        <li>
-            <a href="{{ path('cita_index') }}">Back to the list</a>
-        </li>
-        <li>
-            <a href="{{ path('cita_edit', { 'id': citum.id }) }}">Edit</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> Eliminar </button>
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+    <!-- page content -->
+    <div class="x_content">
+        <br />
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nombre">Consulta</label>
+            <div class="col-md-6 col-sm-6 col-xs-12">                             
+                {{ citum.consulta}}              
+            </div>
+        </div>
+        <br />
+
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nombre">Paciente</label>
+            <div class="col-md-6 col-sm-6 col-xs-12">                             
+                {{ citum.paciente}}              
+            </div>
+        </div>
+        <br />
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nombre">Especialidad</label>
+            <div class="col-md-6 col-sm-6 col-xs-12">                             
+                {{ citum.especialidad}}              
+            </div>
+        </div>
+        <br />
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nombre">Profesional</label>
+            <div class="col-md-6 col-sm-6 col-xs-12">                             
+                {{ citum.profesional}}              
+            </div>
+        </div>
+        <br />
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nombre">Fecha</label>
+            <div class="col-md-6 col-sm-6 col-xs-12">                             
+                {{ citum.fecha | date('d/m/Y')}}              
+            </div>
+        </div>
+        <br />
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nombre">Prioridad</label>
+            <div class="col-md-6 col-sm-6 col-xs-12">                             
+                {{ citum.prioridad |capitalize}}              
+            </div>
+        </div>
+        <br />
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nombre">Estatus</label>
+            <div class="col-md-6 col-sm-6 col-xs-12">                             
+                {{ citum.status |capitalize}}              
+            </div>
+        </div>
+        <br />
+        <div class="ln_solid"></div>
+        <div class="form-group">
+            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">                
+                <a class="btn btn-success" href="{{ path('cita_edit', { 'id': citum.id }) }}"><i class="fa fa-edit m-right-xs"></i>Editar Registro</a>
+            </div>
+        </div>
+
+
+
+    </div>
+
+
+    {{ form_start(delete_form) }}
+    <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> Eliminar </button>
+    {{ form_end(delete_form) }}
+
 {% endblock %}
