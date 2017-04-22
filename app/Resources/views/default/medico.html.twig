@@ -16,32 +16,31 @@
     <div class="row tile_count">
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-user"></i> Total Pacientes</span>
-            <div class="count">00</div>
-            <span class="count_bottom"><i class="green">100% </i> del día</span>
-        </div>
-        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-            <span class="count_top"><i class="fa fa-clock-o"></i> Pacientes Atendidos</span>
-            <div class="count">00</div>
-            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i> 00</i> atendidos</span>
-        </div>
-        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-            <span class="count_top"><i class="fa fa-user"></i> Total Médicos</span>
-            <div class="count green">00</div>
-            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>100% </i> del día</span>
+            <div class="count">{{esperandos| length}}</div>
+            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i> </i> Lista de espera</span>
         </div>
 
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-            <span class="count_top"><i class="fa fa-user"></i> Médicos Disponibles</span>
-            <div class="count green">00</div>
-            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>00</i> disponibles</span>
+            <span class="count_top"><i class="fa fa-plus-square"></i> Pacientes Atendidos</span>
+            <div class="count">{{atendidos| length}}</div>
+            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i> </i> En el día de hoy</span>            
         </div>
+        
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-            <span class="count_top"><i class="fa fa-user"></i> Total Especialidades</span>
-            <div class="count">00</div>
-            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>100%</i> del día</span>
+            <span class="count_top"><i class="fa fa-sign-out"></i> Pacientes Abandono</span>
+            <div class="count red">{{abandono| length}}</div>
+            <span class="count_bottom"><i class="red"><i class="fa fa-sort-asc"></i> </i> En el día de hoy</span>  
+            
         </div>
+                
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-            <span class="count_top"><i class="fa fa-user"></i> Consuta</span>
+            <span class="count_top"><i class="fa fa-user"></i> Pacientes</span>
+            <div class="count green">{{conCita| length}}</div>
+            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i></i> Con Citas</span>
+        </div>
+        
+        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+            <span class="count_top"><i class="fa fa-clock-o"></i> Fecha Consulta</span>
             <div class="count">{{ "now"|date("d/m/Y") }}</div>
             <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>Día </i> de la Consulta</span>
         </div>
@@ -52,7 +51,7 @@
         <div class="col-md-4 col-sm-4 col-xs-12">
             <div class="x_panel tile fixed_height_320">
                 <div class="x_title">
-                    <h2>Consultas</h2>
+                    <h2>Consultas - {{especialidad.nombre}}</h2>
                     <ul class="nav navbar-right panel_toolbox">
                         <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                         </li>                                    
@@ -118,7 +117,7 @@
         <div class="col-md-4 col-sm-4 col-xs-12">
             <div class="x_panel tile fixed_height_320">
                 <div class="x_title">
-                    <h2>Citas</h2>
+                    <h2>Reportes</h2>
                     <ul class="nav navbar-right panel_toolbox">
                         <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                         </li>                                    
@@ -131,15 +130,15 @@
                     <div class="col-md-12">
                         <div class="thumbnail">
                             <div class="image view view-first">
-                                <a href="{{ path('cita_index') }}">
+                                <a href="#">
                                     <img style="width: 100%; display: block;" src="{{ asset('bundles/app/seguridad/images/13.jpg')}}" alt="image">
                                     <div class="mask">
-                                        <p> Gestionar Citas</p>                                                
+                                        <p> Gestionar Reportes</p>                                                
                                     </div>
                                 </a> 
                             </div>
                             <div class="caption">
-                                <p> <a href="{{ path('cita_index') }}"> Gestionar Citas </a>  </p>
+                                <p> <a href="#"> Gestionar Citas </a>  </p>
                             </div>
                         </div>
                     </div>                                   
@@ -158,8 +157,8 @@
                         <div class="x_title">
                             <h2>Lista de Pacientes <small> </small> 
                                 {% if (esperandos!=null) %}
-                                        <button type="button" class="btn btn-success btn-sm" onclick='window.location.href = "esperando/procesar"'>Llamar Paciente</button>
-                                    {% endif %}</h2>
+                                    <button type="button" class="btn btn-success btn-sm" onclick='window.location.href = "esperando/procesar"'>Llamar Paciente</button>
+                                {% endif %}</h2>
                             <ul class="nav navbar-right panel_toolbox">
                                 <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                                 </li>                                            
@@ -260,14 +259,14 @@
     <!-- Push -->
     <script src="{{ asset('bundles/app/vendors/push/push.min.js')}}"></script> 
     <script>
-                                        function reloadPagina() {
-                                            location.reload();
-                                        }
+                                            function reloadPagina() {
+                                                location.reload();
+                                            }
 
-                                        $(document).ready(function () {
-                                            $('#datatable-fixed-header').DataTable({fixedHeader: true});
-                                            setInterval(reloadPagina, 60000);
-                                        });
+                                            $(document).ready(function () {
+                                                $('#datatable-fixed-header').DataTable({fixedHeader: true});
+                                                setInterval(reloadPagina, 60000);
+                                            });
     </script>
 {% endblock %}
 

@@ -111,7 +111,7 @@
 
         swal({
         type: 'info',
-                title: 'Llamando al Paciente: {{nombre | title}}',
+                title: 'Paciente: {{nombre | title}}',
                 text: 'La llamada se cerrara automaticamnete en {{ tiempoEspera}} segundos.',
                 timer:{{ tiempoEspera*1000}},
                 showConfirmButton: false,
@@ -127,7 +127,7 @@
                         function (dismiss) {
                         if (dismiss === 'timer') {
                         swal({
-                        title: 'Llegó el Paciente?',
+                        title: 'Llegó {{nombre | title}}?',
                                 text: " ",
                                 type: 'question',
                                 showCancelButton: true,

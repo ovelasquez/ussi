@@ -39,12 +39,17 @@ class DefaultController extends Controller {
                 ->orderBy('p.posicion', 'ASC')
                 ->getQuery();
         $esperandos = $query->getResult(); //Lista de Espera
+
         $medicos = $em->getRepository('AppBundle:Cita')->findAllByServiosProfesionalesTodos(date("w"));             // Lista Medicos
         $especialidades = $em->getRepository('AppBundle:Servicio')->findByDia(date("w"));                           // Lista de Especialidades
         $servicioProfesionals = $em->getRepository('AppBundle:Cita')->findAllByServiosProfesionales(date("w"));     // Lista
 
 
-        return $this->render('default/recepcion.html.twig', array('esperandos' => $esperandos, 'medicos' => $medicos, 'especialidades' => $especialidades, 'servicioProfesionals' => $servicioProfesionals,
+        return $this->render('default/recepcion.html.twig', array(
+                    'esperandos' => $esperandos,
+                    'medicos' => $medicos,
+                    'especialidades' => $especialidades,
+                    'servicioProfesionals' => $servicioProfesionals,
                     'penalizacion' => $configuracion[0]->getPenalizacion(),));
     }
 
@@ -53,8 +58,6 @@ class DefaultController extends Controller {
      */
     public function medicoAction() {
         $em = $this->getDoctrine()->getManager();
-        $hoy = new \DateTime('now');
-        $hoy->setTime(0, 0, 0);
         $esperandos = null;
         $configuracion = $em->getRepository('AppBundle:Configuracion')->findAll();
         $profesional = $em->getRepository('AppBundle:Profesional')->findOneByPersona($this->getUser()->getPersona());
@@ -62,24 +65,18 @@ class DefaultController extends Controller {
 
         if ($servicioProfesional) {
             $especialidad = $em->getRepository('AppBundle:Especialidad')->find($servicioProfesional->getServicio()->getEspecialidad());
-//Arma la lista de espera
-            $repository = $em->getRepository('AppBundle:Esperando');
-            $query = $repository->createQueryBuilder('p')
-                    ->where('p.fechaRegistro >= :hoy')
-                    ->andWhere('p.especialidad = :especialidad')
-                    ->andWhere('p.status = :activo')
-                    ->setParameter('hoy', $hoy)
-                    ->setParameter('especialidad', $especialidad)
-                    ->setParameter('activo', 'activo')
-                    ->orderBy('p.posicion', 'ASC')
-                    ->getQuery();
-            $esperandos = $query->getResult(); //Lista de Espera
+            $esperandos = $this->numerosAction('activo', $especialidad); //Lista de pacientes en Espera
+            $conCita = $this->numerosAction('cita', $especialidad, $profesional); //Lista de pacientes que van con el Dr.
+            $atendidos = $this->numerosAction('atendido', $especialidad, $profesional); //Lista de pacientes atendidos
+            $abandono = $this->numerosAction('abandono', $especialidad, $profesional); //Lista de pacientes que alcanzaron el limite de llamadas 
         }
-
-
 
         return $this->render('default/medico.html.twig', array(
                     'esperandos' => $esperandos,
+                    'especialidad' => $especialidad,
+                    'abandono' => $abandono,
+                    'atendidos' => $atendidos,
+                    'conCita' => $conCita,
                     'penalizacion' => $configuracion[0]->getPenalizacion(),
         ));
     }
@@ -107,6 +104,8 @@ class DefaultController extends Controller {
     public function consultaAction($paciente) {
         $em = $this->getDoctrine()->getManager();
         $paciente = $em->getRepository('AppBundle:Paciente')->find($paciente);
+        $evolucion = null;
+        $afeccione = null;
 
         // Buscamos si el Paciente tiene Historia Medica
         $historicoAntecedentes = $em->getRepository('AppBundle:Antecedente')->findByPaciente($paciente);
@@ -121,41 +120,21 @@ class DefaultController extends Controller {
                 $especialidad = $valor->getServicio()->getEspecialidad();
             }
         }
-// $historicoEvolucion = $em->getRepository('AppBundle:Evolucion')->findAllByConsulta($paciente->getId(),$especialidad->getId() );
-// dump($historicoEvolucion);die();
-        
+
         //Buscamos Todas las Citas Activas del Paciente
-        $citas = $em->getRepository('AppBundle:Cita')->findBy(
-                array('paciente' => $paciente,
-                    'status' => 'activo',)                   
-        );
-        
-        
-        $evolucion = null;
-        $afeccione = null;
+        $citas = $em->getRepository('AppBundle:Cita')->findBy(array('paciente' => $paciente, 'status' => 'activo',));
 
-        $tieneConsultaActiva = $em->getRepository('AppBundle:Consulta')->findOneBy(
-                array('paciente' => $paciente,
-                    'egreso' => false,
-                    'profesional' => $profesional,
-                    'especialidad' => $especialidad)
-        );
-
+        //Buscamos Todas las Consultas Activas del Paciente en la especialidad del medico
+        $tieneConsultaActiva = $em->getRepository('AppBundle:Consulta')->findOneBy(array('paciente' => $paciente, 'egreso' => false, 'profesional' => $profesional, 'especialidad' => $especialidad));
 
         if ($tieneConsultaActiva) {
             $consulta = $tieneConsultaActiva;
-
-//Buscar la Evolucion asociada a la Consulta
-            $evolucion = $em->getRepository('AppBundle:Evolucion')->findOneBy(
-                    array('consulta' => $tieneConsultaActiva,));
-
-//Buscar las Afeccione asociada a la consulta
-            $afeccione = $em->getRepository('AppBundle:Afeccione')->findOneBy(
-                    array('consulta' => $tieneConsultaActiva,)
-            );
+            //Buscar la Evolucion asociada a la Consulta
+            $evolucion = $em->getRepository('AppBundle:Evolucion')->findOneBy(array('consulta' => $tieneConsultaActiva,));
+            //Buscar las Afeccione asociada a la consulta
+            $afeccione = $em->getRepository('AppBundle:Afeccione')->findOneBy(array('consulta' => $tieneConsultaActiva,));
         } else {
-
-//Creamos una nueva consulta
+            //Creamos una nueva consulta
             if (in_array('ROLE_MEDICO', $this->getUser()->getRoles()) && $especialidad) {
                 $consulta = new \AppBundle\Entity\Consulta;
                 $consulta->setFecha(new \DateTime('now'));
@@ -168,6 +147,21 @@ class DefaultController extends Controller {
             }
         }
 
+        //Numeros asociados
+        //Todas las consultas previas del paciente en la especialidad
+        $historicoConsultas = $em->getRepository('AppBundle:Consulta')->findBy(array('paciente' => $paciente, 'egreso' => TRUE));
+        //Todas las consultas previas del paciente en la especialidad y con el doctor
+        $historicoConsultasMedico = $em->getRepository('AppBundle:Consulta')->findBy(array('paciente' => $paciente, 'profesional' => $profesional, 'egreso' => TRUE));
+        //Todas los abandonos del paciente en la especialidad
+        $historicoAbandono = $em->getRepository('AppBundle:Esperando')->findBy(array('paciente' => $paciente, 'especialidad' => $especialidad, 'status' => 'abandono'));
+        //Todas las citas del paciente en la especialidad
+        $historicoCita = $em->getRepository('AppBundle:Cita')->findBy(array('paciente' => $paciente, 'especialidad' => $especialidad, 'status' => 'activo'));
+        //Tadas las Evoluciones del paciente
+        $historicoEvolucion = $this->historicoEvolucion($paciente->getId(), $especialidad->getId());
+        //Tadas las Afecciones del paciente
+         $historicoAfecciones = $this->historicoAfecciones($paciente->getId(), $especialidad->getId());
+        //dump($historicoAfecciones); die();                
+
         return $this->render('default/consulta.html.twig', array(
                     'paciente' => $paciente,
                     'historicoAntecedentes' => $historicoAntecedentes,
@@ -179,8 +173,92 @@ class DefaultController extends Controller {
                     'evolucion' => $evolucion,
                     'afeccione' => $afeccione,
                     'citas' => $citas,
-                        // 'historicoEvolucion' => $historicoEvolucion,
+                    'historicoConsultas' => $historicoConsultas,
+                    'historicoConsultasMedico' => $historicoConsultasMedico,
+                    'historicoAbandono' => $historicoAbandono,
+                    'historicoCita' => $historicoCita,
+                    'historicoEvolucion' => $historicoEvolucion,
+                    'historicoAfecciones' => $historicoAfecciones,                        
         ));
+    }
+
+    private function numerosAction($status, $especialidad, $profesional = null) {
+        $hoy = new \DateTime('now');
+        $hoy->setTime(0, 0, 0);
+        $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository('AppBundle:Esperando');
+
+        if (!$profesional) {
+            $query = $repository->createQueryBuilder('p')
+                    ->where('p.fechaRegistro >= :hoy')
+                    ->andWhere('p.especialidad = :especialidad')
+                    ->andWhere('p.status = :status')
+                    ->setParameter('hoy', $hoy)
+                    ->setParameter('especialidad', $especialidad)
+                    ->setParameter('status', $status)
+                    ->orderBy('p.posicion', 'ASC')
+                    ->getQuery();
+        } else {
+            if ($status != 'cita') {
+                $query = $repository->createQueryBuilder('p')
+                        ->where('p.fechaRegistro >= :hoy')
+                        ->andWhere('p.especialidad = :especialidad')
+                        ->andWhere('p.medico = :profesional')
+                        ->andWhere('p.status = :status')
+                        ->setParameter('hoy', $hoy)
+                        ->setParameter('especialidad', $especialidad)
+                        ->setParameter('profesional', $profesional)
+                        ->setParameter('status', $status)
+                        ->orderBy('p.posicion', 'ASC')
+                        ->getQuery();
+            } else {
+
+                $query = $repository->createQueryBuilder('p')
+                        ->where('p.fechaRegistro >= :hoy')
+                        ->andWhere('p.especialidad = :especialidad')
+                        ->andWhere('p.profesional = :profesional')
+                        ->andWhere('p.status = :status')
+                        ->setParameter('hoy', $hoy)
+                        ->setParameter('especialidad', $especialidad)
+                        ->setParameter('profesional', $profesional)
+                        ->setParameter('status', 'activo')
+                        ->orderBy('p.posicion', 'ASC')
+                        ->getQuery();
+            }
+        }
+
+        return $query->getResult();
+    }
+
+    //Buscamos todas las Evoluciones del Pacientes en las diferentes consultas de la especialidad
+    private function historicoEvolucion($paciente, $especialidad) {
+        $conn = $this->getDoctrine()->getManager()->getConnection();
+        $sql = 'select e.objetivo, e.subjetivo,e.apreciacion, e.tratamiento, e.frecuencia,e.edad, c.fecha, per.primer_apellido, per.primer_nombre '
+                . 'from evolucion as e '
+                . 'left join consulta as c on e.consulta_id=c.id '
+                . 'left join profesional as p on  p.id=c.profesional_id '
+                . 'left join persona as per on p.persona_id=per.id '
+                . 'where c.paciente_id=:paciente and c.especialidad_id=:especialidad and c.egreso=true ';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(array('especialidad' => $especialidad, 'paciente' => $paciente));
+        return $stmt->fetchAll();
+    }
+
+    //Buscamos todas las Afecciones del Pacientes en las diferentes consultas de la especialidad
+    private function historicoAfecciones($paciente, $especialidad) {
+        $conn = $this->getDoctrine()->getManager()->getConnection();
+        $sql = 'select a.diagnostico as diagnostico, a.tratamiento, ec.nombre as capitulo, eg.nombre as grupo, ee.codigo as codigo, ee.nombre as elemento, c.fecha, per.primer_apellido, per.primer_nombre 
+            from afeccione as a 
+            left join consulta as c on a.consulta_id=c.id
+            left join profesional as p on  p.id=c.profesional_id
+            left join persona as per on p.persona_id=per.id
+            left join enterica_elemento as ee on ee.id=a.enterica_elemento_id
+            left join enterica_grupo as eg on eg.id=ee.entericagrupo_id
+            left join enterica_capitulo as ec on ec.id=eg.entericacapitulo_id
+            where c.paciente_id=:paciente and c.especialidad_id=:especialidad and c.egreso=true';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(array('especialidad' => $especialidad, 'paciente' => $paciente));
+        return $stmt->fetchAll();
     }
 
 }

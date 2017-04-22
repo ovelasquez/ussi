@@ -15,34 +15,33 @@
 {% block topTiles %}
     <div class="row tile_count">
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-            <span class="count_top"><i class="fa fa-user"></i> Total Pacientes</span>
-            <div class="count">00</div>
-            <span class="count_bottom"><i class="green">100% </i> del día</span>
-        </div>
-        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-            <span class="count_top"><i class="fa fa-clock-o"></i> Pacientes Atendidos</span>
-            <div class="count">00</div>
-            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i> 00</i> atendidos</span>
-        </div>
-        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-            <span class="count_top"><i class="fa fa-user"></i> Total Médicos</span>
-            <div class="count green">00</div>
-            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>100% </i> del día</span>
+            <span class="count_top"><i class="fa fa-user"></i> Total Consultas</span>
+            <div class="count">{{historicoConsultas | length}}</div>
+            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i> </i> en la Especialidad</span>
         </div>
 
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-            <span class="count_top"><i class="fa fa-user"></i> Médicos Disponibles</span>
-            <div class="count green">00</div>
-            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>00</i> disponibles</span>
+            <span class="count_top"><i class="fa fa-plus-square"></i> Consultas Atendidas</span>
+            <div class="count">{{historicoConsultasMedico | length}}</div>
+            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i> </i> por el Profesional</span>
         </div>
+
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-            <span class="count_top"><i class="fa fa-user"></i> Total Especialidades</span>
-            <div class="count">00</div>
-            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>100%</i> del día</span>
+            <span class="count_top"><i class="fa fa-sign-out"></i> Paciente Abandono</span>
+            <div class="count red">{{historicoAbandono| length}}</div>
+            <span class="count_bottom"><i class="red"><i class="fa fa-sort-asc"></i> </i> En todas las Consultas</span>  
+
         </div>
+
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-            <span class="count_top"><i class="fa fa-user"></i> Consuta</span>
-            <div class="count">{{consulta.fecha |date("d/m/Y")}}</div>
+            <span class="count_top"><i class="fa fa-user"></i> Paciente Citas</span>
+            <div class="count green">{{historicoCita| length}}</div>
+            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i></i>Activas en la Especialidad</span>
+        </div>
+
+        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+            <span class="count_top"><i class="fa fa-clock-o"></i> Fecha Consulta</span>
+            <div class="count">{{ "now"|date("d/m/Y") }}</div>
             <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>Día </i> de la Consulta</span>
         </div>
     </div>
@@ -818,7 +817,7 @@
                                                     <tbody>
                                                         <tr>
                                                             <th>Edad</th>
-                                                            <td>{{ evolucion.edad }}</td>
+                                                            <td>{{ evolucion.edad }} años</td>
                                                         </tr>  
                                                         <tr>
                                                             <th>Motivo de Consulta</th>
@@ -854,11 +853,70 @@
                                                 <div class="ln_solid"></div>
                                                 <div class="form-group">
                                                     <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">                
-                                                        <button type="submit" class="btn btn-success">Registrar Evolución</button>
+                                                        <button type="submit" class="btn btn-success"><i class="fa fa-edit m-right-xs"></i> Registrar Evolución</button>
                                                     </div>
                                                 </div>
                                             </form>
                                         {%endif%}
+                                        <!--Historico Evolucion -->
+                                        {% if (historicoEvolucion!=null) %}
+                                            <!-- Large modal -->
+                                            <button type="button" id='mi-modal' class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg"><i class="fa fa-eye m-right-xs"></i> Ver Histórico</button>
+
+                                            <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg">
+                                                    <div class="modal-content">
+
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+                                                            </button>
+                                                            <h4 class="modal-title" id="myModalLabel">Histórico Evolución</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+
+                                                            <table class="table table-striped">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Id</th>
+                                                                        <th>Objetivo</th>
+                                                                        <th>Subjetivo</th>
+                                                                        <th>Apreciacion</th>
+                                                                        <th>Tratamiento</th>
+                                                                        <th>Frecuencia</th>
+                                                                        <th>Edad</th>
+                                                                        <th>Médico</th>
+                                                                        <th>Fecha</th>                                                                         
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    {% for evolucion in historicoEvolucion %}
+                                                                        <tr>
+                                                                            <td>{{ loop.index }}</td>
+                                                                            <td>{{ evolucion.objetivo |raw}}</td>
+                                                                            <td>{{ evolucion.subjetivo|raw }}</td>
+                                                                            <td>{{ evolucion.apreciacion |raw}}</td>
+                                                                            <td>{{ evolucion.tratamiento |raw}}</td>
+                                                                            <td>{{ evolucion.frecuencia |title}}</td>
+                                                                            <td>{{ evolucion.edad }} años</td>
+                                                                            <td>{{ evolucion.primer_apellido }} {{ evolucion.primer_nombre }}</td>  
+                                                                            <td>{{ evolucion.fecha | date('d-m-Y') }}</td>
+                                                                        </tr>
+                                                                    {% endfor %}
+                                                                </tbody>
+                                                            </table>                         
+
+
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Salir</button>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        {%endif%}
+
 
                                     </div>
                                     <!--Fin Evolucion-->
@@ -897,7 +955,7 @@
                                             </div>
                                             <a class="btn btn-success" href="{{ path('afeccione_edit', { 'id': afeccione.id }) }}"><i class="fa fa-edit m-right-xs"></i>Editar Afección</a>
 
-                                            <!-- Historico d Evoluciones  -->
+                                            <!-- Historico  Evoluciones  -->
 
                                         {% else %}
                                             <!-- no tiene Afecciones -->
@@ -906,27 +964,88 @@
                                                 <div class="ln_solid"></div>
                                                 <div class="form-group">
                                                     <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">                
-                                                        <button type="submit" class="btn btn-success">Registrar Afecciones</button>
+                                                        <button type="submit" class="btn btn-success"><i class="fa fa-edit m-right-xs"></i> Registrar Afecciones</button>
                                                     </div>
                                                 </div>
                                             </form>
                                         {%endif%}
+                                        
+                                         <!--Historico Afecciones -->
+                                        {% if (historicoAfecciones!=null) %}
+                                            <!-- Large modal -->
+                                            <button type="button" id='mi-modal' class="btn btn-primary" data-toggle="modal" data-target=".afeccione-modal-lg"><i class="fa fa-eye m-right-xs"></i> Ver Histórico</button>
+
+                                            <div class="modal fade afeccione-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg">
+                                                    <div class="modal-content">
+
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+                                                            </button>
+                                                            <h4 class="modal-title" id="myModalLabel">Histórico Afecciones</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+
+                                                            <table class="table table-striped">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Id</th>
+                                                                        <th>Diagnostico</th>
+                                                                        <th>Tratamiento</th>
+                                                                        <th>Capítulo</th>
+                                                                        <th>Grupo</th>
+                                                                        <th>Código</th>
+                                                                        <th>Nombre</th>
+                                                                        <th>Médico</th>
+                                                                        <th>Fecha</th>                                                                         
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    {% for afeccion in historicoAfecciones %}
+                                                                        <tr>
+                                                                            <td>{{ loop.index }}</td>
+                                                                            <td>{{ afeccion.diagnostico |raw}}</td>
+                                                                            <td>{{ afeccion.tratamiento|raw }}</td>
+                                                                            <td>{{ afeccion.capitulo |raw}}</td>
+                                                                            <td>{{ afeccion.grupo |raw}}</td>
+                                                                            <td>{{ afeccion.codigo |title}}</td>
+                                                                            <td>{{ afeccion.elemento }}</td>
+                                                                            <td>{{ afeccion.primer_apellido }} {{ afeccion.primer_nombre }}</td>  
+                                                                            <td>{{ afeccion.fecha | date('d-m-Y') }}</td>
+                                                                        </tr>
+                                                                    {% endfor %}
+                                                                </tbody>
+                                                            </table>                         
+
+
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Salir</button>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        {%endif%}
+                                        
+                                        
 
                                     </div>
                                     <!--Fin Afecciones-->
 
-                                    <!--Historico Consultas-->
+                                    <!--Historico Citas-->
                                     <div role="tabpanel" class="tab-pane fade" id="tab_content5" aria-labelledby="profile-tab">
-                                         <!-- Crear Cita-->
-                                            <form name="form_cita" action="{{path('cita_new')}}" method="post" id="form_cita" class="form-horizontal form-label-left"> 
-                                                <input id="cita_consulta" name="cita_consulta" type="hidden" value="{{consulta.id}}"> 
-                                                <div class="ln_solid"></div>
-                                                <div class="form-group">
-                                                    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">                
-                                                        <button type="submit" class="btn btn-success">Registrar Cita</button>
-                                                    </div>
+                                        <!-- Crear Cita-->
+                                        <form name="form_cita" action="{{path('cita_new')}}" method="post" id="form_cita" class="form-horizontal form-label-left"> 
+                                            <input id="cita_consulta" name="cita_consulta" type="hidden" value="{{consulta.id}}"> 
+                                            <div class="ln_solid"></div>
+                                            <div class="form-group">
+                                                <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">                
+                                                    <button type="submit" class="btn btn-success">Registrar Cita</button>
                                                 </div>
-                                            </form>
+                                            </div>
+                                        </form>
 
                                         {% if (citas!=null) %}
                                             <table class="table table-striped">
