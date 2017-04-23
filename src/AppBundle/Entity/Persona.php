@@ -5,14 +5,18 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Persona
  *
  * @ORM\Table(name="persona")
  * @ORM\Entity
- * 
+ * @UniqueEntity(
+ *     fields={"email", "cedula"},
+ *     
+ *     message="Uno de estos datos esta registrado: email o identificacion (nacionalidad/cedula)"
+ * )
  */
 class Persona
 {
@@ -35,7 +39,7 @@ class Persona
     /**
      * @var string
      *
-     * @ORM\Column(name="cedula", type="string", length=255, nullable=false)
+     * @ORM\Column(name="cedula", type="string", length=255, nullable=false, unique=true)
      */
     private $cedula;
 
@@ -84,7 +88,7 @@ class Persona
     /**
      * @var string
      *
-     * @ORM\Column(name="email", type="string", length=255, nullable=false)
+     * @ORM\Column(name="email", type="string", length=255, nullable=false, unique=true)
      */
     private $email;
         

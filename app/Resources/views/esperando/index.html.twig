@@ -37,7 +37,7 @@
                 <th>Fecha</th>
                 <th>Status</th>
                 <th>Penalizacion</th>
-                <th>Posicion</th>
+                <th>Posicion</th>                
                 <th>Especialidad</th>
                 <th>Profesional</th>
                 <th>Actions</th>
@@ -48,7 +48,7 @@
                 <tr>
                     <td>
                         <span class="image">
-                            <img src="{{ asset('uploads/fotos/')}}{{esperando.paciente.persona.foto}}" alt="{{esperando.paciente.persona.cedula}}" class="img-rounded" height="100" width="100">
+                            <img src="{{ asset('uploads/fotos/')}}{{esperando.paciente.persona.foto}}" alt="{{esperando.paciente.persona.cedula}}" class="img-rounded" height="70" width="70">
                         </span>
                     </td>
                     <td>{{ esperando.paciente.persona.nacionalidad }} - {{ esperando.paciente.persona.cedula }}</td>
@@ -56,7 +56,7 @@
                     <td>{% if esperando.fechaRegistro %}{{ esperando.fechaRegistro|date('d-m-Y H:i:s') }}{% endif %}</td>
                     <td>
                         {% if esperando.status=='atendido' %}                                                        
-                            <button type="button" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{esperando.status |title}}">
+                            <button type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{esperando.status |title}}">
                                 <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                             </button>
                         {% elseif esperando.status=='abandono' %}

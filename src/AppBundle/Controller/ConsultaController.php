@@ -40,8 +40,36 @@ class ConsultaController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $consulta = $em->getRepository('AppBundle:Consulta')->find($id);
         $consulta->setEgreso(TRUE);
+
+        //Verificamos si la Consulta fue dada por una Cita planificada en la especialidad seleccionada
+        $hoy = new \DateTime('now');
+        $hoy->setTime(0, 0, 0);
+        $cita = $em->getRepository('AppBundle:Cita')->findOneBy(
+                array(
+                    'paciente' => $consulta->getPaciente(),
+                    'fecha' => $hoy,
+                    'especialidad' => $consulta->getEspecialidad(),
+                    'status' => 'activo',
+                )
+        );
+       
+        // A la Cita le cambiamos el Estatus a procesada
+        if ($cita!=null && $cita->getConsulta() != $consulta) {
+            $cita->setStatus('procesada');
+            $em->persist($cita);
+            $em->flush($cita);
+        }
+        
+        //Verificamos si se generaron Reposos y Constancias para Enviar losEmail Respectivos
+        $reposos=$em->getRepository('AppBundle:Reposo')->findByConsulta($consulta);
+        $constancias=$em->getRepository('AppBundle:Constancia')->findByConsulta($consulta);
+        dump($reposos, $constancias); die();
+        
+
+        //Actualizamos la Consulta
         $em->persist($consulta);
         $em->flush($consulta);
+
         return $this->redirectToRoute('homepage_medico');
     }
 

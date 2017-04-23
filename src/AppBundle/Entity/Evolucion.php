@@ -10,8 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="evolucion")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\EvolucionRepository")
  */
-class Evolucion
-{
+class Evolucion {
+
     /**
      * @var int
      *
@@ -49,21 +49,21 @@ class Evolucion
      */
     private $tratamiento;
 
-      /**
+    /**
      * @var string
      *
      * @ORM\Column(name="frecuencia", type="string", length=255, nullable=true)
      */
     private $frecuencia;
-    
-     /**
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="edad", type="integer", nullable=true)
      */
     private $edad = '0';
-    
-       /**
+
+    /**
      * @var \Consulta
      *
      * @ORM\ManyToOne(targetEntity="Consulta")
@@ -78,8 +78,7 @@ class Evolucion
      *
      * @return int
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -90,8 +89,7 @@ class Evolucion
      *
      * @return Evolucion
      */
-    public function setObjetivo($objetivo)
-    {
+    public function setObjetivo($objetivo) {
         $this->objetivo = $objetivo;
 
         return $this;
@@ -102,8 +100,7 @@ class Evolucion
      *
      * @return string
      */
-    public function getObjetivo()
-    {
+    public function getObjetivo() {
         return $this->objetivo;
     }
 
@@ -114,8 +111,7 @@ class Evolucion
      *
      * @return Evolucion
      */
-    public function setSubjetivo($subjetivo)
-    {
+    public function setSubjetivo($subjetivo) {
         $this->subjetivo = $subjetivo;
 
         return $this;
@@ -126,8 +122,7 @@ class Evolucion
      *
      * @return string
      */
-    public function getSubjetivo()
-    {
+    public function getSubjetivo() {
         return $this->subjetivo;
     }
 
@@ -138,8 +133,7 @@ class Evolucion
      *
      * @return Evolucion
      */
-    public function setApreciacion($apreciacion)
-    {
+    public function setApreciacion($apreciacion) {
         $this->apreciacion = $apreciacion;
 
         return $this;
@@ -150,8 +144,7 @@ class Evolucion
      *
      * @return string
      */
-    public function getApreciacion()
-    {
+    public function getApreciacion() {
         return $this->apreciacion;
     }
 
@@ -162,8 +155,7 @@ class Evolucion
      *
      * @return Evolucion
      */
-    public function setTratamiento($tratamiento)
-    {
+    public function setTratamiento($tratamiento) {
         $this->tratamiento = $tratamiento;
 
         return $this;
@@ -174,8 +166,7 @@ class Evolucion
      *
      * @return string
      */
-    public function getTratamiento()
-    {
+    public function getTratamiento() {
         return $this->tratamiento;
     }
 
@@ -186,8 +177,7 @@ class Evolucion
      *
      * @return Evolucion
      */
-    public function setFrecuencia($frecuencia)
-    {
+    public function setFrecuencia($frecuencia) {
         $this->frecuencia = $frecuencia;
 
         return $this;
@@ -198,8 +188,7 @@ class Evolucion
      *
      * @return string
      */
-    public function getFrecuencia()
-    {
+    public function getFrecuencia() {
         return $this->frecuencia;
     }
 
@@ -210,8 +199,7 @@ class Evolucion
      *
      * @return Evolucion
      */
-    public function setConsulta(\AppBundle\Entity\Consulta $consulta = null)
-    {
+    public function setConsulta(\AppBundle\Entity\Consulta $consulta = null) {
         $this->consulta = $consulta;
 
         return $this;
@@ -222,8 +210,7 @@ class Evolucion
      *
      * @return \AppBundle\Entity\Consulta
      */
-    public function getConsulta()
-    {
+    public function getConsulta() {
         return $this->consulta;
     }
 
@@ -234,8 +221,7 @@ class Evolucion
      *
      * @return Evolucion
      */
-    public function setEdad($edad)
-    {
+    public function setEdad($edad) {
         $this->edad = $edad;
 
         return $this;
@@ -246,8 +232,8 @@ class Evolucion
      *
      * @return integer
      */
-    public function getEdad()
-    {
+    public function getEdad() {
         return $this->edad;
     }
+
 }

@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Constancium</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ constancium.id }}</td>
+            </tr>
+            <tr>
+                <th>Consulta</th>
+                <td>{{ constancium.consulta }}</td>
+            </tr>
+            <tr>
+                <th>Observacion</th>
+                <td>{{ constancium.observacion }}</td>
+            </tr>
+            <tr>
+                <th>Codigo</th>
+                <td>{{ constancium.codigo }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('constancia_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('constancia_edit', { 'id': constancium.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

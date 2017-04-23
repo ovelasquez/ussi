@@ -22,13 +22,10 @@ class EsperandoController extends Controller {
      * @Method("GET")
      */
     public function indexAction() {
-
         $hoy = new \DateTime('now');
         $hoy->setTime(0, 0, 0);
-
         $em = $this->getDoctrine()->getManager();
         $configuracion = $em->getRepository('AppBundle:Configuracion')->findAll();
-
         $repository = $em->getRepository('AppBundle:Esperando');
         $query = $repository->createQueryBuilder('p')
                 ->where('p.fechaRegistro >= :hoy')
@@ -36,9 +33,7 @@ class EsperandoController extends Controller {
                 ->orderBy('p.posicion', 'ASC')
                 ->getQuery();
         $esperandos = $query->getResult();
-
         //$esperandos = $em->getRepository('AppBundle:Esperando')->findAllByFecha();
-
         return $this->render('esperando/index.html.twig', array(
                     'esperandos' => $esperandos,
                     'penalizacion' => $configuracion[0]->getPenalizacion(),
@@ -46,7 +41,7 @@ class EsperandoController extends Controller {
     }
 
     /**
-     * Lists all esperando
+     * Procesar la Lista de  espera
      *
      * @Route("/procesar", name="esperando_procesar")
      * @Method("GET")
@@ -89,7 +84,6 @@ class EsperandoController extends Controller {
         if (!$esMio) {
             $esperandos = null;
         }
-
         return $this->render('esperando/procesar.html.twig', array(
                     'esperando' => $esperandos,
                     'tiempoEspera' => $configuracion[0]->getTiempoEspera(),
@@ -107,17 +101,14 @@ class EsperandoController extends Controller {
      * @Method("GET")
      */
     public function procesandoAction(Request $request, $id, $llego) {
-
         $em = $this->getDoctrine()->getManager();
         $esperandos = $em->getRepository('AppBundle:Esperando')->find($id);
-
         if ($esperandos) {
             if ($llego == 1) { //El Paciente llego al consultorio y le abriran su consulta
                 $esperandos->setStatus('atendido');
                 $esperandos->setPosicion(null);
                 $em->flush($esperandos);
-                return $this->redirectToRoute('homepage_consulta', array('paciente' => $esperandos->getPaciente()->getId()));
-                //return $this->render('default/consulta.html.twig', array('paciente' => $esperandos->getPaciente(),));
+                return $this->redirectToRoute('homepage_consulta', array('paciente' => $esperandos->getPaciente()->getId()));                
             } else {
                 //El Paciente NO llego al consultorio y será penalizado
                 //Se verifica que no ha alcanzado el limite de penalizaciones, 
@@ -130,9 +121,7 @@ class EsperandoController extends Controller {
                     //Buscamos al Primero de la Lista de Espera
                     $listaEspera = $em->getRepository('AppBundle:Esperando')->findBy(
                             array('especialidad' => $esperandos->getEspecialidad(), 'status' => 'activo',), array('posicion' => 'ASC')
-                    );
-                    // dump($listaEspera); die();
-
+                    );                    
                     if ($listaEspera) {
                         $miPosicion = $esperandos->getPosicion();
                         $i = 0;
@@ -143,9 +132,7 @@ class EsperandoController extends Controller {
                                 $listaEspera[$i]->setPosicion($miPosicion);
                                 $em->flush($listaEspera[$i]);
                                 $repetir = false;
-                            } else {
-                                //$repetir = false;
-                            }
+                            } 
                             $i++;
                         } while ($repetir && ($i < count($listaEspera)));
                     }
@@ -236,6 +223,7 @@ class EsperandoController extends Controller {
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            //Si eliminamos al paciente volvemos a incrementar la disponibilidad de la Especialidad
             $servicio = $em->getRepository('AppBundle:Servicio')->findOneBy(
                     array(
                         'especialidad' => $esperando->getEspecialidad(),
@@ -245,7 +233,7 @@ class EsperandoController extends Controller {
             $em->persist($servicio);
             $em->flush($servicio);
 
-            
+            //Eliminamos alpaciente de la lista de espera
             $em->remove($esperando);
             $em->flush($esperando);
         }

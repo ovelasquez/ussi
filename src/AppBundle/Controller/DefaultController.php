@@ -106,6 +106,8 @@ class DefaultController extends Controller {
         $paciente = $em->getRepository('AppBundle:Paciente')->find($paciente);
         $evolucion = null;
         $afeccione = null;
+        $reposo=null;
+        $constancia=null;
 
         // Buscamos si el Paciente tiene Historia Medica
         $historicoAntecedentes = $em->getRepository('AppBundle:Antecedente')->findByPaciente($paciente);
@@ -133,6 +135,10 @@ class DefaultController extends Controller {
             $evolucion = $em->getRepository('AppBundle:Evolucion')->findOneBy(array('consulta' => $tieneConsultaActiva,));
             //Buscar las Afeccione asociada a la consulta
             $afeccione = $em->getRepository('AppBundle:Afeccione')->findOneBy(array('consulta' => $tieneConsultaActiva,));
+            //Buscar Reposo asociada a la consulta
+            $reposo = $em->getRepository('AppBundle:Reposo')->findOneBy(array('consulta' => $tieneConsultaActiva,));
+            //Buscar Constancias asociada a la consulta
+            $constancia = $em->getRepository('AppBundle:Constancia')->findOneBy(array('consulta' => $tieneConsultaActiva,));
         } else {
             //Creamos una nueva consulta
             if (in_array('ROLE_MEDICO', $this->getUser()->getRoles()) && $especialidad) {
@@ -159,8 +165,13 @@ class DefaultController extends Controller {
         //Tadas las Evoluciones del paciente
         $historicoEvolucion = $this->historicoEvolucion($paciente->getId(), $especialidad->getId());
         //Tadas las Afecciones del paciente
-         $historicoAfecciones = $this->historicoAfecciones($paciente->getId(), $especialidad->getId());
-        //dump($historicoAfecciones); die();                
+        $historicoAfecciones = $this->historicoAfecciones($paciente->getId(), $especialidad->getId());
+        //Tadas los Reposos del paciente
+        $historicoReposos = $this->historicoReposos($paciente->getId(), $especialidad->getId());
+        //Tadas los Constancias del paciente
+        $historicoConstancias = $this->historicoConstancias($paciente->getId(), $especialidad->getId());
+
+        
 
         return $this->render('default/consulta.html.twig', array(
                     'paciente' => $paciente,
@@ -178,7 +189,11 @@ class DefaultController extends Controller {
                     'historicoAbandono' => $historicoAbandono,
                     'historicoCita' => $historicoCita,
                     'historicoEvolucion' => $historicoEvolucion,
-                    'historicoAfecciones' => $historicoAfecciones,                        
+                    'historicoAfecciones' => $historicoAfecciones,
+                    'reposo' => $reposo,
+                    'historicoReposos' =>$historicoReposos,
+                    'constancia' => $constancia,
+                    'historicoConstancias' => $historicoConstancias,
         ));
     }
 
@@ -256,6 +271,34 @@ class DefaultController extends Controller {
             left join enterica_grupo as eg on eg.id=ee.entericagrupo_id
             left join enterica_capitulo as ec on ec.id=eg.entericacapitulo_id
             where c.paciente_id=:paciente and c.especialidad_id=:especialidad and c.egreso=true';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(array('especialidad' => $especialidad, 'paciente' => $paciente));
+        return $stmt->fetchAll();
+    }
+
+    //Buscamos todas los Reposos del Pacientes en las diferentes consultas de la especialidad
+    private function historicoReposos($paciente, $especialidad) {
+        $conn = $this->getDoctrine()->getManager()->getConnection();
+        $sql = 'select r.observacion,r.inicio, c.fecha, per.primer_apellido, per.primer_nombre 
+            from reposo as r 
+            left join consulta as c on r.consulta_id= c.id
+            left join profesional as p on c.profesional_id=p.id
+            left join persona as per on p.persona_id=per.id
+            where c.paciente_id=:paciente and c.especialidad_id=:especialidad';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(array('especialidad' => $especialidad, 'paciente' => $paciente));
+        return $stmt->fetchAll();
+    }
+    
+    //Buscamos todas los Reposos del Pacientes en las diferentes consultas de la especialidad
+    private function historicoConstancias($paciente, $especialidad) {
+        $conn = $this->getDoctrine()->getManager()->getConnection();
+        $sql = 'select r.observacion,c.fecha, per.primer_apellido, per.primer_nombre 
+            from constancia as r 
+            left join consulta as c on r.consulta_id= c.id
+            left join profesional as p on c.profesional_id=p.id
+            left join persona as per on p.persona_id=per.id
+            where c.paciente_id=:paciente and c.especialidad_id=:especialidad';
         $stmt = $conn->prepare($sql);
         $stmt->execute(array('especialidad' => $especialidad, 'paciente' => $paciente));
         return $stmt->fetchAll();

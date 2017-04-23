@@ -131,11 +131,14 @@ class EvolucionController extends Controller {
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $id = $evolucion->getConsulta()->getPaciente()->getId();
             $em->remove($evolucion);
             $em->flush($evolucion);
         }
 
-        return $this->redirectToRoute('evolucion_index');
+        return $this->redirectToRoute('homepage_consulta', array(
+                    'paciente' => $id,
+        ));
     }
 
     /**

@@ -21,7 +21,7 @@ class CitaType extends AbstractType {
                 ->add('profesional')                
                 ->add('fecha')
                 ->add('prioridad', ChoiceType::class, array(
-                    'choices' => array('Normal' => 'normal', 'Emergencia' => 'emergencia',),
+                    'choices' => array('Normal' => 'normal', 'Alta'=> 'alta', 'Emergencia' => 'emergencia',),
                     'required' => true,
                     'label' => 'Prioridad',
                     'attr' => array('placeholder' => 'Seleccione')

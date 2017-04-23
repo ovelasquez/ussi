@@ -138,11 +138,14 @@ class AfeccioneController extends Controller {
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $id = $afeccione->getConsulta()->getPaciente()->getId();
             $em->remove($afeccione);
             $em->flush($afeccione);
         }
 
-        return $this->redirectToRoute('afeccione_index');
+        return $this->redirectToRoute('homepage_consulta', array(
+                    'paciente' => $id,
+        ));
     }
 
     /**

@@ -200,6 +200,7 @@ class Consulta
     public function __toString() {
         return $this->getPaciente()->getPersona()->getPrimerNombre()
                 .' '.$this->getPaciente()->getPersona()->getPrimerApellido()
-                .' - Especialidad: '.$this->getEspecialidad()->getNombre();
+                .' - Especialidad: '.$this->getEspecialidad()->getNombre()
+                .' - Id: '.$this->getId();
     }
 }

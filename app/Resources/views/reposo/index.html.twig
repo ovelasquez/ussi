@@ -5,8 +5,8 @@
     <link href="{{ asset('bundles/app/vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{ asset('bundles/app/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css')}}" rel="stylesheet">
 {% endblock %}
-{% block title %} Lista de Consultas {% endblock %}
-{% block Subtitulo %} Lista de Consultas -  <small> <a href="#">Lista</a></small> {% endblock %} 
+{% block title %} Lista de Reposos {% endblock %}
+{% block Subtitulo %} Lista de Reposos -  <small> <a href="#">Lista</a></small> {% endblock %} 
 {% block body %}
     {% for msg in app.session.flashBag.get('success') %}        
         <div class="alert alert-success alert-dismissible fade in" role="alert">
@@ -26,41 +26,43 @@
             </strong>
         </div>
     {% endfor %}
-    <h1>Consultas </h1>
+    <h1>Reposos</h1>
 
     <table id="datatable-fixed-header" class="table table-striped table-bordered">
         <thead>
             <tr>
-               <th>Id</th>
+                <th>Id</th>
+                <th>Identidad</th>
                 <th>Paciente</th>
-                 <th>Profesional</th>
-                 <th>Especialidad</th>                 
-                <th>De Alta</th>
-                <th>Fecha</th>
+                <th>Profesional</th>
+                <th>Especialidad</th>   
+                <th>Fecha Consulta</th>
+                <th>Fecha Reposo</th>                
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-            {% for consultum in consultas %}
-            <tr>
-                <td><a href="{{ path('consulta_show', { 'id': consultum.id }) }}">{{ consultum.id }}</a></td>
-                <td>{{ consultum.paciente.persona.primerNombre }} {{ consultum.paciente.persona.primerApellido }}</td>
-                <td>{{ consultum.profesional.persona.primerNombre }} {{ consultum.profesional.persona.primerApellido }}</td>
-                <td>{{ consultum.especialidad.nombre }}</td>
-                <td>{% if consultum.egreso %}Si{% else %}No{% endif %}</td>
-                <td>{% if consultum.fecha %}{{ consultum.fecha|date("F jS \\a\\t g:ia") }}{% endif %}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('consulta_show', { 'id': consultum.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('consulta_edit', { 'id': consultum.id }) }}">edit</a>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
-        {% endfor %}
+            {% for reposo in reposos %}
+                <tr>
+                    <td><a href="{{ path('reposo_show', { 'id': reposo.id }) }}">{{ reposo.id }}</a></td>
+                    <td>{{ reposo.consulta.paciente.persona.nacionalidad }} - {{ reposo.consulta.paciente.persona.cedula }}</td>
+                    <td>{{ reposo.consulta.paciente.persona.primerNombre }} {{ reposo.consulta.paciente.persona.primerApellido }}</td>
+                    <td>{{ reposo.consulta.profesional.persona.primerNombre }} {{ reposo.consulta.profesional.persona.primerApellido }}</td>
+                    <td>{{ reposo.consulta.especialidad.nombre }}</td>
+                    <td>{% if reposo.consulta.fecha %}{{ reposo.consulta.fecha|date("F jS \\a\\t g:ia") }}{% endif %}</td>
+                    <td>{{ reposo.inicio }}</td>                    
+                    <td>
+                        <ul>
+                            <li>
+                                <a href="{{ path('reposo_show', { 'id': reposo.id }) }}">show</a>
+                            </li>
+                            <li>
+                                <a href="{{ path('reposo_edit', { 'id': reposo.id }) }}">edit</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
 {% endblock %}

@@ -46,9 +46,25 @@
         </div>
     </div>
 {% endblock %}
-{% block body %}
+{% block body %}   
+    {% for msg in app.session.flashBag.get('success') %}        
+        <div class="alert alert-success alert-dismissible fade in" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+            </button>
+            <strong>{{ msg }}</strong>
+        </div>
+    {% endfor %}
 
-
+    {% for msgs in app.session.flashBag.get('error') %}
+        <div class="alert alert-danger alert-dismissible fade in" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+            <strong>
+                {% for msg in msgs %}
+                    <p>{{ msg }}</p>
+                {% endfor %}
+            </strong>
+        </div>
+    {% endfor %}
     <div class="">
         <div class="page-title">
             <div class="title_left">
@@ -64,10 +80,8 @@
                 <div class="x_panel">
                     <div class="x_title">
                         <h2>{% block Subtitulo %}  
-                            Paciente:  {{ paciente.persona.primerApellido |capitalize }} {{ paciente.persona.segundoApellido |capitalize }} {{ paciente.persona.primerNombre |capitalize }} {{ paciente.persona.segundoNombre |capitalize }}                            
-
+                            Paciente:  {{ paciente.persona.primerApellido |capitalize }} {{ paciente.persona.segundoApellido |capitalize }} {{ paciente.persona.primerNombre |capitalize }} {{ paciente.persona.segundoNombre |capitalize }}
                         {% endblock %} </h2>
-
                     <ul class="nav navbar-right panel_toolbox submenu">
                         {% block paneltoolbox %} 
                             <li><a class="collapse-link" ><i class="fa fa-chevron-up"></i></a></li>
@@ -95,11 +109,7 @@
                                     <img class="img-responsive avatar-view" src="{{ asset('uploads/fotos/')}}{{paciente.persona.foto}}" alt="Avatar" title="Change the avatar" height="80%" width="80%">                    
                                 </div>
                             </div>
-
-                            <p></p>
-
-                                <!--a class="btn btn-success" href="{{ path('paciente_edit', { 'id': paciente.id }) }}"><i class="fa fa-edit m-right-xs"></i>Editar Registro</a-->
-
+                            <p></p>                              
                             <form name="form_consulta" action="{{path('consulta_alta')}}" method="post" id="form_consulta" class="form-horizontal form-label-left"> 
                                 <input id="alta_consulta" name="alta_consulta" type="hidden" value="{{consulta.id}}">                                 
                                 <div class="form-group">
@@ -108,7 +118,6 @@
                                     </div>
                                 </div>
                             </form>
-
                             <br/>           
                         </div>
                         <div class="col-md-10 col-sm-10 col-xs-12">                    
@@ -119,6 +128,8 @@
                                     <li role="presentation" class=""><a href="#tab_content3" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Evolución</a></li>
                                     <li role="presentation" class=""><a href="#tab_content4" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Afecciones</a></li>
                                     <li role="presentation" class=""><a href="#tab_content5" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Referir</a></li>
+                                    <li role="presentation" class=""><a href="#tab_content6" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Reposos</a></li>
+                                    <li role="presentation" class=""><a href="#tab_content7" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Constancias</a></li>
                                 </ul>
                                 <div id="myTabContent" class="tab-content">
 
@@ -874,7 +885,7 @@
                                                         </div>
                                                         <div class="modal-body">
 
-                                                            <table class="table table-striped">
+                                                            <table id="datatable-fixed-header" class="table table-striped table-bordered">
                                                                 <thead>
                                                                     <tr>
                                                                         <th>Id</th>
@@ -927,7 +938,7 @@
                                     <div role="tabpanel" class="tab-pane fade" id="tab_content4" aria-labelledby="profile-tab">                                         
                                         {% if (afeccione!=null) %}
                                             <div class="x_content">                   
-                                                <table class="table table-striped">
+                                                <table id="datatable-fixed-header" class="table table-striped table-bordered">
                                                     <tbody>
 
                                                         <tr>
@@ -969,8 +980,8 @@
                                                 </div>
                                             </form>
                                         {%endif%}
-                                        
-                                         <!--Historico Afecciones -->
+
+                                        <!--Historico Afecciones -->
                                         {% if (historicoAfecciones!=null) %}
                                             <!-- Large modal -->
                                             <button type="button" id='mi-modal' class="btn btn-primary" data-toggle="modal" data-target=".afeccione-modal-lg"><i class="fa fa-eye m-right-xs"></i> Ver Histórico</button>
@@ -1028,13 +1039,13 @@
                                             </div>
 
                                         {%endif%}
-                                        
-                                        
+
+
 
                                     </div>
                                     <!--Fin Afecciones-->
 
-                                    <!--Historico Citas-->
+                                    <!--Citas-->
                                     <div role="tabpanel" class="tab-pane fade" id="tab_content5" aria-labelledby="profile-tab">
                                         <!-- Crear Cita-->
                                         <form name="form_cita" action="{{path('cita_new')}}" method="post" id="form_cita" class="form-horizontal form-label-left"> 
@@ -1080,7 +1091,174 @@
                                         {%endif%}
 
                                     </div>
-                                    <!--Fin Historico Consultas-->
+                                    <!--Fin Citas-->
+
+                                    <!--Reposos-->
+
+                                    <div role="tabpanel" class="tab-pane fade" id="tab_content6" aria-labelledby="profile-tab">                                         
+                                        {% if (reposo!=null) %}
+                                            <div class="x_content">                   
+                                                <table class="table table-striped">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th>Observación</th>
+                                                            <td>{{ reposo.observacion |raw}} </td>
+                                                        </tr>  
+                                                        <tr>
+                                                            <th>Periodo</th>
+                                                            <td>{{ reposo.inicio }} </td>
+                                                        </tr>                                                        
+                                                    </tbody>
+                                                </table>                                
+                                            </div>
+                                            <a class="btn btn-success" href="{{ path('reposo_edit', { 'id': reposo.id }) }}"><i class="fa fa-edit m-right-xs"></i>Editar Reposo</a>
+
+                                        {% else %}
+                                            <!-- no tiene Reposo -->
+                                            <form name="form_reposo" action="{{path('reposo_new')}}" method="post" id="form_evolucion" class="form-horizontal form-label-left"> 
+                                                <input id="reposo_consulta" name="reposo_consulta" type="hidden" value="{{consulta.id}}"> 
+                                                <div class="ln_solid"></div>
+                                                <div class="form-group">
+                                                    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">                
+                                                        <button type="submit" class="btn btn-success"><i class="fa fa-edit m-right-xs"></i> Registrar Reposo</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        {%endif%}
+                                        <!--Historico Reposos -->
+                                        {% if (historicoReposos!=null) %}
+                                            <!-- Large modal -->
+                                            <button type="button" id='mi-modal' class="btn btn-primary" data-toggle="modal" data-target=".reposo-modal-lg"><i class="fa fa-eye m-right-xs"></i> Ver Histórico</button>
+
+                                            <div class="modal fade reposo-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg">
+                                                    <div class="modal-content">
+
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+                                                            </button>
+                                                            <h4 class="modal-title" id="myModalLabel">Histórico Reposos</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+
+                                                            <table id="datatable-fixed-header" class="table table-striped table-bordered">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Id</th>
+                                                                        <th>Profesional</th>                                                                        
+                                                                        <th>Observación</th>  
+                                                                        <th>Fecha Consulta</th>
+                                                                        <th>Periodo</th>                                                                      
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    {% for reposo in historicoReposos %}
+                                                                        <tr>         
+                                                                            <td>{{ loop.index  }}</td>      
+                                                                            <td>{{ reposo.primer_nombre }} {{ reposo.primer_apellido }}</td>                                                                            
+                                                                            <td>{{ reposo.observacion|raw }}</td>
+                                                                            <td>{% if reposo.fecha %}{{ reposo.fecha|date("F jS \\a\\t g:ia") }}{% endif %}</td>
+                                                                            <td>{{ reposo.inicio }}</td>                                                                             
+                                                                        </tr>
+                                                                    {% endfor %}
+                                                                </tbody>
+                                                            </table>                         
+
+
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Salir</button>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        {%endif%}
+
+
+                                    </div>
+                                    <!--Fin Reposos-->
+
+                                    <!--Constancia-->
+                                    <div role="tabpanel" class="tab-pane fade" id="tab_content7" aria-labelledby="profile-tab">                                         
+                                        {% if (constancia!=null) %}
+                                            <div class="x_content">                   
+                                                <table class="table table-striped">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th>Observación</th>
+                                                            <td>{{ constancia.observacion |raw}} </td>
+                                                        </tr>                                                                                                             
+                                                    </tbody>
+                                                </table>                                
+                                            </div>
+                                            <a class="btn btn-success" href="{{ path('reposo_edit', { 'id': constancia.id }) }}"><i class="fa fa-edit m-right-xs"></i>Editar Constancia</a>
+
+                                        {% else %}
+                                            <!-- no tiene Constancia -->
+                                            <form name="form_constancia" action="{{path('constancia_new')}}" method="post" id="form_evolucion" class="form-horizontal form-label-left"> 
+                                                <input id="reposo_consulta" name="reposo_consulta" type="hidden" value="{{consulta.id}}"> 
+                                                <div class="ln_solid"></div>
+                                                <div class="form-group">
+                                                    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">                
+                                                        <button type="submit" class="btn btn-success"><i class="fa fa-edit m-right-xs"></i> Registrar Constancia</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        {%endif%}
+                                        <!--Historico Reposos -->
+                                        {% if (historicoConstancias!=null) %}
+                                            <!-- Large modal -->
+                                            <button type="button" id='mi-modal' class="btn btn-primary" data-toggle="modal" data-target=".constancia-modal-lg"><i class="fa fa-eye m-right-xs"></i> Ver Histórico</button>
+
+                                            <div class="modal fade constancia-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg">
+                                                    <div class="modal-content">
+
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+                                                            </button>
+                                                            <h4 class="modal-title" id="myModalLabel">Histórico Constancias</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+
+                                                            <table id="datatable-fixed-header" class="table table-striped table-bordered">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Id</th>
+                                                                        <th>Profesional</th>                                                                        
+                                                                        <th>Observación</th>  
+                                                                        <th>Fecha Consulta</th>                                                                                                                                            
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    {% for constancia in historicoConstancias %}
+                                                                        <tr>         
+                                                                            <td>{{ loop.index  }}</td>      
+                                                                            <td>{{ constancia.primer_nombre }} {{ constancia.primer_apellido }}</td>                                                                            
+                                                                            <td>{{ constancia.observacion|raw }}</td>
+                                                                            <td>{% if constancia.fecha %}{{ constancia.fecha|date("F jS \\a\\t g:ia") }}{% endif %}</td>                                                                                                                                                       
+                                                                        </tr>
+                                                                    {% endfor %}
+                                                                </tbody>
+                                                            </table>                         
+
+
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Salir</button>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        {%endif%}
+
+
+                                    </div>
+                                    <!--Fin Constancias-->
 
                                 </div> <!-- Fin myTabContent -->
 
