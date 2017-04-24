@@ -139,8 +139,7 @@ class ProfesionalController extends Controller {
 
         $em = $this->getDoctrine()->getManager();
         $paciente = $em->getRepository('AppBundle:Paciente')->findOneByPersona($profesional->getPersona());
-        //dump($paciente); 
-        
+        //dump($paciente);       die();
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             //Add Profesional / Persona
             if ($profesional->getPersona()->getFoto() === null) {
@@ -150,7 +149,7 @@ class ProfesionalController extends Controller {
 
             //Add Paciente
             $valor = $request->request->get('appbundle_profesional');
-           // dump($valor); die();
+            //dump($valor); die();
             $fechaNacimiento = ($valor['fechaNacimiento']);
             
             //$paciente = new Paciente();

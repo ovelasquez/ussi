@@ -59,16 +59,23 @@ class DefaultController extends Controller {
     public function medicoAction() {
         $em = $this->getDoctrine()->getManager();
         $esperandos = null;
+        $hayConsultasActivas=null;
         $configuracion = $em->getRepository('AppBundle:Configuracion')->findAll();
         $profesional = $em->getRepository('AppBundle:Profesional')->findOneByPersona($this->getUser()->getPersona());
         $servicioProfesional = $em->getRepository('AppBundle:ServicioProfesional')->findOneBy(array('profesional' => $profesional, 'status' => 'activo'));
 
+        
+        
         if ($servicioProfesional) {
             $especialidad = $em->getRepository('AppBundle:Especialidad')->find($servicioProfesional->getServicio()->getEspecialidad());
             $esperandos = $this->numerosAction('activo', $especialidad); //Lista de pacientes en Espera
             $conCita = $this->numerosAction('cita', $especialidad, $profesional); //Lista de pacientes que van con el Dr.
             $atendidos = $this->numerosAction('atendido', $especialidad, $profesional); //Lista de pacientes atendidos
             $abandono = $this->numerosAction('abandono', $especialidad, $profesional); //Lista de pacientes que alcanzaron el limite de llamadas 
+            
+            //Buscamos Todas las Consultas Activas del Paciente en la especialidad del medico
+            $hayConsultasActivas = $em->getRepository('AppBundle:Consulta')->findBy(array('egreso' => false, 'profesional' => $profesional, 'especialidad' => $especialidad));
+        //dump($hayConsultasActivas); die();
         }
 
         return $this->render('default/medico.html.twig', array(
@@ -78,6 +85,7 @@ class DefaultController extends Controller {
                     'atendidos' => $atendidos,
                     'conCita' => $conCita,
                     'penalizacion' => $configuracion[0]->getPenalizacion(),
+                    'hayConsultasActivas' =>$hayConsultasActivas,
         ));
     }
 
@@ -108,6 +116,7 @@ class DefaultController extends Controller {
         $afeccione = null;
         $reposo=null;
         $constancia=null;
+        $receta=null;
 
         // Buscamos si el Paciente tiene Historia Medica
         $historicoAntecedentes = $em->getRepository('AppBundle:Antecedente')->findByPaciente($paciente);
@@ -139,6 +148,8 @@ class DefaultController extends Controller {
             $reposo = $em->getRepository('AppBundle:Reposo')->findOneBy(array('consulta' => $tieneConsultaActiva,));
             //Buscar Constancias asociada a la consulta
             $constancia = $em->getRepository('AppBundle:Constancia')->findOneBy(array('consulta' => $tieneConsultaActiva,));
+             //Buscar Constancias asociada a la consulta
+            $receta = $em->getRepository('AppBundle:Receta')->findOneBy(array('consulta' => $tieneConsultaActiva,));
         } else {
             //Creamos una nueva consulta
             if (in_array('ROLE_MEDICO', $this->getUser()->getRoles()) && $especialidad) {
@@ -170,7 +181,8 @@ class DefaultController extends Controller {
         $historicoReposos = $this->historicoReposos($paciente->getId(), $especialidad->getId());
         //Tadas los Constancias del paciente
         $historicoConstancias = $this->historicoConstancias($paciente->getId(), $especialidad->getId());
-
+        //Tadas las Recetas del paciente
+        $historicoRecetas = $this->historicoRecetas($paciente->getId(), $especialidad->getId());
         
 
         return $this->render('default/consulta.html.twig', array(
@@ -194,6 +206,8 @@ class DefaultController extends Controller {
                     'historicoReposos' =>$historicoReposos,
                     'constancia' => $constancia,
                     'historicoConstancias' => $historicoConstancias,
+                    'receta' => $receta,
+                    'historicoRecetas' => $historicoRecetas,
         ));
     }
 
@@ -284,7 +298,7 @@ class DefaultController extends Controller {
             left join consulta as c on r.consulta_id= c.id
             left join profesional as p on c.profesional_id=p.id
             left join persona as per on p.persona_id=per.id
-            where c.paciente_id=:paciente and c.especialidad_id=:especialidad';
+            where c.paciente_id=:paciente and c.especialidad_id=:especialidad and c.egreso=true';
         $stmt = $conn->prepare($sql);
         $stmt->execute(array('especialidad' => $especialidad, 'paciente' => $paciente));
         return $stmt->fetchAll();
@@ -298,7 +312,22 @@ class DefaultController extends Controller {
             left join consulta as c on r.consulta_id= c.id
             left join profesional as p on c.profesional_id=p.id
             left join persona as per on p.persona_id=per.id
-            where c.paciente_id=:paciente and c.especialidad_id=:especialidad';
+            where c.paciente_id=:paciente and c.especialidad_id=:especialidad and c.egreso=true';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(array('especialidad' => $especialidad, 'paciente' => $paciente));
+        return $stmt->fetchAll();
+    }
+    
+    
+    //Buscamos todas las Recetas del Pacientes en las diferentes consultas de la especialidad
+    private function historicoRecetas($paciente, $especialidad) {
+        $conn = $this->getDoctrine()->getManager()->getConnection();
+        $sql = 'select r.observacion,c.fecha, per.primer_apellido, per.primer_nombre 
+            from receta as r 
+            left join consulta as c on r.consulta_id= c.id
+            left join profesional as p on c.profesional_id=p.id
+            left join persona as per on p.persona_id=per.id
+            where c.paciente_id=:paciente and c.especialidad_id=:especialidad and c.egreso=true';
         $stmt = $conn->prepare($sql);
         $stmt->execute(array('especialidad' => $especialidad, 'paciente' => $paciente));
         return $stmt->fetchAll();

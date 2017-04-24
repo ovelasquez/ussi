@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+        <!-- 
+                                           /$$   /$$ /$$   /$$ /$$$$$$$$ /$$$$$$$$ /$$$$$$                      /$$   /$$ /$$$$$$$  /$$    /$$                                                      
+                                          | $$  | $$| $$$ | $$| $$_____/| $$_____//$$__  $$                    | $$  | $$| $$__  $$| $$   | $$                                                      
+                                          | $$  | $$| $$$$| $$| $$      | $$     | $$  \ $$                    | $$  | $$| $$  \ $$| $$   | $$                                                      
+                                          | $$  | $$| $$ $$ $$| $$$$$   | $$$$$  | $$$$$$$$       /$$$$$$      | $$  | $$| $$$$$$$ |  $$ / $$/                                                      
+                                          | $$  | $$| $$  $$$$| $$__/   | $$__/  | $$__  $$      |______/      | $$  | $$| $$__  $$ \  $$ $$/                                                       
+                                          | $$  | $$| $$\  $$$| $$      | $$     | $$  | $$                    | $$  | $$| $$  \ $$  \  $$$/                                                        
+                                          |  $$$$$$/| $$ \  $$| $$$$$$$$| $$     | $$  | $$                    |  $$$$$$/| $$$$$$$/   \  $/                                                         
+                                           \______/ |__/  \__/|________/|__/     |__/  |__/                     \______/ |_______/     \_/                                                          
+                                                                                                                                                                                                    
+                                                                                                                                                                                                    
+                                                                                                                                                                                                    
+ /$$    /$$ /$$                     /$$ /$$ /$$                               /$$$$$$$              /$$                                             /$$$$$$                                         
+| $$   | $$|__/                    |__/| $$|__/                              | $$__  $$            | $$                                            /$$__  $$                                        
+| $$   | $$ /$$  /$$$$$$   /$$$$$$  /$$| $$ /$$  /$$$$$$                     | $$  \ $$  /$$$$$$  /$$$$$$   /$$$$$$$  /$$$$$$                     | $$  \ $$  /$$$$$$$  /$$$$$$$  /$$$$$$   /$$$$$$ 
+|  $$ / $$/| $$ /$$__  $$ /$$__  $$| $$| $$| $$ /$$__  $$       /$$$$$$      | $$$$$$$  /$$__  $$|_  $$_/  /$$_____/ |____  $$       /$$$$$$      | $$  | $$ /$$_____/ /$$_____/ |____  $$ /$$__  $$
+ \  $$ $$/ | $$| $$  \__/| $$  \ $$| $$| $$| $$| $$  \ $$      |______/      | $$__  $$| $$$$$$$$  | $$   |  $$$$$$   /$$$$$$$      |______/      | $$  | $$|  $$$$$$ | $$        /$$$$$$$| $$  \__/
+  \  $$$/  | $$| $$      | $$  | $$| $$| $$| $$| $$  | $$                    | $$  \ $$| $$_____/  | $$ /$$\____  $$ /$$__  $$                    | $$  | $$ \____  $$| $$       /$$__  $$| $$      
+   \  $/   | $$| $$      |  $$$$$$$| $$| $$| $$|  $$$$$$/                    | $$$$$$$/|  $$$$$$$  |  $$$$//$$$$$$$/|  $$$$$$$                    |  $$$$$$/ /$$$$$$$/|  $$$$$$$|  $$$$$$$| $$      
+    \_/    |__/|__/       \____  $$|__/|__/|__/ \______/                     |_______/  \_______/   \___/ |_______/  \_______/                     \______/ |_______/  \_______/ \_______/|__/      
+                          /$$  \ $$                                                                                                                                                                 
+                         |  $$$$$$/                                                                                                                                                                 
+                          \______/                                                                                                                                                                  
+        -->
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>USSI-UBV | {% block title %} INICIO {% endblock %} </title>
+        <!-- jQuery 2.2.4 -->
+        <script src="{{ asset('bundles/app/vendors/jquery/jquery.min.js')}}"></script>
+        <!-- Bootstrap -->
+        <script src="{{ asset('bundles/app/vendors/bootstrap/bootstrap.min.js')}}"></script> 
+        <script src="{{ asset('bundles/app/vendors/holder.js') }}"></script>
+        <!-- Bootstrap -->
+        <link href="{{ asset('bundles/app/vendors/bootstrap/bootstrap.min.css')}}"   rel="stylesheet">   
+        <!-- Font Awesome -->        
+        <link href="{{ asset('bundles/app/vendors/font-awesome/css/font-awesome.min.css')}}"   rel="stylesheet">    
+        <!-- NProgress -->
+        <link href="{{ asset('bundles/app/vendors/nprogress/nprogress.css')}}"   rel="stylesheet">
+        <!-- Custom Theme Style -->
+        <link href="{{ asset('bundles/app/vendors/bootstrap/custom.min.css')}}"   rel="stylesheet">
+
+    {% block stylesheets %}{% endblock %}
+
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    <link rel="apple-touch-icon" sizes="57x57" href="{{ asset('apple-icon-57x57.png') }}" />
+    <link rel="apple-touch-icon" sizes="60x60" href="{{ asset('apple-icon-60x60.png') }}" />
+    <link rel="apple-touch-icon" sizes="72x72" href="{{ asset('apple-icon-72x72.png') }}" />
+    <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('apple-icon-76x76.png') }}" />
+    <link rel="apple-touch-icon" sizes="114x114" href="{{ asset('apple-icon-114x114.png') }}" />
+    <link rel="apple-touch-icon" sizes="120x120" href="{{ asset('apple-icon-120x120.png') }}" />
+    <link rel="apple-touch-icon" sizes="144x144" href="{{ asset('apple-icon-144x144.png') }}" />
+    <link rel="apple-touch-icon" sizes="152x152" href="{{ asset('apple-icon-152x152.png') }}" />
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-icon-180x180.png') }}" />
+    <link rel="icon" type="image/png" sizes="192x192"  href="{{ asset('android-icon-192x192.png') }}" />
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32x32.png') }}" />
+    <link rel="icon" type="image/png" sizes="96x96" href="{{ asset('favicon-96x96.png') }}" />
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon-16x16.png') }}" />
+    <link rel="manifest" href="{{ asset('manifest.json') }}" />
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+</head>
+
+<body class="nav-md">
+    <div class="container body">
+        <div class="main_container">
+            <div class="col-md-3 left_col">
+                <div class="left_col scroll-view">
+                    <div class="navbar nav_title" style="border: 0;">
+                        <a href="{{ path('homepage') }}" class="site_title"><i class="fa fa-stethoscope"></i> <span>USSI-UBV</span></a>
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                    <!-- menu profile quick info -->
+                    <div class="profile">
+
+                        <div class="profile_pic">                            
+                            <img src="{{ asset('uploads/fotos/')}}{{app.user.getPersona.getFoto}}" alt="{{app.user.getPersona.getCedula}}" class="img-circle profile_img" >                                                                                     
+                        </div>
+                        <div class="profile_info">                            
+                            <span>Bienvenido,</span>
+                            <h2> {% if app.user %}{{ app.user.getPersona.getPrimerNombre }} {{ app.user.getPersona.getPrimerApellido}} {% endif %} </h2>
+                        </div>
+                    </div>
+                    <!-- /menu profile quick info -->
+
+
+                    <!-- sidebar menu--> 
+                    <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+                        <div class="menu_section">
+                            <h3>Menú Principal</h3>
+                            <ul class="nav side-menu">
+                                <li>
+                                    <!--a href=""><i class="fa fa-home"></i> Home </a-->
+                                    <a><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+
+                                        <li><a href="{{ path('homepage_recepcion') }}">Recepcionista</a></li>
+                                        <li><a href="{{ path('homepage_medico') }}">Médico</a></li>                                         
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a><i class="fa fa-edit"></i> Gestionar <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <!--li><a href="{{ path('persona_index') }}">Personas</a></li-->
+                                        <li><a href="{{ path('paciente_index') }}">Pacientes</a></li>
+                                        <li><a href="{{ path('profesional_index') }}">Profesional</a></li> 
+                                        <!--li><a href="{{ path('profesionalespecialidad_index') }}">Profesional - Especialidad</a></li--> 
+                                        <li><a href="{{ path('cita_index') }}">Citas</a></li>
+                                        <li><a href="{{ path('cita_consulta') }}">Consulta Cita</a></li>
+                                        <li><a href="{{ path('consulta_index') }}">Consultas</a></li>   
+                                        <!--li><a href="{{ path('disponible_index') }}">Disponible</a></li-->
+                                        <li><a href="{{ path('servicio_index') }}">Servicio</a></li>
+                                        <li><a href="{{ path('servicioprofesional_index') }}">Servicio - Profesional</a></li>
+                                        <li><a href="{{ path('esperando_index') }}">Lista de Espera</a></li>
+                                        <li><a href="{{ path('esperando_procesar') }}">Llamar Paciente</a></li>
+                                        <li><a href="{{ path('homepage_sala') }}">Monitor Sala</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a><i class="fa fa-edit"></i> Administrar <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">                                        
+                                        <li><a href="{{ path('etnia_index') }}">Etnia</a></li>
+                                        <li><a href="{{ path('religion_index') }}">Religión</a></li>
+                                        <li><a href="{{ path('pfg_index') }}">PFG</a></li>
+                                        <li><a href="{{ path('pais_index') }}">Paises</a></li>
+                                        <li><a href="{{ path('estado_index') }}">Estados</a></li>
+                                        <li><a href="{{ path('municipio_index') }}">Municipios</a></li>
+                                        <li><a href="{{ path('parroquia_index') }}">Parroquias</a></li>
+                                        <li><a href="{{ path('especialidad_index') }}">Especialidad</a></li>
+                                        <li><a href="{{ path('campania_index') }}">Campaña</a></li>
+                                        <li><a href="{{ path('configuracion_index') }}">Configuración</a></li>
+                                        <li><a href="{{ path('entericacapitulo_index') }}">Capitulo de Enfermedades Entericas</a></li>
+                                        <li><a href="{{ path('entericagrupo_index') }}">Grupo de Enfermedades Entericas</a></li>
+                                        <li><a href="{{ path('entericaelemento_index') }}">Elemento de Enfermedades Entericas</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>                        
+                    </div>
+                    <!-- /sidebar menu -->
+
+                    <!-- /menu footer buttons -->
+                    <div class="sidebar-footer hidden-small">
+                        <a data-toggle="tooltip" data-placement="top" title="Settings">
+                            <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                        </a>
+                        <a data-toggle="tooltip" data-placement="top" title="FullScreen">
+                            <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
+                        </a>
+                        <a data-toggle="tooltip" data-placement="top" title="Lock">
+                            <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
+                        </a>
+                        <a href="{{ path('fos_user_security_logout')}}"data-toggle="tooltip" data-placement="top" title="Logout">
+                            <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+                        </a>
+                    </div>
+                    <!-- /menu footer buttons -->
+                </div>
+            </div>
+
+            <!-- top navigation -->
+            <div class="top_nav">
+                <div class="nav_menu">
+                    <nav>
+                        <div class="nav toggle">
+                            <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+                        </div>
+
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="">
+                                <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                    <img src="{{ asset('uploads/fotos/')}}{{app.user.getPersona.getFoto}}" alt="" width="30px">
+                                    {% if app.user %}{{ app.user.getPersona.getPrimerNombre }} {{ app.user.getPersona.getPrimerApellido}} {% endif %} 
+                                    <span class=" fa fa-angle-down"></span>
+                                </a>
+                                <ul class="dropdown-menu dropdown-usermenu pull-right">                                    
+                                    <li><a href="{{ path('fos_user_change_password')}}"><i class="fa fa-edit pull-right"></i> Cambiar Contraseña</a></li>
+                                    <li><a href="{{ path('fos_user_security_logout')}}"><i class="fa fa-sign-out pull-right"></i> Salir</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <!-- /top navigation -->
+
+            <!-- page content -->
+            <div class="right_col" role="main">
+                <div class="">
+                    <div class="page-title">
+                        <div class="title_left">
+                            <h3>{% block Titulo %} USSI Dr. Jesús Saturno Canelón  {% endblock %}</h3>
+                        </div>
+
+                        <div class="title_right">                            
+                        </div>
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="x_panel">
+                                <div class="x_title">
+                                    <h2>{% block Subtitulo %} USSI UBV {% endblock %} </h2>
+                                    <ul class="nav navbar-right panel_toolbox submenu">
+                                        {% block paneltoolbox %} 
+                                            <li><a class="collapse-link" ><i class="fa fa-chevron-up"></i></a></li>
+                                            <li class="dropdown">
+                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                                <ul class="dropdown-menu" role="menu">
+                                                    <li><a href="#">{% block cerrar %}  {% endblock %}</a>
+                                                    </li>
+                                                    <li><a href="#">Settings 2</a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                            <li><a class="close-link" ><i class="fa fa-close"></i></a> </li>
+                                                {% endblock %}     
+                                    </ul>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <!--div class="x_content"-->
+                                {% block body %} Contenido de mi vista va aquí  :)  {% endblock %}                                    
+                                <!--/div-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /page content -->
+
+            <!-- footer content -->
+            <footer>
+                <div class="pull-right">
+                    Dirección General de Tecnología de Información y Telecomunicaciones <a href="http://www.ubv.edu.ve">UBV</a>
+                </div>
+                <div class="clearfix"></div>
+            </footer>
+            <!-- /footer content -->
+        </div>
+    </div>
+    <!-- FastClick -->
+    <script src="{{ asset('bundles/app/vendors/fastclick/lib/fastclick.js')}}"></script>    
+    <!-- NProgress -->
+    <script src="{{ asset('bundles/app/vendors/nprogress/nprogress.js')}}"></script> 
+    <!-- bootstrap-progressbar -->
+    <script src="{{ asset('bundles/app/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js')}}" ></script>
+
+    <!-- Custom Theme Scripts -->
+    <script src="{{ asset('bundles/app/vendors/custom.min.js')}}"></script>
+
+{% block javascripts %}{% endblock %}
+</body>
+</html>

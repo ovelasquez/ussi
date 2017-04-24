@@ -25,20 +25,20 @@
             <div class="count">{{atendidos| length}}</div>
             <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i> </i> En el día de hoy</span>            
         </div>
-        
+
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-sign-out"></i> Pacientes Abandono</span>
             <div class="count red">{{abandono| length}}</div>
             <span class="count_bottom"><i class="red"><i class="fa fa-sort-asc"></i> </i> En el día de hoy</span>  
-            
+
         </div>
-                
+
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-user"></i> Pacientes</span>
             <div class="count green">{{conCita| length}}</div>
             <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i></i> Con Citas</span>
         </div>
-        
+
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-clock-o"></i> Fecha Consulta</span>
             <div class="count">{{ "now"|date("d/m/Y") }}</div>
@@ -150,12 +150,12 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="col-md-6 col-sm-6 col-xs-12">
             <div class="row">
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="x_panel">
                         <div class="x_title">
-                            <h2>Lista de Pacientes <small> </small> 
+                            <h2>Pacientes en Sala de Espera<small> </small> 
                                 {% if (esperandos!=null) %}
                                     <button type="button" class="btn btn-success btn-sm" onclick='window.location.href = "esperando/procesar"'>Llamar Paciente</button>
                                 {% endif %}</h2>
@@ -170,74 +170,68 @@
                         <div class="x_content">
                             <div class="dashboard-widget-content">
                                 <div class="col-md-12 hidden-small">
-                                    <table id="datatable-fixed-header" class="table table-striped table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Foto</th>
-                                                <th>Cédula</th>
-                                                <th>Paciente</th>
-                                                <th>Fecha</th>
-                                                <th>Status</th>
-                                                <th>Penalización</th>                                                            
-                                                <th>Especialidad</th>
-                                                <th>Médico</th>                                                            
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {% for esperando in esperandos %}
-                                                {% if (esperando.status=='activo') %}
-                                                    <tr>
-                                                        <td>{{  esperando.posicion  }} </td>
-                                                        <td>
-                                                            <span class="image">
-                                                                <img src="{{ asset('uploads/fotos/')}}{{esperando.paciente.persona.foto}}" alt="{{esperando.paciente.persona.cedula}}" class="img-rounded" height="50" width="50">
-                                                            </span>
-                                                        </td>
-                                                        <td>{{ esperando.paciente.persona.nacionalidad }} - {{ esperando.paciente.persona.cedula }}</td>
-                                                        <td>{{ esperando.paciente.persona.primerApellido }} {{ esperando.paciente.persona.primerNombre }}</td>
-                                                        <td>{% if esperando.fechaRegistro %}{{ esperando.fechaRegistro|date('Y-m-d H:i:s') }}{% endif %}</td>
-                                                        <td>
-                                                            {% if esperando.status=='atendido' %}                                                        
-                                                                <button type="button" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{esperando.status |title}}">
-                                                                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-                                                                </button>
-                                                            {% elseif esperando.status=='abandono' %}
-                                                                <button type="button" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{esperando.status |title}}">
-                                                                    <span class="glyphicon glyphicon-trash" aria-hidden="true" ></span>                            
-                                                                </button>
-                                                            {% elseif  esperando.status=='procesando' %}
-                                                                <button type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{esperando.status |title}}">
-                                                                    <span class="glyphicon glyphicon-time" aria-hidden="true"></span>
-                                                                </button>                           
-                                                            {% elseif esperando.status=='cancelado' %}
-                                                                <button type="button" class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{esperando.status |title}}"> 
-                                                                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                                                                </button>
-                                                            {% else %}    
-                                                                <button type="button" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{esperando.status |title}}"> 
-                                                                    <span class="glyphicon glyphicon-fire" aria-hidden="true"></span>
-                                                                </button>
-                                                            {% endif %}
-                                                        </td>
-                                                        <td class="project_progress">    
-                                                            {% set valor = (esperando.penalizacion *100/ penalizacion)%}                           
-                                                            {% set color = 'bg-red'-%}
-                                                            {% if(valor<50) %}
-                                                                {% set color = 'bg-green' %}
-                                                            {% endif%}
-                                                            <div class="progress progress_sm right">
-                                                                <div class="progress-bar {{color}}" role="progressbar" data-transitiongoal="{{valor}}" ></div>
+                                    {% if (esperandos!=null) %}
+                                        <table id="datatable-fixed-header" class="table table-striped table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Foto</th>
+                                                    <th>Cédula</th>
+                                                    <th>Paciente</th>                                               
+                                                    <th>Penalización</th>                                                                                                           
+                                                    <th>Médico</th>                                                            
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for esperando in esperandos %}
+                                                    {% if (esperando.status=='activo') %}
+                                                        <tr>
+                                                            <td>{{  esperando.posicion  }} </td>
+                                                            <td>
+                                                                <span class="image">
+                                                                    <img src="{{ asset('uploads/fotos/')}}{{esperando.paciente.persona.foto}}" alt="{{esperando.paciente.persona.cedula}}" class="img-rounded" height="50" width="50">
+                                                                </span>
+                                                            </td>
+                                                            <td>{{ esperando.paciente.persona.nacionalidad }} - {{ esperando.paciente.persona.cedula }}</td>
+                                                            <td>{{ esperando.paciente.persona.primerApellido }} {{ esperando.paciente.persona.primerNombre }}</td>                                                                                                                                                                  
+                                                            <td class="project_progress">    
+                                                                {% set valor = (esperando.penalizacion *100/ penalizacion)%}                           
+                                                                {% set color = 'bg-red'-%}
+                                                                {% if(valor<50) %}
+                                                                    {% set color = 'bg-green' %}
+                                                                {% endif%}
+                                                                <div class="progress progress_sm right">
+                                                                    <div class="progress-bar {{color}}" role="progressbar" data-transitiongoal="{{valor}}" ></div>
+                                                                </div>
+                                                                <small>    {{ esperando.penalizacion }}  - de {{ penalizacion}} Oportunidades </small>
+                                                            </td>                                                       
+                                                            <td>{% if esperando.profesional != null %} {{ esperando.profesional.persona.primerApellido }} {{ esperando.profesional.persona.primerNombre }}{% endif %}</td>                                                                
+                                                        </tr>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    {% else %}
+                                        <div class="dashboard-widget-content">
+
+                                            <ul class="list-unstyled timeline widget">
+                                                <li>
+                                                    <div class="block">
+                                                        <div class="block_content">
+                                                            <h2 class="title">
+                                                                <a>En estos momentos no tenemos Pacientes en la Sala de Espera</a>
+                                                            </h2>
+                                                            <div class="byline">
+                                                                <span>Frases de Medicina</span>
                                                             </div>
-                                                            <small>    {{ esperando.penalizacion }}  - de {{ penalizacion}} Oportunidades </small>
-                                                        </td>
-                                                        <td>{{ esperando.especialidad.nombre }}</td>
-                                                        <td>{% if esperando.profesional != null %} {{ esperando.profesional.persona.primerApellido }} {{ esperando.profesional.persona.primerNombre }}{% endif %}</td>                                                                
-                                                    </tr>
-                                                {% endif %}
-                                            {% endfor %}
-                                        </tbody>
-                                    </table>
+                                                            <p class="excerpt">La gente quiere a los médicos que quieren a la gente; antes de ser un buen médico, se una buena persona.</a>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </li>                                               
+                                            </ul>
+                                        </div>
+                                    {% endif%}
                                 </div>
                                 <div id="world-map-gdp" class="col-md-8 col-sm-12 col-xs-12" style="height:230px;"></div>
                             </div>
@@ -246,6 +240,89 @@
                 </div>
             </div>
         </div>
+        <!--Fin Lista de Espera-->
+
+        <!--Lista Pacientes Observacion-->
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>Pacientes en Observación<small> </small> </h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>                                            
+                                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <div class="dashboard-widget-content">
+                                <div class="col-md-12 hidden-small">
+                                    {% if (hayConsultasActivas!=null) %}
+                                        <table id="_datatable-fixed-header" class="table table-striped table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Foto</th>
+                                                    <th>Cédula</th>
+                                                    <th>Paciente</th> 
+                                                    <th>Acción</th> 
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for esperando in hayConsultasActivas %}
+
+                                                    <tr>
+                                                        <td>{{  loop.index  }} </td>
+                                                        <td>
+                                                            <span class="image">
+                                                                <img src="{{ asset('uploads/fotos/')}}{{esperando.paciente.persona.foto}}" alt="{{esperando.paciente.persona.cedula}}" class="img-rounded" height="50" width="50">
+                                                            </span>
+                                                        </td>
+                                                        <td>{{ esperando.paciente.persona.nacionalidad }} - {{ esperando.paciente.persona.cedula }}</td>
+                                                        <td>{{ esperando.paciente.persona.primerApellido }} {{ esperando.paciente.persona.primerNombre }}</td> 
+                                                        <td>
+                                                            <a href="{{ path('homepage_consulta', { 'paciente': esperando.paciente.id }) }}">
+                                                                <button type="button" class="btn btn-xs btn-warning" data-toggle="tooltip" data-placement="top" title="" data-original-title="Ver">  <i class="fa fa-eye"></i>  </button>
+                                                            </a>                                                            
+                                                        </td>
+                                                    </tr>
+
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    {% else %}
+                                        <div class="dashboard-widget-content">
+
+                                            <ul class="list-unstyled timeline widget">
+                                                <li>
+                                                    <div class="block">
+                                                        <div class="block_content">
+                                                            <h2 class="title">
+                                                                <a>En estos momentos no tenemos Pacientes en Observación</a>
+                                                            </h2>
+                                                            <div class="byline">
+                                                                <span>Frases de Medicina</span>
+                                                            </div>
+                                                            <p class="excerpt"> “Gracias Doctor por haberme tratado como a un hijo, sus diagnósticos y la cura fueron realmente efectivos, pero lo que me animó más fue el hecho de que estuviese siempre atento a mi mejoría.”</a>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </li>                                               
+                                            </ul>
+                                        </div>
+                                    {% endif%}
+                                </div>
+                                <div id="world-map-gdp" class="col-md-8 col-sm-12 col-xs-12" style="height:230px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Fin Lista Pacientes Observacion-->
     </div>
 {% endblock %}
 {% block javascripts %}
@@ -259,14 +336,15 @@
     <!-- Push -->
     <script src="{{ asset('bundles/app/vendors/push/push.min.js')}}"></script> 
     <script>
-                                            function reloadPagina() {
-                                                location.reload();
-                                            }
+                                        function reloadPagina() {
+                                            location.reload();
+                                        }
 
-                                            $(document).ready(function () {
-                                                $('#datatable-fixed-header').DataTable({fixedHeader: true});
-                                                setInterval(reloadPagina, 60000);
-                                            });
+                                        $(document).ready(function () {
+                                            $('#datatable-fixed-header').DataTable({fixedHeader: true});
+                                            $('#_datatable-fixed-header').DataTable({fixedHeader: true});
+                                            setInterval(reloadPagina, 60000);
+                                        });
     </script>
 {% endblock %}
 

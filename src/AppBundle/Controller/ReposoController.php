@@ -56,7 +56,7 @@ class ReposoController extends Controller {
 
         if ($form->isSubmitted() && $form->isValid()) {
             $reposo->setCodigo(uniqid()); //Codigo de validacion unico
-            $em = $this->getDoctrine()->getManager();
+            
             $em->persist($reposo);
             $em->flush($reposo);
 

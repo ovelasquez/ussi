@@ -52,19 +52,42 @@ class ConsultaController extends Controller {
                     'status' => 'activo',
                 )
         );
-       
+
         // A la Cita le cambiamos el Estatus a procesada
-        if ($cita!=null && $cita->getConsulta() != $consulta) {
+        if ($cita != null && $cita->getConsulta() != $consulta) {
             $cita->setStatus('procesada');
             $em->persist($cita);
             $em->flush($cita);
         }
+
+        //Verificamos si se generaron Reposos y Constancias para Enviar los Email Respectivos
+        $reposos = $em->getRepository('AppBundle:Reposo')->findByConsulta($consulta);
+        $constancias = $em->getRepository('AppBundle:Constancia')->findByConsulta($consulta);
+        //  foreach ($reposos as &reposo ) {
         
-        //Verificamos si se generaron Reposos y Constancias para Enviar losEmail Respectivos
-        $reposos=$em->getRepository('AppBundle:Reposo')->findByConsulta($consulta);
-        $constancias=$em->getRepository('AppBundle:Constancia')->findByConsulta($consulta);
-        dump($reposos, $constancias); die();
+
+        try {
+            $message = \Swift_Message::newInstance()
+                ->setSubject('Hello Email')
+                ->setFrom('velasquez.oscar@gmail.com')
+                ->setTo(array('velasquez.oscar@gmail.com'))
+                ->setBody('Hola');//$this->renderView('reposo/email.html.twig', array()), 'text/html'
+        } catch (\Swift_RfcComplianceException $e) {
+            echo "Address velasquez.oscar@gmail.com seems invalid";
+        }
+
+        /* and now your transport... */
+        try {
+            $envio = $this->get('mailer')->send($message);
+        } catch (\Swift_TransportException $ste) {
+            echo "EROORRRRRRRRRRRRRRRRRRRR\n\n\n";
+        }
+
         
+        //   }
+        dump($envio );
+        die();
+
 
         //Actualizamos la Consulta
         $em->persist($consulta);
