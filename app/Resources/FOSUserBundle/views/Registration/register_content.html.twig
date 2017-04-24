@@ -1,8 +1,183 @@
 {% trans_default_domain 'FOSUserBundle' %}
+{% for msg in app.session.flashBag.get('success') %}
+    <div class="alert alert-success"> {{ msg }} </div>       
+{% endfor %}
 
-{{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register'}}) }}
-    {{ form_widget(form) }}
-    <div>
-        <input type="submit" value="{{ 'registration.submit'|trans }}" />
+{% for msg in app.session.flashBag.get('error') %}
+    <div class="alert alert-danger"> <p>{{ msg }}</p> </div>
+{% endfor %}
+<div class="x_content">
+    <br />       
+    {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'form-horizontal form-label-left'}}) }}
+    {{ form_errors(form) }}
+    <div class="form-group">
+        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nacionalidad">{{ form_label(form.persona.nacionalidad) }} <span class="required">*</span></label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            {{ form_errors(form.persona.nacionalidad) }}                
+            {{form_widget(form.persona.nacionalidad,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+        </div>
     </div>
-{{ form_end(form) }}
+
+    <div class="form-group">
+        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="cedula">{{ form_label(form.persona.cedula) }} <span class="required">*</span></label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            {{ form_errors(form.persona.cedula) }}                
+            {{form_widget(form.persona.cedula,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="primerApellido">{{ form_label(form.persona.primerApellido) }} <span class="required">*</span></label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            {{ form_errors(form.persona.primerApellido) }}                
+            {{form_widget(form.persona.primerApellido,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="segundoApellido">{{ form_label(form.persona.segundoApellido) }}</label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            {{ form_errors(form.persona.segundoApellido) }}                
+            {{form_widget(form.persona.segundoApellido,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="primerNombre">{{ form_label(form.persona.primerNombre) }} <span class="required">*</span></label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            {{ form_errors(form.persona.primerNombre) }}                
+            {{form_widget(form.persona.primerNombre,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="segundoNombre">{{ form_label(form.persona.segundoNombre) }} </label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            {{ form_errors(form.persona.segundoNombre) }}                
+            {{form_widget(form.persona.segundoNombre,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+        </div>
+    </div>        
+
+    <div class="form-group">
+        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="fechaNacimiento">{{ form_label(form.profesional.fechaNacimiento) }} <span class="required">*</span></label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            {{ form_errors(form.profesional.fechaNacimiento) }}                
+            {{form_widget(form.profesional.fechaNacimiento) }}                
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="genero">{{ form_label(form.persona.genero) }} <span class="required">*</span></label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            {{ form_errors(form.persona.genero) }}                
+            {{form_widget(form.persona.genero,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="telefono">{{ form_label(form.persona.telefono) }} <span class="required">*</span></label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            {{ form_errors(form.persona.telefono) }}                
+            {{form_widget(form.persona.telefono,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="codigoSsa">{{ form_label(form.profesional.codigoSsa) }} <span class="required">*</span></label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            {{ form_errors(form.profesional.codigoSsa) }}                
+            {{form_widget(form.profesional.codigoSsa ) }}                
+        </div>
+    </div>
+
+
+
+    <div class="form-group">
+        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="edoCivil">{{ form_label(form.profesional.edoCivil) }} <span class="required">*</span></label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            {{ form_errors(form.profesional.edoCivil) }}                
+            {{form_widget(form.profesional.edoCivil,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="genero">{{ form_label(form.persona.email) }} <span class="required">*</span></label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            {{ form_errors(form.persona.email) }}                
+            {{form_widget(form.persona.email,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="genero">{{ form_label(form.persona.foto) }} </label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            {{ form_errors(form.persona.foto) }}                
+            {{ form_widget(form.persona.foto) }}
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="religion">{{ form_label(form.profesional.religion) }} <span class="required">*</span></label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            {{ form_errors(form.profesional.religion) }}                
+            {{form_widget(form.profesional.religion,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="etnia">{{ form_label(form.profesional.etnia) }} <span class="required">*</span></label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            {{ form_errors(form.profesional.etnia) }}                
+            {{form_widget(form.profesional.etnia,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="username">{{ form_label(form.username) }} <span class="required">*</span></label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            {{ form_errors(form.username) }}                
+            {{ form_widget(form.username,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}          
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="username"> Email Canonical (Automático) <span class="required">*</span></label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            {{ form_errors(form.email) }}                
+            {{ form_widget(form.email,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}          
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="plainPassword">{{ form_label(form.plainPassword) }} <span class="required">*</span></label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            {{ form_errors(form.plainPassword) }}                
+            {{ form_widget(form.plainPassword ) }}          
+        </div>
+    </div>
+
+
+
+
+
+
+    <div class="ln_solid"></div>
+    <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">                
+            <button type="submit" class="btn btn-success">Registrar</button>
+        </div>
+    </div></div>
+    {{ form_end(form) }}
+    {% block javascripts %}
+
+    <script>
+        $(document).ready(function () {
+            //Cambiar Capitulo -> actualiza grupo
+            $("#fos_user_registration_form_persona_email").change(function () {
+                $('#fos_user_registration_form_email').val($("#fos_user_registration_form_persona_email").val());
+
+            });
+        });
+    </script>
+
+{% endblock %}

@@ -9,7 +9,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Form\DataTransformer\StringToArrayTransformer;
 
-class UserType extends AbstractType {
+class UserNewType extends AbstractType {
 
     /**
      * {@inheritdoc}
@@ -35,13 +35,7 @@ class UserType extends AbstractType {
                             'choices' => array(
                                 'Médico' => 'ROLE_MEDICO', 'Recepción' => 'ROLE_RECEPCION', 'Administrador' => 'ROLE_SUPER_ADMIN'
                             )
-                        ))->addModelTransformer($transformer))
-                ->add('enabled', ChoiceType::class, array(
-                    'choices' => array('Activo' => true, 'Inactivo' => false),
-                    'required' => true,
-                    'label' => 'Status',
-                    'attr' => array('placeholder' => 'Status')
-                ));
+                        ))->addModelTransformer($transformer));
     }
 
     /**
@@ -59,6 +53,5 @@ class UserType extends AbstractType {
     public function getBlockPrefix() {
         return 'appbundle_user';
     }
-    
 
 }

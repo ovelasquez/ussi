@@ -64,14 +64,14 @@ class ConsultaController extends Controller {
         $reposos = $em->getRepository('AppBundle:Reposo')->findByConsulta($consulta);
         $constancias = $em->getRepository('AppBundle:Constancia')->findByConsulta($consulta);
         //  foreach ($reposos as &reposo ) {
-        
+
 
         try {
             $message = \Swift_Message::newInstance()
-                ->setSubject('Hello Email')
-                ->setFrom('velasquez.oscar@gmail.com')
-                ->setTo(array('velasquez.oscar@gmail.com'))
-                ->setBody('Hola');//$this->renderView('reposo/email.html.twig', array()), 'text/html'
+                    ->setSubject('Hello Email')
+                    ->setFrom('velasquez.oscar@gmail.com')
+                    ->setTo(array('velasquez.oscar@gmail.com'))
+                    ->setBody('Hola'); //$this->renderView('reposo/email.html.twig', array()), 'text/html'
         } catch (\Swift_RfcComplianceException $e) {
             echo "Address velasquez.oscar@gmail.com seems invalid";
         }
@@ -83,9 +83,9 @@ class ConsultaController extends Controller {
             echo "EROORRRRRRRRRRRRRRRRRRRR\n\n\n";
         }
 
-        
+
         //   }
-        dump($envio );
+        dump($envio);
         die();
 
 
@@ -103,7 +103,25 @@ class ConsultaController extends Controller {
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request) {
+
         $consultum = new Consulta();
+        if ($this->getUser()->getRoles()[0] == 'ROLE_MEDICO') {
+            $em = $this->getDoctrine()->getManager();
+
+            $profesional = $em->getRepository('AppBundle:Profesional')->findOneByPersona($this->getUser()->getPersona());
+            $consultum->setEgreso(FALSE);
+            $consultum->setProfesional($profesional);
+            //Buscamos todos los servicios asociado al profesional
+            $servicioProfesional = $em->getRepository('AppBundle:ServicioProfesional')->findBy(array('profesional' => $profesional, 'status' => 'activo'));
+            //Verificamos si el profesional tiene asociado un servicio para hoy
+            foreach ($servicioProfesional as &$valor) {
+                if (($valor->getServicio()->getDia() == date("w"))) {
+                  $consultum->setEspecialidad($valor->getServicio()->getEspecialidad());  
+                }
+            }            
+            $consultum->setFecha(new \DateTime("now"));            
+            //dump($consultum);die();
+        }
         $form = $this->createForm('AppBundle\Form\ConsultaType', $consultum);
         $form->handleRequest($request);
 
@@ -111,6 +129,9 @@ class ConsultaController extends Controller {
             $em = $this->getDoctrine()->getManager();
             $em->persist($consultum);
             $em->flush($consultum);
+            return $this->redirectToRoute('homepage_consulta', array(
+                        'paciente' => $consultum->getPaciente()->getId(),
+            ));
 
             return $this->redirectToRoute('consulta_show', array('id' => $consultum->getId()));
         }

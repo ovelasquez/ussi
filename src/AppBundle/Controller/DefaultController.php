@@ -15,13 +15,13 @@ class DefaultController extends Controller {
      * @Route("/", name="homepage")
      */
     public function indexAction() {
-
-        if (in_array('ROLE_RECEPCION', $this->getUser()->getRoles())) {
-            return $this->redirectToRoute('homepage_recepcion');
-        } elseif (in_array('ROLE_MEDICO', $this->getUser()->getRoles())) {
-            return $this->redirectToRoute('homepage_medico');
+         switch ($this->getUser()->getRoles()[0]) {
+            case('ROLE_RECEPCION'): return $this->redirectToRoute('homepage_recepcion');
+                break;
+            case('ROLE_MEDICO'): return $this->redirectToRoute('homepage_medico');
+                break;            
+            default: return $this->render('default/index.html.twig', ['base_dir' => realpath($this->getParameter('kernel.root_dir') . '/..') . DIRECTORY_SEPARATOR,]);
         }
-        return $this->render('default/index.html.twig', ['base_dir' => realpath($this->getParameter('kernel.root_dir') . '/..') . DIRECTORY_SEPARATOR,]);
     }
 
     /**
@@ -59,15 +59,22 @@ class DefaultController extends Controller {
     public function medicoAction() {
         $em = $this->getDoctrine()->getManager();
         $esperandos = null;
+        $especialidad= null;
         $hayConsultasActivas=null;
         $configuracion = $em->getRepository('AppBundle:Configuracion')->findAll();
         $profesional = $em->getRepository('AppBundle:Profesional')->findOneByPersona($this->getUser()->getPersona());
-        $servicioProfesional = $em->getRepository('AppBundle:ServicioProfesional')->findOneBy(array('profesional' => $profesional, 'status' => 'activo'));
+        //buscamos todos los servicios asociados al profesional 
+        $servicioProfesional = $em->getRepository('AppBundle:ServicioProfesional')->findBy(array('profesional' => $profesional, 'status' => 'activo'));
+        foreach ($servicioProfesional as &$valor) {
+            if (($valor->getServicio()->getDia() == date("w"))) {
+                $especialidad=$valor->getServicio()->getEspecialidad();
+            }
+        }
 
+       // dump($especialidad);die();
         
-        
-        if ($servicioProfesional) {
-            $especialidad = $em->getRepository('AppBundle:Especialidad')->find($servicioProfesional->getServicio()->getEspecialidad());
+        if ($especialidad) {
+           // $especialidad = $em->getRepository('AppBundle:Especialidad')->find($servicioProfesional->getServicio()->getEspecialidad());
             $esperandos = $this->numerosAction('activo', $especialidad); //Lista de pacientes en Espera
             $conCita = $this->numerosAction('cita', $especialidad, $profesional); //Lista de pacientes que van con el Dr.
             $atendidos = $this->numerosAction('atendido', $especialidad, $profesional); //Lista de pacientes atendidos
@@ -76,6 +83,8 @@ class DefaultController extends Controller {
             //Buscamos Todas las Consultas Activas del Paciente en la especialidad del medico
             $hayConsultasActivas = $em->getRepository('AppBundle:Consulta')->findBy(array('egreso' => false, 'profesional' => $profesional, 'especialidad' => $especialidad));
         //dump($hayConsultasActivas); die();
+        }else{
+            return $this->render('default/index.html.twig', ['base_dir' => realpath($this->getParameter('kernel.root_dir') . '/..') . DIRECTORY_SEPARATOR,]);
         }
 
         return $this->render('default/medico.html.twig', array(

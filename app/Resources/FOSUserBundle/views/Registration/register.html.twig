@@ -1,5 +1,6 @@
 {% extends "@FOSUser/base.html.twig" %}
-
+{% block title %} Usuarios {% endblock %}
+{% block Subtitulo %} Registrar Profesionales  -  <small> <a href="{{ path('profesional_index') }}">Regresar a la lista</a></small> {% endblock %} 
 {% block body %}
 {% include "@FOSUser/Registration/register_content.html.twig" %}
 {% endblock body %}

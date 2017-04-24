@@ -1,28 +1,94 @@
+
 {% extends 'base.html.twig' %}
-
+{% block Subtitulo %} Ver Usuario -  <small> <a href="{{ path('user_index') }}">Regresar a la lista</a></small> {% endblock %} 
 {% block body %}
-    <h1>User</h1>
+    {% for msg in app.session.flashBag.get('success') %}
+        <div class="alert alert-success"> {{ msg }} </div>       
+    {% endfor %}
+    
+    {% for msgs in app.session.flashBag.get('error') %}
+        <div class="alert alert-danger">
+            {% for msg in msgs %}
+                <p>{{ msg }}</p>
+            {% endfor %}
+        </div>
+    {% endfor %}
+    
+    <!-- page content -->
+    <div class="x_content">
+        <div class="col-md-3 col-sm-3 col-xs-12 profile_left">
+            <div class="profile_img">
+                <div id="crop-avatar">
+                    <!-- Current avatar -->
+                    <img class="img-responsive avatar-view" src="{{ asset('uploads/fotos/')}}{{user.persona.foto}}" alt="Avatar" title="Change the avatar">                    
+                </div>
+            </div>
 
-    <table>
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ user.id }}</td>
-            </tr>
-        </tbody>
-    </table>
+            <p></p>
 
-    <ul>
-        <li>
-            <a href="{{ path('user_index') }}">Back to the list</a>
-        </li>
-        <li>
-            <a href="{{ path('user_edit', { 'id': user.id }) }}">Edit</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+            <a class="btn btn-success" href="{{ path('user_edit', { 'id': user.id }) }}"><i class="fa fa-edit m-right-xs"></i>Editar Registro</a>
+            <br />           
+        </div>
+        <div class="col-md-9 col-sm-9 col-xs-12">                    
+            <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                    <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Datos</a>
+                    </li>                    
+                </ul>
+                <div id="myTabContent" class="tab-content">
+                    <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+                        <table class="table table-striped">
+                            <tbody>
+                                <tr>
+                                    <th>Id</th>
+                                    <td>{{ user.persona.id }}</td>
+                                </tr>   
+                                <tr>
+                                    <th>Nombre</th>
+                                    <td>{{ user.persona.primerApellido }} {{ user.persona.segundoApellido  }} {{ user.persona.primerNombre }} {{ user.persona.segundoNombre }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Identificación</th>
+                                    <td>{{ user.persona.nacionalidad }} - {{ user.persona.cedula |number_format(0, ',', '.')}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Género</th>
+                                    <td>{{ user.persona.genero }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Teléfono</th>
+                                    <td>{{ user.persona.telefono }}</td>
+                                </tr>                                
+                                <tr>
+                                    <th>Usuario</th>
+                                    <td>{{ user.username }}</td>
+                                </tr> 
+                                <tr>
+                                    <th>Rol</th>
+                                    <td>{{ user.roles[0] }}</td>
+                                </tr>
+                                 
+                                <tr>
+                                    <th>Fecha de registro</th>
+                                    <td>{{ user.persona.fechaRegistro|date("d/m/Y") }}</td>
+                                </tr>
+                                
+                                <tr>
+                                    <th>Fecha de última actualización</th>
+                                    <td>{{ user.persona.fechaActualizacion|date("d/m/Y") }}</td>
+                                </tr>
+
+                            </tbody>
+                        </table>                                
+                    </div>                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    {{ form_start(delete_form) }}
+    <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> Eliminar </button>
+    {{ form_end(delete_form) }}
+
 {% endblock %}
