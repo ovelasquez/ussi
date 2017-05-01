@@ -5,6 +5,7 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Ivory\CKEditorBundle\Form\Type\CKEditorType;
 
 class ConfiguracionType extends AbstractType
 {
@@ -13,7 +14,19 @@ class ConfiguracionType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('numeroConsultas')->add('servicioActualizado')->add('tiempoEspera')->add('penalizacion')->add('campania')        ;
+        $builder->add('numeroConsultas')
+                ->add('servicioActualizado')
+                ->add('tiempoEspera')->add('penalizacion')->add('campania') 
+                 ->add('templateReposo', CKEditorType::class, array(
+                    'label' => 'Templete Reposo',
+                    'required' => true,
+                    'config_name' => 'my_config',
+                ))
+                ->add('templateConstancia', CKEditorType::class, array(
+                    'label' => 'Template Constancia',
+                    'required' => true,
+                    'config_name' => 'my_config',
+                ));
     }
     
     /**

@@ -1,0 +1,71 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Insumos
+ *
+ * @ORM\Table(name="insumo")
+ * @ORM\Entity
+ */
+class Insumo
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\SequenceGenerator(sequenceName="insumos_id_seq", allocationSize=1, initialValue=1)
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nombre", type="string", length=255, nullable=false)
+     */
+    private $nombre;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="stock", type="integer", nullable=false)
+     */
+    private $stock;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="disponible", type="integer", nullable=false)
+     */
+    private $disponible;
+
+    /**
+     * @var \TiposInsumo
+     *
+     * @ORM\ManyToOne(targetEntity="TiposInsumo")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="tipo_insumo_id", referencedColumnName="id")
+     * })
+     */
+    private $tipoInsumo;
+
+
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+   
+    
+     
+}

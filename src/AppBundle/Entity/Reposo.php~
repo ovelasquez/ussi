@@ -3,11 +3,13 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Reposo
  *
  * @ORM\Table(name="reposo")
+ * @UniqueEntity("codigo")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ReposoRepository")
  */
 class Reposo {
@@ -39,19 +41,13 @@ class Reposo {
     private $consulta;
 
     /**
-     * @var \DateTime
+     * @var string
      *
-     * @ORM\Column(name="inicio", type="date")
+     * @ORM\Column(name="inicio", type="text")
      */
     private $inicio;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="fin", type="date")
-     */
-    private $fin;
-
+    
     /**
      * @var string
      *
@@ -156,4 +152,28 @@ class Reposo {
         return $this->codigo;
     }
 
+
+    /**
+     * Set consulta
+     *
+     * @param \AppBundle\Entity\Consulta $consulta
+     *
+     * @return Reposo
+     */
+    public function setConsulta(\AppBundle\Entity\Consulta $consulta = null)
+    {
+        $this->consulta = $consulta;
+
+        return $this;
+    }
+
+    /**
+     * Get consulta
+     *
+     * @return \AppBundle\Entity\Consulta
+     */
+    public function getConsulta()
+    {
+        return $this->consulta;
+    }
 }

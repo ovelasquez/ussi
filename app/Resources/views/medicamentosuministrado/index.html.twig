@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+    <!-- Datatables -->
+    <link href="{{ asset('bundles/app/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{ asset('bundles/app/vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{ asset('bundles/app/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css')}}" rel="stylesheet">
+{% endblock %}
+{% block title %} Medicamento Suministrado {% endblock %}
+{% block Subtitulo %} Lista de Medicamento Suministrado -  <small> <a href="{{ path('medicamentosuministrado_new') }}">Crear una nuevo paciente</a></small> {% endblock %} 
+{% block body %}
+  {% for msg in app.session.flashBag.get('success') %}        
+        <div class="alert alert-success alert-dismissible fade in" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+            </button>
+            <strong>{{ msg }}</strong>
+        </div>
+    {% endfor %}
+
+    {% for msgs in app.session.flashBag.get('error') %}
+        <div class="alert alert-danger alert-dismissible fade in" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+            <strong>
+                {% for msg in msgs %}
+                    <p>{{ msg }}</p>
+                {% endfor %}
+            </strong>
+        </div>
+    {% endfor %}
+    
+      <table id="datatable-fixed-header" class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Cantidad</th>
+                <th>Via Administración</th>                   
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for medicamentoSuministrado in medicamentoSuministrados %}
+                <tr>
+                    <td>{{ medicamentoSuministrado.id }}</a></td>
+                    <td>{{ medicamentoSuministrado.cantidad }}</td>
+                    <td>{{ medicamentoSuministrado.viaAdministracion}}</td>                    
+                   
+                    <td>
+                        <a href="{{ path('medicamentosuministrado_show', { 'id': medicamentoSuministrado.id }) }}">
+                            <button type="button" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="top" title="" data-original-title="Ver">  <i class="fa fa-eye"></i>  </button>
+                        </a>
+                        <a href="{{ path('medicamentosuministrado_edit', { 'id': medicamentoSuministrado.id }) }}">
+                            <button type="button" class="btn btn-sm btn-success" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editar">  <i class="fa fa-pencil"></i>  </button>
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block javascripts %}
+    <!-- Datatables -->
+    <script src="{{ asset('bundles/app/vendors/datatables.net/js/jquery.dataTables.min.js')}}"></script>
+    <script src="{{ asset('bundles/app/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js')}}"></script>
+    <!-- Datatables -->
+    <script>
+        $(document).ready(function () {
+            $('#datatable-fixed-header').DataTable({
+                fixedHeader: true
+            });
+
+        });
+    </script>
+    <!-- /Datatables -->
+{% endblock %}

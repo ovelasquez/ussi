@@ -6,20 +6,17 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use AppBundle\Entity\Campania;
 
-//use Symfony\Component\HttpFoundation\Request;
-
-
 class DefaultController extends Controller {
 
     /**
      * @Route("/", name="homepage")
      */
     public function indexAction() {
-         switch ($this->getUser()->getRoles()[0]) {
+        switch ($this->getUser()->getRoles()[0]) {
             case('ROLE_RECEPCION'): return $this->redirectToRoute('homepage_recepcion');
                 break;
             case('ROLE_MEDICO'): return $this->redirectToRoute('homepage_medico');
-                break;            
+                break;
             default: return $this->render('default/index.html.twig', ['base_dir' => realpath($this->getParameter('kernel.root_dir') . '/..') . DIRECTORY_SEPARATOR,]);
         }
     }
@@ -59,31 +56,37 @@ class DefaultController extends Controller {
     public function medicoAction() {
         $em = $this->getDoctrine()->getManager();
         $esperandos = null;
-        $especialidad= null;
-        $hayConsultasActivas=null;
+        $especialidad = null;
+        $hayConsultasActivas = null;
         $configuracion = $em->getRepository('AppBundle:Configuracion')->findAll();
         $profesional = $em->getRepository('AppBundle:Profesional')->findOneByPersona($this->getUser()->getPersona());
         //buscamos todos los servicios asociados al profesional 
         $servicioProfesional = $em->getRepository('AppBundle:ServicioProfesional')->findBy(array('profesional' => $profesional, 'status' => 'activo'));
+        //Verificamos el Servicio Profesional que tiene activo en el día el Médico
         foreach ($servicioProfesional as &$valor) {
             if (($valor->getServicio()->getDia() == date("w"))) {
-                $especialidad=$valor->getServicio()->getEspecialidad();
+                $especialidad = $valor->getServicio()->getEspecialidad();
             }
         }
 
-       // dump($especialidad);die();
-        
         if ($especialidad) {
-           // $especialidad = $em->getRepository('AppBundle:Especialidad')->find($servicioProfesional->getServicio()->getEspecialidad());
+            // $especialidad = $em->getRepository('AppBundle:Especialidad')->find($servicioProfesional->getServicio()->getEspecialidad());
             $esperandos = $this->numerosAction('activo', $especialidad); //Lista de pacientes en Espera
             $conCita = $this->numerosAction('cita', $especialidad, $profesional); //Lista de pacientes que van con el Dr.
             $atendidos = $this->numerosAction('atendido', $especialidad, $profesional); //Lista de pacientes atendidos
             $abandono = $this->numerosAction('abandono', $especialidad, $profesional); //Lista de pacientes que alcanzaron el limite de llamadas 
-            
             //Buscamos Todas las Consultas Activas del Paciente en la especialidad del medico
             $hayConsultasActivas = $em->getRepository('AppBundle:Consulta')->findBy(array('egreso' => false, 'profesional' => $profesional, 'especialidad' => $especialidad));
-        //dump($hayConsultasActivas); die();
-        }else{
+            //dump($hayConsultasActivas); die();
+            
+            if ($especialidad->getNombre()=='Enfermería') {
+                $enlace= 'homepage_enfermeria';
+            }else {
+                $enlace='homepage_consulta';
+            }
+           // dump($enlace); die();
+        } else {
+            //Si no tiene una especialidad en el dia no puede ingresar al Modulo de Consulta
             return $this->render('default/index.html.twig', ['base_dir' => realpath($this->getParameter('kernel.root_dir') . '/..') . DIRECTORY_SEPARATOR,]);
         }
 
@@ -94,7 +97,8 @@ class DefaultController extends Controller {
                     'atendidos' => $atendidos,
                     'conCita' => $conCita,
                     'penalizacion' => $configuracion[0]->getPenalizacion(),
-                    'hayConsultasActivas' =>$hayConsultasActivas,
+                    'hayConsultasActivas' => $hayConsultasActivas,
+                    'enlace'=> $enlace,
         ));
     }
 
@@ -116,16 +120,18 @@ class DefaultController extends Controller {
     }
 
     /**
+     * Pagina Para Realizar Consultas Profesionales de Medicina General
+     * 
      * @Route("/homepage_consulta/{paciente}", name = "homepage_consulta")
      */
-    public function consultaAction($paciente) {
+    public function consultaAction($paciente) {        
         $em = $this->getDoctrine()->getManager();
         $paciente = $em->getRepository('AppBundle:Paciente')->find($paciente);
         $evolucion = null;
         $afeccione = null;
-        $reposo=null;
-        $constancia=null;
-        $receta=null;
+        $reposo = null;
+        $constancia = null;
+        $receta = null;
 
         // Buscamos si el Paciente tiene Historia Medica
         $historicoAntecedentes = $em->getRepository('AppBundle:Antecedente')->findByPaciente($paciente);
@@ -157,7 +163,7 @@ class DefaultController extends Controller {
             $reposo = $em->getRepository('AppBundle:Reposo')->findOneBy(array('consulta' => $tieneConsultaActiva,));
             //Buscar Constancias asociada a la consulta
             $constancia = $em->getRepository('AppBundle:Constancia')->findOneBy(array('consulta' => $tieneConsultaActiva,));
-             //Buscar Constancias asociada a la consulta
+            //Buscar Recetas asociada a la consulta
             $receta = $em->getRepository('AppBundle:Receta')->findOneBy(array('consulta' => $tieneConsultaActiva,));
         } else {
             //Creamos una nueva consulta
@@ -192,7 +198,7 @@ class DefaultController extends Controller {
         $historicoConstancias = $this->historicoConstancias($paciente->getId(), $especialidad->getId());
         //Tadas las Recetas del paciente
         $historicoRecetas = $this->historicoRecetas($paciente->getId(), $especialidad->getId());
-        
+
 
         return $this->render('default/consulta.html.twig', array(
                     'paciente' => $paciente,
@@ -212,12 +218,82 @@ class DefaultController extends Controller {
                     'historicoEvolucion' => $historicoEvolucion,
                     'historicoAfecciones' => $historicoAfecciones,
                     'reposo' => $reposo,
-                    'historicoReposos' =>$historicoReposos,
+                    'historicoReposos' => $historicoReposos,
                     'constancia' => $constancia,
                     'historicoConstancias' => $historicoConstancias,
                     'receta' => $receta,
                     'historicoRecetas' => $historicoRecetas,
         ));
+    }
+
+    /**
+     * Pagina Para Realizar Consultas Profesionales de Enfermeria
+     * 
+     * @Route("/homepage_enfermeria/{paciente}", name = "homepage_enfermeria")
+     */
+    public function enfermeriaAction($paciente) {
+
+        $em = $this->getDoctrine()->getManager();
+        $datosVitales=null;
+        $paciente = $em->getRepository('AppBundle:Paciente')->find($paciente);
+        $profesional = $em->getRepository('AppBundle:Profesional')->findOneByPersona($this->getUser()->getPersona());
+        $ServicioProfesional = $em->getRepository('AppBundle:ServicioProfesional')->findByProfesional($profesional);
+        foreach ($ServicioProfesional as &$valor) {
+            if ($valor->getServicio()->getDia() == date("w") && $valor->getStatus() == 'activo') {
+                $especialidad = $valor->getServicio()->getEspecialidad();
+            }
+        }
+
+        //Buscamos Todas las Citas Activas del Paciente
+        $citas = $em->getRepository('AppBundle:Cita')->findBy(array('paciente' => $paciente, 'status' => 'activo',));
+
+        //Buscamos Todas las Consultas Activas del Paciente en la especialidad del medico
+        $tieneConsultaActiva = $em->getRepository('AppBundle:Consulta')->findOneBy(array('paciente' => $paciente, 'egreso' => false, 'especialidad' => $especialidad));
+
+        if ($tieneConsultaActiva) {
+            $consulta = $tieneConsultaActiva;
+            //Buscar  Signos Vitales asociada a la Consulta
+            $datosVitales = $em->getRepository('AppBundle:SignosVitalesSuministrados')->findBy(array('consulta' => $tieneConsultaActiva,));
+            //Buscar los medicamentos suministrados asociada a la Consulta
+            $medicamentoSuministrado = $em->getRepository('AppBundle:MedicamentoSuministrado')->findBy(array('consulta' => $consulta,));            
+            //Buscar los insumos suministrados asociada a la Consulta
+            $insumoSuministrado = $em->getRepository('AppBundle:InsumoSuministrado')->findBy(array('consulta' => $consulta,));
+            
+        } else {
+            //Creamos una nueva consulta
+            if (in_array('ROLE_MEDICO', $this->getUser()->getRoles()) && $especialidad) {
+                $consulta = new \AppBundle\Entity\Consulta;
+                $consulta->setFecha(new \DateTime('now'));
+                $consulta->setEgreso(FALSE);
+                $consulta->setPaciente($paciente);
+                $consulta->setProfesional($profesional);
+                $consulta->setEspecialidad($especialidad);
+                $em->persist($consulta);
+                $em->flush($consulta);
+            }
+        }
+
+        //Numeros asociados
+        //Todas las consultas previas del paciente en la especialidad
+        $historicoConsultas = $em->getRepository('AppBundle:Consulta')->findBy(array('paciente' => $paciente, 'especialidad' => $especialidad, 'egreso' => TRUE));
+        //Todas las consultas previas del paciente en la especialidad y con el doctor
+        $historicoConsultasMedico = $em->getRepository('AppBundle:Consulta')->findBy(array('paciente' => $paciente, 'profesional' => $profesional, 'egreso' => TRUE));
+        //Todas los abandonos del paciente en la especialidad
+        $historicoAbandono = $em->getRepository('AppBundle:Esperando')->findBy(array('paciente' => $paciente, 'especialidad' => $especialidad, 'status' => 'abandono'));
+        //Todas las citas del paciente en la especialidad
+        $historicoCita = $em->getRepository('AppBundle:Cita')->findBy(array('paciente' => $paciente, 'especialidad' => $especialidad, 'status' => 'activo'));
+
+        return $this->render('default/enfermeria.html.twig', array(
+                    'paciente' => $paciente,
+                    'consulta' => $consulta,
+                    'citas' => $citas,
+                    'datosVitales'=>$datosVitales,
+                    'historicoConsultas' => $historicoConsultas,
+                    'historicoConsultasMedico' => $historicoConsultasMedico,
+                    'historicoAbandono' => $historicoAbandono,
+                    'historicoCita' => $historicoCita,
+                    'medicamentos' => $medicamentoSuministrado,
+                    'insumos' => $insumoSuministrado));
     }
 
     private function numerosAction($status, $especialidad, $profesional = null) {
@@ -312,7 +388,7 @@ class DefaultController extends Controller {
         $stmt->execute(array('especialidad' => $especialidad, 'paciente' => $paciente));
         return $stmt->fetchAll();
     }
-    
+
     //Buscamos todas los Reposos del Pacientes en las diferentes consultas de la especialidad
     private function historicoConstancias($paciente, $especialidad) {
         $conn = $this->getDoctrine()->getManager()->getConnection();
@@ -326,8 +402,7 @@ class DefaultController extends Controller {
         $stmt->execute(array('especialidad' => $especialidad, 'paciente' => $paciente));
         return $stmt->fetchAll();
     }
-    
-    
+
     //Buscamos todas las Recetas del Pacientes en las diferentes consultas de la especialidad
     private function historicoRecetas($paciente, $especialidad) {
         $conn = $this->getDoctrine()->getManager()->getConnection();

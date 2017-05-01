@@ -59,6 +59,21 @@ class Configuracion
      * })
      */
     private $campania;
+    
+    
+       /**
+     * @var string
+     *
+     * @ORM\Column(name="template_reposo", type="text",  nullable=true)
+     */
+    private $templateReposo;
+    
+      /**
+     * @var string
+     *
+     * @ORM\Column(name="template_constancia", type="text",  nullable=true)
+     */
+    private $templateConstancia;
 
 
     /**
@@ -191,5 +206,53 @@ class Configuracion
     public function getCampania()
     {
         return $this->campania;
+    }
+
+    /**
+     * Set templateReposo
+     *
+     * @param string $templateReposo
+     *
+     * @return Configuracion
+     */
+    public function setTemplateReposo($templateReposo)
+    {
+        $this->templateReposo = $templateReposo;
+
+        return $this;
+    }
+
+    /**
+     * Get templateReposo
+     *
+     * @return string
+     */
+    public function getTemplateReposo()
+    {
+        return $this->templateReposo;
+    }
+
+    /**
+     * Set templateConstancia
+     *
+     * @param string $templateConstancia
+     *
+     * @return Configuracion
+     */
+    public function setTemplateConstancia($templateConstancia)
+    {
+        $this->templateConstancia = $templateConstancia;
+
+        return $this;
+    }
+
+    /**
+     * Get templateConstancia
+     *
+     * @return string
+     */
+    public function getTemplateConstancia()
+    {
+        return $this->templateConstancia;
     }
 }

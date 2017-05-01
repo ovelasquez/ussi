@@ -39,6 +39,7 @@ class ReposoController extends Controller {
      */
     public function newAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
+        $configuracion = $em->getRepository('AppBundle:Configuracion')->findAll();
         $consulta = NULL;
 
         if ($request->request->get('reposo_consulta')) {
@@ -48,6 +49,7 @@ class ReposoController extends Controller {
 
         if ($consulta) {
             $reposo->setConsulta($consulta);
+             $reposo->setObservacion($configuracion[0]->getTemplateReposo());
         }
 
 

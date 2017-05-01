@@ -39,14 +39,18 @@ class ConstanciaController extends Controller {
      */
     public function newAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
+       
+        $configuracion = $em->getRepository('AppBundle:Configuracion')->findAll();
         $consulta = NULL;
 
         if ($request->request->get('constancia_consulta')) {
             $consulta = $em->getRepository('AppBundle:Consulta')->find($request->request->get('constancia_consulta'));
         }
         $constancium = new Constancia();
+       
         if ($consulta) {
             $constancium->setConsulta($consulta);
+            $constancium->setObservacion($configuracion[0]->getTemplateConstancia());
             
         }
 

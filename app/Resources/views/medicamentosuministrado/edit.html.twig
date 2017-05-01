@@ -1,0 +1,138 @@
+{% extends 'base.html.twig' %}
+{% block title %} Medicamento Suministrado {% endblock %}
+{% block Subtitulo %} Editar Medicamento Suministrado -  <small> <a href="{{ path('medicamentosuministrado_index') }}">Regresar a la lista</a></small> {% endblock %} 
+{% block body %}
+    <div class="x_content">
+        <br />
+        {% form_theme edit_form 'AppBundle::jquery.collection.html.twig' %}
+        {{ form_start(edit_form, { 'attr': {'id':'medicamentosuministrado','class': 'form-horizontal form-label-left'} }) }} 
+        {{ form_errors(edit_form) }}
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="consulta">{{ form_label(edit_form.consulta) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(edit_form.consulta) }}                
+                {{form_widget(edit_form.consulta,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="tipoMedicamento">{{ form_label(edit_form.tipoMedicamento) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(edit_form.tipoMedicamento) }}                
+                {{form_widget(edit_form.tipoMedicamento,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div> 
+
+            <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="medicamento">{{ form_label(edit_form.medicamento) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(edit_form.medicamento) }}                
+                {{form_widget(edit_form.medicamento,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="cantidad">{{ form_label(edit_form.cantidad) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(edit_form.cantidad) }}                
+                {{form_widget(edit_form.cantidad,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>      
+
+
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="viaAdministracion">{{ form_label(edit_form.viaAdministracion) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(edit_form.viaAdministracion) }}                
+                {{form_widget(edit_form.viaAdministracion,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>     
+
+
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="usuario">{{ form_label(edit_form.usuario) }} </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(edit_form.usuario) }}                
+                {{form_widget(edit_form.usuario,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>        
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="fecha">{{ form_label(edit_form.fecha) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(edit_form.fecha) }}                
+                {{form_widget(edit_form.fecha ) }}                
+            </div>
+        </div>           
+
+        
+
+        <div class="ln_solid"></div>
+        <div class="form-group">
+            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">                
+                <button type="submit" class="btn btn-success">Registrar</button>
+            </div>
+        </div>
+
+        {{ form_end(edit_form) }}                           
+    </div>
+{% endblock %}
+{% block javascripts %}
+    <script>
+        $(document).ready(function () {
+
+            //   $("#appbundle_medicamentosuministrado_tipoMedicamento").val('').change();
+            //   $('#appbundle_medicamentosuministrado_medicamento').remove();
+            //   $('#appbundle_medicamentosuministrado_viaAdministracion ').remove();
+            //   $('#appbundle_medicamentosuministrado_cantidad ').val('');
+
+            //Al Cambiar Tipo de Medicamneto -> Actualizamos Medicamentos
+            $("#appbundle_medicamentosuministrado_tipoMedicamento").change(function () {
+                if ($('#appbundle_medicamentosuministrado_tipoMedicamento').val() !== ' ') {
+                    // Ajax                                                 
+                    var dataString = 'id=' + $('#appbundle_medicamentosuministrado_tipoMedicamento').val();
+                    $.ajax
+                            ({
+                                type: "POST",
+                                url: "{{ path ('ajax_medicamento') }}",
+                                data: dataString,
+                                cache: false,
+                                success: function (html)
+                                {
+                                    $('#appbundle_medicamentosuministrado_medicamento option ').remove();
+                                    $('#appbundle_medicamentosuministrado_medicamento').append(html);
+                                    //$('#appbundle_medicamentosuministrado_viaAdministracion option ').remove();
+                                }
+                            });
+
+                }
+            });
+
+            $('#appbundle_medicamentosuministrado_usuario').prop('disabled', true);
+            $('#appbundle_medicamentosuministrado_consulta').prop('disabled', true);
+            $('#appbundle_medicamentosuministrado_fecha_date_day').prop('disabled', true);
+            $('#appbundle_medicamentosuministrado_fecha_date_month').prop('disabled', true);
+            $('#appbundle_medicamentosuministrado_fecha_date_year').prop('disabled', true);
+            $('#appbundle_medicamentosuministrado_fecha_time_hour').prop('disabled', true);
+            $('#appbundle_medicamentosuministrado_fecha_time_minute').prop('disabled', true);
+
+        });
+    </script>
+    <script>
+        function removeReadonly() {
+            $('#appbundle_medicamentosuministrado_usuario').prop('disabled', false);
+            $('#appbundle_medicamentosuministrado_consulta').prop('disabled', false);
+            $('#appbundle_medicamentosuministrado_fecha_date_day').prop('disabled', false);
+            $('#appbundle_medicamentosuministrado_fecha_date_month').prop('disabled', false);
+            $('#appbundle_medicamentosuministrado_fecha_date_year').prop('disabled', false);
+            $('#appbundle_medicamentosuministrado_fecha_time_hour').prop('disabled', false);
+            $('#appbundle_medicamentosuministrado_fecha_time_minute').prop('disabled', false);
+            return false;
+        }
+    </script>
+    <!-- /Familiar -->
+
+
+{% endblock %}

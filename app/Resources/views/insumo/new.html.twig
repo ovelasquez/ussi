@@ -1,0 +1,118 @@
+{% extends 'base.html.twig' %}
+{% block title %} Insumo {% endblock %}
+{% block Subtitulo %} Registrar Insumo -  <small> <a href="{{ path('insumo_index') }}">Regresar a la lista</a></small> {% endblock %} 
+{% block body %}
+    {% for msg in app.session.flashBag.get('success') %}
+        <div class="alert alert-success"> {{ msg }} </div>       
+    {% endfor %}
+
+    {% for msg in app.session.flashBag.get('error') %}
+        <div class="alert alert-danger"> <p>{{ msg }}</p> </div>
+    {% endfor %}
+    <div class="x_content">
+        <br />
+
+
+        {{ form_start(form, { 'attr': {'id':'insumo','class': 'form-horizontal form-label-left'} }) }} 
+        {{ form_errors(form) }}
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nombre">{{ form_label(form.nombre) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(form.nombre) }}                
+                {{form_widget(form.nombre,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="stock">{{ form_label(form.stock) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(form.stock) }}                
+                {{form_widget(form.stock,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>      
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="disponible">{{ form_label(form.disponible) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(form.disponible) }}                
+                {{form_widget(form.disponible,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>      
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="tipoInsumo">{{ form_label(form.tipoInsumo) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(form.tipoInsumo) }}                
+                {{form_widget(form.tipoInsumo,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>
+        
+
+        <div class="ln_solid"></div>
+        <div class="form-group">
+            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">                 
+                <button type="submit" onClick="removeReadonly()" class="btn btn-success">Registrar</button>
+            </div>
+        </div>
+
+        {{ form_end(form) }}                           
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(document).ready(function () {
+
+            //   $("#appbundle_medicamentosuministrado_tipoMedicamento").val('').change();
+            //   $('#appbundle_medicamentosuministrado_medicamento').remove();
+            //   $('#appbundle_medicamentosuministrado_viaAdministracion ').remove();
+            //   $('#appbundle_medicamentosuministrado_cantidad ').val('');
+
+            //Al Cambiar Tipo de Medicamneto -> Actualizamos Medicamentos
+            $("#appbundle_medicamentosuministrado_tipoMedicamento").change(function () {
+                if ($('#appbundle_medicamentosuministrado_tipoMedicamento').val() !== ' ') {
+                    // Ajax                                                 
+                    var dataString = 'id=' + $('#appbundle_medicamentosuministrado_tipoMedicamento').val();
+                    $.ajax
+                            ({
+                                type: "POST",
+                                url: "{{ path ('ajax_medicamento') }}",
+                                data: dataString,
+                                cache: false,
+                                success: function (html)
+                                {
+                                    $('#appbundle_medicamentosuministrado_medicamento option ').remove();
+                                    $('#appbundle_medicamentosuministrado_medicamento').append(html);
+                                    //$('#appbundle_medicamentosuministrado_viaAdministracion option ').remove();
+                                }
+                            });
+
+                }
+            });
+
+            $('#appbundle_medicamentosuministrado_usuario').prop('disabled', true);
+            $('#appbundle_medicamentosuministrado_consulta').prop('disabled', true);
+            $('#appbundle_medicamentosuministrado_fecha_date_day').prop('disabled', true);
+            $('#appbundle_medicamentosuministrado_fecha_date_month').prop('disabled', true);
+            $('#appbundle_medicamentosuministrado_fecha_date_year').prop('disabled', true);
+            $('#appbundle_medicamentosuministrado_fecha_time_hour').prop('disabled', true);
+            $('#appbundle_medicamentosuministrado_fecha_time_minute').prop('disabled', true);
+
+        });
+    </script>
+    <script>
+        function removeReadonly() {
+            $('#appbundle_medicamentosuministrado_usuario').prop('disabled', false);
+            $('#appbundle_medicamentosuministrado_consulta').prop('disabled', false);
+            $('#appbundle_medicamentosuministrado_fecha_date_day').prop('disabled', false);
+            $('#appbundle_medicamentosuministrado_fecha_date_month').prop('disabled', false);
+            $('#appbundle_medicamentosuministrado_fecha_date_year').prop('disabled', false);
+            $('#appbundle_medicamentosuministrado_fecha_time_hour').prop('disabled', false);
+            $('#appbundle_medicamentosuministrado_fecha_time_minute').prop('disabled', false);
+            return false;
+        }
+    </script>
+    <!-- /Familiar -->
+
+
+{% endblock %}

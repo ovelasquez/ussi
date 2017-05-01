@@ -1,0 +1,448 @@
+{% extends 'dashboard.html.twig' %}
+{% block stylesheets %}
+    <!-- Datatables -->
+    <link href="{{ asset('bundles/app/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{ asset('bundles/app/vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{ asset('bundles/app/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css')}}" rel="stylesheet">
+    <!-- animate -->
+    <link href="{{ asset('bundles/app/vendors/animate.css/animate.min.css')}}"   rel="stylesheet">
+    <!-- PNotify -->
+    <link href="{{ asset('bundles/app/vendors/pnotify/dist/pnotify.css')}}" rel="stylesheet">
+    <link href="{{ asset('bundles/app/vendors/pnotify/dist/pnotify.buttons.css')}}" rel="stylesheet">
+    <link href="{{ asset('bundles/app/vendors/pnotify/dist/pnotify.nonblock.css')}}" rel="stylesheet">
+{% endblock %}
+{% block title %} Consulta {% endblock %}
+{% block topTiles %}
+    <div class="row tile_count">
+        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+            <span class="count_top"><i class="fa fa-user"></i> Total Consultas</span>
+            <div class="count">{{historicoConsultas | length}}</div>
+            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i> </i> en la Especialidad</span>
+        </div>
+        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+            <span class="count_top"><i class="fa fa-plus-square"></i> Consultas Atendidas</span>
+            <div class="count">{{historicoConsultasMedico | length}}</div>
+            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i> </i> por el Profesional</span>
+        </div>
+        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+            <span class="count_top"><i class="fa fa-sign-out"></i> Paciente Abandono</span>
+            <div class="count red">{{historicoAbandono| length}}</div>
+            <span class="count_bottom"><i class="red"><i class="fa fa-sort-asc"></i> </i> En todas las Consultas</span>  
+        </div>
+        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+            <span class="count_top"><i class="fa fa-user"></i> Paciente Citas</span>
+            <div class="count green">{{historicoCita| length}}</div>
+            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i></i>Activas en la Especialidad</span>
+        </div>
+        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+            <span class="count_top"><i class="fa fa-clock-o"></i> Fecha Consulta</span>
+            <div class="count"></div>
+            <h2>  {{ "now"|date("d/m/Y") }} </h2>
+            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>Día </i> de la Consulta</span>
+        </div>
+    </div>
+{% endblock %}
+{% block body %}   
+    {% for msg in app.session.flashBag.get('success') %}        
+        <div class="alert alert-success alert-dismissible fade in" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+            </button>
+            <strong>{{ msg }}</strong>
+        </div>
+    {% endfor %}
+    {% for msgs in app.session.flashBag.get('error') %}
+        <div class="alert alert-danger alert-dismissible fade in" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+            <strong>
+                {% for msg in msgs %}
+                    <p>{{ msg }}</p>
+                {% endfor %}
+            </strong>
+        </div>
+    {% endfor %}
+    <div class="">
+        <div class="page-title">
+            <div class="title_left">
+                <h3>{% block Titulo %} USSI Dr. Jesús Saturno Canelón  {% endblock %}</h3>
+            </div>
+            <div class="title_right">   </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>{% block Subtitulo %}  
+                            Paciente:  {{ paciente.persona.primerApellido |capitalize }} {{ paciente.persona.segundoApellido |capitalize }} {{ paciente.persona.primerNombre |capitalize }} {{ paciente.persona.segundoNombre |capitalize }}
+                        {% endblock %} </h2>
+                    <ul class="nav navbar-right panel_toolbox submenu">
+                        {% block paneltoolbox %} 
+                            <li><a class="collapse-link" ><i class="fa fa-chevron-up"></i></a></li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="#">{% block cerrar %}  {% endblock %}</a>
+                                    </li>
+                                    <li><a href="#">Settings 2</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li><a class="close-link" ><i class="fa fa-close"></i></a> </li>
+                                {% endblock %}     
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <!--div class="x_content"-->
+                {% block body2 %}
+                    <div class="x_content">
+                        <div class="col-md-2 col-sm-2 col-xs-12 profile_left">
+                            <div class="profile_img">
+                                <div id="crop-avatar">
+                                    <!-- Current avatar -->
+                                    <img class="img-responsive avatar-view" src="{{ asset('uploads/fotos/')}}{{paciente.persona.foto}}" alt="Avatar" title="Change the avatar" height="80%" width="80%">                    
+                                </div>
+                            </div>
+                            <p></p>                              
+                            <form name="form_consulta" action="{{path('consulta_alta')}}" method="post" id="form_consulta" class="form-horizontal form-label-left"> 
+                                <input id="alta_consulta" name="alta_consulta" type="hidden" value="{{consulta.id}}">                                 
+                                <div class="form-group">
+                                    <div class="col-md-2 col-sm-2 col-xs-12 col-md-offset-1">                
+                                        <button type="submit" class="btn btn-primary"><i class="fa fa-user-md m-right-xs"></i> Dar de Alta</button> 
+                                    </div>
+                                </div>
+                            </form>
+                            <br/>           
+                        </div>
+                        <div class="col-md-10 col-sm-10 col-xs-12">                    
+                            <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                                <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                                    <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Personales</a></li>
+                                    <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Datos Vitales</a></li>
+                                    <li role="presentation" class=""><a href="#tab_content3" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Medicamentos</a></li>
+                                    <li role="presentation" class=""><a href="#tab_content4" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Insumos</a></li>
+                                    <li role="presentation" class=""><a href="#tab_content5" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Observaciones</a></li>
+                                    <li role="presentation" class=""><a href="#tab_content6" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Referir</a></li>                                    
+                                </ul>
+                                <div id="myTabContent" class="tab-content">
+
+                                    <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+                                        <table class="table table-striped">
+                                            <tbody>
+                                                <tr>
+                                                    <th>Identificación</th>
+                                                    <td>{{ paciente.persona.nacionalidad }} - {{ paciente.persona.cedula |number_format(0, ',', '.')}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Nombre</th>
+                                                    <td>{{ paciente.persona.primerApellido |capitalize }} {{ paciente.persona.segundoApellido |capitalize }} {{ paciente.persona.primerNombre |capitalize }} {{ paciente.persona.segundoNombre |capitalize }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Género</th>
+                                                    <td>{{ paciente.persona.genero }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Fecha de Nacimiento</th>
+                                                    <td>{{ paciente.fechaNacimiento|date("d/m/Y") }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Correo Electrónico</th>
+                                                    <td>{{ paciente.persona.email }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Estado Civil</th>
+                                                    <td>{{ paciente.edoCivil |capitalize  }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Teléfono</th>
+                                                    <td>{{ paciente.persona.telefono }}</td>
+                                                </tr>
+                                                {% for value in paciente.direccion %}
+                                                    <tr>
+                                                        <th>Dirección de {{ value.tipo |capitalize }}</th>
+                                                        <td>                                           
+                                                            <p>Lugar : {{ value.sector |capitalize  }}</p>
+                                                            <p>{{ value.parroquia.municipio.estado.pais }} -{{ value.parroquia.municipio.estado }} -{{ value.parroquia.municipio }} -{{ value.parroquia }}</p>
+
+                                                        </td>
+                                                    </tr>
+                                                {% endfor %} 
+                                                <tr>
+                                                    <th>Ocupación</th>
+                                                    <td>{{ paciente.ocupacion |capitalize }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Es Analfabeta?</th>
+                                                        {% if paciente.analfabeta %}
+                                                        <td> Si  </td>
+                                                    {% else %}
+                                                        <td> No  </td>
+                                                    {% endif %}
+                                                </tr>
+                                                <tr>
+                                                    <th>Nivel de Instrucción</th>
+                                                    <td>{{ paciente.estudio |capitalize }} </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Años Aprobados</th>
+                                                    <td>{{ paciente.anoAprobado }} </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Cédula del Jefe Familia </th>
+                                                    <td>{{ paciente.cedulaJefeFamilia |number_format(0, ',', '.') }} </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Comunidad</th>
+                                                    <td>{{ paciente.comunidad |capitalize }} </td>
+                                                </tr>
+                                                {% if (paciente.pfg !=null ) %}
+                                                    <tr>
+                                                        <th>Programa de Formación de Grado</th>
+                                                        <td>{{ paciente.pfg |capitalize }} </td>
+                                                    </tr>
+                                                {% endif %}
+                                                <tr>
+                                                    <th>Religión</th>
+                                                    <td>{{ paciente.religion |capitalize }} </td>
+                                                </tr>
+                                                {% if (paciente.etnia !=null ) %}
+                                                    <tr>
+                                                        <th>Etnia</th>
+                                                        <td>{{ paciente.etnia |capitalize }} </td>
+                                                    </tr>
+                                                {% endif %}
+                                                {% for value in paciente.familiar %}
+                                                    <tr>
+                                                        <th>Parentesco {{ value.parentesco |capitalize }}</th>
+                                                        <td>                                           
+                                                            <p>Nombre: {{ value.nombre |capitalize  }}</p>
+                                                            <p>Ocupación:{{ value.ocupacion }}</p>
+                                                        </td>
+                                                    </tr>
+                                                {% endfor %} 
+                                                <tr>
+                                                    <th>Fecha de registro</th>
+                                                    <td>{{ paciente.fechaRegistro|date("d/m/Y h:i:s") }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Fecha de última actualización</th>
+                                                    <td>{{ paciente.fechaActualizacion|date("d/m/Y h:i:s") }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>                                
+                                    </div>   
+
+
+
+
+                                    <!-- Signos Vitales -->
+                                    <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+
+                                        <div class="x_content"> 
+                                            <form name="form_signosvitales" action="{{path('signosvitales_new')}}" method="post" id="form_afecciones" class="form-horizontal form-label-left"> 
+                                                <input id="signosvitales_consulta" name="signosvitales_consulta" type="hidden" value="{{consulta.id}}"> 
+                                                <div class="ln_solid"></div>
+                                                <div class="form-group">
+                                                    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">                
+                                                        <button type="submit" class="btn btn-success"><i class="fa fa-edit m-right-xs"></i> Registrar Datos Vitales</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                            {% if (datosVitales!=null) %}
+                                                <table id="datatable-fixed-header" class="table table-striped table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Id</th>
+                                                            <th>Dato</th>
+                                                            <th>Valor</th>
+                                                            <th>Profesional</th>
+                                                            <th>Fecha</th>
+                                                            <th>Acción</th>                                                                         
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% for datoVital in datosVitales %}
+                                                            <tr>
+                                                                <td>{{ loop.index }}</td>
+                                                                <td>{{ datoVital.nombre|title }}</td>
+                                                                <td>{{ datoVital.valor }}</td>                                                                
+                                                                <td>{{ datoVital.usuario.persona.primerNombre}} {{ datoVital.usuario.persona.primerApellido}}</td> 
+                                                                <td>{{ datoVital.fecha | date('d-m-Y  H:i:s') }}</td>
+                                                                <td> <a href="{{ path('signosvitales_edit', { 'id': datoVital.id }) }}">Editar</a> </td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>  
+                                            {% endif%}
+                                        </div>
+
+
+                                    </div>
+
+                                    <!-- Medicamentos -->
+                                    <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="profile-tab">
+
+                                        <div class="x_content"> 
+                                            <form name="form_medicamentosuministrado" action="{{path('medicamentosuministrado_new')}}" method="post" id="form_afecciones" class="form-horizontal form-label-left"> 
+                                                <input id="medicamentosuministrado_consulta" name="medicamentosuministrado_consulta" type="hidden" value="{{consulta.id}}"> 
+                                                <div class="ln_solid"></div>
+                                                <div class="form-group">
+                                                    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">                
+                                                        <button type="submit" class="btn btn-success"><i class="fa fa-edit m-right-xs"></i> Registrar Medicamentos Suministrados</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                            {% if (medicamentos!=null) %}
+                                                <table id="med_datatable-fixed-header" class="table table-striped table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Id</th>
+                                                            <th>Medicamento</th>
+                                                            <th>cantidad</th>
+                                                            <th>Vía de Administración</th>
+                                                            <th>Profesional</th>
+                                                            <th>Fecha</th>
+                                                            <th>Acción</th>                                                                         
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% for medicamento in medicamentos %}
+                                                            <tr>
+                                                                <td>{{ loop.index }}</td>
+                                                                <td>{{ medicamento.medicamento.principioActivo|title }}</td>
+                                                                <td>{{ medicamento.cantidad }}</td>                                                                
+                                                                <td>{{ medicamento.viaAdministracion|title}}</td> 
+                                                                <td>{{ medicamento.usuario.persona.primerNombre}} {{ medicamento.usuario.persona.primerApellido}}</td> 
+                                                                <td>{{ medicamento.fecha | date('d-m-Y  H:i:s') }}</td>
+                                                                <td> <a href="{{ path('medicamentosuministrado_edit', { 'id': medicamento.id }) }}">Editar</a> </td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>  
+                                            {% endif%}
+                                        </div>
+
+                                    </div>
+
+                                    <!-- Insumos -->
+                                    <div role="tabpanel" class="tab-pane fade" id="tab_content4" aria-labelledby="profile-tab">
+                                        <div class="x_content"> 
+                                            <form name="form_insumosuministrado" action="{{path('insumosuministrado_new')}}" method="post" id="form_afecciones" class="form-horizontal form-label-left"> 
+                                                <input id="insumosuministrado_consulta" name="insumosuministrado_consulta" type="hidden" value="{{consulta.id}}"> 
+                                                <div class="ln_solid"></div>
+                                                <div class="form-group">
+                                                    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">                
+                                                        <button type="submit" class="btn btn-success"><i class="fa fa-edit m-right-xs"></i> Registrar Insumos Suministrados</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                            {% if (insumos!=null) %}
+                                                <table id="ins_datatable-fixed-header" class="table table-striped table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Id</th>    
+                                                            <th>Insumo</th>
+                                                            <th>Cantidad</th>
+                                                            <th>Profesional</th>
+                                                            <th>Fecha</th>   
+                                                            <th>Acción</th>                                                                         
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% for insumo in insumos %}
+                                                            <tr>
+                                                                <td>{{ loop.index }}</td>
+                                                                <td>{{ insumo.insumo}}</td>
+                                                                <td>{{ insumo.cantidad}}</td>
+                                                                <td>{{ insumo.usuario.persona.primerNombre}} {{ insumo.usuario.persona.primerApellido}}</td> 
+                                                                <td>{{ insumo.fecha | date('d-m-Y  H:i:s') }}</td>                                                                                                                                 
+                                                                <td> <a href="{{ path('insumosuministrado_edit', { 'id': insumo.id }) }}">Editar</a> </td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>  
+                                            {% endif%}
+                                        </div>
+                                    </div>
+
+                                    <!-- Observaciones -->
+                                    <div role="tabpanel" class="tab-pane fade" id="tab_content5" aria-labelledby="profile-tab">
+
+                                    </div>
+
+
+
+                                    <!--Citas-->
+                                    <div role="tabpanel" class="tab-pane fade" id="tab_content6" aria-labelledby="profile-tab">
+                                        <!-- Crear Cita-->
+                                        <form name="form_cita" action="{{path('cita_new')}}" method="post" id="form_cita" class="form-horizontal form-label-left"> 
+                                            <input id="cita_consulta" name="cita_consulta" type="hidden" value="{{consulta.id}}"> 
+                                            <div class="ln_solid"></div>
+                                            <div class="form-group">
+                                                <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">                
+                                                    <button type="submit" class="btn btn-success">Registrar Cita</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                        {% if (citas!=null) %}
+                                            <table class="table table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th>#</th>                                                        
+                                                        <th>Especialidad</th>
+                                                        <th>Médico</th>
+                                                        <th>Fecha</th>
+                                                        <th>Status</th>
+                                                        <th>Acción</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for citum in citas %}
+                                                        <tr>
+                                                            <td><a href="{{ path('cita_show', { 'id': citum.id }) }}">{{ loop.index  }}</a></td>                                                            
+                                                            <td>{{ citum.especialidad.nombre}}</td>
+                                                            <td>{% if citum.profesional %}{{ citum.profesional.persona.primerApellido}} {{ citum.profesional.persona.primerNombre}}{% endif %}
+                                                            </td>
+                                                            <td>{% if citum.fecha %}{{ citum.fecha|date('d-m-Y') }}{% endif %}</td>
+                                                            <td>{{ citum.status|title }}</td>
+                                                            <td>
+                                                                <a href="{{ path('cita_edit', { 'id': citum.id }) }}">
+                                                                    <button type="button" class="btn btn-xs btn-success" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editar">  <i class="fa fa-pencil"></i>  </button>
+                                                                </a>                                                             
+                                                            </td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        {%endif%}
+                                    </div>
+                                    <!--Fin Citas-->
+
+                                </div> <!-- Fin myTabContent -->
+                            </div> <!--  togglable-tabs -->
+                        </div> {# Fin col-md-10 col-sm-10 col-xs-12  #}
+                    </div>
+                {% endblock %}                                    
+                <!--/div-->
+            </div>
+        </div>
+    </div>  <!--/div clas=row-->
+</div>
+{% endblock %}
+    {% block javascripts %}
+        <!-- Datatables -->
+        <script src="{{ asset('bundles/app/vendors/datatables.net/js/jquery.dataTables.min.js')}}"></script>
+        <script src="{{ asset('bundles/app/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js')}}"></script>
+        <!-- PNotify -->
+        <script src="{{ asset('bundles/app/vendors/pnotify/dist/pnotify.js')}}"></script> 
+        <script src="{{ asset('bundles/app/vendors/pnotify/dist/pnotify.buttons.js')}}"></script> 
+        <script src="{{ asset('bundles/app/vendors/pnotify/dist/pnotify.nonblock.js')}}"></script> 
+        <!-- Push -->
+        <script src="{{ asset('bundles/app/vendors/push/push.min.js')}}"></script> 
+        <script>
+            $(document).ready(function () {
+                $('#datatable-fixed-header').DataTable({fixedHeader: true});
+                $('#med_datatable-fixed-header').DataTable({fixedHeader: true});
+                $('#ins_datatable-fixed-header').DataTable({fixedHeader: true});
+            });
+        </script>
+    {% endblock %}

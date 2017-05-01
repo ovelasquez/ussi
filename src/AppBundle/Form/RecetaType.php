@@ -19,7 +19,7 @@ class RecetaType extends AbstractType
                     'label' => 'Indicaciones',
                     'required' => true,
                     'config_name' => 'my_config',
-                ))
+                ))            
                 
                 
                 ;

@@ -59,4 +59,8 @@ class User extends BaseUser {
     {
         return $this->persona;
     }
+    
+    public function __toString() {
+        return $this->getPersona()->getPrimerNombre().' '.$this->getPersona()->getPrimerApellido();
+    }
 }

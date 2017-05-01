@@ -59,6 +59,21 @@ class Configuracion
      * })
      */
     private $campania;
+    
+    
+       /**
+     * @var string
+     *
+     * @ORM\Column(name="template_reposo", type="text",  nullable=true)
+     */
+    private $templateReposo;
+    
+      /**
+     * @var string
+     *
+     * @ORM\Column(name="template_constancia", type="text",  nullable=true)
+     */
+    private $templateConstancia;
 
 
     /**
@@ -167,5 +182,29 @@ class Configuracion
     public function getTiempoEspera()
     {
         return $this->tiempoEspera;
+    }
+
+    /**
+     * Set campania
+     *
+     * @param \AppBundle\Entity\Campania $campania
+     *
+     * @return Configuracion
+     */
+    public function setCampania(\AppBundle\Entity\Campania $campania = null)
+    {
+        $this->campania = $campania;
+
+        return $this;
+    }
+
+    /**
+     * Get campania
+     *
+     * @return \AppBundle\Entity\Campania
+     */
+    public function getCampania()
+    {
+        return $this->campania;
     }
 }

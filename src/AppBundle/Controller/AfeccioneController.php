@@ -106,6 +106,7 @@ class AfeccioneController extends Controller {
         $deleteForm = $this->createDeleteForm($afeccione);
         $editForm = $this->createForm('AppBundle\Form\AfeccioneType', $afeccione);
         $editForm->handleRequest($request);
+       
         $em = $this->getDoctrine()->getManager();
         
 

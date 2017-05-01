@@ -39,10 +39,26 @@
         </div>
 
         <div class="form-group">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nombre">{{ form_label(form.campania) }} <span class="required">*</span></label>
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="campania">{{ form_label(form.campania) }} <span class="required">*</span></label>
             <div class="col-md-6 col-sm-6 col-xs-12">
                 {{ form_errors(form.campania) }}                
                 {{form_widget(form.campania,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>
+        
+            <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="templateReposo">{{ form_label(form.templateReposo) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(form.templateReposo) }}                
+                {{form_widget(form.templateReposo,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>
+            
+            <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="templateConstancia">{{ form_label(form.templateConstancia) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(form.templateConstancia) }}                
+                {{form_widget(form.templateConstancia,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
             </div>
         </div>
 

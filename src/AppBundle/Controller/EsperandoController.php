@@ -95,7 +95,7 @@ class EsperandoController extends Controller {
     }
 
     /**
-     * Procesando la lista de espera
+     * Procesando al Paciente que fue llamado de la lista de espera
      *
      * @Route("/procesando/{id}/{llego}", name="esperando_procesando")
      * @Method("GET")
@@ -108,7 +108,14 @@ class EsperandoController extends Controller {
                 $esperandos->setStatus('atendido');
                 $esperandos->setPosicion(null);
                 $em->flush($esperandos);
-                return $this->redirectToRoute('homepage_consulta', array('paciente' => $esperandos->getPaciente()->getId()));                
+                //dump($esperandos->getEspecialidad()->getNombre()); die();
+                switch ($esperandos->getEspecialidad()->getNombre()) {              
+                    case('Enfermería'): 
+                        return $this->redirectToRoute('homepage_enfermeria', array('paciente' => $esperandos->getPaciente()->getId()));
+                        break;
+                    default: return $this->redirectToRoute('homepage_consulta', array('paciente' => $esperandos->getPaciente()->getId()));
+                }
+                
             } else {
                 //El Paciente NO llego al consultorio y será penalizado
                 //Se verifica que no ha alcanzado el limite de penalizaciones, 
@@ -121,7 +128,7 @@ class EsperandoController extends Controller {
                     //Buscamos al Primero de la Lista de Espera
                     $listaEspera = $em->getRepository('AppBundle:Esperando')->findBy(
                             array('especialidad' => $esperandos->getEspecialidad(), 'status' => 'activo',), array('posicion' => 'ASC')
-                    );                    
+                    );
                     if ($listaEspera) {
                         $miPosicion = $esperandos->getPosicion();
                         $i = 0;
@@ -132,7 +139,7 @@ class EsperandoController extends Controller {
                                 $listaEspera[$i]->setPosicion($miPosicion);
                                 $em->flush($listaEspera[$i]);
                                 $repetir = false;
-                            } 
+                            }
                             $i++;
                         } while ($repetir && ($i < count($listaEspera)));
                     }
@@ -227,8 +234,8 @@ class EsperandoController extends Controller {
             $servicio = $em->getRepository('AppBundle:Servicio')->findOneBy(
                     array(
                         'especialidad' => $esperando->getEspecialidad(),
-                         'dia' => date('N', strtotime((string)$esperando->getFechaRegistro()->format('m/d/Y'))),
-                        ));
+                        'dia' => date('N', strtotime((string) $esperando->getFechaRegistro()->format('m/d/Y'))),
+            ));
             $servicio->setDisponible($servicio->getDisponible() + 1);
             $em->persist($servicio);
             $em->flush($servicio);

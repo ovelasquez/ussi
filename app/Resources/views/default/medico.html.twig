@@ -41,7 +41,8 @@
 
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-clock-o"></i> Fecha Consulta</span>
-            <div class="count">{{ "now"|date("d/m/Y") }}</div>
+            <div class="count"></div>
+            <h2>  {{ "now"|date("d/m/Y") }} </h2>
             <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>Día </i> de la Consulta</span>
         </div>
     </div>
@@ -284,7 +285,11 @@
                                                         <td>{{ esperando.paciente.persona.nacionalidad }} - {{ esperando.paciente.persona.cedula }}</td>
                                                         <td>{{ esperando.paciente.persona.primerApellido }} {{ esperando.paciente.persona.primerNombre }}</td> 
                                                         <td>
-                                                            <a href="{{ path('homepage_consulta', { 'paciente': esperando.paciente.id }) }}">
+                                                            {% if (enlace=='homepage_consulta') %}
+                                                                <a href="{{ path('homepage_consulta', { 'paciente': esperando.paciente.id }) }}">
+                                                                {%else%}
+                                                                <a href="{{ path('homepage_enfermeria', { 'paciente': esperando.paciente.id }) }}">
+                                                                {%endif%}
                                                                 <button type="button" class="btn btn-xs btn-warning" data-toggle="tooltip" data-placement="top" title="" data-original-title="Ver">  <i class="fa fa-eye"></i>  </button>
                                                             </a>                                                            
                                                         </td>

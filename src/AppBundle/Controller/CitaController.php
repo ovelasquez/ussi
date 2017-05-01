@@ -64,7 +64,7 @@ class CitaController extends Controller {
             //Verificamos si la Cita que estan dando es para hoy, para anexar al paciente en la lista de espera
             if ($cita->getFecha() == $hoy) {
                 $listaEspera = $this->profesionalCitaListaEspera($cita);
-                dump($listaEspera);
+                //dump($listaEspera);
                 if ($listaEspera) {
                     $em->persist($cita);
                     $em->flush($cita);                   

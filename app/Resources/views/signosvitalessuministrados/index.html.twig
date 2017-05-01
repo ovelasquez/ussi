@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Signosvitalessuministrados list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Dato</th>
+                <th>Valor</th>                
+                <th>Fecha</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for signosVitalesSuministrado in signosVitalesSuministrados %}
+            <tr>
+                <td><a href="{{ path('signosvitales_show', { 'id': signosVitalesSuministrado.id }) }}">{{ signosVitalesSuministrado.id }}</a></td>               
+                <td>{{ signosVitalesSuministrado.nombre }}</td>
+                 <td>{{ signosVitalesSuministrado.valor }}</td>
+                <td>{% if signosVitalesSuministrado.consulta.fecha %}{{ signosVitalesSuministrado.consulta.fecha|date('d-m-Y H:i:s') }}{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('signosvitales_show', { 'id': signosVitalesSuministrado.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('signosvitales_edit', { 'id': signosVitalesSuministrado.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('signosvitales_new') }}">Create a new signosVitalesSuministrado</a>
+        </li>
+    </ul>
+{% endblock %}

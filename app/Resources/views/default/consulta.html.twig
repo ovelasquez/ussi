@@ -3,7 +3,7 @@
     <!-- Datatables -->
     <link href="{{ asset('bundles/app/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{ asset('bundles/app/vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css')}}" rel="stylesheet">
-    <link href="{{ asset('bundles/app/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{ asset('bundles/app/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css')}}" rel="stylesheet">    
     <!-- animate -->
     <link href="{{ asset('bundles/app/vendors/animate.css/animate.min.css')}}"   rel="stylesheet">
     <!-- PNotify -->
@@ -19,29 +19,25 @@
             <div class="count">{{historicoConsultas | length}}</div>
             <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i> </i> en la Especialidad</span>
         </div>
-
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-plus-square"></i> Consultas Atendidas</span>
             <div class="count">{{historicoConsultasMedico | length}}</div>
             <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i> </i> por el Profesional</span>
         </div>
-
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-sign-out"></i> Paciente Abandono</span>
             <div class="count red">{{historicoAbandono| length}}</div>
             <span class="count_bottom"><i class="red"><i class="fa fa-sort-asc"></i> </i> En todas las Consultas</span>  
-
         </div>
-
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-user"></i> Paciente Citas</span>
             <div class="count green">{{historicoCita| length}}</div>
             <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i></i>Activas en la Especialidad</span>
         </div>
-
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-clock-o"></i> Fecha Consulta</span>
-            <div class="count">{{ "now"|date("d/m/Y") }}</div>
+            <div class="count"></div>
+            <h2>  {{ "now"|date("d/m/Y") }} </h2>
             <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>Día </i> de la Consulta</span>
         </div>
     </div>
@@ -54,7 +50,6 @@
             <strong>{{ msg }}</strong>
         </div>
     {% endfor %}
-
     {% for msgs in app.session.flashBag.get('error') %}
         <div class="alert alert-danger alert-dismissible fade in" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
@@ -72,9 +67,7 @@
             </div>
             <div class="title_right">   </div>
         </div>
-
         <div class="clearfix"></div>
-
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
@@ -161,7 +154,6 @@
                                                     <th>Estado Civil</th>
                                                     <td>{{ paciente.edoCivil |capitalize  }}</td>
                                                 </tr>
-
                                                 <tr>
                                                     <th>Teléfono</th>
                                                     <td>{{ paciente.persona.telefono }}</td>
@@ -176,8 +168,6 @@
                                                         </td>
                                                     </tr>
                                                 {% endfor %} 
-
-
                                                 <tr>
                                                     <th>Ocupación</th>
                                                     <td>{{ paciente.ocupacion |capitalize }}</td>
@@ -202,7 +192,6 @@
                                                     <th>Cédula del Jefe Familia </th>
                                                     <td>{{ paciente.cedulaJefeFamilia |number_format(0, ',', '.') }} </td>
                                                 </tr>
-
                                                 <tr>
                                                     <th>Comunidad</th>
                                                     <td>{{ paciente.comunidad |capitalize }} </td>
@@ -232,25 +221,19 @@
                                                         </td>
                                                     </tr>
                                                 {% endfor %} 
-
                                                 <tr>
                                                     <th>Fecha de registro</th>
                                                     <td>{{ paciente.fechaRegistro|date("d/m/Y h:i:s") }}</td>
                                                 </tr>
-
                                                 <tr>
                                                     <th>Fecha de última actualización</th>
                                                     <td>{{ paciente.fechaActualizacion|date("d/m/Y h:i:s") }}</td>
                                                 </tr>
-
                                             </tbody>
                                         </table>                                
                                     </div>   
-
-
                                     <!-- inicio Acordion Historias Médicas -->
                                     <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
-
                                         <div class="accordion" id="accordion" role="tablist" aria-multiselectable="true">
                                             <div class="panel">
                                                 <a class="panel-heading collapsed" role="tab" id="headingOne" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
@@ -258,7 +241,6 @@
                                                 </a>
                                                 <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne" aria-expanded="false" style="height: 0px;">
                                                     <div class="panel-body">
-
                                                         <table class="table table-striped jambo_table bulk_action">
                                                             {% for historicoAntecedente in historicoAntecedentes %}
                                                                 <thead>
@@ -341,7 +323,6 @@
                                                                 {% endfor %}
                                                             </tbody>
                                                         </table>
-
                                                         {# Si el paciente posee antecedentes NO se muestra el boton de Registro de Antecedentes #}
                                                         {% if historicoAntecedentes|length < 1 %}                                                                                      
                                                             <form name="form_antecedente" action="{{path('antecedente_new')}}" method="post" id="form_antecedente" class="form-horizontal form-label-left"> 
@@ -358,7 +339,6 @@
                                                 </div>
                                             </div> {# fin acordion Historias Medicas#}
                                             <!-- Segundo Menu -->
-
                                             <div class="panel">
                                                 <a class="panel-heading collapsed" role="tab" id="headingTwo" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">                                 
                                                     <h4 class="panel-title">Factores de Riesgo (Hábitos Sicobiológicos)</h4>
@@ -423,7 +403,6 @@
                                                                 {% endfor %}
                                                             </tbody>
                                                         </table>
-
                                                         {# Si el paciente posee antecedentes NO se muestra el boton de Registro de Antecedentes #}
                                                         {% if sicobiologicos|length < 1 %}                                                                                      
                                                             <form name="form_sicobiologico" action="{{path('sicobiologico_new')}}" method="post" id="form_sicobiologico" class="form-horizontal form-label-left"> 
@@ -439,7 +418,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-
                                             <!-- Tercer menu -->
                                             <div class="panel">
                                                 <a class="panel-heading collapsed" role="tab" id="headingThree" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">                                 
@@ -592,15 +570,12 @@
                                                 </div>
                                             </div>
                                             <!-- Cuarto menu -->
-
-
                                             <div class="panel">
                                                 <a class="panel-heading collapsed" role="tab" id="headingFour" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">                                 
                                                     <h4 class="panel-title">Sexualidad y Obstétricos</h4>
                                                 </a>
                                                 <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour" aria-expanded="false" style="height: 0px;">                                
                                                     <div class="panel-body">
-
                                                         <table class="table table-striped jambo_table bulk_action">
                                                             {% for sexualidad in sexualidads %}
                                                                 <thead>
@@ -678,7 +653,6 @@
                                                                 {% endfor %}
                                                             </tbody>
                                                         </table>
-
                                                         {# Si el paciente posee antecedentes NO se muestra el boton de Registro de Antecedentes #}
                                                         {% if sexualidads |length < 1 %}                                                                                      
                                                             <form name="form_sexualidad" action="{{path('sexualidad_new')}}" method="post" id="form_sexualidad" class="form-horizontal form-label-left"> 
@@ -694,9 +668,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-
                                             <!-- QUinto menu -->
-
                                             <div class="panel">
                                                 <a class="panel-heading collapsed" role="tab" id="headingFive" data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="false" aria-controls="collapseFive">                                 
                                                     <h4 class="panel-title">Antecedente Perinatales</h4>
@@ -704,7 +676,6 @@
                                                 <div id="collapseFive" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFive" aria-expanded="false" style="height: 0px;">                                
                                                     <div class="panel-body">
                                                         <table class="table table-striped jambo_table bulk_action">
-
                                                             {% for perinatal in perinatals %}
                                                                 <thead>
                                                                     <tr>                                       
@@ -819,9 +790,7 @@
                                             </div>
                                         </div>
                                     </div> <!--Fin  Acordion Historia Medica-->
-
                                     <!--Evolucion-->
-
                                     <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="profile-tab">                                         
                                         {% if (evolucion!=null) %}
                                             <div class="x_content">                   
@@ -851,13 +820,10 @@
                                                             <th>Frecuencia de Consulta</th>
                                                             <td>{{ evolucion.frecuencia|capitalize }}</td>
                                                         </tr>
-
                                                     </tbody>
                                                 </table>                                
                                             </div>
-                                            <a class="btn btn-success" href="{{ path('evolucion_edit', { 'id': evolucion.id }) }}"><i class="fa fa-edit m-right-xs"></i>Editar Evolución</a>
-
-
+                                            <a class="btn btn-primary" href="{{ path('evolucion_edit', { 'id': evolucion.id }) }}"><i class="fa fa-edit m-right-xs"></i>Editar Evolución</a>
                                         {% else %}
                                             <!-- no tiene evolucion -->
                                             <form name="form_evolucion" action="{{path('evolucion_new')}}" method="post" id="form_evolucion" class="form-horizontal form-label-left"> 
@@ -865,83 +831,82 @@
                                                 <div class="ln_solid"></div>
                                                 <div class="form-group">
                                                     <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">                
-                                                        <button type="submit" class="btn btn-success"><i class="fa fa-edit m-right-xs"></i> Registrar Evolución</button>
+                                                        <button type="submit" class="btn btn-primary"><i class="fa fa-edit m-right-xs"></i> Registrar Evolución</button>
                                                     </div>
                                                 </div>
                                             </form>
                                         {%endif%}
+                                        <br/>  <br/> <br/>
                                         <!--Historico Evolucion -->
                                         {% if (historicoEvolucion!=null) %}
-                                            <!-- Large modal -->
-                                            <button type="button" id='mi-modal' class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg"><i class="fa fa-eye m-right-xs"></i> Ver Histórico</button>
-
-                                            <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+                                            <button type="button" id='mi-modal' class="btn btn-primary" data-toggle="modal" data-target=".evolucion-modal-lg"><i class="fa fa-eye m-right-xs"></i> Ver Histórico</button>
+                                            <div class="modal fade evolucion-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
                                                 <div class="modal-dialog modal-lg">
                                                     <div class="modal-content">
-
                                                         <div class="modal-header">
                                                             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
                                                             </button>
                                                             <h4 class="modal-title" id="myModalLabel">Histórico Evolución</h4>
                                                         </div>
-                                                        <div class="modal-body">
+                                                        <div class="modal-body">         
+                                                            {% for evolucion in historicoEvolucion %}
+                                                                <ul class="list-unstyled timeline">
+                                                                    <li>
+                                                                        <div class="block">
+                                                                            <div class="tags">
+                                                                                <a href="" class="tag">
+                                                                                    <span>{{ evolucion.fecha | date('d-m-Y') }}</span>
+                                                                                </a>
+                                                                            </div>
+                                                                            <div class="block_content">
+                                                                                <h2 class="title"><a>Objetivo</a> </h2>
+                                                                                <div class="byline"> </div>
+                                                                                <p class="excerpt">{{ evolucion.objetivo |raw}} </p>
 
-                                                            <table id="datatable-fixed-header" class="table table-striped table-bordered">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th>Id</th>
-                                                                        <th>Objetivo</th>
-                                                                        <th>Subjetivo</th>
-                                                                        <th>Apreciacion</th>
-                                                                        <th>Tratamiento</th>
-                                                                        <th>Frecuencia</th>
-                                                                        <th>Edad</th>
-                                                                        <th>Médico</th>
-                                                                        <th>Fecha</th>                                                                         
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    {% for evolucion in historicoEvolucion %}
-                                                                        <tr>
-                                                                            <td>{{ loop.index }}</td>
-                                                                            <td>{{ evolucion.objetivo |raw}}</td>
-                                                                            <td>{{ evolucion.subjetivo|raw }}</td>
-                                                                            <td>{{ evolucion.apreciacion |raw}}</td>
-                                                                            <td>{{ evolucion.tratamiento |raw}}</td>
-                                                                            <td>{{ evolucion.frecuencia |title}}</td>
-                                                                            <td>{{ evolucion.edad }} años</td>
-                                                                            <td>{{ evolucion.primer_apellido }} {{ evolucion.primer_nombre }}</td>  
-                                                                            <td>{{ evolucion.fecha | date('d-m-Y') }}</td>
-                                                                        </tr>
-                                                                    {% endfor %}
-                                                                </tbody>
-                                                            </table>                         
+                                                                                <h2 class="title"><a>Subjetivo</a> </h2>
+                                                                                <div class="byline">  </div>
+                                                                                <p class="excerpt"> {{ evolucion.subjetivo|raw }} </p>
 
+                                                                                <h2 class="title"><a>Apreciacion</a> </h2>
+                                                                                <div class="byline">  </div>
+                                                                                <p class="excerpt"> {{ evolucion.apreciacion|raw }} </p>
 
+                                                                                <h2 class="title"><a>Tratamiento</a> </h2>
+                                                                                <div class="byline">  </div>
+                                                                                <p class="excerpt"> {{ evolucion.tratamiento|raw }} </p>
+
+                                                                                <h2 class="title"><a>Frecuencia</a> </h2>
+                                                                                <div class="byline">  </div>
+                                                                                <p class="excerpt"> {{ evolucion.frecuencia|raw }} </p>
+
+                                                                                <h2 class="title"><a>Edad</a> </h2>
+                                                                                <div class="byline">  </div>
+                                                                                <p class="excerpt"> {{ evolucion.edad}} (años) </p>
+
+                                                                                <h2 class="title"><a>Profesional</a> </h2>
+                                                                                <div class="byline">  </div>
+                                                                                <p class="excerpt"> {{ evolucion.primer_apellido }} {{ evolucion.primer_nombre }} </p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </li>
+                                                                </ul>
+                                                            {% endfor %}
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-default" data-dismiss="modal">Salir</button>
-
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-
                                         {%endif%}
-
-
                                     </div>
                                     <!--Fin Evolucion-->
-
-
                                     <!--Afecciones-->
-
                                     <div role="tabpanel" class="tab-pane fade" id="tab_content4" aria-labelledby="profile-tab">                                         
                                         {% if (afeccione!=null) %}
                                             <div class="x_content">                   
                                                 <table id="datatable-fixed-header" class="table table-striped table-bordered">
                                                     <tbody>
-
                                                         <tr>
                                                             <th>Diagnóstico</th>
                                                             <td>{{ afeccione.diagnostico|raw  }}</td>
@@ -966,9 +931,7 @@
                                                 </table>                                
                                             </div>
                                             <a class="btn btn-success" href="{{ path('afeccione_edit', { 'id': afeccione.id }) }}"><i class="fa fa-edit m-right-xs"></i>Editar Afección</a>
-
-                                            <!-- Historico  Evoluciones  -->
-
+                                            <!-- Historico  Afecciones  -->
                                         {% else %}
                                             <!-- no tiene Afecciones -->
                                             <form name="form_afecciones" action="{{path('afeccione_new')}}" method="post" id="form_afecciones" class="form-horizontal form-label-left"> 
@@ -981,71 +944,67 @@
                                                 </div>
                                             </form>
                                         {%endif%}
-
                                         <!--Historico Afecciones -->
                                         {% if (historicoAfecciones!=null) %}
                                             <!-- Large modal -->
                                             <button type="button" id='mi-modal' class="btn btn-primary" data-toggle="modal" data-target=".afeccione-modal-lg"><i class="fa fa-eye m-right-xs"></i> Ver Histórico</button>
-
                                             <div class="modal fade afeccione-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
                                                 <div class="modal-dialog modal-lg">
                                                     <div class="modal-content">
-
                                                         <div class="modal-header">
                                                             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
                                                             </button>
                                                             <h4 class="modal-title" id="myModalLabel">Histórico Afecciones</h4>
                                                         </div>
-                                                        <div class="modal-body">
+                                                        <div class="modal-body">                                                            
+                                                            {% for afeccion in historicoAfecciones %}
+                                                                <ul class="list-unstyled timeline">
+                                                                    <li>
+                                                                        <div class="block">
+                                                                            <div class="tags">
+                                                                                <a href="" class="tag">
+                                                                                    <span>{{ afeccion.fecha | date('d-m-Y') }}</span>
+                                                                                </a>
+                                                                            </div>
+                                                                            <div class="block_content">
+                                                                                <h2 class="title"><a>Diagnóstico</a> </h2>
+                                                                                <div class="byline"> </div>
+                                                                                <p class="excerpt">{{ afeccion.diagnostico |raw}}</p>
 
-                                                            <table class="table table-striped">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th>Id</th>
-                                                                        <th>Diagnostico</th>
-                                                                        <th>Tratamiento</th>
-                                                                        <th>Capítulo</th>
-                                                                        <th>Grupo</th>
-                                                                        <th>Código</th>
-                                                                        <th>Nombre</th>
-                                                                        <th>Médico</th>
-                                                                        <th>Fecha</th>                                                                         
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    {% for afeccion in historicoAfecciones %}
-                                                                        <tr>
-                                                                            <td>{{ loop.index }}</td>
-                                                                            <td>{{ afeccion.diagnostico |raw}}</td>
-                                                                            <td>{{ afeccion.tratamiento|raw }}</td>
-                                                                            <td>{{ afeccion.capitulo |raw}}</td>
-                                                                            <td>{{ afeccion.grupo |raw}}</td>
-                                                                            <td>{{ afeccion.codigo |title}}</td>
-                                                                            <td>{{ afeccion.elemento }}</td>
-                                                                            <td>{{ afeccion.primer_apellido }} {{ afeccion.primer_nombre }}</td>  
-                                                                            <td>{{ afeccion.fecha | date('d-m-Y') }}</td>
-                                                                        </tr>
-                                                                    {% endfor %}
-                                                                </tbody>
-                                                            </table>                         
+                                                                                <h2 class="title"><a>Tratamiento</a> </h2>
+                                                                                <div class="byline">  </div>
+                                                                                <p class="excerpt">{{ afeccion.tratamiento|raw }} </p>
 
+                                                                                <h2 class="title"><a>Capítulo</a> </h2>
+                                                                                <div class="byline">  </div>
+                                                                                <p class="excerpt"> {{ afeccion.capitulo |raw}} </p>
 
+                                                                                <h2 class="title"><a>Código</a> </h2>
+                                                                                <div class="byline">  </div>
+                                                                                <p class="excerpt"> {{ afeccion.codigo |title}} </p>
+
+                                                                                <h2 class="title"><a>Elemento</a> </h2>
+                                                                                <div class="byline">  </div>
+                                                                                <p class="excerpt"> {{ afeccion.elemento }}</p>                                                                               
+
+                                                                                <h2 class="title"><a>Profesional</a> </h2>
+                                                                                <div class="byline">  </div>
+                                                                                <p class="excerpt"> {{ afeccion.primer_apellido }} {{ afeccion.primer_nombre }} </p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </li>
+                                                                </ul>
+                                                            {% endfor %}
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-default" data-dismiss="modal">Salir</button>
-
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-
                                         {%endif%}
-
-
-
                                     </div>
                                     <!--Fin Afecciones-->
-
                                     <!--Citas-->
                                     <div role="tabpanel" class="tab-pane fade" id="tab_content5" aria-labelledby="profile-tab">
                                         <!-- Crear Cita-->
@@ -1058,7 +1017,6 @@
                                                 </div>
                                             </div>
                                         </form>
-
                                         {% if (citas!=null) %}
                                             <table class="table table-striped">
                                                 <thead>
@@ -1090,12 +1048,9 @@
                                                 </tbody>
                                             </table>
                                         {%endif%}
-
                                     </div>
                                     <!--Fin Citas-->
-
                                     <!--Reposos-->
-
                                     <div role="tabpanel" class="tab-pane fade" id="tab_content6" aria-labelledby="profile-tab">                                         
                                         {% if (reposo!=null) %}
                                             <div class="x_content">                   
@@ -1113,7 +1068,6 @@
                                                 </table>                                
                                             </div>
                                             <a class="btn btn-success" href="{{ path('reposo_edit', { 'id': reposo.id }) }}"><i class="fa fa-edit m-right-xs"></i>Editar Reposo</a>
-
                                         {% else %}
                                             <!-- no tiene Reposo -->
                                             <form name="form_reposo" action="{{path('reposo_new')}}" method="post" id="form_evolucion" class="form-horizontal form-label-left"> 
@@ -1130,11 +1084,9 @@
                                         {% if (historicoReposos!=null) %}
                                             <!-- Large modal -->
                                             <button type="button" id='mi-modal' class="btn btn-primary" data-toggle="modal" data-target=".reposo-modal-lg"><i class="fa fa-eye m-right-xs"></i> Ver Histórico</button>
-
                                             <div class="modal fade reposo-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
                                                 <div class="modal-dialog modal-lg">
                                                     <div class="modal-content">
-
                                                         <div class="modal-header">
                                                             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
                                                             </button>
@@ -1142,45 +1094,43 @@
                                                         </div>
                                                         <div class="modal-body">
 
-                                                            <table id="datatable-fixed-header" class="table table-striped table-bordered">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th>Id</th>
-                                                                        <th>Profesional</th>                                                                        
-                                                                        <th>Descripción</th>  
-                                                                        <th>Fecha Consulta</th>
-                                                                        <th>Periodo</th>                                                                      
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    {% for reposo in historicoReposos %}
-                                                                        <tr>         
-                                                                            <td>{{ loop.index  }}</td>      
-                                                                            <td>{{ reposo.primer_nombre }} {{ reposo.primer_apellido }}</td>                                                                            
-                                                                            <td>{{ reposo.observacion|raw }}</td>
-                                                                            <td>{% if reposo.fecha %}{{ reposo.fecha|date("F jS \\a\\t g:ia") }}{% endif %}</td>
-                                                                            <td>{{ reposo.inicio }}</td>                                                                             
-                                                                        </tr>
-                                                                    {% endfor %}
-                                                                </tbody>
-                                                            </table>                         
+                                                            {% for reposo in historicoReposos %}
+                                                                <ul class="list-unstyled timeline">
+                                                                    <li>
+                                                                        <div class="block">
+                                                                            <div class="tags">
+                                                                                <a href="" class="tag">
+                                                                                    <span>{{ reposo.fecha | date('d-m-Y') }}</span>
+                                                                                </a>
+                                                                            </div>
+                                                                            <div class="block_content">
+                                                                                <h2 class="title"><a>Observación</a> </h2>
+                                                                                <div class="byline"> </div>
+                                                                                <p class="excerpt">{{ reposo.observacion|raw }}</p>
 
+                                                                                <h2 class="title"><a>Periodo</a> </h2>
+                                                                                <div class="byline">  </div>
+                                                                                <p class="excerpt">{{ reposo.inicio|raw }} </p>                                                                                                                                                             
+
+                                                                                <h2 class="title"><a>Profesional</a> </h2>
+                                                                                <div class="byline">  </div>
+                                                                                <p class="excerpt"> {{ reposo.primer_apellido }} {{ reposo.primer_nombre }} </p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </li>
+                                                                </ul>
+                                                            {% endfor %}
 
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-default" data-dismiss="modal">Salir</button>
-
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-
                                         {%endif%}
-
-
                                     </div>
-                                    <!--Fin Reposos-->
-
+                                    <!--Fin Reposos-->                                                                        
                                     <!--Constancia-->
                                     <div role="tabpanel" class="tab-pane fade" id="tab_content7" aria-labelledby="profile-tab">                                         
                                         {% if (constancia!=null) %}
@@ -1194,12 +1144,11 @@
                                                     </tbody>
                                                 </table>                                
                                             </div>
-                                            <a class="btn btn-success" href="{{ path('reposo_edit', { 'id': constancia.id }) }}"><i class="fa fa-edit m-right-xs"></i>Editar Constancia</a>
-
+                                            <a class="btn btn-success" href="{{ path('constancia_edit', { 'id': constancia.id }) }}"><i class="fa fa-edit m-right-xs"></i>Editar Constancia</a>
                                         {% else %}
                                             <!-- no tiene Constancia -->
-                                            <form name="form_constancia" action="{{path('constancia_new')}}" method="post" id="form_evolucion" class="form-horizontal form-label-left"> 
-                                                <input id="reposo_consulta" name="reposo_consulta" type="hidden" value="{{consulta.id}}"> 
+                                            <form name="form_constancia" action="{{path('constancia_new')}}" method="post" id="form_constancia" class="form-horizontal form-label-left"> 
+                                                <input id="constancia_consulta" name="constancia_consulta" type="hidden" value="{{consulta.id}}"> 
                                                 <div class="ln_solid"></div>
                                                 <div class="form-group">
                                                     <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">                
@@ -1208,59 +1157,51 @@
                                                 </div>
                                             </form>
                                         {%endif%}
-                                        <!--Historico Reposos -->
+                                        <!--Historico Constancias -->
                                         {% if (historicoConstancias!=null) %}
                                             <!-- Large modal -->
                                             <button type="button" id='mi-modal' class="btn btn-primary" data-toggle="modal" data-target=".constancia-modal-lg"><i class="fa fa-eye m-right-xs"></i> Ver Histórico</button>
-
                                             <div class="modal fade constancia-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
                                                 <div class="modal-dialog modal-lg">
                                                     <div class="modal-content">
-
                                                         <div class="modal-header">
                                                             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
                                                             </button>
                                                             <h4 class="modal-title" id="myModalLabel">Histórico Constancias</h4>
                                                         </div>
-                                                        <div class="modal-body">
+                                                        <div class="modal-body">                                                            
+                                                            {% for constancia in historicoConstancias %}
+                                                                <ul class="list-unstyled timeline">
+                                                                    <li>
+                                                                        <div class="block">
+                                                                            <div class="tags">
+                                                                                <a href="" class="tag">
+                                                                                    <span>{{ constancia.fecha | date('d-m-Y') }}</span>
+                                                                                </a>
+                                                                            </div>
+                                                                            <div class="block_content">
+                                                                                <h2 class="title"><a>Observación</a> </h2>
+                                                                                <div class="byline"> </div>
+                                                                                <p class="excerpt">{{ constancia.observacion|raw }}</p>                                                                                                                                                                                                                                         
 
-                                                            <table id="datatable-fixed-header" class="table table-striped table-bordered">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th>Id</th>
-                                                                        <th>Profesional</th>                                                                        
-                                                                        <th>Descripción</th>  
-                                                                        <th>Fecha Consulta</th>                                                                                                                                            
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    {% for constancia in historicoConstancias %}
-                                                                        <tr>         
-                                                                            <td>{{ loop.index  }}</td>      
-                                                                            <td>{{ constancia.primer_nombre }} {{ constancia.primer_apellido }}</td>                                                                            
-                                                                            <td>{{ constancia.observacion|raw }}</td>
-                                                                            <td>{% if constancia.fecha %}{{ constancia.fecha|date("F jS \\a\\t g:ia") }}{% endif %}</td>                                                                                                                                                       
-                                                                        </tr>
-                                                                    {% endfor %}
-                                                                </tbody>
-                                                            </table>                         
-
-
+                                                                                <h2 class="title"><a>Profesional</a> </h2>
+                                                                                <div class="byline">  </div>
+                                                                                <p class="excerpt"> {{ constancia.primer_apellido }} {{ constancia.primer_nombre }} </p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </li>
+                                                                </ul>
+                                                            {% endfor %}
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-default" data-dismiss="modal">Salir</button>
-
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-
                                         {%endif%}
-
-
                                     </div>
                                     <!--Fin Constancias-->
-                                    
                                     <!--Recetas-->
                                     <div role="tabpanel" class="tab-pane fade" id="tab_content8" aria-labelledby="profile-tab">                                         
                                         {% if (receta!=null) %}
@@ -1274,8 +1215,7 @@
                                                     </tbody>
                                                 </table>                                
                                             </div>
-                                            <a class="btn btn-success" href="{{ path('receta_edit', { 'id': constancia.id }) }}"><i class="fa fa-edit m-right-xs"></i>Editar Constancia</a>
-
+                                            <a class="btn btn-success" href="{{ path('receta_edit', { 'id': receta.id }) }}"><i class="fa fa-edit m-right-xs"></i>Editar Constancia</a>
                                         {% else %}
                                             <!-- no tiene Constancia -->
                                             <form name="form_receta" action="{{path('receta_new')}}" method="post" id="form_evolucion" class="form-horizontal form-label-left"> 
@@ -1292,40 +1232,38 @@
                                         {% if (historicoRecetas!=null) %}
                                             <!-- Large modal -->
                                             <button type="button" id='mi-modal' class="btn btn-primary" data-toggle="modal" data-target=".receta-modal-lg"><i class="fa fa-eye m-right-xs"></i> Ver Histórico</button>
-
                                             <div class="modal fade receta-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
                                                 <div class="modal-dialog modal-lg">
                                                     <div class="modal-content">
-
                                                         <div class="modal-header">
                                                             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
                                                             </button>
                                                             <h4 class="modal-title" id="myModalLabel">Histórico Recetas</h4>
                                                         </div>
                                                         <div class="modal-body">
+                                                            
+                                                           {% for receta in historicoRecetas %}
+                                                                <ul class="list-unstyled timeline">
+                                                                    <li>
+                                                                        <div class="block">
+                                                                            <div class="tags">
+                                                                                <a href="" class="tag">
+                                                                                    <span>{{ receta.fecha | date('d-m-Y') }}</span>
+                                                                                </a>
+                                                                            </div>
+                                                                            <div class="block_content">
+                                                                                <h2 class="title"><a>Observación</a> </h2>
+                                                                                <div class="byline"> </div>
+                                                                                <p class="excerpt">{{ receta.observacion|raw }}</p>                                                                                                                                                                                                                                         
 
-                                                            <table id="datatable-fixed-header" class="table table-striped table-bordered">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th>Id</th>
-                                                                        <th>Profesional</th>                                                                        
-                                                                        <th>Descripción</th>  
-                                                                        <th>Fecha Consulta</th>                                                                                                                                            
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    {% for receta in historicoRecetas %}
-                                                                        <tr>         
-                                                                            <td>{{ loop.index  }}</td>      
-                                                                            <td>{{ receta.primer_nombre }} {{ receta.primer_apellido }}</td>                                                                            
-                                                                            <td>{{ receta.observacion|raw }}</td>
-                                                                            <td>{% if receta.fecha %}{{ receta.fecha|date("F jS \\a\\t g:ia") }}{% endif %}</td>                                                                                                                                                       
-                                                                        </tr>
-                                                                    {% endfor %}
-                                                                </tbody>
-                                                            </table>                         
-
-
+                                                                                <h2 class="title"><a>Profesional</a> </h2>
+                                                                                <div class="byline">  </div>
+                                                                                <p class="excerpt"> {{ receta.primer_apellido }} {{ receta.primer_nombre }} </p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </li>
+                                                                </ul>
+                                                            {% endfor %}
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-default" data-dismiss="modal">Salir</button>
@@ -1334,36 +1272,24 @@
                                                     </div>
                                                 </div>
                                             </div>
-
                                         {%endif%}
-
-
                                     </div>
                                     <!--Fin Recetas-->
-
                                 </div> <!-- Fin myTabContent -->
-
                             </div> <!--  togglable-tabs -->
-
                         </div> {# Fin col-md-10 col-sm-10 col-xs-12  #}
                     </div>
-
-
-
                 {% endblock %}                                    
                 <!--/div-->
             </div>
         </div>
     </div>  <!--/div clas=row-->
 </div>
-
-
-
 {% endblock %}
     {% block javascripts %}
         <!-- Datatables -->
         <script src="{{ asset('bundles/app/vendors/datatables.net/js/jquery.dataTables.min.js')}}"></script>
-        <script src="{{ asset('bundles/app/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js')}}"></script>
+        <script src="{{ asset('bundles/app/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js')}}"></script> 
         <!-- PNotify -->
         <script src="{{ asset('bundles/app/vendors/pnotify/dist/pnotify.js')}}"></script> 
         <script src="{{ asset('bundles/app/vendors/pnotify/dist/pnotify.buttons.js')}}"></script> 
@@ -1373,7 +1299,9 @@
         <script>
             $(document).ready(function () {
                 $('#datatable-fixed-header').DataTable({fixedHeader: true});
+                $('#constancia_datatable-fixed-header').DataTable({fixedHeader: true});
+                $('#afecciones_datatable-fixed-header').DataTable({fixedHeader: true});
+                $('#datatable').dataTable();
             });
         </script>
     {% endblock %}
-
