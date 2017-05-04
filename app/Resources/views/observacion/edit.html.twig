@@ -1,0 +1,103 @@
+{% extends 'base.html.twig' %}
+{% block title %} Observación {% endblock %}
+{% block Subtitulo %} Editar Observación -  <small> <a href="{{ path('homepage_enfermeria', { 'paciente': observacion.consulta.paciente.id }) }}">Regresar a la Consulta</a></small> {% endblock %} 
+{% block body %}
+    {% for msg in app.session.flashBag.get('success') %}
+        <div class="alert alert-success"> {{ msg }} </div>       
+    {% endfor %}
+
+    {% for msg in app.session.flashBag.get('error') %}
+        <div class="alert alert-danger"> <p>{{ msg }}</p> </div>
+    {% endfor %}
+    <div class="x_content">
+        <br />
+
+        {{ form_start(edit_form, { 'attr': {'id':'observacion','class': 'form-horizontal form-label-left'} }) }} 
+        {{ form_errors(edit_form) }}
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="consulta">{{ form_label(edit_form.consulta) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(edit_form.consulta) }}                
+                {{form_widget(edit_form.consulta,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="tipo">{{ form_label(edit_form.tipo) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(edit_form.tipo) }}                
+                {{form_widget(edit_form.tipo,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>      
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="descripcion">{{ form_label(edit_form.descripcion) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(edit_form.descripcion) }}                
+                {{form_widget(edit_form.descripcion,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="usuario">{{ form_label(edit_form.usuario) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(edit_form.usuario) }}                
+                {{form_widget(edit_form.usuario,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="fecha">{{ form_label(edit_form.fecha) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(edit_form.fecha) }}                
+                {{form_widget(edit_form.fecha) }}                
+            </div>
+        </div>  
+
+
+        <div class="ln_solid"></div>
+        <div class="form-group">
+            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">                 
+                <button type="submit" onClick="removeReadonly()" class="btn btn-success">Registrar</button>
+            </div>
+        </div>
+
+        {{ form_end(edit_form) }}  
+
+        {{ form_start(delete_form) }}
+        <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> Eliminar </button>
+        {{ form_end(delete_form) }}
+    </div>
+{% endblock %}
+{% block javascripts %}
+    <script>
+        $(document).ready(function () {
+
+            $('#appbundle_observacion_consulta').prop('disabled', true);
+            $('#appbundle_observacion_usuario').prop('disabled', true);
+            $('#appbundle_observacion_fecha_date_day').prop('disabled', true);
+            $('#appbundle_observacion_fecha_date_month').prop('disabled', true);
+            $('#appbundle_observacion_fecha_date_year').prop('disabled', true);
+            $('#appbundle_observacion_fecha_time_hour').prop('disabled', true);
+            $('#appbundle_observacion_fecha_time_minute').prop('disabled', true);
+
+        });
+    </script>
+    <script>
+        function removeReadonly() {
+
+            $('#appbundle_observacion_consulta').prop('disabled', false);
+            $('#appbundle_observacion_usuario').prop('disabled', false);
+            $('#appbundle_observacion_fecha_date_day').prop('disabled', false);
+            $('#appbundle_observacion_fecha_date_month').prop('disabled', false);
+            $('#appbundle_observacion_fecha_date_year').prop('disabled', false);
+            $('#appbundle_observacion_fecha_time_hour').prop('disabled', false);
+            $('#appbundle_observacion_fecha_time_minute').prop('disabled', false);
+
+            return false;
+        }
+    </script>
+    <!-- /Familiar -->
+{% endblock %}
+

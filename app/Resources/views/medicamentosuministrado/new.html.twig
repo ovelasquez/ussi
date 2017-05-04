@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 {% block title %} Medicamento Suministrado {% endblock %}
-{% block Subtitulo %} Registrar Medicamento Suministrado -  <small> <a href="{{ path('medicamentosuministrado_index') }}">Regresar a la lista</a></small> {% endblock %} 
+{% block Subtitulo %} Registrar Medicamento Suministrado -  <small> <a href="{{ path('homepage_enfermeria', { 'paciente': medicamentoSuministrado.consulta.paciente.id }) }}">Regresar a la Consulta</a> </small> {% endblock %} 
 {% block body %}
     {% for msg in app.session.flashBag.get('success') %}
         <div class="alert alert-success"> {{ msg }} </div>       

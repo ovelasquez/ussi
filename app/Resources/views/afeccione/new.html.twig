@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 {% block title %} Afecciones {% endblock %}
-{% block Subtitulo %} Registrar Afecciones de Paciente -  <small> <a href="{{ path('afeccione_index') }}">Regresar a la lista</a></small> {% endblock %} 
+{% block Subtitulo %} Registrar Afecciones de Paciente -  <small> <a href="{{ path('homepage_consulta', { 'paciente': afeccione.consulta.paciente.id }) }}">Regresar a la Consulta</a></small> {% endblock %} 
 {% block body %}
     {% for msg in app.session.flashBag.get('success') %}
         <div class="alert alert-success"> {{ msg }} </div>       

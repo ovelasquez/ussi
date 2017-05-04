@@ -113,6 +113,9 @@ class EsperandoController extends Controller {
                     case('Enfermería'): 
                         return $this->redirectToRoute('homepage_enfermeria', array('paciente' => $esperandos->getPaciente()->getId()));
                         break;
+                     case('Odontología'): 
+                        return $this->redirectToRoute('homepage_odontologia', array('paciente' => $esperandos->getPaciente()->getId()));
+                        break;
                     default: return $this->redirectToRoute('homepage_consulta', array('paciente' => $esperandos->getPaciente()->getId()));
                 }
                 

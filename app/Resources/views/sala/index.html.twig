@@ -45,9 +45,6 @@
                         success: function (html)
                         {
                             var obj = jQuery.parseJSON(html.data);
-                            // alert(obj[0].paciente.nombre);
-                            //    $.each(obj, function (index, value) {
-
                             for (var i = 0; i < obj.length; i++) {
                                 (function (i) {
                                     setTimeout(function () {
@@ -66,8 +63,6 @@
                                     }, 15000 * i);
                                 })(i);
                             }
-
-                            //  }); //each
                         }
                     });
         }
@@ -85,7 +80,7 @@
                 volume: 0.9
             });
 
-             setInterval(reloadPagina, ({{campanium|length}}*20000));
+            setInterval(reloadPagina, ({{campanium|length}} * 20000));
         });
     </script>
 {% endblock %}

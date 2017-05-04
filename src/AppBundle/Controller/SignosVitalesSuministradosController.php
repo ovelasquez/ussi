@@ -122,11 +122,12 @@ class SignosVitalesSuministradosController extends Controller {
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $id = $signosVitalesSuministrado->getConsulta()->getPaciente()->getId();
             $em->remove($signosVitalesSuministrado);
             $em->flush($signosVitalesSuministrado);
         }
 
-        return $this->redirectToRoute('signosvitales_index');
+        return $this->redirectToRoute('homepage_enfermeria', array('paciente' => $signosVitalesSuministrado->getConsulta()->getPaciente()->getId(),));
     }
 
     /**

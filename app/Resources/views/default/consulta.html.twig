@@ -117,7 +117,7 @@
                             <div class="" role="tabpanel" data-example-id="togglable-tabs">
                                 <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
                                     <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Personales</a></li>
-                                    <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Historia Médica</a></li>
+                                    <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Historia</a></li>
                                     <li role="presentation" class=""><a href="#tab_content3" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Evolución</a></li>
                                     <li role="presentation" class=""><a href="#tab_content4" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Afecciones</a></li>
                                     <li role="presentation" class=""><a href="#tab_content5" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Referir</a></li>
@@ -623,7 +623,7 @@
                                                                         <td>{% if sexualidad.cesarea %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
                                                                         <td>{% if sexualidad.aborto %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>
                                                                         <td>{% if sexualidad.edad1erParto %} {{ sexualidad.edad1erParto}} {% else %}<i class="fa fa-close"></i>{% endif %}</td>
-                                                                        <td>{% if sexualidad.fechaUltimoParto %} {{ sexualidad.fechaUltimoParto }} {% else %}<i class="fa fa-close"></i>{% endif %}</td>
+                                                                        <td>{% if sexualidad.fechaUltimoParto %} {{ sexualidad.fechaUltimoParto |date("d/m/Y") }} {% else %}<i class="fa fa-close"></i>{% endif %}</td>
                                                                         <td>{% if sexualidad.curetaje %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-close"></i>{% endif %}</td>                                                                                                         
                                                                     </tr>
                                                                 </tbody>
@@ -1039,9 +1039,11 @@
                                                             <td>{% if citum.fecha %}{{ citum.fecha|date('d-m-Y') }}{% endif %}</td>
                                                             <td>{{ citum.status|title }}</td>
                                                             <td>
-                                                                <a href="{{ path('cita_edit', { 'id': citum.id }) }}">
-                                                                    <button type="button" class="btn btn-xs btn-success" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editar">  <i class="fa fa-pencil"></i>  </button>
-                                                                </a>                                                             
+                                                                {% if (citum.consulta.id== consulta.id) %}
+                                                                    <a href="{{ path('cita_edit', { 'id': citum.id }) }}">
+                                                                        <button type="button" class="btn btn-xs btn-success" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editar">  <i class="fa fa-pencil"></i>  </button>
+                                                                    </a>    
+                                                                {% endif %}
                                                             </td>
                                                         </tr>
                                                     {% endfor %}
@@ -1215,7 +1217,7 @@
                                                     </tbody>
                                                 </table>                                
                                             </div>
-                                            <a class="btn btn-success" href="{{ path('receta_edit', { 'id': receta.id }) }}"><i class="fa fa-edit m-right-xs"></i>Editar Constancia</a>
+                                            <a class="btn btn-success" href="{{ path('receta_edit', { 'id': receta.id }) }}"><i class="fa fa-edit m-right-xs"></i>Editar Receta</a>
                                         {% else %}
                                             <!-- no tiene Constancia -->
                                             <form name="form_receta" action="{{path('receta_new')}}" method="post" id="form_evolucion" class="form-horizontal form-label-left"> 

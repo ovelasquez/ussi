@@ -12,59 +12,59 @@
     {% endfor %}
 
     {% for msgs in app.session.flashBag.get('error') %}
-         <div class="alert alert-danger alert-dismissible fade in" role="alert">
+        <div class="alert alert-danger alert-dismissible fade in" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
             </button>
             <strong>{% for msg in msgs %}
                 <p>{{ msg }}</p>
             {% endfor %}</strong>
-        </div>
-        
-       
-    {% endfor %}
-
-    <!-- page content -->
-    <div class="x_content">
-        <br />
-        <div class="form-group">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nombre">Servicio</label>
-            <div class="col-md-6 col-sm-6 col-xs-12">
-                {% set dia = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'] %}
-                {{ servicioProfesional.servicio.especialidad.nombre}} - {{ dia[servicioProfesional.servicio.dia]}}
-            </div>
-        </div>
-        <br />
-        <div class="form-group">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nombre">Profesional</label>
-            <div class="col-md-6 col-sm-6 col-xs-12">                
-                {{ servicioProfesional.profesional.persona.primerNombre}} {{ servicioProfesional.profesional.persona.segundoNombre}} {{ servicioProfesional.profesional.persona.primerApellido}} {{ servicioProfesional.profesional.persona.segundoApellido}}
-            </div>
-        </div>
-        <br />
-        <div class="form-group">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nombre">Estatus</label>
-            <div class="col-md-6 col-sm-6 col-xs-12">                
-                {{ servicioProfesional.status| capitalize}}
-            </div>
-        </div>
-        <br />
-        <div class="form-group">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nombre">Observación</label>
-            <div class="col-md-6 col-sm-6 col-xs-12">                
-                {{ servicioProfesional.observacion | capitalize}}
-            </div>
-        </div>
-        <br />
-        <div class="ln_solid"></div>
-        <div class="form-group">
-            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">                
-                <a class="btn btn-success" href="{{ path('servicioprofesional_edit', { 'id': servicioProfesional.id }) }}"><i class="fa fa-edit m-right-xs"></i>Editar Registro</a>
-            </div>
-        </div>
     </div>
 
 
-    {{ form_start(delete_form) }}
-    <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> Eliminar </button>
-    {{ form_end(delete_form) }}
-{% endblock %}
+    {% endfor %}
+
+        <!-- page content -->
+        <div class="x_content">
+            <br />
+            <div class="form-group">
+                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nombre">Servicio</label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    {% set dia = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'] %}
+                    {{ servicioProfesional.servicio.especialidad.nombre}} - {{ dia[servicioProfesional.servicio.dia]}}
+                </div>
+            </div>
+            <br />
+            <div class="form-group">
+                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nombre">Profesional</label>
+                <div class="col-md-6 col-sm-6 col-xs-12">                
+                    {{ servicioProfesional.profesional.persona.primerNombre}} {{ servicioProfesional.profesional.persona.segundoNombre}} {{ servicioProfesional.profesional.persona.primerApellido}} {{ servicioProfesional.profesional.persona.segundoApellido}}
+                </div>
+            </div>
+            <br />
+            <div class="form-group">
+                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nombre">Estatus</label>
+                <div class="col-md-6 col-sm-6 col-xs-12">                
+                    {{ servicioProfesional.status| capitalize}}
+                </div>
+            </div>
+            <br />
+            <div class="form-group">
+                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nombre">Observación</label>
+                <div class="col-md-6 col-sm-6 col-xs-12">                
+                    {{ servicioProfesional.observacion | capitalize}}
+                </div>
+            </div>
+            <br />
+            <div class="ln_solid"></div>
+            <div class="form-group">
+                <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">                
+                    <a class="btn btn-success" href="{{ path('servicioprofesional_edit', { 'id': servicioProfesional.id }) }}"><i class="fa fa-edit m-right-xs"></i>Editar Registro</a>
+                </div>
+            </div>
+        </div>
+
+
+        {{ form_start(delete_form) }}
+        <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> Eliminar </button>
+        {{ form_end(delete_form) }}
+        {% endblock %}

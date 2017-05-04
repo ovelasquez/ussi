@@ -64,17 +64,25 @@ class CitaController extends Controller {
             //Verificamos si la Cita que estan dando es para hoy, para anexar al paciente en la lista de espera
             if ($cita->getFecha() == $hoy) {
                 $listaEspera = $this->profesionalCitaListaEspera($cita);
-                //dump($listaEspera);
+
                 if ($listaEspera) {
                     $em->persist($cita);
-                    $em->flush($cita);                   
+                    $em->flush($cita);
                 }
             } else {
                 $em->persist($cita);
                 $em->flush($cita);
+            }                        
+            
+            $this->addFlash('success', 'Cita registrada satisfactoriamente');
+            switch ($cita->getConsulta()->getEspecialidad()->getNombre()) {
+                case('Odontología'): return $this->redirectToRoute('homepage_odontologia', array('paciente' => $cita->getPaciente()->getId(),));
+                    break;
+                case('Enfermería'): return $this->redirectToRoute('homepage_enfermeria', array('paciente' => $cita->getPaciente()->getId(),));
+                    break;
+                default : return $this->redirectToRoute('homepage_consulta', array('paciente' => $cita->getPaciente()->getId(),));
+                    break;
             }
-
-            return $this->redirectToRoute('homepage_consulta', array( 'paciente' => $cita->getPaciente()->getId(),));
         }
 
         return $this->render('cita/new.html.twig', array(
@@ -98,16 +106,16 @@ class CitaController extends Controller {
         $observacion = '';
         $maximoConsulta = null;
         $cola = null;
-        //Parametrización de la aplicacion por BD
+//Parametrización de la aplicacion por BD
         $em = $this->getDoctrine()->getManager();
         $configuracion = $em->getRepository('AppBundle:Configuracion')->findAll();
         if ($hoy != $configuracion[0]->getServicioActualizado()) {
             $this->setServicio();
         }
-        //Medicos / Especialidades disponibles para hoy
+//Medicos / Especialidades disponibles para hoy
         $misServicos = $this->disponibleServicio();
 
-        //Creamos el formulario de Consulta
+//Creamos el formulario de Consulta
         $form = $this->createFormBuilder()
                 ->setAction($this->generateUrl('cita_consulta'))
                 ->add('nacionalidad', ChoiceType::class, array(
@@ -130,7 +138,7 @@ class CitaController extends Controller {
                 ->getForm();
         $form->handleRequest($request);
 
-        //Verificamos si es enviado 
+//Verificamos si es enviado 
         if ($request->isMethod('POST')) {
             $var = $request->request->get('form');
 
@@ -145,13 +153,13 @@ class CitaController extends Controller {
                 return $this->redirectToRoute('paciente_new');
             }
 
-            //Verifica cuantos servicios esta solicitando en el dia de hoy
+//Verifica cuantos servicios esta solicitando en el dia de hoy
             $cont = $this->estoyEsperando($paciente);
 
             if ($configuracion[0]->getNumeroConsultas() == $cont) {
                 $maximoConsulta = "Ha alcanzado el número máximo de consultas (" . (string) $configuracion[0]->getNumeroConsultas() . ") diarias.";
             } else {
-                //Verificamos si tiene una Cita Sucesiva en la especialidad seleccionada
+//Verificamos si tiene una Cita Sucesiva en la especialidad seleccionada
                 $cita = $em->getRepository('AppBundle:Cita')->findBy(
                         array(
                             'paciente' => $paciente,
@@ -162,20 +170,20 @@ class CitaController extends Controller {
                 );
 
 
-                //Creamos Lista de Espera
+//Creamos Lista de Espera
                 $listaEspera = new \AppBundle\Entity\Esperando();
                 $listaEspera->setPaciente($paciente);
                 $listaEspera->setStatus("activo");
                 $listaEspera->setEspecialidad($especialidad);
                 $listaEspera->setFechaRegistro(new \DateTime("now"));
 
-                //Verificamos cual es el ultimo numero de la lista de espera
+//Verificamos cual es el ultimo numero de la lista de espera
                 $ultimoListaEspera = $em->getRepository('AppBundle:Cita')->findOneByPosicion(0);
                 $listaEspera->setPosicion($ultimoListaEspera['posicion'] + 1);
 
 
                 if (!$cita || $var['medico'] == 'Verdad') {
-                    //No posee cita, entonces lo asignamos a la Lista de Espera
+//No posee cita, entonces lo asignamos a la Lista de Espera
                     $listaEspera->setProfesional(null);
                     if ($this->disponibilidadServicio($especialidad) > 0) {
                         $em->persist($listaEspera);
@@ -185,20 +193,20 @@ class CitaController extends Controller {
                         $misServicos = $this->disponibleServicio();
                     }
                 } else {
-                    //Caso en que el Paciente posee una Cita 
+//Caso en que el Paciente posee una Cita 
 
 
                     $servicio = $this->buscarServicio($especialidad); //Verificamos si la especialidad esta disponible en el día de hoy
-                    // Verificamos si la Cita  tiene asignado un Doctor 
+// Verificamos si la Cita  tiene asignado un Doctor 
                     if ($cita[0]->getProfesional() != null) {
-                        //Verificamos si el Doctor esta atendiendo
+//Verificamos si el Doctor esta atendiendo
                         $profesionalDisponible = new \AppBundle\Entity\ServicioProfesional();
                         $profesionalDisponible = $this->disponibleProfesional($cita[0]->getProfesional(), $servicio);
 
                         if ($profesionalDisponible != null && $profesionalDisponible->getStatus() == "activo") {
 
                             $listaEspera->setProfesional($cita[0]->getProfesional()); //Asignamos al Doctor al Paciente en la Lista de Espera
-                            //Verificar si hay disponibilidad de consultas en la Especialidad
+//Verificar si hay disponibilidad de consultas en la Especialidad
                             if ($this->disponibilidadServicio($especialidad) > 0) {
                                 $em->persist($listaEspera);
                                 $em->flush($listaEspera);
@@ -207,7 +215,7 @@ class CitaController extends Controller {
                                 $misServicos = $this->disponibleServicio();
                             }
                         } else {
-                            //Si tiene Dr asociado y no esta disponible entonces obtenemos su nombre y el mensaje de por que no esta disponible
+//Si tiene Dr asociado y no esta disponible entonces obtenemos su nombre y el mensaje de por que no esta disponible
                             $doctor = $profesionalDisponible->getProfesional()->getPersona()->getPrimerApellido() . ' ' . $profesionalDisponible->getProfesional()->getPersona()->getPrimerNombre();
                             $observacion = $profesionalDisponible->getObservacion();
                         }
@@ -223,7 +231,7 @@ class CitaController extends Controller {
                 }
             }
         }
-        // dump($cola);
+// dump($cola);
 
         return $this->render('cita/consulta.html.twig', array(
                     'servicios' => $misServicos,
@@ -239,7 +247,7 @@ class CitaController extends Controller {
 
     private function estoyEsperando($paciente) {
         $em = $this->getDoctrine()->getManager();
-        //Verificamos si esta en la lista de espera           
+//Verificamos si esta en la lista de espera           
         $estaEsperando = $em->getRepository('AppBundle:Esperando')->findByPaciente($paciente);
         $hoy = new \DateTime('now');
         $hoy->setTime(0, 0, 0);
@@ -256,7 +264,7 @@ class CitaController extends Controller {
 
     private function buscarServicio($especialidad) {
         $em = $this->getDoctrine()->getManager();
-        //Verificamos si la especialidad esta disponible para ese dia                 
+//Verificamos si la especialidad esta disponible para ese dia                 
         $servicio = $em->getRepository('AppBundle:Servicio')->findBy(
                 array(
                     'especialidad' => $especialidad,
@@ -268,7 +276,7 @@ class CitaController extends Controller {
 
     private function descontandoDisponibilidadServicio($especialidad) {
         $em = $this->getDoctrine()->getManager();
-        //Verificamos si esta en la lista de espera                 
+//Verificamos si esta en la lista de espera                 
         $servicio = $em->getRepository('AppBundle:Servicio')->findBy(
                 array(
                     'especialidad' => $especialidad,
@@ -283,7 +291,7 @@ class CitaController extends Controller {
 
     private function disponibilidadServicio($especialidad) {
         $em = $this->getDoctrine()->getManager();
-        //Verificamos si esta en la lista de espera                 
+//Verificamos si esta en la lista de espera                 
         $servicio = $em->getRepository('AppBundle:Servicio')->findBy(
                 array(
                     'especialidad' => $especialidad,
@@ -352,7 +360,7 @@ class CitaController extends Controller {
      *
      */
     private function setServicio() {
-        // Buscamos todos los servicios Disponibles.
+// Buscamos todos los servicios Disponibles.
         $hoy = new \DateTime('now');
         $hoy->setTime(0, 0, 0);
         $em = $this->getDoctrine()->getManager();
@@ -372,7 +380,7 @@ class CitaController extends Controller {
         $em->persist($configuracion[0]);
         $em->flush($configuracion[0]);
 
-        //Setear Lista de Espera
+//Setear Lista de Espera
         $esperando = $em->getRepository('AppBundle:Esperando')->findByStatus('activo');
         foreach ($esperando as &$valor) {
             $valor->setStatus('abandono'); //El Paciente no se presento a la consulta
@@ -390,8 +398,7 @@ class CitaController extends Controller {
      */
     public function serviciosAction() {
 
-        return $this->render('cita/servicios.html.twig', array(
-        ));
+        return $this->render('cita/servicios.html.twig', array());
     }
 
     /**
@@ -422,10 +429,16 @@ class CitaController extends Controller {
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success', 'Cita actualizada satisfactoriamente');
 
-            return $this->redirectToRoute('homepage_consulta', array(
-                        'paciente' => $cita->getPaciente()->getId(),
-            ));
+           switch ($cita->getConsulta()->getEspecialidad()->getNombre()) {
+                case('Odontología'): return $this->redirectToRoute('homepage_odontologia', array('paciente' => $cita->getPaciente()->getId(),));
+                    break;
+                case('Enfermería'): return $this->redirectToRoute('homepage_enfermeria', array('paciente' => $cita->getPaciente()->getId(),));
+                    break;
+                default : return $this->redirectToRoute('homepage_consulta', array('paciente' => $cita->getPaciente()->getId(),));
+                    break;
+            }
         }
 
         return $this->render('cita/edit.html.twig', array(
@@ -444,17 +457,26 @@ class CitaController extends Controller {
     public function deleteAction(Request $request, Cita $cita) {
         $form = $this->createDeleteForm($cita);
         $form->handleRequest($request);
-        $paciente = $cita->getPaciente()->getId();
+        
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->remove($cita);
             $em->flush($cita);
         }
+        
+         $this->addFlash('success', 'Cita eliminada satisfactoriamente');
 
-        return $this->redirectToRoute('homepage_consulta', array(
-                    'paciente' => $paciente,
-        ));
+           switch ($cita->getConsulta()->getEspecialidad()->getNombre()) {
+                case('Odontología'): return $this->redirectToRoute('homepage_odontologia', array('paciente' => $cita->getPaciente()->getId(),));
+                    break;
+                case('Enfermería'): return $this->redirectToRoute('homepage_enfermeria', array('paciente' => $cita->getPaciente()->getId(),));
+                    break;
+                default : return $this->redirectToRoute('homepage_consulta', array('paciente' => $cita->getPaciente()->getId(),));
+                    break;
+            }
+
+        
     }
 
     /**
@@ -475,14 +497,14 @@ class CitaController extends Controller {
     private function profesionalCitaListaEspera($cita) {
 
         $em = $this->getDoctrine()->getManager();
-        //Creamos Lista de Espera 
+//Creamos Lista de Espera 
         $listaEspera = new \AppBundle\Entity\Esperando();
         $listaEspera->setPaciente($cita->getPaciente());
         $listaEspera->setStatus("activo");
         $listaEspera->setEspecialidad($cita->getEspecialidad());
         $listaEspera->setFechaRegistro(new \DateTime("now"));
 
-        //Verificamos cual es la prioridad de la cita y le asignamos un valor a la posicion
+//Verificamos cual es la prioridad de la cita y le asignamos un valor a la posicion
         switch ($cita->getPrioridad()) {
             case ('normal'): $ultimoListaEspera = $em->getRepository('AppBundle:Cita')->findOneByPosicion(0);
                 $listaEspera->setPosicion($ultimoListaEspera['posicion'] + 1);
@@ -494,29 +516,29 @@ class CitaController extends Controller {
         }
 
 
-        //Caso en que el Paciente posee una Cita 
+//Caso en que el Paciente posee una Cita 
 
         $servicio = $this->buscarServicio($cita->getEspecialidad()); //Verificamos si la especialidad esta disponible en el día de hoy
-        // Verificamos si la Cita  tiene asignado un Doctor 
+// Verificamos si la Cita  tiene asignado un Doctor 
         if ($cita->getProfesional() != null) {
-            //Verificamos si el Doctor esta atendiendo
+//Verificamos si el Doctor esta atendiendo
             $profesionalDisponible = new \AppBundle\Entity\ServicioProfesional();
             $profesionalDisponible = $this->disponibleProfesional($cita->getProfesional(), $servicio);
 
             if ($profesionalDisponible != null && $profesionalDisponible->getStatus() == "activo") {
 
                 $listaEspera->setProfesional($cita->getProfesional()); //Asignamos al Doctor al Paciente en la Lista de Espera
-                //Verificar si hay disponibilidad de consultas en la Especialidad
+//Verificar si hay disponibilidad de consultas en la Especialidad
                 if ($this->disponibilidadServicio($cita->getEspecialidad()) > 0) {
                     $em->persist($listaEspera);
                     $em->flush($listaEspera);
                     $this->descontandoDisponibilidadServicio($cita->getEspecialidad());
                     $this->addFlash('success', 'Cita Registrada satisfactoriamente');
-                    //$cola = $this->enCola($especialidad, $listaEspera->getProfesional());
-                    //$misServicos = $this->disponibleServicio();
+//$cola = $this->enCola($especialidad, $listaEspera->getProfesional());
+//$misServicos = $this->disponibleServicio();
                 }
             } else {
-                //Si tiene Dr asociado y no esta disponible entonces obtenemos su nombre y el mensaje de por que no esta disponible
+//Si tiene Dr asociado y no esta disponible entonces obtenemos su nombre y el mensaje de por que no esta disponible
                 $doctor = $profesionalDisponible->getProfesional()->getPersona()->getPrimerApellido() . ' ' . $profesionalDisponible->getProfesional()->getPersona()->getPrimerNombre();
                 $observacion = $profesionalDisponible->getObservacion();
                 $this->addFlash('error', 'Cita No Registrada.  El Dr. ' . $doctor . ' no disponible (' . $observacion . ' ).');
@@ -528,8 +550,8 @@ class CitaController extends Controller {
                 $em->flush($listaEspera);
                 $this->descontandoDisponibilidadServicio($cita->getEspecialidad());
                 $this->addFlash('success', 'Cita Registrada satisfactoriamente');
-                // $cola = $this->enCola($especialidad, $listaEspera->getProfesional());
-                // $misServicos = $this->disponibleServicio();
+// $cola = $this->enCola($especialidad, $listaEspera->getProfesional());
+// $misServicos = $this->disponibleServicio();
             }
         }
         return $listaEspera;

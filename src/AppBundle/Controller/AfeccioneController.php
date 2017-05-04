@@ -109,6 +109,8 @@ class AfeccioneController extends Controller {
        
         $em = $this->getDoctrine()->getManager();
         
+        //dump($afeccione->getEntericaElemento()->getEntericaGrupo()->getEntericaCapitulo()->getNombre()); die();
+        
 
         if (!($afeccione->getDiagnostico() == null || $afeccione->getTratamiento() == null || $afeccione->getConsulta() == null || $afeccione->getEntericaElemento() == null)) {
 

@@ -2,7 +2,8 @@
 {% block stylesheets %}
     <!-- iCheck -->
     <link href="{{ asset('bundles/app/vendors/iCheck/skins/flat/green.css')}}" rel="stylesheet">   
-{% endblock %}  
+{% endblock %} 
+{% block Subtitulo %} Editar Patologia -  <small> <a href="{{ path('homepage_consulta', { 'paciente': patologium.paciente.id }) }}">Regresar a la Consulta</a></small> {% endblock %} 
 
 {% block body %}
     <div class="x_content">

@@ -3,9 +3,9 @@
     <!-- iCheck -->
     <link href="{{ asset('bundles/app/vendors/iCheck/skins/flat/green.css')}}" rel="stylesheet">   
 {% endblock %}  
-{% block Subtitulo %} Editar Antecedentes Perinatales -  <small> <a href="{{ path('paciente_index') }}">Regresar a la lista</a></small> {% endblock %} 
+{% block Subtitulo %} Editar Antecedentes Perinatales -  <small> <a href="{{ path('homepage_consulta', { 'paciente': perinatal.paciente.id }) }}">Regresar a la Consulta</a></small> {% endblock %} 
 
-
+ 
 {% block body %}
     <div class="x_content">
         <br />

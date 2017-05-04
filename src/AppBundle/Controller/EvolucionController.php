@@ -50,7 +50,7 @@ class EvolucionController extends Controller {
              $evolucion->setEdad($this->calcularEdad($consulta->getPaciente()->getFechaNacimiento()));
         }
        
-        // dump($consulta);  dump($evolucion);die();
+        
         $form = $this->createForm('AppBundle\Form\EvolucionType', $evolucion);
         $form->handleRequest($request);
 
@@ -58,6 +58,7 @@ class EvolucionController extends Controller {
             $em = $this->getDoctrine()->getManager();
             $em->persist($evolucion);
             $em->flush($evolucion);
+            $this->addFlash('success', 'Evolución registrado satisfactoriamente');
             return $this->redirectToRoute('homepage_consulta', array(
                         'paciente' => $evolucion->getConsulta()->getPaciente()->getId(),
             ));
@@ -104,9 +105,10 @@ class EvolucionController extends Controller {
         $deleteForm = $this->createDeleteForm($evolucion);
         $editForm = $this->createForm('AppBundle\Form\EvolucionType', $evolucion);
         $editForm->handleRequest($request);
-
+        
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success', 'Evolución actualizado satisfactoriamente');
 
             return $this->redirectToRoute('homepage_consulta', array(
                         'paciente' => $evolucion->getConsulta()->getPaciente()->getId()));

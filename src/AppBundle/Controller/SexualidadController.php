@@ -36,15 +36,17 @@ class SexualidadController extends Controller {
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request) {
+        $em = $this->getDoctrine()->getManager();
         $sexualidad = new Sexualidad();
         $form = $this->createForm('AppBundle\Form\SexualidadType', $sexualidad);
         $form->handleRequest($request);
+        $paciente = $em->getRepository('AppBundle:Paciente')->find($request->request->get('III_paciente'));            
+        $sexualidad->setPaciente($paciente);
+        
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $paciente = $em->getRepository('AppBundle:Paciente')->find($request->request->get('III_paciente'));            
-            
-            $sexualidad->setPaciente($paciente);
+               
+            //dump($sexualidad);die();
             $sexualidad->setFechaRegistro(new \DateTime("now"));
             $em->persist($sexualidad);
             $em->flush($sexualidad);
@@ -117,14 +119,18 @@ class SexualidadController extends Controller {
     public function deleteAction(Request $request, Sexualidad $sexualidad) {
         $form = $this->createDeleteForm($sexualidad);
         $form->handleRequest($request);
+        $paciente = $sexualidad->getPaciente()->getId();
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $id = $sexualidad->getPaciente()->getId();
             $em->remove($sexualidad);
             $em->flush($sexualidad);
         }
 
-        return $this->redirectToRoute('paciente_index');
+       return $this->redirectToRoute('homepage_consulta', array(
+                    'paciente' => $id,
+        ));
     }
 
     /**

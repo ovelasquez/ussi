@@ -1,0 +1,204 @@
+.diente {
+    position: static;
+    width: 0px;
+    height: auto;
+    margin-left: 15px;
+    display: inline-block;
+    width: 20px;
+    margin-right: 15px;
+  
+}
+
+.cuadro {
+    background-color: #FFFFFF;
+    border: 1px solid #7F7F7F;
+    position: relative;
+    width: 20px;
+    height: 15px;
+    left: 0px;
+    -webkit-border-radius: 80px 80px 0px 15px;
+    -moz-border-radius: 80px 80px 0px 15px;
+    border-radius: 80px 80px 0px 15px;
+}
+
+.cuadro:hover {
+    /*background: rgba(117, 198, 243, 0.4);*/
+    
+    cursor: pointer;
+}
+
+.izquierdo {
+    top: 1px !important;
+    left: -17px !important;
+    -webkit-transform: rotate(270deg);
+    -moz-transform: rotate(270deg);
+    -ms-transform: rotate(270deg);
+    -o-transform: rotate(270deg);
+    transform: rotate(270deg);
+}
+
+.debajo {
+    top: 2px !important;
+    left: 0px !important;
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    transform: rotate(180deg);
+}
+
+.derecha {
+    top: -29px !important;
+    left: 16px !important;
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    transform: rotate(90deg);
+}
+
+.centro {
+    background: #F3F3F3;
+    border: 1px solid #7F7F7F;
+    width: 20px;
+    height: 20px;
+    top: -47px;    
+    left: 0px;
+    position: relative;
+}
+
+.centro:hover {
+    border: 1px solid rgba(117, 198, 243, 0.4);
+    /*background-color: rgba(117, 198, 243, 0.4);*/
+    
+    cursor: pointer;
+}
+
+/*#tlr {
+    border: 1px solid #cccccc;
+}
+#tr {
+    border: 1px solid #cccccc;
+}
+#tll {
+    border: 1px solid #cccccc;
+}
+#tl {
+    border: 1px solid #cccccc;
+}
+
+#blr {
+    border: 1px solid #cccccc;
+}
+#br {
+    border: 1px solid #cccccc;
+}
+#bl {
+    border: 1px solid #cccccc;
+}
+#bll {
+    border: 1px solid #cccccc;
+}*/
+
+.bord {
+/*    border: 1px solid #cccccc; */
+padding: 5px!important;
+}
+.click-red {
+    background-color: red !important;
+}
+
+.click-blue {
+    background-color: blue;
+}
+
+.click-delete {
+    background-color: #747F7D !important;
+}
+
+.kill {
+    background-color: green;
+}
+
+.diente-leche {
+    position: relative;
+    width: 0px;
+    height: auto;
+    margin-left: 10px;
+    display: inline-block;
+    width: 15px;
+    margin-right: 10px;
+}
+
+.cuadro-leche {
+    border: 1px solid #7F7F7F;
+    position: relative;
+    width: 13px;
+    height: 13px;
+    left: 0px;
+    -webkit-border-radius: 80px 80px 0px 15px;
+    -moz-border-radius: 80px 80px 0px 15px;
+    border-radius: 80px 80px 0px 15px;
+}
+
+.cuadro-leche:hover {
+    /*background: rgba(117, 198, 243, 0.4);*/
+    
+    cursor: pointer;
+}
+
+.izquierdo-leche {
+    top: -4px !important;
+    left: -10px !important;
+    -webkit-transform: rotate(270deg);
+    -moz-transform: rotate(270deg);
+    -ms-transform: rotate(270deg);
+    -o-transform: rotate(270deg);
+    transform: rotate(270deg);
+}
+
+.top-leche {
+    width: 15px;
+    left: 0px;
+}
+
+.debajo-leche {
+    width: 15px;
+    top: -8px !important;
+    left: 0px !important;
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    transform: rotate(180deg);
+}
+
+.derecha-leche {
+    top: -30px !important;
+    left: 11px !important;
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    transform: rotate(90deg);
+}
+
+.centro-leche {
+    background: #F3F3F3;
+    border: 1px solid #7F7F7F;
+    width: 15px;
+    height: 13px;
+    top: -43px;
+    left: 0px;
+    position: relative;
+}
+
+.centro-leche:hover {
+    border: 1px solid rgba(117, 198, 243, 0.4);
+    /*background-color: rgba(117, 198, 243, 0.4);*/
+    
+    cursor: pointer;
+}
+
+#br .contDiente, #bl .contDiente, #tr .contDiente, #tl .contDiente{ margin: 0px auto; max-width: 440px;}
+#blr .contDiente, #bll .contDiente, #tlr .contDiente, #tll .contDiente{ margin: 0px auto; max-width: 175px;}

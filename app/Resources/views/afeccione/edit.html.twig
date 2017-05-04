@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 {% block title %} Afecciones {% endblock %}
-{% block Subtitulo %} Editar Afecciones de Paciente -  <small> <a href="{{ path('afeccione_index') }}">Regresar a la lista</a></small> {% endblock %} 
+{% block Subtitulo %} Editar Afecciones de Paciente -   <small> <a href="{{ path('homepage_consulta', { 'paciente': afeccione.consulta.paciente.id }) }}">Regresar a la Consulta</a></small> {% endblock %} 
 {% block body %}
     {% for msg in app.session.flashBag.get('success') %}
         <div class="alert alert-success"> {{ msg }} </div>       
@@ -76,17 +76,16 @@
     </div>
 
     {{ form_start(delete_form) }}
-    <input type="submit" value="Delete">
-    {{ form_end(delete_form) }}                  
+    <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> Eliminar </button>
+    {{ form_end(delete_form) }}                
 </div>
 {% endblock %}
 
 {% block javascripts %}
     <script>
         $(document).ready(function () {
-         $('#appbundle_afeccione_consulta').prop('disabled', true); 
-           
-
+            $("#appbundle_afeccione_capitulo").val('{{afeccione.entericaElemento.entericaGrupo.entericaCapitulo.id}}');
+            $('#appbundle_afeccione_consulta').prop('disabled', true);
             //Cambiar Capitulo -> actualiza grupo
             $("#appbundle_afeccione_capitulo").change(function () {
                 if ($('#appbundle_afeccione_capitulo').val() !== ' ') {
@@ -100,7 +99,7 @@
                                 cache: false,
                                 success: function (html)
                                 {
-                                    $('#appbundle_afeccione_grupo option ').remove();                                    
+                                    $('#appbundle_afeccione_grupo option ').remove();
                                     $('#appbundle_afeccione_grupo').append(html);
                                     $('#appbundle_afeccione_entericaElemento option ').remove();
                                 }
@@ -133,10 +132,10 @@
 
         });
     </script>
-     <script>
+    <script>
         function removeReadonly() {
             $('#appbundle_afeccione_consulta').prop('disabled', false);
-          
+
             return false;
         }
     </script>

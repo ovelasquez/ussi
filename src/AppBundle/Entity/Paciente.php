@@ -622,7 +622,7 @@ class Paciente
     
     public function __toString() {
         try {
-            return (string) $this->getPersona()->getCedula();
+            return $this->getPersona()->getNacionalidad().' '.(string) $this->getPersona()->getCedula().' - '. $this->getPersona()->getPrimerNombre().' '.$this->getPersona()->getPrimerApellido();
         } catch (Exception $e) {
             return get_class($this) . '@' . spl_object_hash($this); 
         }

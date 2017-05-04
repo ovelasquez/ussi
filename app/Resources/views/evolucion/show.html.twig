@@ -46,10 +46,10 @@
         </table>                                
     </div>                    
 
-                 <a class="btn btn-success" href="{{ path('evolucion_edit', { 'id': evolucion.id }) }}"><i class="fa fa-edit m-right-xs"></i>Editar Registro</a>
-                 
+    <a class="btn btn-success" href="{{ path('evolucion_edit', { 'id': evolucion.id }) }}"><i class="fa fa-edit m-right-xs"></i>Editar Registro</a>
+
 
     {{ form_start(delete_form) }}
-    <input type="submit" value="Eliminar">
+    <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> Eliminar </button>
     {{ form_end(delete_form) }}
 {% endblock %}

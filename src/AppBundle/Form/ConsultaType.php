@@ -14,14 +14,12 @@ class ConsultaType extends AbstractType {
      */
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
-                ->add('egreso', CheckboxType::class, array(
-                    'label' => 'Egreso',
-                    'required' => false,
-                ))
-                ->add('fecha')
+                //->add('egreso', CheckboxType::class, array('label' => 'Egreso', 'required' => false, ))
+                //->add('fecha')
                 ->add('paciente')
-                ->add('profesional')
-                ->add('especialidad');
+                //->add('profesional')
+               // ->add('especialidad')
+               ;
     }
 
     /**

@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+{% block title %} Tratamiento {% endblock %}
+{% block Subtitulo %} Ver Tratamiento -  <small> <a href="{{ path('tratamiento_index') }}">Regresar a la lista</a></small> {% endblock %} 
+{% block body %}
+    {% for msg in app.session.flashBag.get('success') %}        
+        <div class="alert alert-success alert-dismissible fade in" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+            </button>
+            <strong>{{ msg }}</strong>
+        </div>
+    {% endfor %}
+
+    {% for msgs in app.session.flashBag.get('error') %}
+        <div class="alert alert-danger alert-dismissible fade in" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+            <strong>
+                {% for msg in msgs %}
+                    <p>{{ msg }}</p>
+                {% endfor %}
+            </strong>
+        </div>
+    {% endfor %}
+
+    <!-- page content -->
+    <div class="x_content">                   
+        <table class="table table-striped">
+            <tbody>
+                <tr>
+                    <th>Id</th>
+                    <td>{{ tratamiento.id }}</td>
+                </tr>   
+                <tr>
+                    <th>Nombre</th>
+                    <td>{{ tratamiento.nombre }} </td>
+                </tr>
+                <tr>
+                    <th>Color</th>
+                    <td>{{ tratamiento.color}}
+                        <div style="background-color:{{ tratamiento.color}}; width:30px; height:30px">  </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Cavidad</th>
+                    <td>{{ tratamiento.cavidad }}</td>
+                </tr>  
+                <tr>
+                    <th>Diente completo</th>
+                    <td>{{ tratamiento.todo }}</td>
+                </tr>  
+            </tbody>
+        </table>                                
+    </div>                    
+
+    <a class="btn btn-success" href="{{ path('tratamiento_edit', { 'id': tratamiento.id }) }}"><i class="fa fa-edit m-right-xs"></i>Editar Registro</a>
+
+
+    {{ form_start(delete_form) }}
+    <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> Eliminar </button>
+    {{ form_end(delete_form) }}
+{% endblock %}

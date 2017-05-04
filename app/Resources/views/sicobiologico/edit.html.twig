@@ -3,7 +3,7 @@
     <!-- iCheck -->
     <link href="{{ asset('bundles/app/vendors/iCheck/skins/flat/green.css')}}" rel="stylesheet">   
 {% endblock %}  
-{% block Subtitulo %} Editar Sicobiologico -  <small> <a href="{{ path('paciente_index') }}">Regresar a la lista</a></small> {% endblock %} 
+{% block Subtitulo %} Editar Sicobiologico -  <small> <a href="{{ path('homepage_consulta', { 'paciente': sicobiologico.paciente.id }) }}">Regresar a la Consulta</a></small> {% endblock %} 
 
 {% block body %}
     <div class="x_content">
@@ -167,7 +167,7 @@
         </div>
 
         {{ form_start(delete_form) }}
-        <input type="submit" value="Delete">
+        <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> Eliminar </button>
         {{ form_end(delete_form) }}
 
     {% endblock %}

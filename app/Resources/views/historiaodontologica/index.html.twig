@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Historiaodontologicas list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Tratamientomedico</th>
+                <th>Medicamentoactual</th>
+                <th>Alergia</th>
+                <th>Ultimavisitaodontologo</th>
+                <th>Tratamientoaplicado</th>
+                <th>Dolorboca</th>
+                <th>Sangreencias</th>
+                <th>Habitos</th>
+                <th>Presionarterial</th>
+                <th>Hepatitis</th>
+                <th>Tbc</th>
+                <th>Enfermedadrespiratoria</th>
+                <th>Enfermedadcardiovascular</th>
+                <th>Enfermedadhemorragica</th>
+                <th>Enfermedadotra</th>
+                <th>Enfermedadfamiliar</th>
+                <th>Estaembarazada</th>
+                <th>Observaciones</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for historiaOdontologica in historiaOdontologicas %}
+            <tr>
+                <td><a href="{{ path('historiaodontologica_show', { 'id': historiaOdontologica.id }) }}">{{ historiaOdontologica.id }}</a></td>
+                <td>{{ historiaOdontologica.tratamientoMedico }}</td>
+                <td>{{ historiaOdontologica.medicamentoActual }}</td>
+                <td>{{ historiaOdontologica.alergia }}</td>
+                <td>{{ historiaOdontologica.ultimaVisitaOdontologo }}</td>
+                <td>{{ historiaOdontologica.tratamientoAplicado }}</td>
+                <td>{{ historiaOdontologica.dolorBoca }}</td>
+                <td>{% if historiaOdontologica.sangreEncias %}Yes{% else %}No{% endif %}</td>
+                <td>{{ historiaOdontologica.habitos }}</td>
+                <td>{{ historiaOdontologica.presionArterial }}</td>
+                <td>{{ historiaOdontologica.hepatitis }}</td>
+                <td>{{ historiaOdontologica.tbc }}</td>
+                <td>{{ historiaOdontologica.enfermedadRespiratoria }}</td>
+                <td>{{ historiaOdontologica.enfermedadCardiovascular }}</td>
+                <td>{{ historiaOdontologica.enfermedadHemorragica }}</td>
+                <td>{{ historiaOdontologica.enfermedadOtra }}</td>
+                <td>{{ historiaOdontologica.enfermedadFamiliar }}</td>
+                <td>{% if historiaOdontologica.estaEmbarazada %}Yes{% else %}No{% endif %}</td>
+                <td>{{ historiaOdontologica.observaciones }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('historiaodontologica_show', { 'id': historiaOdontologica.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('historiaodontologica_edit', { 'id': historiaOdontologica.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('historiaodontologica_new') }}">Create a new historiaOdontologica</a>
+        </li>
+    </ul>
+{% endblock %}

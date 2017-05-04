@@ -1,0 +1,109 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Odontograma
+ *
+ * @ORM\Table(name="odontograma")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\OdontogramaRepository")
+ */
+class Odontograma
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var \Diente
+     *
+     * @ORM\ManyToOne(targetEntity="Diente")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="diente_id", referencedColumnName="id")
+     * })
+     */
+    private $diente;
+
+    /**
+     * @var \Consulta
+     *
+     * @ORM\ManyToOne(targetEntity="Consulta")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="consulta_id", referencedColumnName="id")
+     * })
+     */
+    private $consulta;
+    
+    /**
+     * @var \Cavidad1
+     *
+     * @ORM\ManyToOne(targetEntity="Tratamiento")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="cavidad_1", referencedColumnName="id")
+     * })
+     */
+    private $cavidad1;
+
+    /**
+     * @var \Cavidad2
+     *
+     * @ORM\ManyToOne(targetEntity="Tratamiento")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="cavidad_2", referencedColumnName="id")
+     * })
+     */
+    private $cavidad2;
+
+    /**
+     * @var \Cavidad3
+     *
+     * @ORM\ManyToOne(targetEntity="Tratamiento")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="cavidad_3", referencedColumnName="id")
+     * })
+     */
+    private $cavidad3;
+
+    /**
+     * @var \Cavidad4
+     *
+     * @ORM\ManyToOne(targetEntity="Tratamiento")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="cavidad_4", referencedColumnName="id")
+     * })
+     */
+    private $cavidad4;
+
+    /**
+     * @var \Cavidad5
+     *
+     * @ORM\ManyToOne(targetEntity="Tratamiento")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="cavidad_5", referencedColumnName="id")
+     * })
+     */
+    private $cavidad5;
+
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+   
+   
+  
+}
+

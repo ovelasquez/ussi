@@ -101,7 +101,7 @@ class InsumoSuministradoController extends Controller {
         $editForm = $this->createForm('AppBundle\Form\InsumoSuministradoType', $insumoSuministrado);
         $editForm->handleRequest($request);
         
-        dump($insumoSuministrado); die();
+       // dump($insumoSuministrado); die();
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
@@ -132,7 +132,11 @@ class InsumoSuministradoController extends Controller {
             $em->flush($insumoSuministrado);
         }
 
-        return $this->redirectToRoute('insumosuministrado_index');
+        $this->addFlash('success', 'Insumo Suministrado eliminado satisfactoriamente');
+
+            return $this->redirectToRoute('homepage_enfermeria', array(
+                        'paciente' => $insumoSuministrado->getConsulta()->getPaciente()->getId(),
+            ));
     }
 
     /**

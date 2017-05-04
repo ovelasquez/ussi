@@ -38,22 +38,20 @@ class SicobiologicoController extends Controller {
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request) {
+        $em = $this->getDoctrine()->getManager();
         $sicobiologico = new Sicobiologico();
         $form = $this->createForm('AppBundle\Form\SicobiologicoType', $sicobiologico);
         $form->handleRequest($request);
+        $paciente = $em->getRepository('AppBundle:Paciente')->find($request->request->get('i_paciente'));
+        $sicobiologico->setPaciente($paciente);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $paciente = $em->getRepository('AppBundle:Paciente')->find($request->request->get('i_paciente'));
-
-            $sicobiologico->setPaciente($paciente);
             $sicobiologico->setFechaRegistro(new \DateTime("now"));
             $em->persist($sicobiologico);
             $em->flush($sicobiologico);
-              return $this->redirectToRoute('homepage_consulta', array(
+            return $this->redirectToRoute('homepage_consulta', array(
                         'paciente' => $sicobiologico->getPaciente()->getId(),
             ));
-            
         }
 
         return $this->render('sicobiologico/new.html.twig', array(
@@ -93,12 +91,10 @@ class SicobiologicoController extends Controller {
             $sicobiologico->setFechaActualizacion(new \DateTime("now"));
             $this->getDoctrine()->getManager()->flush();
             $this->addFlash('success', 'Datos actualizados satisfactoriamente');
-            
+
             return $this->redirectToRoute('homepage_consulta', array(
                         'paciente' => $sicobiologico->getPaciente()->getId(),
             ));
-
-            
         }
 
         return $this->render('sicobiologico/edit.html.twig', array(
@@ -122,13 +118,16 @@ class SicobiologicoController extends Controller {
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $id = $sicobiologico->getPaciente()->getId();
             $em->remove($sicobiologico);
             $em->flush($sicobiologico);
         }
 
-        return $this->redirectToRoute('paciente_show', array('id' => $paciente));
-    }
-
+        return $this->redirectToRoute('homepage_consulta', array(
+                    'paciente' => $id,
+            ));
+    
+ }
     /**
      * Creates a form to delete a sicobiologico entity.
      *

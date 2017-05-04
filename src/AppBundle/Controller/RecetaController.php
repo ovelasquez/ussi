@@ -5,29 +5,29 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Receta;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Recetum controller.
  *
  * @Route("receta")
  */
-class RecetaController extends Controller
-{
+class RecetaController extends Controller {
+
     /**
      * Lists all recetum entities.
      *
      * @Route("/", name="receta_index")
      * @Method("GET")
      */
-    public function indexAction()
-    {
+    public function indexAction() {
         $em = $this->getDoctrine()->getManager();
 
         $recetas = $em->getRepository('AppBundle:Receta')->findAll();
 
         return $this->render('receta/index.html.twig', array(
-            'recetas' => $recetas,
+                    'recetas' => $recetas,
         ));
     }
 
@@ -37,37 +37,41 @@ class RecetaController extends Controller
      * @Route("/new", name="receta_new")
      * @Method({"GET", "POST"})
      */
-    public function newAction(Request $request)
-    {
+    public function newAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
         $consulta = NULL;
 
         if ($request->request->get('receta_consulta')) {
             $consulta = $em->getRepository('AppBundle:Consulta')->find($request->request->get('receta_consulta'));
         }
-         $recetum = new Receta();
+        $recetum = new Receta();
 
         if ($consulta) {
             $recetum->setConsulta($consulta);
         }
-        
-       
+
+
         $form = $this->createForm('AppBundle\Form\RecetaType', $recetum);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            
             $em->persist($recetum);
             $em->flush($recetum);
+            $this->addFlash('success', 'Receta registrada satisfactoriamente');
 
-           return $this->redirectToRoute('homepage_consulta', array(
-                        'paciente' => $recetum->getConsulta()->getPaciente()->getId(),
-            ));
+            switch ($recetum->getConsulta()->getEspecialidad()->getNombre()) {
+                case('Odontología'): return $this->redirectToRoute('homepage_odontologia', array('paciente' => $recetum->getConsulta()->getPaciente()->getId(),));
+                    break;
+                case('Enfermería'): return $this->redirectToRoute('homepage_enfermeria', array('paciente' => $recetum->getConsulta()->getPaciente()->getId(),));
+                    break;
+                default : return $this->redirectToRoute('homepage_consulta', array('paciente' => $recetum->getConsulta()->getPaciente()->getId(),));
+                    break;
+            }
         }
 
         return $this->render('receta/new.html.twig', array(
-            'recetum' => $recetum,
-            'form' => $form->createView(),
+                    'recetum' => $recetum,
+                    'form' => $form->createView(),
         ));
     }
 
@@ -77,13 +81,12 @@ class RecetaController extends Controller
      * @Route("/{id}", name="receta_show")
      * @Method("GET")
      */
-    public function showAction(Receta $recetum)
-    {
+    public function showAction(Receta $recetum) {
         $deleteForm = $this->createDeleteForm($recetum);
 
         return $this->render('receta/show.html.twig', array(
-            'recetum' => $recetum,
-            'delete_form' => $deleteForm->createView(),
+                    'recetum' => $recetum,
+                    'delete_form' => $deleteForm->createView(),
         ));
     }
 
@@ -93,24 +96,29 @@ class RecetaController extends Controller
      * @Route("/{id}/edit", name="receta_edit")
      * @Method({"GET", "POST"})
      */
-    public function editAction(Request $request, Receta $recetum)
-    {
+    public function editAction(Request $request, Receta $recetum) {
         $deleteForm = $this->createDeleteForm($recetum);
         $editForm = $this->createForm('AppBundle\Form\RecetaType', $recetum);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success', 'Receta actualizada satisfactoriamente');
 
-             return $this->redirectToRoute('homepage_consulta', array(
-                        'paciente' => $recetum->getConsulta()->getPaciente()->getId(),
-            ));
+            switch ($recetum->getConsulta()->getEspecialidad()->getNombre()) {
+                case('Odontología'): return $this->redirectToRoute('homepage_odontologia', array('paciente' => $recetum->getConsulta()->getPaciente()->getId(),));
+                    break;
+                case('Enfermería'): return $this->redirectToRoute('homepage_enfermeria', array('paciente' => $recetum->getConsulta()->getPaciente()->getId(),));
+                    break;
+                default : return $this->redirectToRoute('homepage_consulta', array('paciente' => $recetum->getConsulta()->getPaciente()->getId(),));
+                    break;
+            }
         }
 
         return $this->render('receta/edit.html.twig', array(
-            'recetum' => $recetum,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+                    'recetum' => $recetum,
+                    'edit_form' => $editForm->createView(),
+                    'delete_form' => $deleteForm->createView(),
         ));
     }
 
@@ -120,21 +128,26 @@ class RecetaController extends Controller
      * @Route("/{id}", name="receta_delete")
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, Receta $recetum)
-    {
+    public function deleteAction(Request $request, Receta $recetum) {
         $form = $this->createDeleteForm($recetum);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $id = $reposo->getConsulta()->getPaciente()->getId();
+            $id = $recetum->getConsulta()->getPaciente()->getId();
             $em->remove($recetum);
             $em->flush($recetum);
         }
+        $this->addFlash('success', 'Receta eliminada satisfactoriamente');
 
-        return $this->redirectToRoute('homepage_consulta', array(
-                    'paciente' => $id,
-        ));
+        switch ($recetum->getConsulta()->getEspecialidad()->getNombre()) {
+            case('Odontología'): return $this->redirectToRoute('homepage_odontologia', array('paciente' => $recetum->getConsulta()->getPaciente()->getId(),));
+                break;
+            case('Enfermería'): return $this->redirectToRoute('homepage_enfermeria', array('paciente' => $recetum->getConsulta()->getPaciente()->getId(),));
+                break;
+            default : return $this->redirectToRoute('homepage_consulta', array('paciente' => $recetum->getConsulta()->getPaciente()->getId(),));
+                break;
+        }
     }
 
     /**
@@ -144,12 +157,12 @@ class RecetaController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm(Receta $recetum)
-    {
+    private function createDeleteForm(Receta $recetum) {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('receta_delete', array('id' => $recetum->getId())))
-            ->setMethod('DELETE')
-            ->getForm()
+                        ->setAction($this->generateUrl('receta_delete', array('id' => $recetum->getId())))
+                        ->setMethod('DELETE')
+                        ->getForm()
         ;
     }
+
 }

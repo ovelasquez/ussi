@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 {% block title %} Signos Vitales {% endblock %}
-{% block Subtitulo %} Registrar Signos Vitales -  <small> <a href="{{ path('signosvitales_index') }}">Regresar a la lista</a></small> {% endblock %} 
+{% block Subtitulo %} Registrar Signos Vitales -  <small> <a href="{{ path('homepage_enfermeria', { 'paciente': signosVitalesSuministrado.consulta.paciente.id }) }}">Regresar a la Consulta</a></small> {% endblock %} 
 {% block body %}
 
     <div class="x_content">
@@ -45,7 +45,7 @@
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="fecha">{{ form_label(edit_form.fecha) }} <span class="required">*</span></label>
             <div class="col-md-6 col-sm-6 col-xs-12">
                 {{ form_errors(edit_form.fecha) }}                
-                {{form_widget(edit_form.fecha,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+                {{form_widget(edit_form.fecha ) }}                
             </div>
         </div>
 
@@ -60,7 +60,7 @@
         {{ form_end(edit_form) }}                           
 
         {{ form_start(delete_form) }}
-        <input type="submit" value="Delete">
+        <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> Eliminar </button>
         {{ form_end(delete_form) }}
 
 

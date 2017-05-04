@@ -99,15 +99,29 @@ class ConsultaController extends Controller {
                 }
             }            
             $consultum->setFecha(new \DateTime("now"));            
-            //dump($consultum);die();
+            
         }
         $form = $this->createForm('AppBundle\Form\ConsultaType', $consultum);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            
             $em->persist($consultum);
             $em->flush($consultum);
+            
+            $this->addFlash('success', 'Consulta creada satisfactoriamente');
+
+           switch ($consultum->getEspecialidad()->getNombre()) {
+                case('Odontología'): return $this->redirectToRoute('homepage_odontologia', array('paciente' => $consultum->getPaciente()->getId(),));
+                    break;
+                case('Enfermería'): return $this->redirectToRoute('homepage_enfermeria', array('paciente' => $consultum->getPaciente()->getId(),));
+                    break;
+                default : return $this->redirectToRoute('homepage_consulta', array('paciente' => $consultum->getPaciente()->getId(),));
+                    break;
+            }
+            
+            
             return $this->redirectToRoute('homepage_consulta', array(
                         'paciente' => $consultum->getPaciente()->getId(),
             ));

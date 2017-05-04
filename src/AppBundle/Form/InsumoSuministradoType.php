@@ -18,12 +18,12 @@ class InsumoSuministradoType extends AbstractType {
                     'class' => 'AppBundle:TiposInsumo',
                     'choice_label' => 'nombre',
                     'mapped' => false,
-                    //'placeholder' => 'Seleccione',
-                    ))
+                        //'placeholder' => 'Seleccione',
+                ))
                 ->add('cantidad')
                 ->add('fecha')
-                ->add('consulta'
-                        )->add('usuario')
+                ->add('consulta')
+                ->add('usuario')
                 ->add('insumo');
     }
 

@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 {% block title %} Insumo Suministrado {% endblock %}
-{% block Subtitulo %} Editar Insumo Suministrado -  <small> <a href="{{ path('insumosuministrado_index') }}">Regresar a la lista</a></small> {% endblock %} 
+{% block Subtitulo %} Editar Insumo Suministrado -  <small> <a href="{{ path('homepage_enfermeria', { 'paciente': insumoSuministrado.consulta.paciente.id }) }}">Regresar a la Consulta</a></small> {% endblock %} 
 {% block body %}
     {% for msg in app.session.flashBag.get('success') %}
         <div class="alert alert-success"> {{ msg }} </div>       
@@ -71,7 +71,11 @@
             </div>
         </div>
 
-        {{ form_end(edit_form) }}                           
+        {{ form_end(edit_form) }}        
+
+        {{ form_start(delete_form) }}
+        <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> Eliminar </button>
+        {{ form_end(delete_form) }}
     </div>
 {% endblock %}
 

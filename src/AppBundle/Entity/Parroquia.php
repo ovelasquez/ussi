@@ -99,6 +99,6 @@ class Parroquia
     }
     
      public function __toString() {
-        return $this->getNombre();
+        return $this->getMunicipio()->getEstado()->getNombre().' - '.$this->getMunicipio()->getNombre().' - '.$this->getNombre();
     }
 }

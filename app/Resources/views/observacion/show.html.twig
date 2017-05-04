@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Observacion</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ observacion.id }}</td>
+            </tr>
+            <tr>
+                <th>Fecha</th>
+                <td>{% if observacion.fecha %}{{ observacion.fecha|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Tipo</th>
+                <td>{{ observacion.tipo }}</td>
+            </tr>
+            <tr>
+                <th>Descripcion</th>
+                <td>{{ observacion.descripcion }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('observacion_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('observacion_edit', { 'id': observacion.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+            <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> Eliminar </button>
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

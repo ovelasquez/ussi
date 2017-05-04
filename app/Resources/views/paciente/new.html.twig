@@ -1,4 +1,8 @@
 {% extends 'base.html.twig' %}
+{% block stylesheets %}
+    <!-- Select2 -->
+    <link href="{{ asset('bundles/app/vendors/select2/dist/css/select2.min.css')}}"   rel="stylesheet">  
+{% endblock %}
 {% block title %} Paciente {% endblock %}
 {% block Subtitulo %} Registrar Datos de Paciente -  <small> <a href="{{ path('paciente_index') }}">Regresar a la lista</a></small> {% endblock %} 
 {% block body %}
@@ -225,13 +229,12 @@
 
 {% block javascripts %}
 
+
     <script src="{{ asset('bundles/app/vendors/ninsuo/js/jquery.collection.js') }}"></script>
     <!-- Direccion de Habitacion y de Lugar de nacimiento -->
     <script type="text/javascript">
-        $('.my-direccion').collection();
-        $('.my-direccion').collection({max: 2});
-
         $('.my-direccion').collection({
+            max: 2,
             drag_drop: true,
             drag_drop_options: {
                 placeholder: 'ui-state-highlight'
@@ -242,36 +245,39 @@
     <!-- /Direccion de Habitacion y de Lugar de nacimiento -->
     <!-- Familiar -->
     <script type="text/javascript">
-        $('.my-familiar').collection();
-        $('.my-familiar').collection({max: 3});
-
         $('.my-familiar').collection({
+            max: 3,
             drag_drop: true,
             drag_drop_options: {
                 placeholder: 'ui-state-highlight'
             }
 
         });
-        
+
     </script>
 
     <script>
         $(document).ready(function () {
-            
-             $("#appbundle_paciente_comunidad").click(function () {
-             if($('#appbundle_paciente_comunidad').val()=='pfg') {
-                $('#pfg').show();
-            }else {
-                 $('#appbundle_paciente_pfg').val(null);
-                $('#pfg').hide();
-            }
-            
+
+            $("#appbundle_paciente_comunidad").click(function () {
+                if ($('#appbundle_paciente_comunidad').val() == 'pfg') {
+                    $('#pfg').show();
+                } else {
+                    $('#appbundle_paciente_pfg').val(null);
+                    $('#pfg').hide();
+                }
+
             });
-            
+
         });
 
     </script>
-    <!-- /Familiar -->
+
+    <!-- Select2 -->
+    <script src="{{ asset('bundles/app/vendors/select2/dist/js/select2.full.min.js')}}"></script>
+    <script type="text/javascript">
+        $('#appbundle_paciente_direccion_0_parroquia').select2();
+    </script>
 
 
 {% endblock %}

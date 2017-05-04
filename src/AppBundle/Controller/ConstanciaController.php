@@ -63,10 +63,18 @@ class ConstanciaController extends Controller {
             $em = $this->getDoctrine()->getManager();
             $em->persist($constancium);
             $em->flush($constancium);
+            
+              $this->addFlash('success', 'Constancia registrada satisfactoriamente');
+            switch ($constancium->getConsulta()->getEspecialidad()->getNombre()) {
+                case('Odontología'): return $this->redirectToRoute('homepage_odontologia', array('paciente' => $constancium->getConsulta()->getPaciente()->getId(),));
+                    break;
+                case('Enfermería'): return $this->redirectToRoute('homepage_enfermeria', array('paciente' => $constancium->getConsulta()->getPaciente()->getId(),));
+                    break;
+                default : return $this->redirectToRoute('homepage_consulta', array('paciente' => $constancium->getConsulta()->getPaciente()->getId(),));
+                    break;
+            }
 
-            return $this->redirectToRoute('homepage_consulta', array(
-                        'paciente' => $constancium->getConsulta()->getPaciente()->getId(),
-            ));
+            
         }
 
         return $this->render('constancia/new.html.twig', array(
@@ -103,10 +111,17 @@ class ConstanciaController extends Controller {
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
+            
+            $this->addFlash('success', 'Constancia actualizado satisfactoriamente');
 
-            return $this->redirectToRoute('homepage_consulta', array(
-                        'paciente' => $constancium->getConsulta()->getPaciente()->getId(),
-            ));
+           switch ($constancium->getConsulta()->getEspecialidad()->getNombre()) {
+                case('Odontología'): return $this->redirectToRoute('homepage_odontologia', array('paciente' => $constancium->getConsulta()->getPaciente()->getId(),));
+                    break;
+                case('Enfermería'): return $this->redirectToRoute('homepage_enfermeria', array('paciente' => $constancium->getConsulta()->getPaciente()->getId(),));
+                    break;
+                default : return $this->redirectToRoute('homepage_consulta', array('paciente' => $constancium->getConsulta()->getPaciente()->getId(),));
+                    break;
+           }
         }
 
         return $this->render('constancia/edit.html.twig', array(
@@ -132,10 +147,18 @@ class ConstanciaController extends Controller {
             $em->remove($constancium);
             $em->flush($constancium);
         }
+        
+        $this->addFlash('success', 'Constancia eliminada satisfactoriamente');
+                
+           switch ($constancium->getConsulta()->getEspecialidad()->getNombre()) {
+                case('Odontología'): return $this->redirectToRoute('homepage_odontologia', array('paciente' => $constancium->getConsulta()->getPaciente()->getId(),));
+                    break;
+                case('Enfermería'): return $this->redirectToRoute('homepage_enfermeria', array('paciente' => $constancium->getConsulta()->getPaciente()->getId(),));
+                    break;
+                default : return $this->redirectToRoute('homepage_consulta', array('paciente' => $constancium->getConsulta()->getPaciente()->getId(),));
+                    break;
 
-       return $this->redirectToRoute('homepage_consulta', array(
-                    'paciente' => $id,
-        ));
+           }
     }
 
     /**

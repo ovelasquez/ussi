@@ -296,6 +296,7 @@
                                                     <thead>
                                                         <tr>
                                                             <th>Id</th>
+                                                            <th>Tipo</th>
                                                             <th>Medicamento</th>
                                                             <th>cantidad</th>
                                                             <th>Vía de Administración</th>
@@ -308,6 +309,7 @@
                                                         {% for medicamento in medicamentos %}
                                                             <tr>
                                                                 <td>{{ loop.index }}</td>
+                                                                <td>{{ medicamento.medicamento.tipoMedicamento.nombre |title }}</td>
                                                                 <td>{{ medicamento.medicamento.principioActivo|title }}</td>
                                                                 <td>{{ medicamento.cantidad }}</td>                                                                
                                                                 <td>{{ medicamento.viaAdministracion|title}}</td> 
@@ -364,13 +366,46 @@
                                         </div>
                                     </div>
 
-                                    <!-- Observaciones -->
+                                    <!-- Observaciones -->                                    
                                     <div role="tabpanel" class="tab-pane fade" id="tab_content5" aria-labelledby="profile-tab">
-
+                                        <div class="x_content"> 
+                                            <form name="form_observacion" action="{{path('observacion_new')}}" method="post" id="form_observacion" class="form-horizontal form-label-left"> 
+                                                <input id="observacion_consulta" name="observacion_consulta" type="hidden" value="{{consulta.id}}"> 
+                                                <div class="ln_solid"></div>
+                                                <div class="form-group">
+                                                    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">                
+                                                        <button type="submit" class="btn btn-success"><i class="fa fa-edit m-right-xs"></i> Registrar Observaciones </button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                            {% if (observaciones!=null) %}
+                                                <table id="observaciones_datatable-fixed-header" class="table table-striped table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Id</th>    
+                                                            <th>Tipo</th>
+                                                            <th>Observación</th>
+                                                            <th>Profesional</th>
+                                                            <th>Fecha</th>   
+                                                            <th>Acción</th>                                                                         
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% for observacion in observaciones %}
+                                                            <tr>
+                                                                <td>{{ loop.index }}</td>
+                                                                <td>{{ observacion.tipo | title}}</td>
+                                                                <td>{{ observacion.descripcion}}</td>
+                                                                <td>{{ observacion.usuario.persona.primerNombre}} {{ observacion.usuario.persona.primerApellido}}</td> 
+                                                                <td>{{ observacion.fecha | date('d-m-Y  H:i:s') }}</td>                                                                                                                                 
+                                                                <td> <a href="{{ path('observacion_edit', { 'id': observacion.id }) }}">Editar</a> </td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>  
+                                            {% endif%}
+                                        </div>
                                     </div>
-
-
-
                                     <!--Citas-->
                                     <div role="tabpanel" class="tab-pane fade" id="tab_content6" aria-labelledby="profile-tab">
                                         <!-- Crear Cita-->
@@ -405,9 +440,11 @@
                                                             <td>{% if citum.fecha %}{{ citum.fecha|date('d-m-Y') }}{% endif %}</td>
                                                             <td>{{ citum.status|title }}</td>
                                                             <td>
-                                                                <a href="{{ path('cita_edit', { 'id': citum.id }) }}">
-                                                                    <button type="button" class="btn btn-xs btn-success" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editar">  <i class="fa fa-pencil"></i>  </button>
-                                                                </a>                                                             
+                                                                {% if (citum.consulta.id== consulta.id) %}
+                                                                    <a href="{{ path('cita_edit', { 'id': citum.id }) }}">
+                                                                        <button type="button" class="btn btn-xs btn-success" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editar">  <i class="fa fa-pencil"></i>  </button>
+                                                                    </a>    
+                                                                {% endif %}                                                         
                                                             </td>
                                                         </tr>
                                                     {% endfor %}
@@ -443,6 +480,7 @@
                 $('#datatable-fixed-header').DataTable({fixedHeader: true});
                 $('#med_datatable-fixed-header').DataTable({fixedHeader: true});
                 $('#ins_datatable-fixed-header').DataTable({fixedHeader: true});
+                $('#observaciones_datatable-fixed-header').DataTable({fixedHeader: true});
             });
         </script>
     {% endblock %}

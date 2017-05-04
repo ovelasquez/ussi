@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block Subtitulo %} Editar Evolucin -  <small> <a href="{{ path('evolucion_index') }}">Regresar a la lista</a></small> {% endblock %} 
+{% block Subtitulo %} Editar Evolución -  <small> <a href="{{ path('homepage_consulta', { 'paciente': evolucion.consulta.paciente.id }) }}">Regresar a la Consulta</a></small> {% endblock %} 
+
 
 {% block body %}
     <div class="x_content">
@@ -54,7 +55,7 @@
                 {{form_widget(edit_form.tratamiento,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
             </div>
         </div>
-            
+
         <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="frecuencia">{{ form_label(edit_form.frecuencia) }} <span class="required">*</span></label>
             <div class="col-md-6 col-sm-6 col-xs-12">
@@ -74,7 +75,7 @@
     </div>
 
     {{ form_start(delete_form) }}
-    <input type="submit" value="Delete">
+    <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> Eliminar </button>
     {{ form_end(delete_form) }}
 {% endblock %}
 {% block javascripts %}

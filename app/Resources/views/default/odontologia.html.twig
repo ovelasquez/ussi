@@ -1,0 +1,1036 @@
+{% extends 'dashboard.html.twig' %}
+{% block stylesheets %}
+    <!-- Odontograma -->
+    <link href="{{ asset('bundles/app/odontograma/css/base.css')}}" rel="stylesheet">
+
+    <!-- Datatables -->
+    <link href="{{ asset('bundles/app/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{ asset('bundles/app/vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{ asset('bundles/app/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css')}}" rel="stylesheet">    
+    <!-- animate -->
+    <link href="{{ asset('bundles/app/vendors/animate.css/animate.min.css')}}"   rel="stylesheet">
+    <!-- PNotify -->
+    <link href="{{ asset('bundles/app/vendors/pnotify/dist/pnotify.css')}}" rel="stylesheet">
+    <link href="{{ asset('bundles/app/vendors/pnotify/dist/pnotify.buttons.css')}}" rel="stylesheet">
+    <link href="{{ asset('bundles/app/vendors/pnotify/dist/pnotify.nonblock.css')}}" rel="stylesheet">
+{% endblock %}
+{% block title %} Consulta {% endblock %}
+{% block topTiles %}
+    <div class="row tile_count">
+        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+            <span class="count_top"><i class="fa fa-user"></i> Total Consultas</span>
+            <div class="count">{{historicoConsultas | length}}</div>
+            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i> </i> en la Especialidad</span>
+        </div>
+        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+            <span class="count_top"><i class="fa fa-plus-square"></i> Consultas Atendidas</span>
+            <div class="count">{{historicoConsultasMedico | length}}</div>
+            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i> </i> por el Profesional</span>
+        </div>
+        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+            <span class="count_top"><i class="fa fa-sign-out"></i> Paciente Abandono</span>
+            <div class="count red">{{historicoAbandono| length}}</div>
+            <span class="count_bottom"><i class="red"><i class="fa fa-sort-asc"></i> </i> En todas las Consultas</span>  
+        </div>
+        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+            <span class="count_top"><i class="fa fa-user"></i> Paciente Citas</span>
+            <div class="count green">{{historicoCita| length}}</div>
+            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i></i>Activas en la Especialidad</span>
+        </div>
+        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+            <span class="count_top"><i class="fa fa-clock-o"></i> Fecha Consulta</span>
+            <div class="count"></div>
+            <h2>  {{ "now"|date("d/m/Y") }} </h2>
+            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>Día </i> de la Consulta</span>
+        </div>
+    </div>
+{% endblock %}
+{% block body %}   
+    {% for msg in app.session.flashBag.get('success') %}        
+        <div class="alert alert-success alert-dismissible fade in" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+            </button>
+            <strong>{{ msg }}</strong>
+        </div>
+    {% endfor %}
+    {% for msgs in app.session.flashBag.get('error') %}
+        <div class="alert alert-danger alert-dismissible fade in" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+            <strong>
+                {% for msg in msgs %}
+                    <p>{{ msg }}</p>
+                {% endfor %}
+            </strong>
+        </div>
+    {% endfor %}
+    <div class="">
+        <div class="page-title">
+            <div class="title_left">
+                <h3>{% block Titulo %} USSI Dr. Jesús Saturno Canelón  {% endblock %}</h3>
+            </div>
+            <div class="title_right">   </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>{% block Subtitulo %}  
+                            Paciente:  {{ paciente.persona.primerApellido |capitalize }} {{ paciente.persona.segundoApellido |capitalize }} {{ paciente.persona.primerNombre |capitalize }} {{ paciente.persona.segundoNombre |capitalize }}
+                        {% endblock %} </h2>
+                    <ul class="nav navbar-right panel_toolbox submenu">
+                        {% block paneltoolbox %} 
+                            <li><a class="collapse-link" ><i class="fa fa-chevron-up"></i></a></li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="#">{% block cerrar %}  {% endblock %}</a>
+                                    </li>
+                                    <li><a href="#">Settings 2</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li><a class="close-link" ><i class="fa fa-close"></i></a> </li>
+                                {% endblock %}     
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <!--div class="x_content"-->
+                {% block body2 %}
+                    <div class="x_content">
+                        <div class="col-md-2 col-sm-2 col-xs-12 profile_left">
+                            <div class="profile_img">
+                                <div id="crop-avatar">
+                                    <!-- Current avatar -->
+                                    <img class="img-responsive avatar-view" src="{{ asset('uploads/fotos/')}}{{paciente.persona.foto}}" alt="Avatar" title="Change the avatar" height="80%" width="80%">                    
+                                </div>
+                            </div>
+                            <p></p>                              
+                            <form name="form_consulta" action="{{path('consulta_alta')}}" method="post" id="form_consulta" class="form-horizontal form-label-left"> 
+                                <input id="alta_consulta" name="alta_consulta" type="hidden" value="{{consulta.id}}">                                 
+                                <div class="form-group">
+                                    <div class="col-md-2 col-sm-2 col-xs-12 col-md-offset-1">                
+                                        <button type="submit" class="btn btn-primary"><i class="fa fa-user-md m-right-xs"></i> Dar de Alta</button> 
+                                    </div>
+                                </div>
+                            </form>
+                            <br/>           
+                        </div>
+                        <div class="col-md-10 col-sm-10 col-xs-12">                    
+                            <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                                <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                                    <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Personales</a></li>
+                                    <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Historia</a></li>
+                                    <li role="presentation" class=""><a href="#tab_content3" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Odontograma</a></li>                                    
+                                    <li role="presentation" class=""><a href="#tab_content5" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Referir</a></li>
+                                    <li role="presentation" class=""><a href="#tab_content6" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Reposos</a></li>
+                                    <li role="presentation" class=""><a href="#tab_content7" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Constancias</a></li>
+                                    <li role="presentation" class=""><a href="#tab_content8" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Recetas</a></li>
+                                </ul>
+                                <div id="myTabContent" class="tab-content">
+
+                                    <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+                                        <table class="table table-striped">
+                                            <tbody>
+                                                <tr>
+                                                    <th>Identificación</th>
+                                                    <td>{{ paciente.persona.nacionalidad }} - {{ paciente.persona.cedula |number_format(0, ',', '.')}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Nombre</th>
+                                                    <td>{{ paciente.persona.primerApellido |capitalize }} {{ paciente.persona.segundoApellido |capitalize }} {{ paciente.persona.primerNombre |capitalize }} {{ paciente.persona.segundoNombre |capitalize }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Género</th>
+                                                    <td>{{ paciente.persona.genero }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Fecha de Nacimiento</th>
+                                                    <td>{{ paciente.fechaNacimiento|date("d/m/Y") }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Correo Electrónico</th>
+                                                    <td>{{ paciente.persona.email }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Estado Civil</th>
+                                                    <td>{{ paciente.edoCivil |capitalize  }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Teléfono</th>
+                                                    <td>{{ paciente.persona.telefono }}</td>
+                                                </tr>
+                                                {% for value in paciente.direccion %}
+                                                    <tr>
+                                                        <th>Dirección de {{ value.tipo |capitalize }}</th>
+                                                        <td>                                           
+                                                            <p>Lugar : {{ value.sector |capitalize  }}</p>
+                                                            <p>{{ value.parroquia.municipio.estado.pais }} -{{ value.parroquia.municipio.estado }} -{{ value.parroquia.municipio }} -{{ value.parroquia }}</p>
+
+                                                        </td>
+                                                    </tr>
+                                                {% endfor %} 
+                                                <tr>
+                                                    <th>Ocupación</th>
+                                                    <td>{{ paciente.ocupacion |capitalize }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Es Analfabeta?</th>
+                                                        {% if paciente.analfabeta %}
+                                                        <td> Si  </td>
+                                                    {% else %}
+                                                        <td> No  </td>
+                                                    {% endif %}
+                                                </tr>
+                                                <tr>
+                                                    <th>Nivel de Instrucción</th>
+                                                    <td>{{ paciente.estudio |capitalize }} </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Años Aprobados</th>
+                                                    <td>{{ paciente.anoAprobado }} </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Cédula del Jefe Familia </th>
+                                                    <td>{{ paciente.cedulaJefeFamilia |number_format(0, ',', '.') }} </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Comunidad</th>
+                                                    <td>{{ paciente.comunidad |capitalize }} </td>
+                                                </tr>
+                                                {% if (paciente.pfg !=null ) %}
+                                                    <tr>
+                                                        <th>Programa de Formación de Grado</th>
+                                                        <td>{{ paciente.pfg |capitalize }} </td>
+                                                    </tr>
+                                                {% endif %}
+                                                <tr>
+                                                    <th>Religión</th>
+                                                    <td>{{ paciente.religion |capitalize }} </td>
+                                                </tr>
+                                                {% if (paciente.etnia !=null ) %}
+                                                    <tr>
+                                                        <th>Etnia</th>
+                                                        <td>{{ paciente.etnia |capitalize }} </td>
+                                                    </tr>
+                                                {% endif %}
+                                                {% for value in paciente.familiar %}
+                                                    <tr>
+                                                        <th>Parentesco {{ value.parentesco |capitalize }}</th>
+                                                        <td>                                           
+                                                            <p>Nombre: {{ value.nombre |capitalize  }}</p>
+                                                            <p>Ocupación:{{ value.ocupacion }}</p>
+                                                        </td>
+                                                    </tr>
+                                                {% endfor %} 
+                                                <tr>
+                                                    <th>Fecha de registro</th>
+                                                    <td>{{ paciente.fechaRegistro|date("d/m/Y h:i:s") }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Fecha de última actualización</th>
+                                                    <td>{{ paciente.fechaActualizacion|date("d/m/Y h:i:s") }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>                                
+                                    </div>   
+                                    <!-- Historias Médicas -->
+                                    <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+
+                                        {% if (historicoOdontologica!=null) %}
+                                            <div class="x_content">                   
+                                                <table id="kk" class="table table-striped table-bordered">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th>Tratamiento Médico</th>
+                                                            <td>{{ historicoOdontologica.tratamientoMedico  }}</td>
+                                                        </tr>  
+                                                        <tr>
+                                                            <th>Medicamento que toma actualmente</th>
+                                                            <td>{{ historicoOdontologica.medicamentoActual }} </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Alérgico a</th>
+                                                            <td>{{ historicoOdontologica.alergia }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Última visita al odontólogo</th>
+                                                            <td>{{ historicoOdontologica.ultimaVisitaOdontologo }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>¿Qué tratamiento le dio?</th>
+                                                            <td>{{ historicoOdontologica.tratamientoAplicado }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>¿Presenta dolor en la boca?</th>
+                                                            <td>{{ historicoOdontologica.dolorBoca }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>¿Le sangran las encías?</th>
+                                                            <td>
+                                                                {% if historicoOdontologica.sangreEncias == false %}
+                                                                    <p>No</p>
+                                                                {% else %}
+                                                                    <p>Si</p>
+                                                                {% endif %}
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Hábitos que presenta</th>
+                                                            <td>{{ historicoOdontologica.habitos }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Presión Arterial</th>
+                                                            <td>{{ historicoOdontologica.presionArterial }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Hepatitis</th>
+                                                            <td>{{ historicoOdontologica.hepatitis }}</td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <th>T.B.C</th>
+                                                            <td>{{ historicoOdontologica.tbc }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Enfermedades Respiratorias</th>
+                                                            <td>{{ historicoOdontologica.enfermedadRespiratoria }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Enfermedades Cardiovascular</th>
+                                                            <td>{{ historicoOdontologica.enfermedadCardiovascular }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Enfermedades Hemorrágicas</th>
+                                                            <td>{{ historicoOdontologica.enfermedadHemorragica }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Otras Enfermedades</th>
+                                                            <td>{{ historicoOdontologica.enfermedadOtra }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Enfermedades Familiares</th>
+                                                            <td>{{ historicoOdontologica.enfermedadFamiliar }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>¿Está Embarazada?</th>
+                                                            <td>
+                                                                {% if historicoOdontologica.estaEmbarazada == false %}
+                                                                    <p>No</p>
+                                                                {% else %}
+                                                                    <p>Si</p>
+                                                                {% endif %}
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Observaciones</th>
+                                                            <td>{{ historicoOdontologica.observaciones }}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>                                
+                                            </div>
+                                            <a class="btn btn-success" href="{{ path('historiaodontologica_edit', { 'id': historicoOdontologica.id }) }}"><i class="fa fa-edit m-right-xs"></i>Editar Historia Odontológica </a>
+                                            <!-- Historico  Afecciones  -->
+
+                                        {% else%}
+
+                                            <form name="form_historiaOdontologica" action="{{path('historiaodontologica_new')}}" method="post" id="form_historiaOdontologica" class="form-horizontal form-label-left"> 
+                                                <input id="info_paciente" name="info_paciente" type="hidden" value="{{paciente.id}}"> 
+                                                <div class="ln_solid"></div>
+                                                <div class="form-group">
+                                                    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">                
+                                                        <button type="submit" class="btn btn-success">Registrar Historia Odontologica</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+
+                                        {% endif%}
+
+
+
+                                    </div> <!--Fin  Historia Medica-->
+
+
+                                    <!--Odontograma-->
+                                    <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="profile-tab">                                         
+                                        <div class="container">
+                                            <div class="panel panel-primary">
+
+                                                <div class="panel-body">
+                                                    <div class="row boca">
+                                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 bord">
+                                                            <div id="tr" ><div class="contDiente"></div></div>
+                                                            <!-- Dientes de Leche 21 - 28 -->
+                                                            <div id="tlr" > <div class="contDiente"></div></div>
+                                                        </div>
+                                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 bord">
+                                                            <div id="tl" > <div class="contDiente"></div></div>                                                        
+                                                            <!-- Dientes de Leche 61 - 65 -->
+                                                            <div id="tll" > <div class="contDiente"></div></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row boca">
+                                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 bord">
+                                                            <div id="blr" ><div class="contDiente"></div></div>
+                                                            <div id="br" > <div class="contDiente"></div></div>
+                                                        </div>
+                                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 bord">
+                                                            <div id="bll" ><div class="contDiente"></div></div>
+                                                            <div id="bl" >  <div class="contDiente"></div></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
+                                                            <div id="controls" class="panel panel-default">
+                                                                <div class="panel-body">
+                                                                    <div class="btn-group" data-toggle="buttons">
+
+                                                                        {% for tratamiento in tratamientos %}
+
+                                                                            <label id="{{ tratamiento.nombre }}" class="btn {% if (1 == loop.index) %} active {% endif %}" style="background-color:{{ tratamiento.color}}; color: #ffffff; ">
+                                                                                <input type="radio" name="options" id="option{{loop.index}}" autocomplete="off"> {{ tratamiento.nombre }}
+                                                                            </label>
+                                                                        {% endfor %}
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% if (odontogramasPorConsultas!=null) %}
+                                            <div class="x_content">
+                                                <br />
+                                                <h2>Históricos de Consultas </h2>
+                                                <table id="odontogramasPorConsultas-datatable-fixed-header" class="table table-striped table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>#</th>                                                        
+                                                            <th>Fecha</th>
+                                                            <th>Cantidad Dientes Tratados</th>
+                                                            <th>Dientes Tratados</th>
+                                                            <th>Odontograma</th>
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+
+                                                        {% for odontConsulta in odontogramasPorConsultas %} 
+                                                            {% set dientes= ''%}
+                                                            <tr>
+                                                                <td>{{ loop.index  }}</td>                                                            
+                                                                <td>{{ odontConsulta.consulta}}</td>
+                                                                <td>{{ odontConsulta.dientes_tratados}}</td>
+                                                                <td>
+                                                                    {% for histOdontograma in historicoOdontograma %} 
+                                                                        {% if (histOdontograma.fecha == odontConsulta.consulta) %}
+                                                                            {% set dientes= dientes ~ ' - ' ~ histOdontograma.posicion%}
+                                                                        {% endif%}
+                                                                    {% endfor %} 
+                                                                    {{ dientes [2:]}}
+                                                                </td>
+                                                                <td><button onClick="createOdontogramHistorico()" type="button" id='mi-modal' class="btn btn-primary" data-toggle="modal" data-target=".odontograma-modal-lg"><i class="fa fa-eye m-right-xs"></i> </button></td>
+                                                            </tr>
+
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>         
+                                            </div>
+
+                                        {%endif%}
+
+                                        <!-- Modal Odontogramas Historicos -->                                            
+                                        <div class="modal fade odontograma-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+                                            <div class="modal-dialog modal-lg">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+                                                        </button>
+                                                        <h4 class="modal-title" id="myModalLabel">Histórico Odontograma</h4>
+                                                    </div>
+                                                    <div class="modal-body"> 
+
+                                                        <div class="row boca">
+                                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 bord">
+
+                                                                <div id="tr2" > <div class="contDiente"></div></div>
+
+                                                                <div id="tlr2" > <div class="contDiente"></div></div>
+                                                            </div>
+
+                                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 bord">
+
+                                                                <div id="tl2" > <div class="contDiente"></div></div>                                                        
+
+                                                                <div id="tll2" > <div class="contDiente"></div></div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row boca">
+                                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 bord">
+
+                                                                <div id="blr2" ><div class="contDiente"></div></div>
+
+                                                                <div id="br2" > <div class="contDiente"></div></div>
+
+                                                            </div>
+
+                                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 bord">
+
+                                                                <div id="bll2" ><div class="contDiente"></div></div>
+
+                                                                <div id="bl2" >  <div class="contDiente"></div></div>
+
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Salir</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <!--Fin Evolucion-->
+
+                                    <!--Citas-->
+                                    <div role="tabpanel" class="tab-pane fade" id="tab_content5" aria-labelledby="profile-tab">
+                                        <!-- Crear Cita-->
+                                        <form name="form_cita" action="{{path('cita_new')}}" method="post" id="form_cita" class="form-horizontal form-label-left"> 
+                                            <input id="cita_consulta" name="cita_consulta" type="hidden" value="{{consulta.id}}"> 
+                                            <div class="ln_solid"></div>
+                                            <div class="form-group">
+                                                <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">                
+                                                    <button type="submit" class="btn btn-success">Registrar Cita</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                        {% if (citas!=null) %}
+                                            <table class="table table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th>#</th>                                                        
+                                                        <th>Especialidad</th>
+                                                        <th>Médico</th>
+                                                        <th>Fecha</th>
+                                                        <th>Status</th>
+                                                        <th>Acción</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for citum in citas %}
+                                                        <tr>
+                                                            <td><a href="{{ path('cita_show', { 'id': citum.id }) }}">{{ loop.index  }}</a></td>                                                            
+                                                            <td>{{ citum.especialidad.nombre}}</td>
+                                                            <td>{% if citum.profesional %}{{ citum.profesional.persona.primerApellido}} {{ citum.profesional.persona.primerNombre}}{% endif %}
+                                                            </td>
+                                                            <td>{% if citum.fecha %}{{ citum.fecha|date('d-m-Y') }}{% endif %}</td>
+                                                            <td>{{ citum.status|title }}</td>
+                                                            <td>
+                                                                {% if (citum.consulta.id== consulta.id) %}
+                                                                    <a href="{{ path('cita_edit', { 'id': citum.id }) }}">
+                                                                        <button type="button" class="btn btn-xs btn-success" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editar">  <i class="fa fa-pencil"></i>  </button>
+                                                                    </a>    
+                                                                {% endif %}                                                           
+                                                            </td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        {%endif%}
+                                    </div>
+                                    <!--Fin Citas-->
+                                    <!--Reposos-->
+                                    <div role="tabpanel" class="tab-pane fade" id="tab_content6" aria-labelledby="profile-tab">                                         
+                                        {% if (reposo!=null) %}
+                                            <div class="x_content">                   
+                                                <table class="table table-striped">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th>Descripción</th>
+                                                            <td>{{ reposo.observacion |raw}} </td>
+                                                        </tr>  
+                                                        <tr>
+                                                            <th>Periodo</th>
+                                                            <td>{{ reposo.inicio }} </td>
+                                                        </tr>                                                        
+                                                    </tbody>
+                                                </table>                                
+                                            </div>
+                                            <a class="btn btn-success" href="{{ path('reposo_edit', { 'id': reposo.id }) }}"><i class="fa fa-edit m-right-xs"></i>Editar Reposo</a>
+                                        {% else %}
+                                            <!-- no tiene Reposo -->
+                                            <form name="form_reposo" action="{{path('reposo_new')}}" method="post" id="form_evolucion" class="form-horizontal form-label-left"> 
+                                                <input id="reposo_consulta" name="reposo_consulta" type="hidden" value="{{consulta.id}}"> 
+                                                <div class="ln_solid"></div>
+                                                <div class="form-group">
+                                                    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">                
+                                                        <button type="submit" class="btn btn-success"><i class="fa fa-edit m-right-xs"></i> Registrar Reposo</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        {%endif%}
+                                        <!--Historico Reposos -->
+                                        {% if (historicoReposos!=null) %}
+                                            <!-- Large modal -->
+                                            <button type="button" id='mi-modal' class="btn btn-primary" data-toggle="modal" data-target=".reposo-modal-lg"><i class="fa fa-eye m-right-xs"></i> Ver Histórico</button>
+                                            <div class="modal fade reposo-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+                                                            </button>
+                                                            <h4 class="modal-title" id="myModalLabel">Histórico Reposos</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+
+                                                            {% for reposo in historicoReposos %}
+                                                                <ul class="list-unstyled timeline">
+                                                                    <li>
+                                                                        <div class="block">
+                                                                            <div class="tags">
+                                                                                <a href="" class="tag">
+                                                                                    <span>{{ reposo.fecha | date('d-m-Y') }}</span>
+                                                                                </a>
+                                                                            </div>
+                                                                            <div class="block_content">
+                                                                                <h2 class="title"><a>Observación</a> </h2>
+                                                                                <div class="byline"> </div>
+                                                                                <p class="excerpt">{{ reposo.observacion|raw }}</p>
+
+                                                                                <h2 class="title"><a>Periodo</a> </h2>
+                                                                                <div class="byline">  </div>
+                                                                                <p class="excerpt">{{ reposo.inicio|raw }} </p>                                                                                                                                                             
+
+                                                                                <h2 class="title"><a>Profesional</a> </h2>
+                                                                                <div class="byline">  </div>
+                                                                                <p class="excerpt"> {{ reposo.primer_apellido }} {{ reposo.primer_nombre }} </p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </li>
+                                                                </ul>
+                                                            {% endfor %}
+
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Salir</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {%endif%}
+                                    </div>
+                                    <!--Fin Reposos-->                                                                        
+                                    <!--Constancia-->
+                                    <div role="tabpanel" class="tab-pane fade" id="tab_content7" aria-labelledby="profile-tab">                                         
+                                        {% if (constancia!=null) %}
+                                            <div class="x_content">                   
+                                                <table class="table table-striped">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th>Descripción</th>
+                                                            <td>{{ constancia.observacion |raw}} </td>
+                                                        </tr>                                                                                                             
+                                                    </tbody>
+                                                </table>                                
+                                            </div>
+                                            <a class="btn btn-success" href="{{ path('constancia_edit', { 'id': constancia.id }) }}"><i class="fa fa-edit m-right-xs"></i>Editar Constancia</a>
+                                        {% else %}
+                                            <!-- no tiene Constancia -->
+                                            <form name="form_constancia" action="{{path('constancia_new')}}" method="post" id="form_constancia" class="form-horizontal form-label-left"> 
+                                                <input id="constancia_consulta" name="constancia_consulta" type="hidden" value="{{consulta.id}}"> 
+                                                <div class="ln_solid"></div>
+                                                <div class="form-group">
+                                                    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">                
+                                                        <button type="submit" class="btn btn-success"><i class="fa fa-edit m-right-xs"></i> Registrar Constancia</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        {%endif%}
+                                        <!--Historico Constancias -->
+                                        {% if (historicoConstancias!=null) %}
+                                            <!-- Large modal -->
+                                            <button type="button" id='mi-modal' class="btn btn-primary" data-toggle="modal" data-target=".constancia-modal-lg"><i class="fa fa-eye m-right-xs"></i> Ver Histórico</button>
+                                            <div class="modal fade constancia-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+                                                            </button>
+                                                            <h4 class="modal-title" id="myModalLabel">Histórico Constancias</h4>
+                                                        </div>
+                                                        <div class="modal-body">                                                            
+                                                            {% for constancia in historicoConstancias %}
+                                                                <ul class="list-unstyled timeline">
+                                                                    <li>
+                                                                        <div class="block">
+                                                                            <div class="tags">
+                                                                                <a href="" class="tag">
+                                                                                    <span>{{ constancia.fecha | date('d-m-Y') }}</span>
+                                                                                </a>
+                                                                            </div>
+                                                                            <div class="block_content">
+                                                                                <h2 class="title"><a>Observación</a> </h2>
+                                                                                <div class="byline"> </div>
+                                                                                <p class="excerpt">{{ constancia.observacion|raw }}</p>                                                                                                                                                                                                                                         
+
+                                                                                <h2 class="title"><a>Profesional</a> </h2>
+                                                                                <div class="byline">  </div>
+                                                                                <p class="excerpt"> {{ constancia.primer_apellido }} {{ constancia.primer_nombre }} </p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </li>
+                                                                </ul>
+                                                            {% endfor %}
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Salir</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {%endif%}
+                                    </div>
+                                    <!--Fin Constancias-->
+                                    <!--Recetas-->
+                                    <div role="tabpanel" class="tab-pane fade" id="tab_content8" aria-labelledby="profile-tab">                                         
+                                        {% if (receta!=null) %}
+                                            <div class="x_content">                   
+                                                <table class="table table-striped">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th>Descripción</th>
+                                                            <td>{{ receta.observacion |raw}} </td>
+                                                        </tr>                                                                                                             
+                                                    </tbody>
+                                                </table>                                
+                                            </div>
+                                            <a class="btn btn-success" href="{{ path('receta_edit', { 'id': receta.id }) }}"><i class="fa fa-edit m-right-xs"></i>Editar Constancia</a>
+                                        {% else %}
+                                            <!-- no tiene Constancia -->
+                                            <form name="form_receta" action="{{path('receta_new')}}" method="post" id="form_evolucion" class="form-horizontal form-label-left"> 
+                                                <input id="receta_consulta" name="receta_consulta" type="hidden" value="{{consulta.id}}"> 
+                                                <div class="ln_solid"></div>
+                                                <div class="form-group">
+                                                    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">                
+                                                        <button type="submit" class="btn btn-success"><i class="fa fa-edit m-right-xs"></i> Registrar Receta</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        {%endif%}
+                                        <!--Historico Reposos -->
+                                        {% if (historicoRecetas!=null) %}
+                                            <!-- Large modal -->
+                                            <button type="button" id='mi-modal' class="btn btn-primary" data-toggle="modal" data-target=".receta-modal-lg"><i class="fa fa-eye m-right-xs"></i> Ver Histórico</button>
+                                            <div class="modal fade receta-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+                                                            </button>
+                                                            <h4 class="modal-title" id="myModalLabel">Histórico Recetas</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+
+                                                            {% for receta in historicoRecetas %}
+                                                                <ul class="list-unstyled timeline">
+                                                                    <li>
+                                                                        <div class="block">
+                                                                            <div class="tags">
+                                                                                <a href="" class="tag">
+                                                                                    <span>{{ receta.fecha | date('d-m-Y') }}</span>
+                                                                                </a>
+                                                                            </div>
+                                                                            <div class="block_content">
+                                                                                <h2 class="title"><a>Observación</a> </h2>
+                                                                                <div class="byline"> </div>
+                                                                                <p class="excerpt">{{ receta.observacion|raw }}</p>                                                                                                                                                                                                                                         
+
+                                                                                <h2 class="title"><a>Profesional</a> </h2>
+                                                                                <div class="byline">  </div>
+                                                                                <p class="excerpt"> {{ receta.primer_apellido }} {{ receta.primer_nombre }} </p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </li>
+                                                                </ul>
+                                                            {% endfor %}
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Salir</button>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {%endif%}
+                                    </div>
+                                    <!--Fin Recetas-->
+                                </div> <!-- Fin myTabContent -->
+                            </div> <!--  togglable-tabs -->
+                        </div> {# Fin col-md-10 col-sm-10 col-xs-12  #}
+                    </div>
+                {% endblock %}                                    
+                <!--/div-->
+            </div>
+        </div>
+    </div>  <!--/div clas=row-->        
+</div>
+
+{% endblock %}
+    {% block javascripts %}
+        <!-- Datatables -->
+        <script src="{{ asset('bundles/app/vendors/datatables.net/js/jquery.dataTables.min.js')}}"></script>
+        <script src="{{ asset('bundles/app/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js')}}"></script> 
+        <!-- PNotify -->
+        <script src="{{ asset('bundles/app/vendors/pnotify/dist/pnotify.js')}}"></script> 
+        <script src="{{ asset('bundles/app/vendors/pnotify/dist/pnotify.buttons.js')}}"></script> 
+        <script src="{{ asset('bundles/app/vendors/pnotify/dist/pnotify.nonblock.js')}}"></script> 
+        <!-- Push -->
+        <script src="{{ asset('bundles/app/vendors/push/push.min.js')}}"></script> 
+        
+
+        <script type="text/javascript">
+
+            function pintarOdontograma(){
+            $.ajax
+                    ({
+                    type: "POST",
+                            url: "{{ path ('ajax_pintarOdontograma') }}",
+                            data: {
+                            'consulta':{{consulta.id}}
+                            },
+                            cache: false,
+                            success: function (html)
+                            {
+                            var objOdontograma = jQuery.parseJSON(html.data);
+                            //alert(JSON.stringify(objOdontograma));
+                            for (var i = 0; i < objOdontograma.length; i++) {
+                            value = objOdontograma[i];
+                            if (value.tipo == 'Permanente') {
+                            $('#t' + value.diente).css("background-color", value.cavidad1);
+                            $('#t' + value.diente).addClass('modificado');
+                            $('#t' + value.diente).removeClass('ninguno');
+                            $('#r' + value.diente).css("background-color", value.cavidad2);
+                            $('#r' + value.diente).addClass('modificado');
+                            $('#r' + value.diente).removeClass('ninguno');
+                            $('#b' + value.diente).css("background-color", value.cavidad3);
+                            $('#b' + value.diente).addClass('modificado');
+                            $('#b' + value.diente).removeClass('ninguno');
+                            $('#l' + value.diente).css("background-color", value.cavidad4);
+                            $('#l' + value.diente).addClass('modificado');
+                            $('#l' + value.diente).removeClass('ninguno');
+                            $('#c' + value.diente).css("background-color", value.cavidad5);
+                            $('#c' + value.diente).addClass('modificado');
+                            $('#c' + value.diente).removeClass('ninguno');
+                            } else {
+                            $('#tleche' + value.diente).css("background-color", value.cavidad1);
+                            $('#tleche' + value.diente).addClass('modificado');
+                            $('#tleche' + value.diente).removeClass('ninguno');
+                            $('#rleche' + value.diente).css("background-color", value.cavidad2);
+                            $('#rleche' + value.diente).addClass('modificado');
+                            $('#rleche' + value.diente).removeClass('ninguno');
+                            $('#bleche' + value.diente).css("background-color", value.cavidad3);
+                            $('#bleche' + value.diente).addClass('modificado');
+                            $('#bleche' + value.diente).removeClass('ninguno');
+                            $('#lleche' + value.diente).css("background-color", value.cavidad4);
+                            $('#lleche' + value.diente).addClass('modificado');
+                            $('#lleche' + value.diente).removeClass('ninguno');
+                            $('#cleche' + value.diente).css("background-color", value.cavidad5);
+                            $('#cleche' + value.diente).addClass('modificado');
+                            $('#cleche' + value.diente).removeClass('ninguno');
+                            }
+
+                            }
+
+
+                            }
+
+                    });
+            }
+        </script>
+
+        <script type="text/javascript">
+            function replaceAll(find, replace, str) {
+            return str.replace(new RegExp(find, 'g'), replace);
+            }
+
+            function createOdontogram() {
+            var htmlLecheLeft = "",
+                    htmlLecheRight = "",
+                    htmlLeft = "",
+                    htmlRight = "",
+                    a = 1;
+            for (var i = 9 - 1; i >= 1; i--) {
+            //Dientes Definitivos Cuandrante Derecho (Superior/Inferior)
+            htmlRight +=
+                    '<div data-name="value" id="dienteindex' + i + '" class="diente">' +
+                    '<span style="margin-left: 0px; margin-bottom:5px; display: inline-block !important; border-radius: 10px !important;" class="label label-info">index' + i + '</span>' +
+                    '<div id="tindex' + i + '" class="ninguno cuadro click">' +
+                    '</div>' +
+                    '<div id="lindex' + i + '" class="ninguno cuadro izquierdo click">' +
+                    '</div>' +
+                    '<div id="bindex' + i + '" class="ninguno cuadro debajo click">' +
+                    '</div>' +
+                    '<div id="rindex' + i + '" class="ninguno cuadro derecha click click">' +
+                    '</div>' +
+                    '<div id="cindex' + i + '" class="ninguno centro click">' +
+                    '</div>' +
+                    '</div>';
+            //Dientes Definitivos Cuandrante Izquierdo (Superior/Inferior)
+            htmlLeft +=
+                    '<div id="dienteindex' + a + '" class="diente">' +
+                    '<span style="margin-left: 0px; margin-bottom:5px; display: inline-block !important; border-radius: 10px !important;" class="label label-info">index' + a + '</span>' +
+                    '<div id="tindex' + a + '" class="ninguno cuadro click">' +
+                    '</div>' +
+                    '<div id="lindex' + a + '" class="ninguno cuadro izquierdo click">' +
+                    '</div>' +
+                    '<div id="bindex' + a + '" class="ninguno cuadro debajo click">' +
+                    '</div>' +
+                    '<div id="rindex' + a + '" class="ninguno cuadro derecha click click">' +
+                    '</div>' +
+                    '<div id="cindex' + a + '" class="ninguno centro click">' +
+                    '</div>' +
+                    '</div>';
+            if (i <= 5) {
+            //Dientes Temporales Cuandrante Derecho (Superior/Inferior)
+            htmlLecheRight += '<div id="dienteLindex' + i + '" style="left: -25%;" class="diente-leche">' +
+                    '<span style="margin-left: 0px; margin-bottom:5px; display: inline-block !important; border-radius: 10px !important;" class="label label-primary">index' + i + '</span>' +
+                    '<div id="tlecheindex' + i + '" class="ninguno cuadro-leche top-leche click">' +
+                    '</div>' +
+                    '<div id="llecheindex' + i + '" class="ninguno cuadro-leche izquierdo-leche click">' +
+                    '</div>' +
+                    '<div id="blecheindex' + i + '" class="ninguno cuadro-leche debajo-leche click">' +
+                    '</div>' +
+                    '<div id="rlecheindex' + i + '" class="ninguno cuadro-leche derecha-leche click click">' +
+                    '</div>' +
+                    '<div id="clecheindex' + i + '" class="ninguno centro-leche click">' +
+                    '</div>' +
+                    '</div>';
+            }
+
+
+            if (a < 6) {
+            //Dientes Temporales Cuandrante Izquierdo (Superior/Inferior)
+            htmlLecheLeft += '<div id="dienteLindex' + a + '" class="diente-leche">' +
+                    '<span style="margin-left: 0px; margin-bottom:5px; display: inline-block !important; border-radius: 10px !important;" class="label label-primary">index' + a + '</span>' +
+                    '<div id="tlecheindex' + a + '" class="ninguno cuadro-leche top-leche click">' +
+                    '</div>' +
+                    '<div id="llecheindex' + a + '" class="ninguno cuadro-leche izquierdo-leche click">' +
+                    '</div>' +
+                    '<div id="blecheindex' + a + '" class="ninguno cuadro-leche debajo-leche click">' +
+                    '</div>' +
+                    '<div id="rlecheindex' + a + '" class="ninguno cuadro-leche derecha-leche click click">' +
+                    '</div>' +
+                    '<div id="clecheindex' + a + '" class="ninguno centro-leche click">' +
+                    '</div>' +
+                    '</div>';
+            }
+
+            a++;
+            }
+            $("#tr div").append(replaceAll('index', '1', htmlRight));
+            $("#tl div").append(replaceAll('index', '2', htmlLeft));
+            $("#tlr div").append(replaceAll('index', '5', htmlLecheRight));
+            $("#tll div").append(replaceAll('index', '6', htmlLecheLeft));
+            $("#bl div").append(replaceAll('index', '3', htmlLeft));
+            $("#br div").append(replaceAll('index', '4', htmlRight));
+            $("#bll div").append(replaceAll('index', '7', htmlLecheLeft));
+            $("#blr div").append(replaceAll('index', '8', htmlLecheRight));
+            }
+            ;
+        </script>
+
+        // Crear Odontograma Inicial Para los Historicos
+
+        <script type="text/javascript">
+            function replaceAll2(find, replace, str) {
+            return str.replace(new RegExp(find, 'g'), replace);
+            }
+
+            function createOdontogramHistorico() {
+            var htmlLecheLeft2 = "", htmlLecheRight2 = "", htmlLeft2 = "", htmlRight2 = "", a = 1;
+            for (var i = 9 - 1; i >= 1; i--) {
+            //Dientes Definitivos Cuandrante Derecho (Superior/Inferior)
+            htmlRight2 +=
+                    '<div data-name="value" id="dienteindex' + i + '" class="diente">' +
+                    '<span style="margin-left: 0px; margin-bottom:5px; display: inline-block !important; border-radius: 10px !important;" class="label label-info">index' + i + '</span>' +
+                    '<div id="tindex' + i + '" class="ninguno cuadro click">' +
+                    '</div>' +
+                    '<div id="lindex' + i + '" class="ninguno cuadro izquierdo click">' +
+                    '</div>' +
+                    '<div id="bindex' + i + '" class="ninguno cuadro debajo click">' +
+                    '</div>' +
+                    '<div id="rindex' + i + '" class="ninguno cuadro derecha click click">' +
+                    '</div>' +
+                    '<div id="cindex' + i + '" class="ninguno centro click">' +
+                    '</div>' +
+                    '</div>';
+            //Dientes Definitivos Cuandrante Izquierdo (Superior/Inferior)
+            htmlLeft2 +=
+                    '<div id="dienteindex' + a + '" class="diente">' +
+                    '<span style="margin-left: 0px; margin-bottom:5px; display: inline-block !important; border-radius: 10px !important;" class="label label-info">index' + a + '</span>' +
+                    '<div id="tindex' + a + '" class="ninguno cuadro click">' +
+                    '</div>' +
+                    '<div id="lindex' + a + '" class="ninguno cuadro izquierdo click">' +
+                    '</div>' +
+                    '<div id="bindex' + a + '" class="ninguno cuadro debajo click">' +
+                    '</div>' +
+                    '<div id="rindex' + a + '" class="ninguno cuadro derecha click click">' +
+                    '</div>' +
+                    '<div id="cindex' + a + '" class="ninguno centro click">' +
+                    '</div>' +
+                    '</div>';
+            if (i <= 5) {
+            //Dientes Temporales Cuandrante Derecho (Superior/Inferior)
+            htmlLecheRight2 += '<div id="dienteLindex' + i + '" style="left: -25%;" class="diente-leche">' +
+                    '<span style="margin-left: 0px; margin-bottom:5px; display: inline-block !important; border-radius: 10px !important;" class="label label-primary">index' + i + '</span>' +
+                    '<div id="tlecheindex' + i + '" class="ninguno cuadro-leche top-leche click">' +
+                    '</div>' +
+                    '<div id="llecheindex' + i + '" class="ninguno cuadro-leche izquierdo-leche click">' +
+                    '</div>' +
+                    '<div id="blecheindex' + i + '" class="ninguno cuadro-leche debajo-leche click">' +
+                    '</div>' +
+                    '<div id="rlecheindex' + i + '" class="ninguno cuadro-leche derecha-leche click click">' +
+                    '</div>' +
+                    '<div id="clecheindex' + i + '" class="ninguno centro-leche click">' +
+                    '</div>' +
+                    '</div>';
+            }
+
+
+            if (a < 6) {
+            //Dientes Temporales Cuandrante Izquierdo (Superior/Inferior)
+            htmlLecheLeft2 += '<div id="dienteLindex' + a + '" class="diente-leche">' +
+                    '<span style="margin-left: 0px; margin-bottom:5px; display: inline-block !important; border-radius: 10px !important;" class="label label-primary">index' + a + '</span>' +
+                    '<div id="tlecheindex' + a + '" class="ninguno cuadro-leche top-leche click">' +
+                    '</div>' +
+                    '<div id="llecheindex' + a + '" class="ninguno cuadro-leche izquierdo-leche click">' +
+                    '</div>' +
+                    '<div id="blecheindex' + a + '" class="ninguno cuadro-leche debajo-leche click">' +
+                    '</div>' +
+                    '<div id="rlecheindex' + a + '" class="ninguno cuadro-leche derecha-leche click click">' +
+                    '</div>' +
+                    '<div id="clecheindex' + a + '" class="ninguno centro-leche click">' +
+                    '</div>' +
+                    '</div>';
+            }
+
+            a++;
+            }
+            $("#tr2 div").append(replaceAll2('index', '1', htmlRight2));
+            $("#tl2 div").append(replaceAll2('index', '2', htmlLeft2));
+            $("#tlr2 div").append(replaceAll2('index', '5', htmlLecheRight2));
+            $("#tll2 div").append(replaceAll2('index', '6', htmlLecheLeft2));
+            $("#blr2 div").append(replaceAll2('index', '8', htmlLecheRight2));
+            $("#bll2 div").append(replaceAll2('index', '7', htmlLecheLeft2));
+            $("#br2 div").append(replaceAll2('index', '4', htmlRight2));
+            $("#bl2 div").append(replaceAll2('index', '3', htmlLeft2));
+            }
+            ;
+        </script>
+
+    {% endblock %}

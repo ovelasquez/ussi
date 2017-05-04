@@ -38,22 +38,21 @@ class AntecedenteController extends Controller {
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request) {
+        $em = $this->getDoctrine()->getManager();
         $antecedente = new Antecedente();
         $form = $this->createForm('AppBundle\Form\AntecedenteType', $antecedente);
         $form->handleRequest($request);
+        $paciente = $em->getRepository('AppBundle:Paciente')->find($request->request->get('info_paciente'));
+        $antecedente->setPaciente($paciente);
 
-        if ($form->isSubmitted() && $form->isValid()) {            
-            $em = $this->getDoctrine()->getManager();
-            $paciente = $em->getRepository('AppBundle:Paciente')->find($request->request->get('info_paciente'));
-           
-            $antecedente->setPaciente($paciente);
+        if ($form->isSubmitted() && $form->isValid()) {
             $antecedente->setFechaRegistro(new \DateTime("now"));
             $em->persist($antecedente);
             $em->flush($antecedente);
-             return $this->redirectToRoute('homepage_consulta', array(
+            $this->addFlash('success', 'Antecedente registrado satisfactoriamente');
+            return $this->redirectToRoute('homepage_consulta', array(
                         'paciente' => $antecedente->getPaciente()->getId(),
             ));
-           
         }
 
         return $this->render('antecedente/new.html.twig', array(
@@ -91,14 +90,10 @@ class AntecedenteController extends Controller {
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $antecedente->setFechaActualizacion(new \DateTime("now"));
-            $this->getDoctrine()->getManager()->flush(); 
-            $this->addFlash('success', 'Datos actualizados satisfactoriamente');
-            
-            return $this->redirectToRoute('homepage_consulta', array(
-                        'paciente' => $antecedente->getPaciente()->getId(),
-            ));
-            
-           
+            $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success', 'Antecedentes actualizados satisfactoriamente');
+
+            return $this->redirectToRoute('homepage_consulta', array( 'paciente' => $antecedente->getPaciente()->getId(), ));
         }
         return $this->render('antecedente/edit.html.twig', array(
                     'antecedente' => $antecedente,
@@ -116,16 +111,17 @@ class AntecedenteController extends Controller {
     public function deleteAction(Request $request, Antecedente $antecedente) {
         $form = $this->createDeleteForm($antecedente);
         $form->handleRequest($request);
-        $paciente=$antecedente->getPaciente()->getId();
-        
+       // $paciente = $antecedente->getPaciente()->getId();
+
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $id = $antecedente->getPaciente()->getId();
             $em->remove($antecedente);
             $em->flush($antecedente);
         }
 
-        return $this->redirectToRoute('paciente_show', array('id' => $paciente));        
+        return $this->redirectToRoute('homepage_consulta', array( 'paciente' => $id, ));
     }
 
     /**

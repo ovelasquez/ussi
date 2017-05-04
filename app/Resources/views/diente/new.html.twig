@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+{% block title %} Diente {% endblock %}
+{% block Subtitulo %} Registrar Datos de un Diente -  <small> <a href="{{ path('diente_index') }}">Regresar a la lista</a></small> {% endblock %} 
+{% block body %}
+    {% for msg in app.session.flashBag.get('success') %}        
+        <div class="alert alert-success alert-dismissible fade in" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+            </button>
+            <strong>{{ msg }}</strong>
+        </div>
+    {% endfor %}
+
+    {% for msgs in app.session.flashBag.get('error') %}
+        <div class="alert alert-danger alert-dismissible fade in" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+            <strong>
+                {% for msg in msgs %}
+                    <p>{{ msg }}</p>
+                {% endfor %}
+            </strong>
+        </div>
+    {% endfor %}
+    <div class="x_content">
+        <br />        
+
+        {{ form_start(form, { 'attr': {'id':'diente','class': 'form-horizontal form-label-left'} }) }} 
+        {{ form_errors(form) }}
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nombre">{{ form_label(form.nombre) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(form.nombre) }}                
+                {{form_widget(form.nombre,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="cuadrante">{{ form_label(form.cuadrante) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(form.cuadrante) }}                
+                {{form_widget(form.cuadrante,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="posicion">{{ form_label(form.posicion) }} <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ form_errors(form.posicion) }}                
+                {{form_widget(form.posicion,{ 'attr': {'class': 'form-control col-md-7 col-xs-12'} } ) }}                
+            </div>
+        </div>
+            
+        <div class="ln_solid"></div>
+        <div class="form-group">
+            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">                
+                <button type="submit" class="btn btn-success">Registrar</button>
+            </div>
+        </div>
+
+        {{ form_end(form) }}                           
+    </div>
+{% endblock %}

@@ -3,7 +3,7 @@
     <!-- iCheck -->
     <link href="{{ asset('bundles/app/vendors/iCheck/skins/flat/green.css')}}" rel="stylesheet">   
 {% endblock %}  
-{% block Subtitulo %} Editar Sexualidad y Obtétricos -  <small> <a href="{{ path('paciente_index') }}">Regresar a la lista</a></small> {% endblock %} 
+{% block Subtitulo %} Editar Sexualidad y Obtétricos -  <small> <a href="{{ path('homepage_consulta', { 'paciente': sexualidad.paciente.id }) }}">Regresar a la Consulta</a></small> {% endblock %} 
 
 
 {% block body %}
@@ -12,7 +12,7 @@
         {{ form_start(edit_form, { 'attr': {'id':'especialidad','class': 'form-horizontal form-label-left'} }) }} 
         {{ form_errors(edit_form) }}
         {{ form_start(edit_form) }}
-        
+
         <div class="form-group">
             <label class="col-md-3 col-sm-3 col-xs-12 control-label"> Registrar de Sexualidad y Obtétricos</label>
             <div class="col-md-4 col-sm-9 col-xs-12">
@@ -201,7 +201,7 @@
     </div>
 
     {{ form_start(delete_form) }}
-    <input type="submit" value="Delete">
+    <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> Eliminar </button>
     {{ form_end(delete_form) }}
 
 {% endblock %}

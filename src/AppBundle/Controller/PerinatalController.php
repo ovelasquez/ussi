@@ -37,16 +37,19 @@ class PerinatalController extends Controller {
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request) {
+        $em = $this->getDoctrine()->getManager();
         $perinatal = new Perinatal();
         $form = $this->createForm('AppBundle\Form\PerinatalType', $perinatal);
         $form->handleRequest($request);
+         $paciente = $em->getRepository('AppBundle:Paciente')->find($request->request->get('IV_paciente'));
+
+
+        $perinatal->setPaciente($paciente);
+        
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $paciente = $em->getRepository('AppBundle:Paciente')->find($request->request->get('IV_paciente'));
-
-
-            $perinatal->setPaciente($paciente);
+            
+           
             $perinatal->setFechaRegistro(new \DateTime("now"));
             $em->persist($perinatal);
             $em->flush($perinatal);
@@ -118,14 +121,18 @@ class PerinatalController extends Controller {
     public function deleteAction(Request $request, Perinatal $perinatal) {
         $form = $this->createDeleteForm($perinatal);
         $form->handleRequest($request);
+        $paciente = $perinatal->getPaciente()->getId();  
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $id = $perinatal->getPaciente()->getId();
             $em->remove($perinatal);
             $em->flush($perinatal);
         }
 
-        return $this->redirectToRoute('paciente_index');
+       return $this->redirectToRoute('homepage_consulta', array(
+                    'paciente' => $id,
+        ));
     }
 
     /**

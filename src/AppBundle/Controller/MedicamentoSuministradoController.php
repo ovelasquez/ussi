@@ -99,9 +99,11 @@ class MedicamentoSuministradoController extends Controller {
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
+            //dump($medicamentoSuministrado); die();
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('medicamentosuministrado_edit', array('id' => $medicamentoSuministrado->getId()));
+            $this->addFlash('success', 'Medicamento Suministrado actualizado satisfactoriamente');
+            return $this->redirectToRoute('homepage_enfermeria', array('paciente' => $medicamentoSuministrado->getConsulta()->getPaciente()->getId(),));
         }
 
         return $this->render('medicamentosuministrado/edit.html.twig', array(
@@ -127,7 +129,11 @@ class MedicamentoSuministradoController extends Controller {
             $em->flush($medicamentoSuministrado);
         }
 
-        return $this->redirectToRoute('medicamentosuministrado_index');
+        $this->addFlash('success', 'Medicamento Suministrado eliminado satisfactoriamente');
+
+        return $this->redirectToRoute('homepage_enfermeria', array(
+                    'paciente' => $medicamentoSuministrado->getConsulta()->getPaciente()->getId(),
+        ));
     }
 
     /**

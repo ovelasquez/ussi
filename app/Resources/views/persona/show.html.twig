@@ -4,7 +4,7 @@
     {% for msg in app.session.flashBag.get('success') %}
         <div class="alert alert-success"> {{ msg }} </div>       
     {% endfor %}
-    
+
     {% for msgs in app.session.flashBag.get('error') %}
         <div class="alert alert-danger">
             {% for msg in msgs %}
@@ -12,7 +12,7 @@
             {% endfor %}
         </div>
     {% endfor %}
-    
+
     <!-- page content -->
     <div class="x_content">
         <div class="col-md-3 col-sm-3 col-xs-12 profile_left">
@@ -62,7 +62,7 @@
                                     <th>Fecha de registro</th>
                                     <td>{{ persona.fechaRegistro|date("d/m/Y") }}</td>
                                 </tr>
-                                
+
                                 <tr>
                                     <th>Fecha de última actualización</th>
                                     <td>{{ persona.fechaActualizacion|date("d/m/Y") }}</td>

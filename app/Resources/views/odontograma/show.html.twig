@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Odontograma</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ odontograma.id }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('odontograma_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('odontograma_edit', { 'id': odontograma.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+            <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> Eliminar </button>
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

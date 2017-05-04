@@ -49,7 +49,7 @@ class ReposoController extends Controller {
 
         if ($consulta) {
             $reposo->setConsulta($consulta);
-             $reposo->setObservacion($configuracion[0]->getTemplateReposo());
+            $reposo->setObservacion($configuracion[0]->getTemplateReposo());
         }
 
 
@@ -58,13 +58,20 @@ class ReposoController extends Controller {
 
         if ($form->isSubmitted() && $form->isValid()) {
             $reposo->setCodigo(uniqid()); //Codigo de validacion unico
-            
+
             $em->persist($reposo);
             $em->flush($reposo);
 
-            return $this->redirectToRoute('homepage_consulta', array(
-                        'paciente' => $reposo->getConsulta()->getPaciente()->getId(),
-            ));
+
+            $this->addFlash('success', 'Reposo registrado satisfactoriamente');
+            switch ($reposo->getConsulta()->getEspecialidad()->getNombre()) {
+                case('Odontología'): return $this->redirectToRoute('homepage_odontologia', array('paciente' => $reposo->getConsulta()->getPaciente()->getId(),));
+                    break;
+                case('Enfermería'): return $this->redirectToRoute('homepage_enfermeria', array('paciente' => $reposo->getConsulta()->getPaciente()->getId(),));
+                    break;
+                default : return $this->redirectToRoute('homepage_consulta', array('paciente' => $reposo->getConsulta()->getPaciente()->getId(),));
+                    break;
+            }
         }
 
         return $this->render('reposo/new.html.twig', array(
@@ -98,13 +105,20 @@ class ReposoController extends Controller {
         $deleteForm = $this->createDeleteForm($reposo);
         $editForm = $this->createForm('AppBundle\Form\ReposoType', $reposo);
         $editForm->handleRequest($request);
+        
 
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+        if ($editForm->isSubmitted() && $editForm->isValid()) {            
+            $this->getDoctrine()->getManager()->flush();            
+            $this->addFlash('success', 'Reposo actualizado satisfactoriamente');
 
-            return $this->redirectToRoute('homepage_consulta', array(
-                        'paciente' => $reposo->getConsulta()->getPaciente()->getId(),
-            ));
+           switch ($reposo->getConsulta()->getEspecialidad()->getNombre()) {
+                case('Odontología'): return $this->redirectToRoute('homepage_odontologia', array('paciente' => $reposo->getConsulta()->getPaciente()->getId(),));
+                    break;
+                case('Enfermería'): return $this->redirectToRoute('homepage_enfermeria', array('paciente' => $reposo->getConsulta()->getPaciente()->getId(),));
+                    break;
+                default : return $this->redirectToRoute('homepage_consulta', array('paciente' => $reposo->getConsulta()->getPaciente()->getId(),));
+                    break;
+            }
         }
 
         return $this->render('reposo/edit.html.twig', array(
@@ -130,9 +144,18 @@ class ReposoController extends Controller {
             $em->remove($reposo);
             $em->flush($reposo);
         }
-        return $this->redirectToRoute('homepage_consulta', array(
-                    'paciente' => $id,
-        ));
+        
+          $this->addFlash('success', 'Reposo eliminado satisfactoriamente');
+                
+           switch ($reposo->getConsulta()->getEspecialidad()->getNombre()) {
+                case('Odontología'): return $this->redirectToRoute('homepage_odontologia', array('paciente' => $reposo->getConsulta()->getPaciente()->getId(),));
+                    break;
+                case('Enfermería'): return $this->redirectToRoute('homepage_enfermeria', array('paciente' => $reposo->getConsulta()->getPaciente()->getId(),));
+                    break;
+                default : return $this->redirectToRoute('homepage_consulta', array('paciente' => $reposo->getConsulta()->getPaciente()->getId(),));
+                    break;
+            }
+        
     }
 
     /**

@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 {% block title %} Medicamento Suministrado {% endblock %}
-{% block Subtitulo %} Editar Medicamento Suministrado -  <small> <a href="{{ path('medicamentosuministrado_index') }}">Regresar a la lista</a></small> {% endblock %} 
+{% block Subtitulo %} Editar Medicamento Suministrado -  <small> <a href="{{ path('homepage_enfermeria', { 'paciente': medicamentoSuministrado.consulta.paciente.id }) }}">Regresar a la Consulta</a> </small> {% endblock %} 
 {% block body %}
     <div class="x_content">
         <br />
@@ -23,7 +23,7 @@
             </div>
         </div> 
 
-            <div class="form-group">
+        <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="medicamento">{{ form_label(edit_form.medicamento) }} <span class="required">*</span></label>
             <div class="col-md-6 col-sm-6 col-xs-12">
                 {{ form_errors(edit_form.medicamento) }}                
@@ -67,16 +67,22 @@
             </div>
         </div>           
 
-        
+
 
         <div class="ln_solid"></div>
         <div class="form-group">
             <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">                
-                <button type="submit" class="btn btn-success">Registrar</button>
+                <button type="submit"  onClick="removeReadonly()" class="btn btn-success">Registrar</button>
             </div>
         </div>
 
         {{ form_end(edit_form) }}                           
+
+        {{ form_start(delete_form) }}
+        <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> Eliminar </button>
+        {{ form_end(delete_form) }}
+
+
     </div>
 {% endblock %}
 {% block javascripts %}

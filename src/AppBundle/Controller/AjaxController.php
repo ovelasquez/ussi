@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Entity\Odontograma;
 
 /**
  * Ajax controller.
@@ -20,7 +21,7 @@ class AjaxController extends Controller {
      * 
      *
      * @Route("/estanLlamando", name="ajax_estanLlamando")
-     * @Method({"GET", "POST"})
+     * @Method({ "POST"})
      */
     public function estanLlamandoAction() {
         $em = $this->getDoctrine()->getManager();
@@ -60,6 +61,244 @@ class AjaxController extends Controller {
 
         $jsonEncoder = new JsonEncoder();
         return $jsonEncoder->encode($procesando, $format = 'json');
+    }
+
+    /**
+     * 
+     *
+     * @Route("/tratamiento", name="ajax_tratamiento")
+     * @Method({"POST"})
+     */
+    public function tratamientoAction(Request $request) {
+
+        $id = $request->request->get('id');
+        $diente = $request->request->get('diente');
+        $consulta = $request->request->get('consulta');
+        //dump($id,$diente, $consulta ); die();
+
+        $em = $this->getDoctrine()->getManager();
+        $lista = $em->getRepository('AppBundle:Tratamiento')->findByNombre($id);
+        // dump($lista[0]->getId() ); die();
+        $this->registrarOdontograma($consulta, $diente, $lista[0]->getId(), $lista[0]->getTodo());
+
+        // encode user to json format
+        $userDataAsJson = $this->encodeTratamientoDataToJson($diente, $lista);
+
+        return new JsonResponse([
+            'success' => true,
+            'data' => [$userDataAsJson]
+        ]);
+    }
+
+    private function registrarOdontograma($consulta, $diente, $tratamiento, $todoElDiente) {
+        $em = $this->getDoctrine()->getManager();
+        $tratamiento = $em->getRepository('AppBundle:Tratamiento')->find($tratamiento);
+        $consulta = $em->getRepository('AppBundle:Consulta')->find($consulta);
+        $miDiente = $em->getRepository('AppBundle:Diente')->findOneByPosicion(substr($diente, -2));
+
+        $odontograma = new Odontograma();
+        $odontograma->setConsulta($consulta);
+        $odontograma->setDiente($miDiente);
+        $oldOdontograma = $em->getRepository('AppBundle:Odontograma')->findOneBy(array('consulta' => $consulta, 'diente' => $miDiente));
+
+        if ($todoElDiente) {
+
+            if (!$oldOdontograma) {
+                $odontograma->setCavidad1($tratamiento);
+                $odontograma->setCavidad2($tratamiento);
+                $odontograma->setCavidad3($tratamiento);
+                $odontograma->setCavidad4($tratamiento);
+                $odontograma->setCavidad5($tratamiento);
+                $em->persist($odontograma);
+                $em->flush($odontograma);
+            } else {
+                $oldOdontograma->setCavidad1($tratamiento);
+                $oldOdontograma->setCavidad2($tratamiento);
+                $oldOdontograma->setCavidad3($tratamiento);
+                $oldOdontograma->setCavidad4($tratamiento);
+                $oldOdontograma->setCavidad5($tratamiento);
+                $em->persist($oldOdontograma);
+                $em->flush($oldOdontograma);
+            }
+        } else {
+
+            if (!$oldOdontograma) {
+                // dump($tratamiento, $odontograma, $oldOdontograma);         die();
+                //Verificamos cual es la cavidad            
+                switch ($diente[0]) {
+                    case('t'): $odontograma->setCavidad1($tratamiento);
+                        break;
+                    case('r'): $odontograma->setCavidad2($tratamiento);
+                        break;
+                    case('b'): $odontograma->setCavidad3($tratamiento);
+                        break;
+                    case('l'): $odontograma->setCavidad4($tratamiento);
+                        break;
+                    case('c'): $odontograma->setCavidad5($tratamiento);
+                        break;
+                }
+                $em->persist($odontograma);
+                $em->flush($odontograma);
+            } else {
+
+                //  Existe el Odontograma / Diente
+                switch ($diente[0]) {
+                    case('t'): $oldOdontograma->setCavidad1($tratamiento);
+                        break;
+                    case('r'): $oldOdontograma->setCavidad2($tratamiento);
+                        break;
+                    case('b'): $oldOdontograma->setCavidad3($tratamiento);
+                        break;
+                    case('l'): $oldOdontograma->setCavidad4($tratamiento);
+                        break;
+                    case('c'): $oldOdontograma->setCavidad5($tratamiento);
+                        break;
+                }
+                $em->persist($oldOdontograma);
+                $em->flush($oldOdontograma);
+            }
+        }
+    }
+
+    /**
+     * 
+     *
+     * @Route("/tratamiento-actualziar", name="ajax_tratamiento_actualizar")
+     * @Method({"POST"})
+     */
+    public function tratamientoActualizarAction(Request $request) {
+
+        $diente = $request->request->get('diente');
+        $consulta = $request->request->get('consulta');
+
+        $em = $this->getDoctrine()->getManager();
+
+        $consulta = $em->getRepository('AppBundle:Consulta')->find($consulta);
+        $miDiente = $em->getRepository('AppBundle:Diente')->findOneByPosicion(substr($diente, -2));
+
+        $oldOdontograma = $em->getRepository('AppBundle:Odontograma')->findOneBy(array('consulta' => $consulta, 'diente' => $miDiente));
+        //dump($oldOdontograma); die();
+        //  Existe el Odontograma / Diente
+        switch ($diente[0]) {
+            case('t'): $tratamiento = $oldOdontograma->getCavidad1();
+                break;
+            case('r'): $tratamiento = $oldOdontograma->getCavidad2();
+                break;
+            case('b'): $tratamiento = $oldOdontograma->getCavidad3();
+                break;
+            case('l'): $tratamiento = $oldOdontograma->getCavidad4();
+                break;
+            case('c'): $tratamiento = $oldOdontograma->getCavidad5();
+                break;
+        }
+        if ($tratamiento->getTodo()) {
+
+            //Elimino el registro en el odontograma
+            $em->remove($oldOdontograma);
+            $em->flush($oldOdontograma);
+            $oldOdontograma = null;
+        } else {
+
+            //Eliminamos la Cavidad en el odontograma
+            switch ($diente[0]) {
+                case('t'): $oldOdontograma->setCavidad1(null);
+                    break;
+                case('r'): $oldOdontograma->setCavidad2(null);
+                    break;
+                case('b'): $oldOdontograma->setCavidad3(null);
+                    break;
+                case('l'): $oldOdontograma->setCavidad4(null);
+                    break;
+                case('c'): $oldOdontograma->setCavidad5(null);
+                    break;
+            }
+
+            if ($oldOdontograma->getCavidad1() == null && $oldOdontograma->getCavidad2() == null && $oldOdontograma->getCavidad3() == null && $oldOdontograma->getCavidad4() == null && $oldOdontograma->getCavidad5() == null) {
+                $em->remove($oldOdontograma);
+            } else {
+                $em->persist($oldOdontograma);
+            }
+
+            $em->flush($oldOdontograma);
+        }
+
+        $procesando = array();
+
+        $odontogramaData = array(
+            'diente' => $miDiente->getPosicion(),
+            'tipo' => $miDiente->getIdentificador(),
+            'cavidad1' => ( $oldOdontograma !== null && $oldOdontograma->getCavidad1() !== null ) ? $oldOdontograma->getCavidad1()->getColor() : '#FFFFFF',
+            'cavidad2' => ( $oldOdontograma !== null && $oldOdontograma->getCavidad2() !== null ) ? $oldOdontograma->getCavidad2()->getColor() : '#FFFFFF',
+            'cavidad3' => ( $oldOdontograma !== null && $oldOdontograma->getCavidad3() !== null ) ? $oldOdontograma->getCavidad3()->getColor() : '#FFFFFF',
+            'cavidad4' => ( $oldOdontograma !== null && $oldOdontograma->getCavidad4() !== null ) ? $oldOdontograma->getCavidad4()->getColor() : '#FFFFFF',
+            'cavidad5' => ( $oldOdontograma !== null && $oldOdontograma->getCavidad5() !== null ) ? $oldOdontograma->getCavidad5()->getColor() : '#FFFFFF',
+        );
+
+        array_push($procesando, $odontogramaData);
+
+
+        $odontograma = json_encode($procesando);
+        //dump($odontograma); die();
+
+        return new JsonResponse([
+            'success' => true,
+            'data' => [$odontograma]
+        ]);
+    }
+
+    private function encodeTratamientoDataToJson($diente, Array $valor) {
+        $procesando = array();
+        foreach ($valor as &$lista) {
+            $tratamientoData = array(
+                'id' => $lista->getId(),
+                'nombre' => $lista->getNombre(),
+                'color' => $lista->getColor(),
+                'cavidad' => $lista->getCavidad(),
+                'todo' => $lista->getTodo(),
+                'diente' => $diente,
+            );
+
+            array_push($procesando, $tratamientoData);
+        }
+
+        $jsonEncoder = new JsonEncoder();
+        return $jsonEncoder->encode($procesando, $format = 'json');
+    }
+
+    /**
+     * 
+     *
+     * @Route("/pintar-odontograma", name="ajax_pintarOdontograma")
+     * @Method({ "POST"})
+     */
+    public function pintarOdontograma(Request $request) {
+        $consulta = $request->request->get('consulta');
+        $em = $this->getDoctrine()->getManager();
+        //Buscar los Odontogramas asociado a la Consulta
+        $odontograma = $em->getRepository('AppBundle:Odontograma')->findBy(array('consulta' => $consulta,));
+
+
+        $procesando = array();
+        foreach ($odontograma as &$valor) {
+            $odontogramaData = array(
+                'diente' => $valor->getDiente()->getPosicion(),
+                'tipo' => $valor->getDiente()->getIdentificador(),
+                'cavidad1' => ($valor->getCavidad1() !== null) ? $valor->getCavidad1()->getColor() : '#FFFFFF',
+                'cavidad2' => ($valor->getCavidad2() !== null) ? $valor->getCavidad2()->getColor() : '#FFFFFF',
+                'cavidad3' => ($valor->getCavidad3() !== null) ? $valor->getCavidad3()->getColor() : '#FFFFFF',
+                'cavidad4' => ($valor->getCavidad4() !== null) ? $valor->getCavidad4()->getColor() : '#FFFFFF',
+                'cavidad5' => ($valor->getCavidad5() !== null) ? $valor->getCavidad5()->getColor() : '#FFFFFF',
+            );
+
+            array_push($procesando, $odontogramaData);
+        }
+
+        $odontograma = json_encode($procesando);
+        //dump($odontograma); die();
+        return new JsonResponse([
+            'success' => true,
+            'data' => [$odontograma]
+        ]);
     }
 
     /**
@@ -108,20 +347,19 @@ class AjaxController extends Controller {
      * @Route("/elemento_grupo", name="ajax_elemento_grupo")
      * @Method({"GET", "POST"})
      */
-   /* public function elementoGrupoAction(Request $request) {
-        $id = $request->request->get('id');
+    /* public function elementoGrupoAction(Request $request) {
+      $id = $request->request->get('id');
 
-        $em = $this->getDoctrine()->getManager();
-        $grupos = $em->getRepository('AppBundle:EntericaElemento')->find(3);
-        $valores = '<option value=' . $grupos->getId() . ' selected="selected">' . $grupos->getNombre() . '</option> ';
+      $em = $this->getDoctrine()->getManager();
+      $grupos = $em->getRepository('AppBundle:EntericaElemento')->find(3);
+      $valores = '<option value=' . $grupos->getId() . ' selected="selected">' . $grupos->getNombre() . '</option> ';
 
-        return $this->render('ajax/elemento_grupo.html.twig', array(
-                    'grupo' => $valores,
-        ));
-    }
-*/
-    
-    
+      return $this->render('ajax/elemento_grupo.html.twig', array(
+      'grupo' => $valores,
+      ));
+      }
+     */
+
     /**
      * Filtrar Servicios Profesionales - 
      *
@@ -170,9 +408,8 @@ class AjaxController extends Controller {
                     'medicamentos' => $valores,
         ));
     }
-    
-    
-     /**
+
+    /**
      * 
      *
      * @Route("/insumos", name="ajax_insumo")

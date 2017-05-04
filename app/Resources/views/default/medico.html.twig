@@ -287,60 +287,62 @@
                                                         <td>
                                                             {% if (enlace=='homepage_consulta') %}
                                                                 <a href="{{ path('homepage_consulta', { 'paciente': esperando.paciente.id }) }}">
-                                                                {%else%}
-                                                                <a href="{{ path('homepage_enfermeria', { 'paciente': esperando.paciente.id }) }}">
-                                                                {%endif%}
-                                                                <button type="button" class="btn btn-xs btn-warning" data-toggle="tooltip" data-placement="top" title="" data-original-title="Ver">  <i class="fa fa-eye"></i>  </button>
-                                                            </a>                                                            
-                                                        </td>
-                                                    </tr>
+                                                                {% elseif (enlace=='homepage_odontologia') %}
+                                                                    <a href="{{ path('homepage_odontologia', { 'paciente': esperando.paciente.id }) }}">
+                                                                    {% else %}
+                                                                        <a href="{{ path('homepage_enfermeria', { 'paciente': esperando.paciente.id }) }}">
+                                                                        {% endif %}
+                                                                        <button type="button" class="btn btn-xs btn-warning" data-toggle="tooltip" data-placement="top" title="" data-original-title="Ver">  <i class="fa fa-eye"></i>  </button>
+                                                                    </a>                                                            
+                                                                    </td>
+                                                                    </tr>
 
-                                                {% endfor %}
-                                            </tbody>
-                                        </table>
-                                    {% else %}
-                                        <div class="dashboard-widget-content">
+                                                                {% endfor %}
+                                                                </tbody>
+                                                                </table>
+                                                            {% else %}
+                                                                <div class="dashboard-widget-content">
 
-                                            <ul class="list-unstyled timeline widget">
-                                                <li>
-                                                    <div class="block">
-                                                        <div class="block_content">
-                                                            <h2 class="title">
-                                                                <a>En estos momentos no tenemos Pacientes en Observación</a>
-                                                            </h2>
-                                                            <div class="byline">
-                                                                <span>Frases de Medicina</span>
+                                                                    <ul class="list-unstyled timeline widget">
+                                                                        <li>
+                                                                            <div class="block">
+                                                                                <div class="block_content">
+                                                                                    <h2 class="title">
+                                                                                        <a>En estos momentos no tenemos Pacientes en Observación</a>
+                                                                                    </h2>
+                                                                                    <div class="byline">
+                                                                                        <span>Frases de Medicina</span>
+                                                                                    </div>
+                                                                                    <p class="excerpt"> “Gracias Doctor por haberme tratado como a un hijo, sus diagnósticos y la cura fueron realmente efectivos, pero lo que me animó más fue el hecho de que estuviese siempre atento a mi mejoría.”</a>
+                                                                                    </p>
+                                                                                </div>
+                                                                            </div>
+                                                                        </li>                                               
+                                                                    </ul>
+                                                                </div>
+                                                            {% endif%}
                                                             </div>
-                                                            <p class="excerpt"> “Gracias Doctor por haberme tratado como a un hijo, sus diagnósticos y la cura fueron realmente efectivos, pero lo que me animó más fue el hecho de que estuviese siempre atento a mi mejoría.”</a>
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </li>                                               
-                                            </ul>
-                                        </div>
-                                    {% endif%}
-                                </div>
-                                <div id="world-map-gdp" class="col-md-8 col-sm-12 col-xs-12" style="height:230px;"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!--Fin Lista Pacientes Observacion-->
-    </div>
-{% endblock %}
-{% block javascripts %}
-    <!-- Datatables -->
-    <script src="{{ asset('bundles/app/vendors/datatables.net/js/jquery.dataTables.min.js')}}"></script>
-    <script src="{{ asset('bundles/app/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js')}}"></script>
-    <!-- PNotify -->
-    <script src="{{ asset('bundles/app/vendors/pnotify/dist/pnotify.js')}}"></script> 
-    <script src="{{ asset('bundles/app/vendors/pnotify/dist/pnotify.buttons.js')}}"></script> 
-    <script src="{{ asset('bundles/app/vendors/pnotify/dist/pnotify.nonblock.js')}}"></script> 
-    <!-- Push -->
-    <script src="{{ asset('bundles/app/vendors/push/push.min.js')}}"></script> 
-    <script>
+                                                            <div id="world-map-gdp" class="col-md-8 col-sm-12 col-xs-12" style="height:230px;"></div>
+                                                            </div>
+                                                            </div>
+                                                            </div>
+                                                            </div>
+                                                            </div>
+                                                            </div>
+                                                            <!--Fin Lista Pacientes Observacion-->
+                                                            </div>
+                                                        {% endblock %}
+                                                        {% block javascripts %}
+                                                            <!-- Datatables -->
+                                                            <script src="{{ asset('bundles/app/vendors/datatables.net/js/jquery.dataTables.min.js')}}"></script>
+                                                            <script src="{{ asset('bundles/app/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js')}}"></script>
+                                                            <!-- PNotify -->
+                                                            <script src="{{ asset('bundles/app/vendors/pnotify/dist/pnotify.js')}}"></script> 
+                                                            <script src="{{ asset('bundles/app/vendors/pnotify/dist/pnotify.buttons.js')}}"></script> 
+                                                            <script src="{{ asset('bundles/app/vendors/pnotify/dist/pnotify.nonblock.js')}}"></script> 
+                                                            <!-- Push -->
+                                                            <script src="{{ asset('bundles/app/vendors/push/push.min.js')}}"></script> 
+                                                            <script>
                                         function reloadPagina() {
                                             location.reload();
                                         }
@@ -350,6 +352,6 @@
                                             $('#_datatable-fixed-header').DataTable({fixedHeader: true});
                                             setInterval(reloadPagina, 60000);
                                         });
-    </script>
-{% endblock %}
+                                                            </script>
+                                                        {% endblock %}
 
