@@ -81,3 +81,23 @@
 
     </div>
 {% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(document).ready(function () {
+            $('#appbundle_cita_consulta').prop('disabled', true);
+            $('#appbundle_cita_paciente').prop('disabled', true);
+            $('#appbundle_cita_status').prop('disabled', true);
+        });
+    </script>
+    <script>
+        function removeReadonly() {
+            $('#appbundle_cita_consulta').prop('disabled', false);
+            $('#appbundle_cita_paciente').prop('disabled', false);
+            $('#appbundle_cita_status').prop('disabled', false);
+            return false;
+        }
+    </script>
+    <!-- /Familiar -->
+
+{% endblock %}

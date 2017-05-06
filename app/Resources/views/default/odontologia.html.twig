@@ -356,8 +356,8 @@
                                         <div class="container">
                                             <div class="panel panel-primary">
 
-                                                <div class="panel-body">
-                                                    <div class="row boca">
+                                                <div class="panel-body" id="boca-base">
+                                                    <div class="row">
                                                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 bord">
                                                             <div id="tr" ><div class="contDiente"></div></div>
                                                             <!-- Dientes de Leche 21 - 28 -->
@@ -369,7 +369,7 @@
                                                             <div id="tll" > <div class="contDiente"></div></div>
                                                         </div>
                                                     </div>
-                                                    <div class="row boca">
+                                                    <div class="row">
                                                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 bord">
                                                             <div id="blr" ><div class="contDiente"></div></div>
                                                             <div id="br" > <div class="contDiente"></div></div>
@@ -431,7 +431,7 @@
                                                                     {% endfor %} 
                                                                     {{ dientes [2:]}}
                                                                 </td>
-                                                                <td><button onClick="createOdontogramHistorico()" type="button" id='mi-modal' class="btn btn-primary" data-toggle="modal" data-target=".odontograma-modal-lg"><i class="fa fa-eye m-right-xs"></i> </button></td>
+                                                                <td><button onClick="createOdontogramHistorico()" data-consulta="{{ odontConsulta.id}}" type="button" id='mi-modal' class="btn btn-primary openHist" data-toggle="modal" data-target=".odontograma-modal-lg"><i class="fa fa-eye m-right-xs"></i> </button></td>
                                                             </tr>
 
                                                         {% endfor %}
@@ -442,7 +442,7 @@
                                         {%endif%}
 
                                         <!-- Modal Odontogramas Historicos -->                                            
-                                        <div class="modal fade odontograma-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+                                        <div class="modal fade odontograma-modal-lg" tabindex="-1" role="dialog" aria-hidden="true" id="modalHistory">
                                             <div class="modal-dialog modal-lg">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
@@ -451,44 +451,14 @@
                                                         <h4 class="modal-title" id="myModalLabel">Histórico Odontograma</h4>
                                                     </div>
                                                     <div class="modal-body"> 
+                                                        <div class="boca-historia">
 
-                                                        <div class="row boca">
-                                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 bord">
 
-                                                                <div id="tr2" > <div class="contDiente"></div></div>
-
-                                                                <div id="tlr2" > <div class="contDiente"></div></div>
-                                                            </div>
-
-                                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 bord">
-
-                                                                <div id="tl2" > <div class="contDiente"></div></div>                                                        
-
-                                                                <div id="tll2" > <div class="contDiente"></div></div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="row boca">
-                                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 bord">
-
-                                                                <div id="blr2" ><div class="contDiente"></div></div>
-
-                                                                <div id="br2" > <div class="contDiente"></div></div>
-
-                                                            </div>
-
-                                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 bord">
-
-                                                                <div id="bll2" ><div class="contDiente"></div></div>
-
-                                                                <div id="bl2" >  <div class="contDiente"></div></div>
-
-                                                            </div>
                                                         </div>
 
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Salir</button>
+                                                        <button type="button" class="btn btn-default destruir" data-dismiss="modal">Salir</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -578,7 +548,7 @@
                                         {% if (historicoReposos!=null) %}
                                             <!-- Large modal -->
                                             <button type="button" id='mi-modal' class="btn btn-primary" data-toggle="modal" data-target=".reposo-modal-lg"><i class="fa fa-eye m-right-xs"></i> Ver Histórico</button>
-                                            <div class="modal fade reposo-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+                                            <div class="modal fade reposo-modal-lg" tabindex="-1" role="dialog" aria-hidden="true"  id="modalHistory">
                                                 <div class="modal-dialog modal-lg">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
@@ -655,7 +625,7 @@
                                         {% if (historicoConstancias!=null) %}
                                             <!-- Large modal -->
                                             <button type="button" id='mi-modal' class="btn btn-primary" data-toggle="modal" data-target=".constancia-modal-lg"><i class="fa fa-eye m-right-xs"></i> Ver Histórico</button>
-                                            <div class="modal fade constancia-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+                                            <div class="modal fade constancia-modal-lg" tabindex="-1" role="dialog" aria-hidden="true" id="modalHistory">
                                                 <div class="modal-dialog modal-lg">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
@@ -726,7 +696,7 @@
                                         {% if (historicoRecetas!=null) %}
                                             <!-- Large modal -->
                                             <button type="button" id='mi-modal' class="btn btn-primary" data-toggle="modal" data-target=".receta-modal-lg"><i class="fa fa-eye m-right-xs"></i> Ver Histórico</button>
-                                            <div class="modal fade receta-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+                                            <div class="modal fade receta-modal-lg" tabindex="-1" role="dialog" aria-hidden="true"  id="modalHistory">
                                                 <div class="modal-dialog modal-lg">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
@@ -791,7 +761,153 @@
         <script src="{{ asset('bundles/app/vendors/pnotify/dist/pnotify.nonblock.js')}}"></script> 
         <!-- Push -->
         <script src="{{ asset('bundles/app/vendors/push/push.min.js')}}"></script> 
-        
+        <script>
+                                                                    $(document).ready(function () {
+                                                                    $("#boca-base #controls .btn").click(function(){
+                                                                    $("#boca-base #controls .btn .fa").remove();
+                                                                    $(this).append(' <i class="fa fa-check-square-o"></i>');
+                                                                    });
+                                                                    $("#boca-base #controls .btn:first").append(' <i class="fa fa-check-square-o"></i>');
+                                                                    $('#odontogramasPorConsultas-datatable-fixed-header').DataTable({fixedHeader: true});
+                                                                    $('#datatable').dataTable();
+                                                                    //Dibuja Odontograma Inicial - Sin Colores
+                                                                    createOdontogram();
+                                                                    //Dibuja Odontograma Inicial - Sin Colores
+                                                                    pintarOdontograma();
+                                                                    $(".click").click(function (event) {
+                                                                    var control = $("#controls").children().find('.active').attr('id'); //Tratamiento a aplicar
+                                                                    var cuadro = $(this).find("input[name=cuadro]:hidden").val(); // Cavidad - Diente
+                                                                    //alert(control);
+                                                                    //console.log($(this).attr('id'));
+
+                                                                    if ($(this).hasClass("ninguno")) {
+                                                                    //Buscamos en la BD el Tratamiento
+                                                                    $.ajax
+                                                                            ({
+                                                                            type: "POST",
+                                                                                    url: "{{ path ('ajax_tratamiento') }}",
+                                                                                    data: { 'id': control, 'diente': $(this).attr('id'), 'consulta':{{consulta.id}} },
+                                                                                    cache: false,
+                                                                                    success: function (html)
+                                                                                    {
+                                                                                    var obj = jQuery.parseJSON(html.data);
+                                                                                    //alert(JSON.stringify(obj));
+                                                                                    for (var i = 0; i < obj.length; i++) {
+                                                                                    value = obj[i];
+                                                                                    if (value.todo) { //Verificamos si es aplicado a todo el diente
+                                                                                    var str = value.diente;
+                                                                                    var diente = str.substring(str.length - 2, str.length);
+                                                                                    $('#t' + diente).css("background-color", value.color);
+                                                                                    $('#t' + diente).addClass('modificado');
+                                                                                    $('#t' + diente).removeClass('ninguno');
+                                                                                    $('#r' + diente).css("background-color", value.color);
+                                                                                    $('#r' + diente).addClass('modificado');
+                                                                                    $('#r' + diente).removeClass('ninguno');
+                                                                                    $('#b' + diente).css("background-color", value.color);
+                                                                                    $('#b' + diente).addClass('modificado');
+                                                                                    $('#b' + diente).removeClass('ninguno');
+                                                                                    $('#l' + diente).css("background-color", value.color);
+                                                                                    $('#l' + diente).addClass('modificado');
+                                                                                    $('#l' + diente).removeClass('ninguno');
+                                                                                    $('#c' + diente).css("background-color", value.color);
+                                                                                    $('#c' + diente).addClass('modificado');
+                                                                                    $('#c' + diente).removeClass('ninguno');
+                                                                                    $('#tleche' + diente).css("background-color", value.color);
+                                                                                    $('#tleche' + diente).addClass('modificado');
+                                                                                    $('#tleche' + diente).removeClass('ninguno');
+                                                                                    $('#rleche' + diente).css("background-color", value.color);
+                                                                                    $('#rleche' + diente).addClass('modificado');
+                                                                                    $('#rleche' + diente).removeClass('ninguno');
+                                                                                    $('#bleche' + diente).css("background-color", value.color);
+                                                                                    $('#bleche' + diente).addClass('modificado');
+                                                                                    $('#bleche' + diente).removeClass('ninguno');
+                                                                                    $('#lleche' + diente).css("background-color", value.color);
+                                                                                    $('#lleche' + diente).addClass('modificado');
+                                                                                    $('#lleche' + diente).removeClass('ninguno');
+                                                                                    $('#cleche' + diente).css("background-color", value.color);
+                                                                                    $('#cleche' + diente).addClass('modificado');
+                                                                                    $('#cleche' + diente).removeClass('ninguno');
+                                                                                    } else {
+                                                                                    //Pintar Cavidad
+                                                                                    $('#' + value.diente).css("background-color", value.color);
+                                                                                    $('#' + value.diente).addClass('modificado');
+                                                                                    $('#' + value.diente).removeClass('ninguno');
+                                                                                    }
+
+                                                                                    }
+                                                                                    }
+                                                                            });
+                                                                    } else {
+                                                                    if ($(this).hasClass("modificado")) {
+                                                                    $(this).removeClass('modificado');
+                                                                    $(this).addClass('ninguno');
+                                                                    // $(this).css("background-color", '#FFFFFF');
+
+                                                                    $.ajax
+                                                                            ({
+                                                                            type: "POST",
+                                                                                    url: "{{ path ('ajax_tratamiento_actualizar') }}",
+                                                                                    data: {  'diente': $(this).attr('id'), 'consulta':{{consulta.id}}  },
+                                                                                    cache: false,
+                                                                                    success: function (html)
+                                                                                    {
+
+                                                                                    var objOdontograma = jQuery.parseJSON(html.data);
+                                                                                    //alert(JSON.stringify(objOdontograma));
+                                                                                    for (var i = 0; i < objOdontograma.length; i++) {
+                                                                                    value = objOdontograma[i];
+                                                                                    if (value.tipo == 'Permanente') {
+                                                                                    $('#t' + value.diente).css("background-color", value.cavidad1);
+                                                                                    $('#t' + value.diente).addClass('ninguno');
+                                                                                    $('#t' + value.diente).removeClass('modificado');
+                                                                                    $('#r' + value.diente).css("background-color", value.cavidad2);
+                                                                                    $('#r' + value.diente).addClass('ninguno');
+                                                                                    $('#r' + value.diente).removeClass('modificado');
+                                                                                    $('#b' + value.diente).css("background-color", value.cavidad3);
+                                                                                    $('#b' + value.diente).addClass('ninguno');
+                                                                                    $('#b' + value.diente).removeClass('modificado');
+                                                                                    $('#l' + value.diente).css("background-color", value.cavidad4);
+                                                                                    $('#l' + value.diente).addClass('ninguno');
+                                                                                    $('#l' + value.diente).removeClass('modificado');
+                                                                                    $('#c' + value.diente).css("background-color", value.cavidad5);
+                                                                                    $('#c' + value.diente).addClass('ninguno');
+                                                                                    $('#c' + value.diente).removeClass('modificado');
+                                                                                    } else {
+                                                                                    $('#tleche' + value.diente).css("background-color", value.cavidad1);
+                                                                                    $('#tleche' + value.diente).addClass('ninguno');
+                                                                                    $('#tleche' + value.diente).removeClass('modificado');
+                                                                                    $('#rleche' + value.diente).css("background-color", value.cavidad2);
+                                                                                    $('#rleche' + value.diente).addClass('ninguno');
+                                                                                    $('#rleche' + value.diente).removeClass('modificado');
+                                                                                    $('#bleche' + value.diente).css("background-color", value.cavidad3);
+                                                                                    $('#bleche' + value.diente).addClass('ninguno');
+                                                                                    $('#bleche' + value.diente).removeClass('modificado');
+                                                                                    $('#lleche' + value.diente).css("background-color", value.cavidad4);
+                                                                                    $('#lleche' + value.diente).addClass('ninguno');
+                                                                                    $('#lleche' + value.diente).removeClass('modificado');
+                                                                                    $('#cleche' + value.diente).css("background-color", value.cavidad5);
+                                                                                    $('#cleche' + value.diente).addClass('ninguno');
+                                                                                    $('#cleche' + value.diente).removeClass('modificado');
+                                                                                    }
+
+                                                                                    }
+
+
+
+                                                                                    }
+
+                                                                            });
+                                                                    }
+
+                                                                    }
+
+
+
+                                                                    return false;
+                                                                    });
+                                                                    return false;
+                                                                    });
+        </script>
 
         <script type="text/javascript">
 
@@ -842,6 +958,63 @@
                             $('#cleche' + value.diente).css("background-color", value.cavidad5);
                             $('#cleche' + value.diente).addClass('modificado');
                             $('#cleche' + value.diente).removeClass('ninguno');
+                            }
+
+                            }
+
+
+                            }
+
+                    });
+            }
+
+            function pintarOdontogramaHistorico(id){
+            $.ajax
+                    ({
+                    type: "POST",
+                            url: "{{ path ('ajax_pintarOdontograma') }}",
+                            data: {
+                            'consulta':id
+                            },
+                            cache: false,
+                            success: function (html)
+                            {
+                            var objOdontograma = jQuery.parseJSON(html.data);
+                            //alert(JSON.stringify(objOdontograma));
+                            for (var i = 0; i < objOdontograma.length; i++) {
+                            value = objOdontograma[i];
+                            if (value.tipo == 'Permanente') {
+                            $('.boca-historia #boca-base #t' + value.diente).css("background-color", value.cavidad1);
+                            $('.boca-historia #boca-base #t' + value.diente).addClass('modificado');
+                            $('.boca-historia #boca-base #t' + value.diente).removeClass('ninguno');
+                            $('.boca-historia #boca-base #r' + value.diente).css("background-color", value.cavidad2);
+                            $('.boca-historia #boca-base #r' + value.diente).addClass('modificado');
+                            $('.boca-historia #boca-base #r' + value.diente).removeClass('ninguno');
+                            $('.boca-historia #boca-base #b' + value.diente).css("background-color", value.cavidad3);
+                            $('.boca-historia #boca-base #b' + value.diente).addClass('modificado');
+                            $('.boca-historia #boca-base #b' + value.diente).removeClass('ninguno');
+                            $('.boca-historia #boca-base #l' + value.diente).css("background-color", value.cavidad4);
+                            $('.boca-historia #boca-base #l' + value.diente).addClass('modificado');
+                            $('.boca-historia #boca-base #l' + value.diente).removeClass('ninguno');
+                            $('.boca-historia #boca-base #c' + value.diente).css("background-color", value.cavidad5);
+                            $('.boca-historia #boca-base #c' + value.diente).addClass('modificado');
+                            $('.boca-historia #boca-base #c' + value.diente).removeClass('ninguno');
+                            } else {
+                            $('.boca-historia #boca-base #tleche' + value.diente).css("background-color", value.cavidad1);
+                            $('.boca-historia #boca-base #tleche' + value.diente).addClass('modificado');
+                            $('.boca-historia #boca-base #tleche' + value.diente).removeClass('ninguno');
+                            $('.boca-historia #boca-base #rleche' + value.diente).css("background-color", value.cavidad2);
+                            $('.boca-historia #boca-base #rleche' + value.diente).addClass('modificado');
+                            $('.boca-historia #boca-base #rleche' + value.diente).removeClass('ninguno');
+                            $('.boca-historia #boca-base #bleche' + value.diente).css("background-color", value.cavidad3);
+                            $('.boca-historia #boca-base #bleche' + value.diente).addClass('modificado');
+                            $('.boca-historia #boca-base #bleche' + value.diente).removeClass('ninguno');
+                            $('.boca-historia #boca-base #lleche' + value.diente).css("background-color", value.cavidad4);
+                            $('.boca-historia #boca-base #lleche' + value.diente).addClass('modificado');
+                            $('.boca-historia #boca-base #lleche' + value.diente).removeClass('ninguno');
+                            $('.boca-historia #boca-base #cleche' + value.diente).css("background-color", value.cavidad5);
+                            $('.boca-historia #boca-base #cleche' + value.diente).addClass('modificado');
+                            $('.boca-historia #boca-base #cleche' + value.diente).removeClass('ninguno');
                             }
 
                             }
@@ -951,86 +1124,139 @@
             return str.replace(new RegExp(find, 'g'), replace);
             }
 
+
+            $(".openHist").click(function (){
+            $(".boca-historia").append($("#boca-base").clone());
+            $(".boca-historia #boca-base #controls .btn .fa").remove();
+            $(".boca-historia #boca-base #controls .btn").removeClass("active");
+            $('.boca-historia #boca-base .diente > div').removeClass('modificado').css("background-color", "#ffffff");
+            $('.boca-historia #boca-base .diente > div.centro:hover').css("border", "none");
+            $('.boca-historia #boca-base .diente-leche > div').removeClass('modificado').css("background-color", "#ffffff");
+            $(".boca-historia #boca-base .diente > div").unbind("click").unbind("hover").css("cursor", "initial");
+            $(".boca-historia #boca-base .diente-leche > div").unbind("click").unbind("hover").css("cursor", "initial");
+            $('.boca-historia #boca-base #controls .btn').css("cursor", "default").unbind("click");
+            $('.boca-historia #boca-base #controls .btn input').prop("disabled", "disabled").css("cursor", "initial");
+            pintarOdontogramaHistorico($(this).data("consulta"));
+            });
             function createOdontogramHistorico() {
-            var htmlLecheLeft2 = "", htmlLecheRight2 = "", htmlLeft2 = "", htmlRight2 = "", a = 1;
-            for (var i = 9 - 1; i >= 1; i--) {
-            //Dientes Definitivos Cuandrante Derecho (Superior/Inferior)
-            htmlRight2 +=
-                    '<div data-name="value" id="dienteindex' + i + '" class="diente">' +
-                    '<span style="margin-left: 0px; margin-bottom:5px; display: inline-block !important; border-radius: 10px !important;" class="label label-info">index' + i + '</span>' +
-                    '<div id="tindex' + i + '" class="ninguno cuadro click">' +
-                    '</div>' +
-                    '<div id="lindex' + i + '" class="ninguno cuadro izquierdo click">' +
-                    '</div>' +
-                    '<div id="bindex' + i + '" class="ninguno cuadro debajo click">' +
-                    '</div>' +
-                    '<div id="rindex' + i + '" class="ninguno cuadro derecha click click">' +
-                    '</div>' +
-                    '<div id="cindex' + i + '" class="ninguno centro click">' +
-                    '</div>' +
-                    '</div>';
-            //Dientes Definitivos Cuandrante Izquierdo (Superior/Inferior)
-            htmlLeft2 +=
-                    '<div id="dienteindex' + a + '" class="diente">' +
-                    '<span style="margin-left: 0px; margin-bottom:5px; display: inline-block !important; border-radius: 10px !important;" class="label label-info">index' + a + '</span>' +
-                    '<div id="tindex' + a + '" class="ninguno cuadro click">' +
-                    '</div>' +
-                    '<div id="lindex' + a + '" class="ninguno cuadro izquierdo click">' +
-                    '</div>' +
-                    '<div id="bindex' + a + '" class="ninguno cuadro debajo click">' +
-                    '</div>' +
-                    '<div id="rindex' + a + '" class="ninguno cuadro derecha click click">' +
-                    '</div>' +
-                    '<div id="cindex' + a + '" class="ninguno centro click">' +
-                    '</div>' +
-                    '</div>';
-            if (i <= 5) {
-            //Dientes Temporales Cuandrante Derecho (Superior/Inferior)
-            htmlLecheRight2 += '<div id="dienteLindex' + i + '" style="left: -25%;" class="diente-leche">' +
-                    '<span style="margin-left: 0px; margin-bottom:5px; display: inline-block !important; border-radius: 10px !important;" class="label label-primary">index' + i + '</span>' +
-                    '<div id="tlecheindex' + i + '" class="ninguno cuadro-leche top-leche click">' +
-                    '</div>' +
-                    '<div id="llecheindex' + i + '" class="ninguno cuadro-leche izquierdo-leche click">' +
-                    '</div>' +
-                    '<div id="blecheindex' + i + '" class="ninguno cuadro-leche debajo-leche click">' +
-                    '</div>' +
-                    '<div id="rlecheindex' + i + '" class="ninguno cuadro-leche derecha-leche click click">' +
-                    '</div>' +
-                    '<div id="clecheindex' + i + '" class="ninguno centro-leche click">' +
-                    '</div>' +
-                    '</div>';
-            }
+
+            /*
+             var htmlLecheLeft2 = "", htmlLecheRight2 = "", htmlLeft2 = "", htmlRight2 = "", a = 1, htmlBoca = '';
+             htmlBoca = ' <div class="row boca"> ' +
+             '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 bord"> ' +
+             '<div id="tr2" > <div class="contDiente"></div></div> ' +
+             '<div id="tlr2" > <div class="contDiente"></div></div> ' +
+             '</div> ' +
+             '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 bord"> ' +
+             '<div id="tl2" > <div class="contDiente"></div></div> ' +
+             '<div id="tll2" > <div class="contDiente"></div></div> ' +
+             '</div> ' +
+             '</div> ' +
+             '<div class="row boca"> ' +
+             '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 bord"> ' +
+             '<div id="blr2" ><div class="contDiente"></div></div> ' +
+             '<div id="br2" > <div class="contDiente"></div></div> ' +
+             '</div> ' +
+             '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 bord"> ' +
+             '<div id="bll2" ><div class="contDiente"></div></div> ' +
+             '<div id="bl2" >  <div class="contDiente"></div></div> ' +
+             '</div> ' +
+             '</div>';
+             for (var i = 9 - 1; i >= 1; i--) {
+             //Dientes Definitivos Cuandrante Derecho (Superior/Inferior)
+             htmlRight2 +=
+             '<div data-name="value" id="dienteindex' + i + '" class="diente">' +
+             '<span style="margin-left: 0px; margin-bottom:5px; display: inline-block !important; border-radius: 10px !important;" class="label label-info">index' + i + '</span>' +
+             '<div id="tindex' + i + '" class="ninguno cuadro click">' +
+             '</div>' +
+             '<div id="lindex' + i + '" class="ninguno cuadro izquierdo click">' +
+             '</div>' +
+             '<div id="bindex' + i + '" class="ninguno cuadro debajo click">' +
+             '</div>' +
+             '<div id="rindex' + i + '" class="ninguno cuadro derecha click click">' +
+             '</div>' +
+             '<div id="cindex' + i + '" class="ninguno centro click">' +
+             '</div>' +
+             '</div>';
+             //Dientes Definitivos Cuandrante Izquierdo (Superior/Inferior)
+             htmlLeft2 +=
+             '<div id="dienteindex' + a + '" class="diente">' +
+             '<span style="margin-left: 0px; margin-bottom:5px; display: inline-block !important; border-radius: 10px !important;" class="label label-info">index' + a + '</span>' +
+             '<div id="tindex' + a + '" class="ninguno cuadro click">' +
+             '</div>' +
+             '<div id="lindex' + a + '" class="ninguno cuadro izquierdo click">' +
+             '</div>' +
+             '<div id="bindex' + a + '" class="ninguno cuadro debajo click">' +
+             '</div>' +
+             '<div id="rindex' + a + '" class="ninguno cuadro derecha click click">' +
+             '</div>' +
+             '<div id="cindex' + a + '" class="ninguno centro click">' +
+             '</div>' +
+             '</div>';
+             if (i <= 5) {
+             //Dientes Temporales Cuandrante Derecho (Superior/Inferior)
+             htmlLecheRight2 += '<div id="dienteLindex' + i + '" style="left: -25%;" class="diente-leche">' +
+             '<span style="margin-left: 0px; margin-bottom:5px; display: inline-block !important; border-radius: 10px !important;" class="label label-primary">index' + i + '</span>' +
+             '<div id="tlecheindex' + i + '" class="ninguno cuadro-leche top-leche click">' +
+             '</div>' +
+             '<div id="llecheindex' + i + '" class="ninguno cuadro-leche izquierdo-leche click">' +
+             '</div>' +
+             '<div id="blecheindex' + i + '" class="ninguno cuadro-leche debajo-leche click">' +
+             '</div>' +
+             '<div id="rlecheindex' + i + '" class="ninguno cuadro-leche derecha-leche click click">' +
+             '</div>' +
+             '<div id="clecheindex' + i + '" class="ninguno centro-leche click">' +
+             '</div>' +
+             '</div>';
+             }
+             
+             
+             if (a < 6) {
+             //Dientes Temporales Cuandrante Izquierdo (Superior/Inferior)
+             htmlLecheLeft2 += '<div id="dienteLindex' + a + '" class="diente-leche">' +
+             '<span style="margin-left: 0px; margin-bottom:5px; display: inline-block !important; border-radius: 10px !important;" class="label label-primary">index' + a + '</span>' +
+             '<div id="tlecheindex' + a + '" class="ninguno cuadro-leche top-leche click">' +
+             '</div>' +
+             '<div id="llecheindex' + a + '" class="ninguno cuadro-leche izquierdo-leche click">' +
+             '</div>' +
+             '<div id="blecheindex' + a + '" class="ninguno cuadro-leche debajo-leche click">' +
+             '</div>' +
+             '<div id="rlecheindex' + a + '" class="ninguno cuadro-leche derecha-leche click click">' +
+             '</div>' +
+             '<div id="clecheindex' + a + '" class="ninguno centro-leche click">' +
+             '</div>' +
+             '</div>';
+             }
+             
+             a++;
+             }
+             
+             $(".boca-historia").append(htmlBoca);
+             $("#tr2 div").append(replaceAll2('index', '1', htmlRight2));
+             $("#tl2 div").append(replaceAll2('index', '2', htmlLeft2));
+             $("#tlr2 div").append(replaceAll2('index', '5', htmlLecheRight2));
+             $("#tll2 div").append(replaceAll2('index', '6', htmlLecheLeft2));
+             $("#blr2 div").append(replaceAll2('index', '8', htmlLecheRight2));
+             $("#bll2 div").append(replaceAll2('index', '7', htmlLecheLeft2));
+             $("#br2 div").append(replaceAll2('index', '4', htmlRight2));
+             $("#bl2 div").append(replaceAll2('index', '3', htmlLeft2));
+             */
 
 
-            if (a < 6) {
-            //Dientes Temporales Cuandrante Izquierdo (Superior/Inferior)
-            htmlLecheLeft2 += '<div id="dienteLindex' + a + '" class="diente-leche">' +
-                    '<span style="margin-left: 0px; margin-bottom:5px; display: inline-block !important; border-radius: 10px !important;" class="label label-primary">index' + a + '</span>' +
-                    '<div id="tlecheindex' + a + '" class="ninguno cuadro-leche top-leche click">' +
-                    '</div>' +
-                    '<div id="llecheindex' + a + '" class="ninguno cuadro-leche izquierdo-leche click">' +
-                    '</div>' +
-                    '<div id="blecheindex' + a + '" class="ninguno cuadro-leche debajo-leche click">' +
-                    '</div>' +
-                    '<div id="rlecheindex' + a + '" class="ninguno cuadro-leche derecha-leche click click">' +
-                    '</div>' +
-                    '<div id="clecheindex' + a + '" class="ninguno centro-leche click">' +
-                    '</div>' +
-                    '</div>';
-            }
 
-            a++;
-            }
-            $("#tr2 div").append(replaceAll2('index', '1', htmlRight2));
-            $("#tl2 div").append(replaceAll2('index', '2', htmlLeft2));
-            $("#tlr2 div").append(replaceAll2('index', '5', htmlLecheRight2));
-            $("#tll2 div").append(replaceAll2('index', '6', htmlLecheLeft2));
-            $("#blr2 div").append(replaceAll2('index', '8', htmlLecheRight2));
-            $("#bll2 div").append(replaceAll2('index', '7', htmlLecheLeft2));
-            $("#br2 div").append(replaceAll2('index', '4', htmlRight2));
-            $("#bl2 div").append(replaceAll2('index', '3', htmlLeft2));
             }
             ;
+        </script>
+
+        <script>
+
+            $("#modalHistory").on('hidden.bs.modal', function () {
+                $(".boca-historia #boca-base").remove();
+            });
+            
+            $(".destruir").click(function() {
+            $(".boca-historia #boca-base").remove();
+            });
         </script>
 
     {% endblock %}

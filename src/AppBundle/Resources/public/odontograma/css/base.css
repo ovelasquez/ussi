@@ -6,7 +6,7 @@
     display: inline-block;
     width: 20px;
     margin-right: 15px;
-  
+
 }
 
 .cuadro {
@@ -23,7 +23,7 @@
 
 .cuadro:hover {
     /*background: rgba(117, 198, 243, 0.4);*/
-    
+
     cursor: pointer;
 }
 
@@ -70,7 +70,7 @@
 .centro:hover {
     border: 1px solid rgba(117, 198, 243, 0.4);
     /*background-color: rgba(117, 198, 243, 0.4);*/
-    
+
     cursor: pointer;
 }
 
@@ -101,8 +101,8 @@
 }*/
 
 .bord {
-/*    border: 1px solid #cccccc; */
-padding: 5px!important;
+    /*    border: 1px solid #cccccc; */
+    padding: 5px!important;
 }
 .click-red {
     background-color: red !important;
@@ -143,7 +143,7 @@ padding: 5px!important;
 
 .cuadro-leche:hover {
     /*background: rgba(117, 198, 243, 0.4);*/
-    
+
     cursor: pointer;
 }
 
@@ -196,9 +196,20 @@ padding: 5px!important;
 .centro-leche:hover {
     border: 1px solid rgba(117, 198, 243, 0.4);
     /*background-color: rgba(117, 198, 243, 0.4);*/
-    
+
     cursor: pointer;
 }
 
 #br .contDiente, #bl .contDiente, #tr .contDiente, #tl .contDiente{ margin: 0px auto; max-width: 440px;}
 #blr .contDiente, #bll .contDiente, #tlr .contDiente, #tll .contDiente{ margin: 0px auto; max-width: 175px;}
+
+#boca-base .btn-group>.btn:first-child, #boca-base  .btn-group>.btn:last-child {
+    border-top-right-radius: 0!important;
+    border-bottom-right-radius: 0!important;
+    border-top-left-radius: 0!important;
+    border-bottom-left-radius: 0!important;
+}
+
+#boca-base .btn {
+    margin: 5px!important;
+}

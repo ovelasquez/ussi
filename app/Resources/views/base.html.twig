@@ -97,50 +97,66 @@
                             <h3>Menú Principal</h3>
                             <ul class="nav side-menu">
                                 <li>
-                                    <!--a href=""><i class="fa fa-home"></i> Home </a-->
-                                    <a><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a>
+                                    <a><i class="fa fa-home"></i> Inicio <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
-
                                         <li><a href="{{ path('homepage_recepcion') }}">Recepcionista</a></li>
-                                        <li><a href="{{ path('homepage_medico') }}">Médico</a></li>                                         
+                                        <li><a href="{{ path('homepage_medico') }}">Médico</a></li>
+                                        <li><a href="{{ path('homepage') }}">Administrador</a></li> 
                                     </ul>
                                 </li>
                                 <li>
                                     <a><i class="fa fa-edit"></i> Gestionar <span class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu">
-                                        <!--li><a href="{{ path('persona_index') }}">Personas</a></li-->
+                                    <ul class="nav child_menu">                                        
                                         <li><a href="{{ path('paciente_index') }}">Pacientes</a></li>
-                                        <li><a href="{{ path('profesional_index') }}">Profesional</a></li> 
-                                        <!--li><a href="{{ path('profesionalespecialidad_index') }}">Profesional - Especialidad</a></li--> 
+                                        <li><a href="{{ path('profesional_index') }}">Profesionales</a></li>                                        
                                         <li><a href="{{ path('cita_index') }}">Citas</a></li>
-                                        <li><a href="{{ path('cita_consulta') }}">Consulta Cita</a></li>
-                                        <li><a href="{{ path('consulta_index') }}">Consultas</a></li>   
-                                        <!--li><a href="{{ path('disponible_index') }}">Disponible</a></li-->
-                                        <li><a href="{{ path('servicio_index') }}">Servicio</a></li>
-                                        <li><a href="{{ path('servicioprofesional_index') }}">Servicio - Profesional</a></li>
-                                        <li><a href="{{ path('esperando_index') }}">Lista de Espera</a></li>
-                                        <li><a href="{{ path('esperando_procesar') }}">Llamar Paciente</a></li>
+                                        <li><a href="{{ path('esperando_index') }}">Lista de Espera</a></li>                                        
                                         <li><a href="{{ path('homepage_sala') }}">Monitor Sala</a></li>
                                     </ul>
                                 </li>
                                 <li>
-                                    <a><i class="fa fa-edit"></i> Administrar <span class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu">                                        
-                                        <li><a href="{{ path('etnia_index') }}">Etnia</a></li>
-                                        <li><a href="{{ path('religion_index') }}">Religión</a></li>
-                                        <li><a href="{{ path('pfg_index') }}">PFG</a></li>
-                                        <li><a href="{{ path('pais_index') }}">Paises</a></li>
-                                        <li><a href="{{ path('estado_index') }}">Estados</a></li>
-                                        <li><a href="{{ path('municipio_index') }}">Municipios</a></li>
-                                        <li><a href="{{ path('parroquia_index') }}">Parroquias</a></li>
-                                        <li><a href="{{ path('especialidad_index') }}">Especialidad</a></li>
+                                    <a><i class="fa fa-desktop"></i> Administrar <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <li class=""><a> Servicios<span class="fa fa-chevron-down"></span></a>
+                                            <ul class="nav child_menu" style="display: none;">
+                                                <li><a href="{{ path('especialidad_index') }}">Especialidades</a></li>
+                                                <li><a href="{{ path('servicio_index') }}">Servicios</a></li>
+                                                <li><a href="{{ path('servicioprofesional_index') }}">Servicio - Profesional</a></li>
+                                                <li><a href="{{ path('servicioprofesional_index') }}">Tratamientos</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class=""><a> Odontología<span class="fa fa-chevron-down"></span></a>
+                                            <ul class="nav child_menu" style="display: none;">                                               
+                                                <li><a href="{{ path('tratamiento_index') }}">Tratamientos</a></li>
+                                                <li><a href="{{ path('diente_index') }}">Dientes</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class=""><a> Enterica<span class="fa fa-chevron-down"></span></a>
+                                            <ul class="nav child_menu" style="display: none;">
+                                                <li><a href="{{ path('entericacapitulo_index') }}">Capitulos</a></li>
+                                                <li><a href="{{ path('entericagrupo_index') }}">Grupos</a></li>
+                                                <li><a href="{{ path('entericaelemento_index') }}">Elementos</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class=""><a> Grupos<span class="fa fa-chevron-down"></span></a>
+                                            <ul class="nav child_menu" style="display: none;">                                                
+                                                <li><a href="{{ path('etnia_index') }}">Etnias</a></li>
+                                                <li><a href="{{ path('religion_index') }}">Religiones</a></li>
+                                                <li><a href="{{ path('pfg_index') }}">PFGs</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class=""><a> Localidades<span class="fa fa-chevron-down"></span></a>
+                                            <ul class="nav child_menu" style="display: none;">
+                                                <li><a href="{{ path('pais_index') }}">Paises</a></li>
+                                                <li><a href="{{ path('estado_index') }}">Estados</a></li>
+                                                <li><a href="{{ path('municipio_index') }}">Municipios</a></li>
+                                                <li><a href="{{ path('parroquia_index') }}">Parroquias</a></li>
+                                            </ul>
+                                        </li>
                                         <li><a href="{{ path('campania_index') }}">Campaña</a></li>
                                         <li><a href="{{ path('configuracion_index') }}">Configuración</a></li>
-                                        <li><a href="{{ path('entericacapitulo_index') }}">Capitulo de Enfermedades Entericas</a></li>
-                                        <li><a href="{{ path('entericagrupo_index') }}">Grupo de Enfermedades Entericas</a></li>
-                                        <li><a href="{{ path('entericaelemento_index') }}">Elemento de Enfermedades Entericas</a></li>
-                                    </ul>
-                                </li>
+
+                                    </ul> 
                             </ul>
                         </div>                        
                     </div>

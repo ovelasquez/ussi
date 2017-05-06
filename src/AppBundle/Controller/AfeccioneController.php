@@ -63,6 +63,7 @@ class AfeccioneController extends Controller {
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($afeccione);
                 $em->flush($afeccione);
+                $this->addFlash('success', 'Afecciones registrada satisfactoriamente');
 
                 return $this->redirectToRoute('homepage_consulta', array(
                             'paciente' => $afeccione->getConsulta()->getPaciente()->getId(),

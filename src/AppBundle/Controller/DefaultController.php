@@ -566,19 +566,19 @@ class DefaultController extends Controller {
 
         $conn = $this->getDoctrine()->getManager()->getConnection();
         $sql = '
-            select c.fecha as consulta, COUNT(c.id) as dientes_tratados
+            select c.id as id, c.fecha as consulta, COUNT(c.id) as dientes_tratados
             from odontograma as o
             left join consulta as c on c.id=o.consulta_id
             left join diente as d on d.id=o.diente_id
             left join paciente as pac on pac.id=c.paciente_id
             left join profesional as prof on prof.id=c.profesional_id
             left join persona as pers on pers.id=prof.persona_id
-            where pac.id=:paciente
+            where pac.id=:paciente and c.egreso=:egreso
             GROUP BY c.id
             order by c.id desc
             ';
         $stmt = $conn->prepare($sql);
-        $stmt->execute(array('paciente' => $paciente));
+        $stmt->execute(array('paciente' => $paciente,'egreso'=>true));
         return $stmt->fetchAll();
     }
 
