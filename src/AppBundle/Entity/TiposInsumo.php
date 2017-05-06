@@ -17,7 +17,7 @@ class TiposInsumo {
      *
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\SequenceGenerator(sequenceName="tipos_insumo_id_seq", allocationSize=1, initialValue=1)
      */
     private $id;
