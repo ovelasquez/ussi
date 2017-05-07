@@ -1,6 +1,6 @@
 {% extends 'dashboard.html.twig' %}
 {% block stylesheets %}
-  <!-- Datatables -->
+    <!-- Datatables -->
     <link href="{{ asset('bundles/app/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{ asset('bundles/app/vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{ asset('bundles/app/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css')}}" rel="stylesheet">
@@ -31,7 +31,7 @@
             <div class="count">{{atendidos}}</div>
             <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i> {% if (esperandos| length > 0) %} {{ (atendidos*100)/(esperandos| length) }}%  {% endif%} </i> atendidos</span>
         </div>
-        
+
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-user"></i> Total Médicos</span>
             <div class="count green">{{medicos| length}}</div>
@@ -57,7 +57,7 @@
         </div>
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-user"></i> Consuta</span>
-            <div class="count">{{ "now"|date("d/m/Y") }}</div>
+            <h2>  {{ "now"|date("d/m/Y") }} </h2>
             <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>Día </i> de la Consulta</span>
         </div>
     </div>
@@ -135,7 +135,7 @@
         <div class="col-md-4 col-sm-4 col-xs-12">
             <div class="x_panel tile fixed_height_320">
                 <div class="x_title">
-                    <h2>Verificar CItas</h2>
+                    <h2>Verificar Citas</h2>
                     <ul class="nav navbar-right panel_toolbox">
                         <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                         </li>                                    
@@ -192,17 +192,10 @@
                                     </span>
                                     <span>
                                         <span >{{ servicioProfesional.primer_apellido}} {{ servicioProfesional.primer_nombre}}</span>
-                                        <!--span id='medico{{servicioProfesional.id}}' class="hidden text-success time animated infinite flash">Llamando</span>
-                                        
-                                        <span id='llamada{{servicioProfesional.id}}' class="hidden time">
-                                                <button type="button" class="btn btn-xs btn-success" data-toggle="tooltip" data-placement="top" title="" data-original-title="Activo"> 
-                                                <span class="glyphicon glyphicon-fire" aria-hidden="true"> Si</span> </button>
-                                            <button type="button" class="btn btn-xs btn-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="Activo"> 
-                                                <span class="glyphicon glyphicon-fire" aria-hidden="true"> No</span> </button>
-                                        </span-->
+                                        <span id='medico{{servicioProfesional.id}}' class="text-success time">{{ servicioProfesional.nombre }} </span>                                                                                
                                     </span>
                                     <span class="message">
-                                        {{ servicioProfesional.nombre }}                                      
+                                                                             
                                     </span>
                                 </a>
                             </li>                                        
@@ -228,26 +221,25 @@
                         </div>
                         <div class="x_content">
                             <div class="dashboard-widget-content">
-                                <div class="col-md-12 hidden-small">                                               
+                                <div class="col-md-12 hidden-small"> 
+                                    {% if (esperandos!=null) %}
 
-                                    <table class="table table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Foto</th>
-                                                <th>Cédula</th>
-                                                <th>Paciente</th>
-                                                <th>Fecha</th>
-                                                <th>Status</th>
-                                                <th>Penalización</th>                                                            
-                                                <th>Especialidad</th>
-                                                <th>Médico</th>                                                            
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {% for esperando in esperandos %}
-                                                {% if (esperando.status=='activo') %}
-
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Foto</th>
+                                                    <th>Cédula</th>
+                                                    <th>Paciente</th>
+                                                    <th>Fecha</th>
+                                                    <th>Status</th>
+                                                    <th>Penalización</th>                                                            
+                                                    <th>Especialidad</th>
+                                                    <th>Médico</th>                                                            
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for esperando in esperandos %}
                                                     <tr>
                                                         <td>{{  esperando.posicion  }} </td>
                                                         <td>
@@ -276,7 +268,7 @@
                                                                     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                                                                 </button>
                                                             {% else %}    
-                                                                <button type="button" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{esperando.status |title}}"> 
+                                                                <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{esperando.status |title}}"> 
                                                                     <span class="glyphicon glyphicon-fire" aria-hidden="true"></span>
                                                                 </button>
                                                             {% endif %}
@@ -296,10 +288,30 @@
                                                         <td>{{ esperando.especialidad.nombre }}</td>
                                                         <td>{% if esperando.profesional != null %} {{ esperando.profesional.persona.primerApellido }} {{ esperando.profesional.persona.primerNombre }}{% endif %}</td>                                                                
                                                     </tr>
-                                                {% endif %}
-                                            {% endfor %}
-                                        </tbody>
-                                    </table>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    {% else %}
+                                        <div class="dashboard-widget-content">
+
+                                            <ul class="list-unstyled timeline widget">
+                                                <li>
+                                                    <div class="block">
+                                                        <div class="block_content">
+                                                            <h2 class="title">
+                                                                <a>En estos momentos no tenemos Pacientes en la Lista de Espera</a>
+                                                            </h2>
+                                                            <div class="byline">
+                                                                <span>Frases de Medicina</span>
+                                                            </div>
+                                                            <p class="excerpt"> “Gracias Doctor por haberme tratado como a un hijo, sus diagnósticos y la cura fueron realmente efectivos, pero lo que me animó más fue el hecho de que estuviese siempre atento a mi mejoría.”</a>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </li>                                               
+                                            </ul>
+                                        </div>
+                                    {% endif %}
                                 </div>
                                 <div id="world-map-gdp" class="col-md-8 col-sm-12 col-xs-12" style="height:230px;"></div>
                             </div>

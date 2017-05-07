@@ -3,10 +3,8 @@ security:
         FOS\UserBundle\Model\UserInterface: bcrypt
 
     role_hierarchy:
-        ROLE_RECEPCION:   ROLE_USER
         ROLE_MEDICO:      ROLE_RECEPCION
-        ROLE_ADMIN:       ROLE_MEDICO
-        ROLE_SUPER_ADMIN: ROLE_ADMIN
+        ROLE_SUPER_ADMIN: ROLE_MEDICO
 
     providers:
         fos_userbundle:
@@ -26,13 +24,14 @@ security:
 
     access_control:
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/register, role: ROLE_SUPER_ADMIN }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/, role: ROLE_USER }
+        - { path: ^/, role: ROLE_RECEPCION }
         - { path: ^/homepage_recepcion/, role: ROLE_RECEPCION }
         - { path: ^/homepage_medico/, role: ROLE_MEDICO }
-        - { path: ^/pfg/, role: ROLE_ADMIN }
-        - { path: ^/etnia/, role: ROLE_ADMIN }
-        - { path: ^/religion/, role: ROLE_ADMIN }
-        - { path: ^/paciente/, role: ROLE_ADMIN }        
-        - { path: ^/persona/, role: ROLE_ADMIN }
+        - { path: ^/pfg/, role: ROLE_SUPER_ADMIN }
+        - { path: ^/etnia/, role: ROLE_SUPER_ADMIN }
+        - { path: ^/religion/, role: ROLE_SUPER_ADMIN }
+        - { path: ^/paciente/, role: ROLE_SUPER_ADMIN }        
+        - { path: ^/persona/, role: ROLE_SUPER_ADMIN }
+        - { path: ^/campania/, role: ROLE_SUPER_ADMIN }

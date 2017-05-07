@@ -29,6 +29,7 @@ class CitaController extends Controller {
 
 
         $citas = $em->getRepository('AppBundle:Cita')->findAll();
+        //dump($citas);die();
 
         return $this->render('cita/index.html.twig', array(
                     'citas' => $citas,

@@ -6,7 +6,7 @@
     <link href="{{ asset('bundles/app/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css')}}" rel="stylesheet">
 {% endblock %}
 {% block title %} Insumo {% endblock %}
-{% block Subtitulo %} Lista de Insumo Suministrado -  <small> <a href="{{ path('insumosuministrado_new') }}">Crear una nuevo Insumo Suministrado</a></small> {% endblock %} 
+{% block Subtitulo %} Lista de Insumos Suministrados -  <small> <a href="{{ path('insumosuministrado_new') }}">Crear una nuevo Insumo Suministrado</a></small> {% endblock %} 
 {% block body %}
   {% for msg in app.session.flashBag.get('success') %}        
         <div class="alert alert-success alert-dismissible fade in" role="alert">

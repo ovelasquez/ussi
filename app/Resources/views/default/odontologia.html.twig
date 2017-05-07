@@ -408,9 +408,10 @@
                                                     <thead>
                                                         <tr>
                                                             <th>#</th>                                                        
-                                                            <th>Fecha</th>
+                                                            <th>Fecha</th>                                                            
                                                             <th>Cantidad Dientes Tratados</th>
                                                             <th>Dientes Tratados</th>
+                                                            <th>Odontologo</th>
                                                             <th>Odontograma</th>
 
                                                         </tr>
@@ -419,6 +420,7 @@
 
                                                         {% for odontConsulta in odontogramasPorConsultas %} 
                                                             {% set dientes= ''%}
+                                                            {% set odontologo= ''%}
                                                             <tr>
                                                                 <td>{{ loop.index  }}</td>                                                            
                                                                 <td>{{ odontConsulta.consulta}}</td>
@@ -427,10 +429,12 @@
                                                                     {% for histOdontograma in historicoOdontograma %} 
                                                                         {% if (histOdontograma.fecha == odontConsulta.consulta) %}
                                                                             {% set dientes= dientes ~ ' - ' ~ histOdontograma.posicion%}
+                                                                            {% set odontologo= histOdontograma.primer_apellido ~ ' ' ~ histOdontograma.primer_nombre%}
                                                                         {% endif%}
                                                                     {% endfor %} 
                                                                     {{ dientes [2:]}}
                                                                 </td>
+                                                                <td>{{ odontologo }}</td>
                                                                 <td><button onClick="createOdontogramHistorico()" data-consulta="{{ odontConsulta.id}}" type="button" id='mi-modal' class="btn btn-primary openHist" data-toggle="modal" data-target=".odontograma-modal-lg"><i class="fa fa-eye m-right-xs"></i> </button></td>
                                                             </tr>
 

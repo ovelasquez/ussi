@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block contenido %}
+    <div class="col-md-12">
+          <div class="col-middle">
+            <div class="text-center text-center">
+              <h1 class="error-number">404</h1>
+              <h2>Lo sentimos pero no hemos podido encontrar esta página</h2>
+              <p>Esta página que estás buscando no existe <a href="{{ path('homepage') }}">Ir a la página de Inicio</a>
+              </p>              
+            </div>
+          </div>
+        </div>
+{% endblock %}

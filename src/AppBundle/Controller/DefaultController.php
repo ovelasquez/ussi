@@ -313,7 +313,7 @@ class DefaultController extends Controller {
         //Odontogramas por Consulta
         $odontogramasPorConsultas= $this->odontogramaConsulta($paciente->getId());
         
-        //dump($historicoOdontograma,$odontogramasPorConsultas ); die(); 
+//        dump($historicoOdontograma,$odontogramasPorConsultas ); die(); 
         
         //Tadas los Reposos del paciente
         $historicoReposos = $this->historicoReposos($paciente->getId(), $especialidad->getId());

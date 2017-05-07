@@ -1,0 +1,6 @@
+{% extends "base.html.twig" %}
+{% block title %} Usuarios {% endblock %}
+{% block Subtitulo %} Perfil -  <small> <a href="{{ path('homepage') }}">Inicio</a></small> {% endblock %} 
+{% block body %}
+    {% include "@FOSUser/Profile/show_content.html.twig" %}
+{% endblock body %}

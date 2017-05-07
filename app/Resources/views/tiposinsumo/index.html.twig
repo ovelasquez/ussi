@@ -5,8 +5,8 @@
     <link href="{{ asset('bundles/app/vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{ asset('bundles/app/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css')}}" rel="stylesheet">
 {% endblock %}
-{% block title %} Tipo de Medicamento {% endblock %}
-{% block Subtitulo %} Lista Tipo de Medicamento -  <small> <a href="{{ path('tiposinsumo_new') }}">Crear una nuevo Tipo de Medicamento</a></small> {% endblock %} 
+{% block title %} Tipo de Insumos {% endblock %}
+{% block Subtitulo %} Lista Tipo de Insumos -  <small> <a href="{{ path('tiposinsumo_new') }}">Crear una nuevo Tipo de Insumo</a></small> {% endblock %} 
 {% block body %}
   {% for msg in app.session.flashBag.get('success') %}        
         <div class="alert alert-success alert-dismissible fade in" role="alert">
@@ -70,5 +70,3 @@
     </script>
     <!-- /Datatables -->
 {% endblock %}
-
-
