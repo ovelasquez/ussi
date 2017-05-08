@@ -70,20 +70,14 @@ class AjaxController extends Controller {
      * @Method({"POST"})
      */
     public function tratamientoAction(Request $request) {
-
         $id = $request->request->get('id');
         $diente = $request->request->get('diente');
         $consulta = $request->request->get('consulta');
-        //dump($id,$diente, $consulta ); die();
-
         $em = $this->getDoctrine()->getManager();
-        $lista = $em->getRepository('AppBundle:Tratamiento')->findByNombre($id);
-        // dump($lista[0]->getId() ); die();
+        $lista = $em->getRepository('AppBundle:Tratamiento')->findByNombre($id);        
         $this->registrarOdontograma($consulta, $diente, $lista[0]->getId(), $lista[0]->getTodo());
-
         // encode user to json format
         $userDataAsJson = $this->encodeTratamientoDataToJson($diente, $lista);
-
         return new JsonResponse([
             'success' => true,
             'data' => [$userDataAsJson]

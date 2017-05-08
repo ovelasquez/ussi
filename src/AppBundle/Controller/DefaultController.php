@@ -170,7 +170,7 @@ class DefaultController extends Controller {
             //Buscar Reposo asociada a la consulta
             $reposo = $em->getRepository('AppBundle:Reposo')->findOneBy(array('consulta' => $tieneConsultaActiva,));
             //dump($reposo);            die();
-//Buscar Constancias asociada a la consulta
+            //Buscar Constancias asociada a la consulta
             $constancia = $em->getRepository('AppBundle:Constancia')->findOneBy(array('consulta' => $tieneConsultaActiva,));
             //Buscar Recetas asociada a la consulta
             $receta = $em->getRepository('AppBundle:Receta')->findOneBy(array('consulta' => $tieneConsultaActiva,));

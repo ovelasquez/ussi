@@ -1,0 +1,222 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+    <link href="{{ asset('bundles/app/vendors/bootstrap-daterangepicker/daterangepicker.css')}}"   rel="stylesheet">
+    <!-- Datatables -->
+    <link href="{{ asset('bundles/app/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{ asset('bundles/app/vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{ asset('bundles/app/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{ asset('bundles/app/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{ asset('bundles/app/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css')}}" rel="stylesheet">
+{% endblock %}
+{% block title %} Estadísticas {% endblock %}
+{% block Subtitulo %} Estadísticas -  <small> <a href="{{ path('homepage') }}">Inicio</a></small> {% endblock %} 
+{% block body %}
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="dashboard_graph">
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>Consultas <small>Lapso de tiempo</small></h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="#">Settings 1</a>
+                                        </li>
+                                        <li><a href="#">Settings 2</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content2">
+                            <form name="form_consulta" action="{{path('estadistica_index')}}" method="post" id="form_consulta" class="form-horizontal form-label-left">                                                            
+                                <fieldset>
+                                    <div class="control-group">
+                                        <div class="controls">
+                                            <div class="input-prepend input-group">
+                                                <span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
+                                                <input type="text" name="daterange" id="daterange" class="form-control" value="{{ rango }}">
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-2 col-sm-2 col-xs-12 col-md-offset-1">                
+                                            <button type="submit" class="btn btn-primary"><i class="fa fa-user-md m-right-xs"></i> Consultar</button> 
+                                        </div>
+
+                                    </div>
+                                </fieldset>
+                            </form>
+
+
+
+                            <div id="graph_donut" style="width:100%; height:250px;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8 col-sm-8 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>Consulta Datos <small>Lapso de tiempo</small></h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="#">Settings 1</a>
+                                        </li>
+                                        <li><a href="#">Settings 2</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+
+                        {% if ( consultaDatos!=null ) %}
+                            <table id="consultaDatosDatatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>                                                        
+                                        <th>Cédula</th>                                                            
+                                        <th>Paciente</th>
+                                        <th>Género</th>
+                                        <th>Tipo</th>
+                                        <th>Especialidad</th>
+                                        <th>Profesional</th>                                        
+                                        <th>Fecha</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for dato in consultaDatos %}                                        
+                                        <tr>
+                                            <td>{{ loop.index  }}</td>                                                            
+                                            <td>{{ dato.nacionalidad }} {{ dato.cedula }}</td>
+                                            <td>{{ dato.persona_nombre|title  }} {{ dato.persona_apellido|title  }}</td>
+                                            <td>{{ dato.genero|title  }} </td>
+                                            <td>{{ dato.comunidad|title }} </td>
+                                            <td>{{ dato.especialidad|title }} </td>
+                                            <td>{{ dato.profesional_nombre|title  }} {{ dato.profesional_apellido|title  }}</td>                                            
+                                            <td>{% if dato.fecha %}{{ dato.fecha|date("F jS \\a\\t g:ia") }}{% endif %}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        {%endif%}
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block javascripts %}
+    <script src="{{ asset('bundles/app/vendors/moment/min/moment.min.js')}}" ></script>
+    <script src="{{ asset('bundles/app/vendors/bootstrap-daterangepicker/daterangepicker.js')}}" ></script>
+      <!-- morris.js -->
+    <script src="{{ asset('bundles/app/vendors/raphael/raphael.min.js')}}"></script>
+    <script src="{{ asset('bundles/app/vendors/morris.js/morris.min.js')}}"></script>
+    
+      <!-- Datatables -->
+    <script src="{{ asset('bundles/app/vendors/datatables.net/js/jquery.dataTables.min.js')}}"></script>
+    <script src="{{ asset('bundles/app/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>   
+    <script src="{{ asset('bundles/app/vendors/datatables.net-buttons/js/dataTables.buttons.min.js')}}"></script>
+    <script src="{{ asset('bundles/app/vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js')}}"></script>
+
+    <script src="{{ asset('bundles/app/vendors/datatables.net-buttons/js/buttons.flash.min.js')}}"></script>    
+    <script src="{{ asset('bundles/app/vendors/datatables.net-buttons/js/buttons.html5.min.js')}}"></script>    
+    <script src="{{ asset('bundles/app/vendors/datatables.net-buttons/js/buttons.print.min.js')}}"></script>    
+    <script src="{{ asset('bundles/app/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js')}}"></script>
+
+    <script src="{{ asset('bundles/app/vendors/datatables.net-keytable/js/dataTables.keyTable.min.js')}}"></script>       
+    <script src="{{ asset('bundles/app/vendors/datatables.net-responsive/js/dataTables.responsive.min.js')}}"></script>     
+    <script src="{{ asset('bundles/app/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js')}}"></script>    
+    <script src="{{ asset('bundles/app/vendors/datatables.net-scroller/js/dataTables.scroller.min.js')}}"></script>
+
+    <script src="{{ asset('bundles/app/vendors/jszip/jszip.min.js')}}"></script>       
+    <script src="{{ asset('bundles/app/vendors/pdfmake/pdfmake.min.js')}}"></script>     
+    <script src="{{ asset('bundles/app/vendors/pdfmake/vfs_fonts.js')}}"></script>   
+    
+    <script type="text/javascript">
+        $(function () {
+            $('input[name="daterange"]').daterangepicker({
+                timePicker: true,
+                timePickerIncrement: 1,
+                locale: {
+                    format: 'DD/MM/YYYY h:mm A'
+                }
+            });
+        });
+    </script>
+  
+    <script>
+        $(document).ready(function () {
+            // $('.applyBtn').click(function(){   $('#form_consulta').submit();       });
+            Morris.Donut({
+                element: 'graph_donut',
+                data: [{{ consultas|raw }}],
+                colors: ['#26B99A', '#34495E', '#ACADAC'],
+                formatter: function (y, data) {
+                    return '' + y
+                },
+                resize: true
+            });
+        });
+
+        var handleDataTableButtons = function () {
+            if ($("#consultaDatosDatatable-buttons").length) {
+                $("#consultaDatosDatatable-buttons").DataTable({
+                    dom: "Bfrtip",
+                    buttons: [
+                        {
+                            extend: "copy",
+                            className: "btn-sm"
+                        },
+                        {
+                            extend: "csv",
+                            className: "btn-sm"
+                        },
+                        {
+                            extend: "excel",
+                            className: "btn-sm"
+                        },
+                        {
+                            extend: "pdfHtml5",
+                            className: "btn-sm"
+                        },
+                        {
+                            extend: "print",
+                            className: "btn-sm"
+                        },
+                    ],
+                    responsive: true
+                });
+            }
+        };
+
+        TableManageButtons = function () {
+            "use strict";
+            return {
+                init: function () {
+                    handleDataTableButtons();
+                }
+            };
+        }();
+        
+    TableManageButtons.init();
+    </script>
+
+
+{% endblock %}

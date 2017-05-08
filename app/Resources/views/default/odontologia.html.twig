@@ -766,151 +766,141 @@
         <!-- Push -->
         <script src="{{ asset('bundles/app/vendors/push/push.min.js')}}"></script> 
         <script>
-                                                                    $(document).ready(function () {
-                                                                    $("#boca-base #controls .btn").click(function(){
-                                                                    $("#boca-base #controls .btn .fa").remove();
-                                                                    $(this).append(' <i class="fa fa-check-square-o"></i>');
-                                                                    });
-                                                                    $("#boca-base #controls .btn:first").append(' <i class="fa fa-check-square-o"></i>');
-                                                                    $('#odontogramasPorConsultas-datatable-fixed-header').DataTable({fixedHeader: true});
-                                                                    $('#datatable').dataTable();
-                                                                    //Dibuja Odontograma Inicial - Sin Colores
-                                                                    createOdontogram();
-                                                                    //Dibuja Odontograma Inicial - Sin Colores
-                                                                    pintarOdontograma();
-                                                                    $(".click").click(function (event) {
-                                                                    var control = $("#controls").children().find('.active').attr('id'); //Tratamiento a aplicar
-                                                                    var cuadro = $(this).find("input[name=cuadro]:hidden").val(); // Cavidad - Diente
-                                                                    //alert(control);
-                                                                    //console.log($(this).attr('id'));
+        $(document).ready(function () {
+        $("#boca-base #controls .btn").click(function(){
+        $("#boca-base #controls .btn .fa").remove();
+        $(this).append(' <i class="fa fa-check-square-o"></i>');
+        });
+        $("#boca-base #controls .btn:first").append(' <i class="fa fa-check-square-o"></i>');
+        $('#odontogramasPorConsultas-datatable-fixed-header').DataTable({fixedHeader: true});
+        $('#datatable').dataTable();
+        //Dibuja Odontograma Inicial - Sin Colores
+        createOdontogram();
+        //Dibuja Odontograma Inicial - Sin Colores
+        pintarOdontograma();
+        $(".click").click(function (event) {
+        var control = $("#controls").children().find('.active').attr('id'); //Tratamiento a aplicar
+        var cuadro = $(this).find("input[name=cuadro]:hidden").val(); // Cavidad - Diente
+        //alert(control);
+        //console.log($(this).attr('id'));
 
-                                                                    if ($(this).hasClass("ninguno")) {
-                                                                    //Buscamos en la BD el Tratamiento
-                                                                    $.ajax
-                                                                            ({
-                                                                            type: "POST",
-                                                                                    url: "{{ path ('ajax_tratamiento') }}",
-                                                                                    data: { 'id': control, 'diente': $(this).attr('id'), 'consulta':{{consulta.id}} },
-                                                                                    cache: false,
-                                                                                    success: function (html)
-                                                                                    {
-                                                                                    var obj = jQuery.parseJSON(html.data);
-                                                                                    //alert(JSON.stringify(obj));
-                                                                                    for (var i = 0; i < obj.length; i++) {
-                                                                                    value = obj[i];
-                                                                                    if (value.todo) { //Verificamos si es aplicado a todo el diente
-                                                                                    var str = value.diente;
-                                                                                    var diente = str.substring(str.length - 2, str.length);
-                                                                                    $('#t' + diente).css("background-color", value.color);
-                                                                                    $('#t' + diente).addClass('modificado');
-                                                                                    $('#t' + diente).removeClass('ninguno');
-                                                                                    $('#r' + diente).css("background-color", value.color);
-                                                                                    $('#r' + diente).addClass('modificado');
-                                                                                    $('#r' + diente).removeClass('ninguno');
-                                                                                    $('#b' + diente).css("background-color", value.color);
-                                                                                    $('#b' + diente).addClass('modificado');
-                                                                                    $('#b' + diente).removeClass('ninguno');
-                                                                                    $('#l' + diente).css("background-color", value.color);
-                                                                                    $('#l' + diente).addClass('modificado');
-                                                                                    $('#l' + diente).removeClass('ninguno');
-                                                                                    $('#c' + diente).css("background-color", value.color);
-                                                                                    $('#c' + diente).addClass('modificado');
-                                                                                    $('#c' + diente).removeClass('ninguno');
-                                                                                    $('#tleche' + diente).css("background-color", value.color);
-                                                                                    $('#tleche' + diente).addClass('modificado');
-                                                                                    $('#tleche' + diente).removeClass('ninguno');
-                                                                                    $('#rleche' + diente).css("background-color", value.color);
-                                                                                    $('#rleche' + diente).addClass('modificado');
-                                                                                    $('#rleche' + diente).removeClass('ninguno');
-                                                                                    $('#bleche' + diente).css("background-color", value.color);
-                                                                                    $('#bleche' + diente).addClass('modificado');
-                                                                                    $('#bleche' + diente).removeClass('ninguno');
-                                                                                    $('#lleche' + diente).css("background-color", value.color);
-                                                                                    $('#lleche' + diente).addClass('modificado');
-                                                                                    $('#lleche' + diente).removeClass('ninguno');
-                                                                                    $('#cleche' + diente).css("background-color", value.color);
-                                                                                    $('#cleche' + diente).addClass('modificado');
-                                                                                    $('#cleche' + diente).removeClass('ninguno');
-                                                                                    } else {
-                                                                                    //Pintar Cavidad
-                                                                                    $('#' + value.diente).css("background-color", value.color);
-                                                                                    $('#' + value.diente).addClass('modificado');
-                                                                                    $('#' + value.diente).removeClass('ninguno');
-                                                                                    }
+        if ($(this).hasClass("ninguno")) {
+        //Buscamos en la BD el Tratamiento
+        $.ajax
+                ({
+                type: "POST",
+                        url: "{{ path ('ajax_tratamiento') }}",
+                        data: { 'id': control, 'diente': $(this).attr('id'), 'consulta':{{consulta.id}} },
+                        cache: false,
+                        success: function (html)
+                        {
+                        var obj = jQuery.parseJSON(html.data);
+                        //alert(JSON.stringify(obj));
+                        for (var i = 0; i < obj.length; i++) {
+                        value = obj[i];
+                        if (value.todo) { //Verificamos si es aplicado a todo el diente
+                        var str = value.diente;
+                        var diente = str.substring(str.length - 2, str.length);
+                        $('#t' + diente).css("background-color", value.color);
+                        $('#t' + diente).addClass('modificado');
+                        $('#t' + diente).removeClass('ninguno');
+                        $('#r' + diente).css("background-color", value.color);
+                        $('#r' + diente).addClass('modificado');
+                        $('#r' + diente).removeClass('ninguno');
+                        $('#b' + diente).css("background-color", value.color);
+                        $('#b' + diente).addClass('modificado');
+                        $('#b' + diente).removeClass('ninguno');
+                        $('#l' + diente).css("background-color", value.color);
+                        $('#l' + diente).addClass('modificado');
+                        $('#l' + diente).removeClass('ninguno');
+                        $('#c' + diente).css("background-color", value.color);
+                        $('#c' + diente).addClass('modificado');
+                        $('#c' + diente).removeClass('ninguno');
+                        $('#tleche' + diente).css("background-color", value.color);
+                        $('#tleche' + diente).addClass('modificado');
+                        $('#tleche' + diente).removeClass('ninguno');
+                        $('#rleche' + diente).css("background-color", value.color);
+                        $('#rleche' + diente).addClass('modificado');
+                        $('#rleche' + diente).removeClass('ninguno');
+                        $('#bleche' + diente).css("background-color", value.color);
+                        $('#bleche' + diente).addClass('modificado');
+                        $('#bleche' + diente).removeClass('ninguno');
+                        $('#lleche' + diente).css("background-color", value.color);
+                        $('#lleche' + diente).addClass('modificado');
+                        $('#lleche' + diente).removeClass('ninguno');
+                        $('#cleche' + diente).css("background-color", value.color);
+                        $('#cleche' + diente).addClass('modificado');
+                        $('#cleche' + diente).removeClass('ninguno');
+                        } else {
+                        //Pintar Cavidad
+                        $('#' + value.diente).css("background-color", value.color);
+                        $('#' + value.diente).addClass('modificado');
+                        $('#' + value.diente).removeClass('ninguno');
+                        }
 
-                                                                                    }
-                                                                                    }
-                                                                            });
-                                                                    } else {
-                                                                    if ($(this).hasClass("modificado")) {
-                                                                    $(this).removeClass('modificado');
-                                                                    $(this).addClass('ninguno');
-                                                                    // $(this).css("background-color", '#FFFFFF');
+                        }
+                        }
+                });
+        } else {
+        if ($(this).hasClass("modificado")) {
+        $(this).removeClass('modificado');
+        $(this).addClass('ninguno');
+        // $(this).css("background-color", '#FFFFFF');
 
-                                                                    $.ajax
-                                                                            ({
-                                                                            type: "POST",
-                                                                                    url: "{{ path ('ajax_tratamiento_actualizar') }}",
-                                                                                    data: {  'diente': $(this).attr('id'), 'consulta':{{consulta.id}}  },
-                                                                                    cache: false,
-                                                                                    success: function (html)
-                                                                                    {
-
-                                                                                    var objOdontograma = jQuery.parseJSON(html.data);
-                                                                                    //alert(JSON.stringify(objOdontograma));
-                                                                                    for (var i = 0; i < objOdontograma.length; i++) {
-                                                                                    value = objOdontograma[i];
-                                                                                    if (value.tipo == 'Permanente') {
-                                                                                    $('#t' + value.diente).css("background-color", value.cavidad1);
-                                                                                    $('#t' + value.diente).addClass('ninguno');
-                                                                                    $('#t' + value.diente).removeClass('modificado');
-                                                                                    $('#r' + value.diente).css("background-color", value.cavidad2);
-                                                                                    $('#r' + value.diente).addClass('ninguno');
-                                                                                    $('#r' + value.diente).removeClass('modificado');
-                                                                                    $('#b' + value.diente).css("background-color", value.cavidad3);
-                                                                                    $('#b' + value.diente).addClass('ninguno');
-                                                                                    $('#b' + value.diente).removeClass('modificado');
-                                                                                    $('#l' + value.diente).css("background-color", value.cavidad4);
-                                                                                    $('#l' + value.diente).addClass('ninguno');
-                                                                                    $('#l' + value.diente).removeClass('modificado');
-                                                                                    $('#c' + value.diente).css("background-color", value.cavidad5);
-                                                                                    $('#c' + value.diente).addClass('ninguno');
-                                                                                    $('#c' + value.diente).removeClass('modificado');
-                                                                                    } else {
-                                                                                    $('#tleche' + value.diente).css("background-color", value.cavidad1);
-                                                                                    $('#tleche' + value.diente).addClass('ninguno');
-                                                                                    $('#tleche' + value.diente).removeClass('modificado');
-                                                                                    $('#rleche' + value.diente).css("background-color", value.cavidad2);
-                                                                                    $('#rleche' + value.diente).addClass('ninguno');
-                                                                                    $('#rleche' + value.diente).removeClass('modificado');
-                                                                                    $('#bleche' + value.diente).css("background-color", value.cavidad3);
-                                                                                    $('#bleche' + value.diente).addClass('ninguno');
-                                                                                    $('#bleche' + value.diente).removeClass('modificado');
-                                                                                    $('#lleche' + value.diente).css("background-color", value.cavidad4);
-                                                                                    $('#lleche' + value.diente).addClass('ninguno');
-                                                                                    $('#lleche' + value.diente).removeClass('modificado');
-                                                                                    $('#cleche' + value.diente).css("background-color", value.cavidad5);
-                                                                                    $('#cleche' + value.diente).addClass('ninguno');
-                                                                                    $('#cleche' + value.diente).removeClass('modificado');
-                                                                                    }
-
-                                                                                    }
-
-
-
-                                                                                    }
-
-                                                                            });
-                                                                    }
-
-                                                                    }
-
-
-
-                                                                    return false;
-                                                                    });
-                                                                    return false;
-                                                                    });
+        $.ajax
+                ({
+                type: "POST",
+                        url: "{{ path ('ajax_tratamiento_actualizar') }}",
+                        data: {  'diente': $(this).attr('id'), 'consulta':{{consulta.id}}  },
+                        cache: false,
+                        success: function (html)
+                        {
+                        var objOdontograma = jQuery.parseJSON(html.data);
+                        //alert(JSON.stringify(objOdontograma));
+                        for (var i = 0; i < objOdontograma.length; i++) {
+                        value = objOdontograma[i];
+                        if (value.tipo == 'Permanente') {
+                        $('#t' + value.diente).css("background-color", value.cavidad1);
+                        $('#t' + value.diente).addClass('ninguno');
+                        $('#t' + value.diente).removeClass('modificado');
+                        $('#r' + value.diente).css("background-color", value.cavidad2);
+                        $('#r' + value.diente).addClass('ninguno');
+                        $('#r' + value.diente).removeClass('modificado');
+                        $('#b' + value.diente).css("background-color", value.cavidad3);
+                        $('#b' + value.diente).addClass('ninguno');
+                        $('#b' + value.diente).removeClass('modificado');
+                        $('#l' + value.diente).css("background-color", value.cavidad4);
+                        $('#l' + value.diente).addClass('ninguno');
+                        $('#l' + value.diente).removeClass('modificado');
+                        $('#c' + value.diente).css("background-color", value.cavidad5);
+                        $('#c' + value.diente).addClass('ninguno');
+                        $('#c' + value.diente).removeClass('modificado');
+                        } else {
+                        $('#tleche' + value.diente).css("background-color", value.cavidad1);
+                        $('#tleche' + value.diente).addClass('ninguno');
+                        $('#tleche' + value.diente).removeClass('modificado');
+                        $('#rleche' + value.diente).css("background-color", value.cavidad2);
+                        $('#rleche' + value.diente).addClass('ninguno');
+                        $('#rleche' + value.diente).removeClass('modificado');
+                        $('#bleche' + value.diente).css("background-color", value.cavidad3);
+                        $('#bleche' + value.diente).addClass('ninguno');
+                        $('#bleche' + value.diente).removeClass('modificado');
+                        $('#lleche' + value.diente).css("background-color", value.cavidad4);
+                        $('#lleche' + value.diente).addClass('ninguno');
+                        $('#lleche' + value.diente).removeClass('modificado');
+                        $('#cleche' + value.diente).css("background-color", value.cavidad5);
+                        $('#cleche' + value.diente).addClass('ninguno');
+                        $('#cleche' + value.diente).removeClass('modificado');
+                        }
+                        }
+                        }
+                });
+        }
+        }
+        return false;
+        });
+        return false;
+        });
         </script>
 
         <script type="text/javascript">
