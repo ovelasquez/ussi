@@ -298,8 +298,8 @@
                                                             <th>Id</th>
                                                             <th>Tipo</th>
                                                             <th>Medicamento</th>
-                                                            <th>cantidad</th>
-                                                            <th>Vía de Administración</th>
+                                                            <th>Cantidad</th>
+                                                            <th>Vía</th>
                                                             <th>Profesional</th>
                                                             <th>Fecha</th>
                                                             <th>Acción</th>                                                                         
@@ -311,7 +311,7 @@
                                                                 <td>{{ loop.index }}</td>
                                                                 <td>{{ medicamento.medicamento.tipoMedicamento.nombre |title }}</td>
                                                                 <td>{{ medicamento.medicamento.principioActivo|title }}</td>
-                                                                <td>{{ medicamento.cantidad }}</td>                                                                
+                                                                <td class="text-center">{{ medicamento.cantidad }}</td>                                                                
                                                                 <td>{{ medicamento.viaAdministracion|title}}</td> 
                                                                 <td>{{ medicamento.usuario.persona.primerNombre}} {{ medicamento.usuario.persona.primerApellido}}</td> 
                                                                 <td>{{ medicamento.fecha | date('d-m-Y  H:i:s') }}</td>

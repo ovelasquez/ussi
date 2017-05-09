@@ -352,7 +352,6 @@ class DefaultController extends Controller {
      * @Route("/homepage_enfermeria/{paciente}", name = "homepage_enfermeria")
      */
     public function enfermeriaAction($paciente) {
-
         $em = $this->getDoctrine()->getManager();
         $datosVitales = null;
         $medicamentoSuministrado = null;
@@ -364,13 +363,10 @@ class DefaultController extends Controller {
                 $especialidad = $valor->getServicio()->getEspecialidad();
             }
         }
-
         //Buscamos Todas las Citas Activas del Paciente
         $citas = $em->getRepository('AppBundle:Cita')->findBy(array('paciente' => $paciente, 'status' => 'activo',));
-
         //Buscamos Todas las Consultas Activas del Paciente en la especialidad del medico
         $tieneConsultaActiva = $em->getRepository('AppBundle:Consulta')->findOneBy(array('paciente' => $paciente, 'egreso' => false, 'especialidad' => $especialidad));
-
         if ($tieneConsultaActiva) {
             $consulta = $tieneConsultaActiva;
             //Buscar  Signos Vitales asociada a la Consulta
@@ -394,7 +390,6 @@ class DefaultController extends Controller {
                 $em->flush($consulta);
             }
         }
-
         //Numeros asociados
         //Todas las consultas previas del paciente en la especialidad
         $historicoConsultas = $em->getRepository('AppBundle:Consulta')->findBy(array('paciente' => $paciente, 'especialidad' => $especialidad, 'egreso' => TRUE));
@@ -404,7 +399,6 @@ class DefaultController extends Controller {
         $historicoAbandono = $em->getRepository('AppBundle:Esperando')->findBy(array('paciente' => $paciente, 'especialidad' => $especialidad, 'status' => 'abandono'));
         //Todas las citas del paciente en la especialidad
         $historicoCita = $em->getRepository('AppBundle:Cita')->findBy(array('paciente' => $paciente, 'especialidad' => $especialidad, 'status' => 'activo'));
-
         return $this->render('default/enfermeria.html.twig', array(
                     'paciente' => $paciente,
                     'consulta' => $consulta,
@@ -425,7 +419,6 @@ class DefaultController extends Controller {
         $hoy->setTime(0, 0, 0);
         $em = $this->getDoctrine()->getManager();
         $repository = $em->getRepository('AppBundle:Esperando');
-
         if (!$profesional) {
             $query = $repository->createQueryBuilder('p')
                     ->where('p.fechaRegistro >= :hoy')
@@ -450,7 +443,6 @@ class DefaultController extends Controller {
                         ->orderBy('p.posicion', 'ASC')
                         ->getQuery();
             } else {
-
                 $query = $repository->createQueryBuilder('p')
                         ->where('p.fechaRegistro >= :hoy')
                         ->andWhere('p.especialidad = :especialidad')
@@ -464,7 +456,6 @@ class DefaultController extends Controller {
                         ->getQuery();
             }
         }
-
         return $query->getResult();
     }
 
@@ -563,7 +554,6 @@ class DefaultController extends Controller {
     }
 
     private function odontogramaConsulta($paciente) {
-
         $conn = $this->getDoctrine()->getManager()->getConnection();
         $sql = '
             select c.id as id, c.fecha as consulta, COUNT(c.id) as dientes_tratados

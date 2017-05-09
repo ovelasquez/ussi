@@ -1,0 +1,255 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+    <link href="{{ asset('bundles/app/vendors/bootstrap-daterangepicker/daterangepicker.css')}}"   rel="stylesheet">
+    <!-- Datatables -->
+    <link href="{{ asset('bundles/app/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{ asset('bundles/app/vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{ asset('bundles/app/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{ asset('bundles/app/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{ asset('bundles/app/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css')}}" rel="stylesheet">
+{% endblock %}
+{% block title %} Estadísticas {% endblock %}
+{% block Subtitulo %} Estadísticas Medicamentos Suministrados -  <small> <a href="{{ path('estadistica_index') }}">Listar Estadísticas</a></small> {% endblock %} 
+{% block body %}
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="dashboard_graph">
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>Medicamentos Suministrados <small>Lapso de tiempo</small></h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="#">Settings 1</a>
+                                        </li>
+                                        <li><a href="#">Settings 2</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content2">                            
+                            {{ form_start(form, { 'attr': {'id':'paciente','class': 'form-horizontal form-label-left'} }) }} 
+                            {{ form_errors(form) }}
+                            <div class="control-group">
+                                <div class="controls">
+                                    <div class="input-prepend input-group">
+                                        <span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
+                                            {{ form_errors(form.daterange) }}                
+                                            {{form_widget(form.daterange,{ 'attr': {'class': 'form-control'} } ) }}                
+                                    </div>
+                                </div>
+                            </div> 
+                            <div class="form-group">
+                                <div class="col-md-2 col-sm-2 col-xs-12 col-md-offset-1">                
+                                    <button type="submit" class="btn btn-primary"><i class="fa fa-user-md m-right-xs"></i> Consultar</button> 
+                                </div>
+                            </div>
+                            {{ form_end(form) }}
+                        </div>
+                    </div>
+                </div>
+                {% if ( consultaDatos!=null ) %}
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2>Datos de la Consulta <small>Lapso de tiempo</small></h2>
+                                <ul class="nav navbar-right panel_toolbox">
+                                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                    </li>
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li><a href="#">Settings 1</a>
+                                            </li>
+                                            <li><a href="#">Settings 2</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                    </li>
+                                </ul>                            
+                                <div class="clearfix"></div>                           
+                            </div>                            
+                            <div id="graph_bar" style="width:100%; height:280px;"></div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    {% if ( consultaDatos!=null ) %}
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="dashboard_graph">
+
+
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>Medicamentos Suministrados Datos <small>Lapso de tiempo</small></h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="#">Settings 1</a>
+                                        </li>
+                                        <li><a href="#">Settings 2</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <table id="consultaDatosDatatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Cédula</th>                                                            
+                                    <th>Paciente</th>
+                                    <th>Tipo</th>
+                                    <th>Principio Activo</th>
+                                    <th>Vía Administración</th>
+                                    <th>Cantidad</th>
+                                    <th>Cédula</th>
+                                    <th>Profesional</th>
+                                    <th>Fecha</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for dato in consultaDatos %}
+                                    <tr>
+                                        <td>{{ loop.index  }}</td>
+                                        <td>{{ dato.persona_nacionalidad  }}-{{ dato.persona_cedula  }}</td>
+                                        <td>{{ dato.persona_nombre|title  }} {{ dato.persona_apellido|title  }}</td>
+                                        <td>{{ dato.tipo|title }}</td>
+                                        <td>{{ dato.medicamento|title }}</td>
+                                        <td>{{ dato.via_administracion|title  }}</td>
+                                        <td class="text-center">{{ dato.cantidad  }} </td>
+                                        <td>{{ dato.nacionalidad  }}-{{ dato.cedula  }}</td>
+                                        <td>{{ dato.primer_nombre|title  }} {{ dato.primer_apellido|title  }}</td>
+                                        <td>{% if dato.fecha %}{{ dato.fecha|date("F jS \\a\\t g:ia") }}{% endif %}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    {%endif%}
+
+{% endblock %}
+{% block javascripts %}
+    <script src="{{ asset('bundles/app/vendors/moment/min/moment.min.js')}}" ></script>
+    <script src="{{ asset('bundles/app/vendors/bootstrap-daterangepicker/daterangepicker.js')}}" ></script>
+    <!-- morris.js -->
+    <script src="{{ asset('bundles/app/vendors/raphael/raphael.min.js')}}"></script>
+    <script src="{{ asset('bundles/app/vendors/morris.js/morris.min.js')}}"></script>
+
+    <!-- Datatables -->
+    <script src="{{ asset('bundles/app/vendors/datatables.net/js/jquery.dataTables.min.js')}}"></script>
+    <script src="{{ asset('bundles/app/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>   
+    <script src="{{ asset('bundles/app/vendors/datatables.net-buttons/js/dataTables.buttons.min.js')}}"></script>
+    <script src="{{ asset('bundles/app/vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js')}}"></script>
+
+    <script src="{{ asset('bundles/app/vendors/datatables.net-buttons/js/buttons.flash.min.js')}}"></script>    
+    <script src="{{ asset('bundles/app/vendors/datatables.net-buttons/js/buttons.html5.min.js')}}"></script>    
+    <script src="{{ asset('bundles/app/vendors/datatables.net-buttons/js/buttons.print.min.js')}}"></script>    
+    <script src="{{ asset('bundles/app/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js')}}"></script>
+
+    <script src="{{ asset('bundles/app/vendors/datatables.net-keytable/js/dataTables.keyTable.min.js')}}"></script>       
+    <script src="{{ asset('bundles/app/vendors/datatables.net-responsive/js/dataTables.responsive.min.js')}}"></script>     
+    <script src="{{ asset('bundles/app/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js')}}"></script>    
+    <script src="{{ asset('bundles/app/vendors/datatables.net-scroller/js/dataTables.scroller.min.js')}}"></script>
+
+    <script src="{{ asset('bundles/app/vendors/jszip/jszip.min.js')}}"></script>       
+    <script src="{{ asset('bundles/app/vendors/pdfmake/pdfmake.min.js')}}"></script>     
+    <script src="{{ asset('bundles/app/vendors/pdfmake/vfs_fonts.js')}}"></script>   
+
+    <script type="text/javascript">
+        $(function () {
+            $('input[id="form_daterange"]').daterangepicker({
+                timePicker: true,
+                timePickerIncrement: 1,
+                locale: {
+                    format: 'DD/MM/YYYY h:mm A'
+                }
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            // $('.applyBtn').click(function(){   $('#form_consulta').submit();       });            
+            Morris.Bar({
+                element: 'graph_bar',
+                data: [{{ consultas|raw }}],
+                xkey: 'medicamento',
+                ykeys: ['Cantidad'],
+                labels: ['Cantidad'],
+                barRatio: 0.4,
+                barColors: ['#26B99A', '#34495E', '#ACADAC', '#3498DB'],
+                xLabelAngle: 35,
+                hideHover: 'auto',
+                resize: true
+            });
+        });
+
+        var handleDataTableButtons = function () {
+            if ($("#consultaDatosDatatable-buttons").length) {
+                $("#consultaDatosDatatable-buttons").DataTable({
+                    dom: "Bfrtip",
+                    buttons: [
+                        {
+                            extend: "copy",
+                            className: "btn-sm"
+                        },
+                        {
+                            extend: "csv",
+                            className: "btn-sm"
+                        },
+                        {
+                            extend: "excel",
+                            className: "btn-sm"
+                        },
+                        {
+                            extend: "pdfHtml5",
+                            className: "btn-sm"
+                        },
+                        {
+                            extend: "print",
+                            className: "btn-sm"
+                        },
+                    ],
+                    responsive: true
+                });
+            }
+        };
+
+        TableManageButtons = function () {
+            "use strict";
+            return {
+                init: function () {
+                    handleDataTableButtons();
+                }
+            };
+        }();
+
+        TableManageButtons.init();
+    </script>
+
+
+{% endblock %}

@@ -36,7 +36,7 @@ class AfeccioneType extends AbstractType {
                     'choice_label' => 'nombre',
                     'mapped' => false)
         );
-        ;
+        
     }
 
     /**

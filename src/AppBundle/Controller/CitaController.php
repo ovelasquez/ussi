@@ -26,11 +26,8 @@ class CitaController extends Controller {
      */
     public function indexAction() {
         $em = $this->getDoctrine()->getManager();
-
-
         $citas = $em->getRepository('AppBundle:Cita')->findAll();
         //dump($citas);die();
-
         return $this->render('cita/index.html.twig', array(
                     'citas' => $citas,
         ));
@@ -48,24 +45,20 @@ class CitaController extends Controller {
         if ($request->request->get('cita_consulta')) {
             $consulta = $em->getRepository('AppBundle:Consulta')->find($request->request->get('cita_consulta'));
         }
-
         $cita = new Cita();
-
         if ($consulta) {
             $cita->setConsulta($consulta);
             $cita->setPaciente($consulta->getPaciente());
+            $cita->setFecha(new \DateTime('now'));
         }
-
         $form = $this->createForm('AppBundle\Form\CitaType', $cita);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $hoy = new \DateTime('now');
             $hoy->setTime(0, 0, 0);
             //Verificamos si la Cita que estan dando es para hoy, para anexar al paciente en la lista de espera
             if ($cita->getFecha() == $hoy) {
                 $listaEspera = $this->profesionalCitaListaEspera($cita);
-
                 if ($listaEspera) {
                     $em->persist($cita);
                     $em->flush($cita);
@@ -73,8 +66,7 @@ class CitaController extends Controller {
             } else {
                 $em->persist($cita);
                 $em->flush($cita);
-            }                        
-            
+            }                            
             $this->addFlash('success', 'Cita registrada satisfactoriamente');
             switch ($cita->getConsulta()->getEspecialidad()->getNombre()) {
                 case('Odontología'): return $this->redirectToRoute('homepage_odontologia', array('paciente' => $cita->getPaciente()->getId(),));
@@ -85,7 +77,6 @@ class CitaController extends Controller {
                     break;
             }
         }
-
         return $this->render('cita/new.html.twig', array(
                     'citum' => $cita,
                     'form' => $form->createView(),
@@ -107,16 +98,16 @@ class CitaController extends Controller {
         $observacion = '';
         $maximoConsulta = null;
         $cola = null;
-//Parametrización de la aplicacion por BD
+        //Parametrización de la aplicacion por BD
         $em = $this->getDoctrine()->getManager();
         $configuracion = $em->getRepository('AppBundle:Configuracion')->findAll();
         if ($hoy != $configuracion[0]->getServicioActualizado()) {
             $this->setServicio();
         }
-//Medicos / Especialidades disponibles para hoy
+        //Medicos / Especialidades disponibles para hoy
         $misServicos = $this->disponibleServicio();
 
-//Creamos el formulario de Consulta
+        //Creamos el formulario de Consulta
         $form = $this->createFormBuilder()
                 ->setAction($this->generateUrl('cita_consulta'))
                 ->add('nacionalidad', ChoiceType::class, array(

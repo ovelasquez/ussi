@@ -201,6 +201,6 @@ class Consulta
         return $this->getPaciente()->getPersona()->getPrimerNombre()
                 .' '.$this->getPaciente()->getPersona()->getPrimerApellido()
                 .' - Especialidad: '.$this->getEspecialidad()->getNombre()
-                .' - Id: '.$this->getId();
+                ;
     }
 }

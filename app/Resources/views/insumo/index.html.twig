@@ -31,6 +31,7 @@
         <thead>
             <tr>
                 <th>#</th>
+                <th>Tipo</th>
                 <th>Nombre</th>
                 <th>Stock</th>
                 <th>Disponible</th>                  
@@ -41,6 +42,7 @@
             {% for insumo in insumos %}
                 <tr>
                     <td><a href="{{ path('insumo_show', { 'id': insumo.id }) }}">{{ insumo.id }}</a></td>
+                    <td>{{ insumo.tipoInsumo.nombre }}</td>
                     <td>{{ insumo.nombre }}</td>
                     <td>{{ insumo.stock}}</td>
                     <td>{{ insumo.disponible}}</td>     
